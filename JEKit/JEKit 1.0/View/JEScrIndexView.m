@@ -3,7 +3,6 @@
 #import "JEKit.h"
 
 @interface JEScrIndexView ()<UIScrollViewDelegate>{
-    NSMutableArray <UIButton*> *_Arr_btns;/**< 按钮 */
     NSMutableArray <UIButton*> *_Arr_titleSeeBtns;/**< 视觉差标题Label */
 }
 

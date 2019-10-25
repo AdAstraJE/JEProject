@@ -20,7 +20,7 @@ static CGFloat jkRadius = 3;/**< 倒角 */
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.textLabel.font = font(14);self.textLabel.textColor = kColorText;
+    self.textLabel.font = font(14);self.textLabel.textColor = Clr_txt;
     self.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     UIView *_ = [[UIView alloc]initWithFrame:self.bounds];
     _.backgroundColor = kCellSelectColor;

@@ -278,5 +278,10 @@
     !_commitEditingStyle ? : _commitEditingStyle(tableView,editingStyle,indexPath,tableView.Arr[(_sections ? indexPath.section : indexPath.row)]);
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [super scrollViewDidScroll:scrollView];
+    !_scrollViewDidScrollBlock ? : _scrollViewDidScrollBlock(self);
+}
+
 @end
 

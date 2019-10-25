@@ -56,14 +56,15 @@ static CGFloat const jkDuration = 0.2;///<
     [self addGestureRecognizer:tapGes];
     
     UIPinchGestureRecognizer *pinGes = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinch:)];
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     pinGes.delegate = (id<UIGestureRecognizerDelegate>)self;
-    panGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [_ImgV addGestureRecognizer:pinGes];
+    
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    panGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
     [_ImgV addGestureRecognizer:panGestureRecognizer];
     
     if (action) {
-        UIImage *image = JEBundleImg(@"ic_navAction").clr(kColorBlue);
+        UIImage *image = JEBundleImg(@"ic_navAction").clr(Clr_blue);
         _Btn_action = JEBtn(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,nil,self,@selector(JEShowImgShareBtnClick),image,0,self).touchs(15,15,15,15);
     }
     

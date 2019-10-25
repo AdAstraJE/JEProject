@@ -26,7 +26,7 @@
     [self setTitle:@"上拉加载更多~".loc forState:MJRefreshStateIdle];
     [self setTitle:@"" forState:MJRefreshStateRefreshing];
 //    [self setTitle:@"" forState:MJRefreshStateNoMoreData];
-    [self setTitle:@"没有更多啦~".loc forState:MJRefreshStateNoMoreData];
+    [self setTitle:@"没有更多啦~".loc.del(@"~") forState:MJRefreshStateNoMoreData];
     self.stateLabel.font = font(12);
     self.stateLabel.textColor = kColorText99;
 }

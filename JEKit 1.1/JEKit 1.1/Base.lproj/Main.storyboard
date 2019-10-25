@@ -47,6 +47,67 @@
                     <view key="view" contentMode="scaleToFill" id="vd8-Dx-3EY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g61-oI-hyj">
+                                <rect key="frame" x="0.0" y="490" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Item" image="square.and.arrow.up" catalog="system" id="Jge-wf-czy"/>
+                                    <barButtonItem title="Item" image="square.and.pencil" catalog="system" id="9CT-S5-7b1"/>
+                                    <barButtonItem title="Item" image="trash" catalog="system" id="BrE-5S-hhf"/>
+                                    <barButtonItem title="Item" image="folder" catalog="system" id="Sp8-nB-3PZ"/>
+                                    <barButtonItem title="Item" image="archivebox" catalog="system" id="wqs-6R-0f4"/>
+                                    <barButtonItem title="Item" image="doc.on.doc" catalog="system" id="9O3-rd-XDa"/>
+                                    <barButtonItem title="Item" image="pencil.tip" catalog="system" id="5TE-fy-zeF"/>
+                                    <barButtonItem title="Item" image="tag" catalog="system" id="vuQ-Br-OFc"/>
+                                </items>
+                            </toolbar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gk-j5-cn1">
+                                <rect key="frame" x="0.0" y="618" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Item" image="arrow.counterclockwise" catalog="system" id="Axo-zf-FRJ"/>
+                                    <barButtonItem title="Item" image="arrow.clockwise" catalog="system" id="8D3-J2-ofq"/>
+                                    <barButtonItem title="Item" image="folder.badge.plus" catalog="system" id="ZmX-af-q3W"/>
+                                    <barButtonItem title="Item" image="arrow.up.doc" catalog="system" id="Idk-cP-bJC"/>
+                                    <barButtonItem title="Item" image="doc" catalog="system" id="spX-r1-Qrc"/>
+                                    <barButtonItem title="Item" image="flag" catalog="system" id="fvS-s0-Ffw"/>
+                                    <barButtonItem title="Item" image="icloud" catalog="system" id="W24-lX-udL"/>
+                                    <barButtonItem title="Item" image="viewfinder" catalog="system" id="VIX-gW-Pbm"/>
+                                    <barButtonItem title="Item" image="bell" catalog="system" id="ptP-pf-f95"/>
+                                </items>
+                            </toolbar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Kx-zW-Zzf">
+                                <rect key="frame" x="0.0" y="426" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Item" image="mic" catalog="system" id="7VO-2b-Uue"/>
+                                    <barButtonItem title="Item" image="star" catalog="system" id="iGx-07-zEe"/>
+                                    <barButtonItem title="Item" image="star.fill" catalog="system" id="PeN-4z-Wl9"/>
+                                    <barButtonItem title="Item" image="suit.heart" catalog="system" id="Xlt-sv-qgL"/>
+                                    <barButtonItem title="Item" image="suit.heart.fill" catalog="system" id="d4K-aY-aTA"/>
+                                    <barButtonItem title="Item" image="lock.fill" catalog="system" id="lNJ-Lj-Hys"/>
+                                    <barButtonItem title="Item" image="lock" catalog="system" id="ZHg-RQ-Bgd"/>
+                                    <barButtonItem title="Item" image="lock.open" catalog="system" id="Fqx-w7-mNp"/>
+                                    <barButtonItem title="Item" image="lock.open.fill" catalog="system" id="QVR-Ny-iO6"/>
+                                </items>
+                            </toolbar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VtX-Pd-bjk">
+                                <rect key="frame" x="0.0" y="553" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Item" image="eye" catalog="system" id="cxk-0L-pDh"/>
+                                    <barButtonItem title="Item" image="eye.fill" catalog="system" id="r24-Fd-9Ex"/>
+                                    <barButtonItem title="Item" image="camera" catalog="system" id="MwJ-Ma-kaL"/>
+                                    <barButtonItem title="Item" image="plus.square.on.square" catalog="system" id="n8S-Mi-M92"/>
+                                    <barButtonItem title="Item" image="alarm" catalog="system" id="N5t-jt-Mh3"/>
+                                    <barButtonItem title="Item" image="exclamationmark.octagon" catalog="system" id="mXP-Lq-jTL"/>
+                                    <barButtonItem title="Item" image="exclamationmark.circle" catalog="system" id="Fdh-Jw-JmJ"/>
+                                    <barButtonItem title="Item" image="envelope" catalog="system" id="6JA-hM-Gkg"/>
+                                    <barButtonItem title="Item" image="pin" catalog="system" id="J5Q-O2-Iei"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="uAO-EW-Wtg"/>
                     </view>
@@ -76,4 +137,41 @@
             <point key="canvasLocation" x="700" y="-98"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="alarm" catalog="system" width="62" height="64"/>
+        <image name="archivebox" catalog="system" width="64" height="52"/>
+        <image name="arrow.clockwise" catalog="system" width="56" height="64"/>
+        <image name="arrow.counterclockwise" catalog="system" width="56" height="64"/>
+        <image name="arrow.up.doc" catalog="system" width="56" height="64"/>
+        <image name="bell" catalog="system" width="64" height="62"/>
+        <image name="camera" catalog="system" width="64" height="48"/>
+        <image name="doc" catalog="system" width="56" height="64"/>
+        <image name="doc.on.doc" catalog="system" width="58" height="64"/>
+        <image name="envelope" catalog="system" width="64" height="46"/>
+        <image name="exclamationmark.circle" catalog="system" width="64" height="60"/>
+        <image name="exclamationmark.octagon" catalog="system" width="64" height="56"/>
+        <image name="eye" catalog="system" width="64" height="40"/>
+        <image name="eye.fill" catalog="system" width="64" height="38"/>
+        <image name="flag" catalog="system" width="64" height="60"/>
+        <image name="folder" catalog="system" width="64" height="46"/>
+        <image name="folder.badge.plus" catalog="system" width="64" height="42"/>
+        <image name="icloud" catalog="system" width="64" height="44"/>
+        <image name="lock" catalog="system" width="64" height="64"/>
+        <image name="lock.fill" catalog="system" width="64" height="64"/>
+        <image name="lock.open" catalog="system" width="64" height="56"/>
+        <image name="lock.open.fill" catalog="system" width="64" height="56"/>
+        <image name="mic" catalog="system" width="54" height="64"/>
+        <image name="pencil.tip" catalog="system" width="48" height="64"/>
+        <image name="pin" catalog="system" width="58" height="64"/>
+        <image name="plus.square.on.square" catalog="system" width="64" height="56"/>
+        <image name="square.and.arrow.up" catalog="system" width="56" height="64"/>
+        <image name="square.and.pencil" catalog="system" width="64" height="58"/>
+        <image name="star" catalog="system" width="64" height="58"/>
+        <image name="star.fill" catalog="system" width="64" height="58"/>
+        <image name="suit.heart" catalog="system" width="64" height="54"/>
+        <image name="suit.heart.fill" catalog="system" width="64" height="54"/>
+        <image name="tag" catalog="system" width="64" height="58"/>
+        <image name="trash" catalog="system" width="60" height="64"/>
+        <image name="viewfinder" catalog="system" width="64" height="56"/>
+    </resources>
 </document>

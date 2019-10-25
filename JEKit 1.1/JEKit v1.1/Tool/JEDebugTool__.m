@@ -70,8 +70,8 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 -(UILabel *)La_rep{
     if (_La_rep == nil) {
-        _La_rep = JELab(JR(jkLabelMargin/2, 0, 30, 30),nil,fontM(15),kColorRed,(1),self.contentView);
-        [_La_rep border:kColorRed width:1];
+        _La_rep = JELab(JR(jkLabelMargin/2, 0, 30, 30),nil,fontM(15),Clr_red,(1),self.contentView);
+        [_La_rep border:Clr_red width:1];
         _La_rep.adjustsFontSizeToFitWidth = YES;[_La_rep beRound];
     }
     return _La_rep;
@@ -198,7 +198,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         [self.Tv_list.Arr addObject:_detailMod];
         [self.Tv_list reloadData];
     }else{
-        [JEBtn(JR(10, ScreenStatusBarH, -1, 44),@"历史",@18,kColorBlue,self,@selector(historyBtnClick),nil,0,self.view).touchs(ScreenStatusBarH,3,20,20) sizeThatWidth];
+        [JEBtn(JR(10, ScreenStatusBarH, -1, 44),@"历史",@18,Clr_blue,self,@selector(historyBtnClick),nil,0,self.view).touchs(ScreenStatusBarH,3,20,20) sizeThatWidth];
     }
 }
 
@@ -523,11 +523,11 @@ static JEDebugTool__* _sharedManager;
 }
 
 - (void)loadDebugView{
-    _Btn_touch = JEBtn(JR(ScreenWidth - 50, 240,50, 50),@"on",@20,nil,self,@selector(closeOpen),kColorRed,12,nil);
+    _Btn_touch = JEBtn(JR(ScreenWidth - 50, 240,50, 50),@"on",@20,nil,self,@selector(closeOpen),Clr_red,12,nil);
     [_Btn_touch addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)]];
     self.nav = [[JEBaseNavtion alloc] initWithRootViewController:[[JEDebugMainVC alloc] init]];
-    self.nav.je_navBarItemClr = kColorBlue;
-    self.nav.je_navTitleClr = kColorText33;
+    self.nav.je_navBarItemClr = Clr_blue;
+    self.nav.je_navTitleClr = Clr_txt33;
     self.nav.view.hidden = YES;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

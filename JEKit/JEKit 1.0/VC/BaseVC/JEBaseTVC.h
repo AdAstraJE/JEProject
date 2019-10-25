@@ -72,5 +72,6 @@
 
 @property (nonatomic,copy) UITableViewCellEditingStyle (^editingStyle)  (UITableView *tv,NSIndexPath *idx);///< editingStyle
 @property (nonatomic,copy) void   (^commitEditingStyle)     (UITableView *tv,UITableViewCellEditingStyle editingStyle,NSIndexPath *idx,id obj);///< commitEditingStyle
+@property (nonatomic,copy) void (^scrollViewDidScrollBlock)(UITableView *tv);///<
 
 @end

@@ -16,6 +16,12 @@ UILabel * JELa(CGRect rect,NSString *txt,id fnt,UIColor *clr,NSTextAlignment ali
     return la;
 }
 
+UILabel * JELab(CGRect rect,NSString *txt,id fnt,UIColor *clr,NSTextAlignment align,__kindof UIView *addTo){
+    UILabel *la = [UILabel Frame:rect text:txt font:fnt color:clr align:align];
+    if (addTo) { [addTo addSubview:la];}
+    return la;
+}
+
 UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     return [UILabel Frame:CGRectZero text:txt font:fnt color:clr align:0];
 }

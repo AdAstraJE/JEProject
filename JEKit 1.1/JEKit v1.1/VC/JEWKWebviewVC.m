@@ -166,7 +166,7 @@
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
     
     _progressV = [[UIProgressView alloc]initWithFrame:CGRectMake(0, _webView.y, ScreenWidth, 2)].addTo(self.view);
-    _progressV.tintColor = kColorBlue.alpha_(0.5);
+    _progressV.tintColor = Clr_blue.alpha_(0.5);
     
     if (_textResource) {
         [_webView loadData:_textResource.data MIMEType:@"text/plain" characterEncodingName:@"UTF-8" baseURL:[NSURL new]];

@@ -8,17 +8,22 @@
 }
 
 - (UIColor *)je_Abe:(CGFloat)abe Alpha:(CGFloat)Alpha{
-    CGFloat R = 1, G = 1 , B = 1;
-    CGColorRef colorRef = [self CGColor];
-    int numComponents = (int)CGColorGetNumberOfComponents(colorRef);
-    if (numComponents == 4){
-        const CGFloat *components = CGColorGetComponents(colorRef);
-        R = components[0];
-        G = components[1];
-        B = components[2];
-    }
+    CGFloat r = 0.0,g = 0.0,b = 0.0,temp = 0.0;
+    [self getRed:&r green:&g blue:&b alpha:&temp];
     
-    return [UIColor colorWithRed:R*abe green:G*abe blue:B*abe alpha:Alpha];
+    return [UIColor colorWithRed:r*abe green:g*abe blue:b*abe alpha:Alpha];
+}
+
+- (UIColor * (^)(CGFloat abe,CGFloat alpha))abe{
+    return ^id (CGFloat abe,CGFloat alpha){
+        CGFloat r = 0.0,g = 0.0,b = 0.0,temp = 0.0;
+        [self getRed:&r green:&g blue:&b alpha:&temp];
+        return [UIColor colorWithRed:r*abe green:g*abe blue:b*abe alpha:alpha];
+    };
+}
+
+- (UIColor * (^)(CGFloat alpha))alpha_{
+    return ^id (CGFloat alpha){return self.abe(1,alpha);};
 }
 
 #pragma mark - Gradient Color

@@ -4,6 +4,8 @@
 #import <objc/runtime.h>
 #import "JEBaseNavtion.h"
 
+static CGFloat const jkPresentingNavH = 58.0f;///<
+
 @implementation UIViewController (JENavBar)
 
 #pragma mark -
@@ -51,8 +53,9 @@ static const void *jeLa_TitleKey;
     UILabel *la = objc_getAssociatedObject(self, &jeLa_TitleKey);
     la.text = title;
     if (la == nil) {
+        CGFloat x = self.presentingViewController ? 14 : (ScreenStatusBarH + 6);
         UIColor *clr = self.controlVC.je_titleColor ? : self.controlVC.je_navBarItemColor;
-        la = JELa(JR(ScreenWidth*0.1, ScreenStatusBarH + 11, ScreenWidth*0.8, 20),title,fontM(18.5),clr,(1),self.Ve_jeNavBar);
+        la = JELa(JR(ScreenWidth*0.1, x, ScreenWidth*0.8, 30),title,fontM(18.5),clr,(1),self.Ve_jeNavBar);
         la.adjustsFontSizeToFitWidth = YES;
         la.backgroundColor = [UIColor clearColor];
         self.La_title = la;
@@ -76,11 +79,12 @@ static const void *jeLa_TitleKey;
 /** 使用自定义导航栏 */
 - (void)je_useCustomNavBar{
     if (objc_getAssociatedObject(self, @selector(Ve_jeNavBar)) == nil) {
+        CGFloat height = self.presentingViewController ? jkPresentingNavH : ScreenNavBarH;
         UIImageView *_;
         if (self.controlVC.je_navBarImage) {
-            _ = [UIImageView F:CGRectMake(0, 0, ScreenWidth, ScreenNavBarH) image:self.controlVC.je_navBarImage].addTo(self.view);
+            _ = [UIImageView F:CGRectMake(0, 0, ScreenWidth, height) image:self.controlVC.je_navBarImage].addTo(self.view);
         }else{
-            _ = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenNavBarH)].addTo(self.view);
+            _ = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, height)].addTo(self.view);
             _.backgroundColor = self.controlVC.je_navBarColor;
         }
         _.userInteractionEnabled = YES;
@@ -158,8 +162,10 @@ static const void *jeLa_TitleKey;
             [view removeFromSuperview];
         }
     }
-
-    JEButton *btnBack = JEBtn(JR(-1, ScreenStatusBarH, -1, 44),title,@18,self.controlVC.je_navBarItemColor,target,selector,nil,0,nil).touchs(20,30,0,12);
+    
+    CGFloat x = self.presentingViewController ? 0 : ScreenStatusBarH;
+    CGFloat h = self.presentingViewController ? jkPresentingNavH : 44;
+    JEButton *btnBack = JEBtn(JR(-1, x, -1, h),title,@18,self.controlVC.je_navBarItemColor,target,selector,nil,0,nil).touchs(20,30,0,12);
     btnBack.width = [btnBack sizeThatFits:CGSizeMake(ScreenWidth*0.4, 44)].width;
     btnBack.x = ScreenWidth - btnBack.width - 10;
     return btnBack;

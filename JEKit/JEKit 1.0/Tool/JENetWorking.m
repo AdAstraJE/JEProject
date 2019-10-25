@@ -30,11 +30,15 @@ static JENetWorking *_instance;
 }
 
 - (void)cellularData{
-    CTCellularData *cellularData = [[CTCellularData alloc] init];
-    /* 此函数会在网络权限改变时再次调用 */
-    cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
-        self->_cellularState = state;
-    };
+    if (@available(iOS 9.0, *)) {
+        CTCellularData *cellularData = [[CTCellularData alloc] init];
+        /* 此函数会在网络权限改变时再次调用 */
+        cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
+            self->_cellularState = state;
+        };
+    } else {
+
+    }
 }
 
 - (AFHTTPSessionManager *)AFM{

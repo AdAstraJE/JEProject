@@ -87,7 +87,7 @@
         JETextField *_ = [[JETextField alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth - 5, view.height)];
         _.backgroundColor = [UIColor clearColor];
         _.font = [UIFont systemFontOfSize:14];
-        _.textColor = kColorText33;
+        _.textColor = Clr_txt33;
         _.text = _DefaultText;
         _.returnKeyType = UIReturnKeyDone;
         _.delegate = self;
@@ -101,7 +101,7 @@
 //            _Tf_.x = 40;
 //            _Tf_.width -= 40;
 //            
-//            UILabel *la = [UILabel Frame:CGRectMake(12, 0, 30, 20) text:@"备注".loc font:@14 color:kColorText33];
+//            UILabel *la = [UILabel Frame:CGRectMake(12, 0, 30, 20) text:@"备注".loc font:@14 color:Clr_txt33];
 //            la.centerY = _Tf_.centerY;
 //            [view addSubview:la];
 //            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"保存".loc style:UIBarButtonItemStylePlain target:self action:@selector(TExtvEditimgDown)];
@@ -162,7 +162,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{ return 2;}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    cell.textLabel.textColor = kColorText33;
+    cell.textLabel.textColor = Clr_txt33;
     cell.textLabel.text = indexPath.row ? @"女".loc : @"男".loc;
     cell.accessoryType =  [cell.textLabel.text isEqualToString:_UseTableSex] ?   UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     return cell;

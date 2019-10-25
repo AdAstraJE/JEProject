@@ -76,10 +76,10 @@
 
 // 页面加载完成之后
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;{
-    //HTMLString时   特殊设置字体大小的问题
-    if (_HTMLString) {
-        [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '260%'" completionHandler:nil];
-    }
+//    //HTMLString时   特殊设置字体大小的问题
+//    if (_HTMLString) {
+//        [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '260%'" completionHandler:nil];
+//    }
 }
 
 // 页面加载失败时
@@ -122,18 +122,23 @@
 #pragma mark - UI 相关设置
 
 - (void)setup_KWWebViewUI{
-    WKWebViewConfiguration *configuretion = [[WKWebViewConfiguration alloc] init];
-    configuretion.preferences = [[WKPreferences alloc]init];
-    configuretion.preferences.javaScriptEnabled = true;
-    configuretion.processPool = [[WKProcessPool alloc]init];
+    WKUserContentController *wkUController = [[WKUserContentController alloc] init];
+    
+    [wkUController addUserScript:[[WKUserScript alloc] initWithSource:@"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta); var imgs = document.getElementsByTagName('img');for (var i in imgs){imgs[i].style.maxWidth='100%';imgs[i].style.height='auto';}" injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES]];
+    
+    WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
+    wkWebConfig.userContentController = wkUController;
     // 默认是不能通过JS自动打开窗口的，必须通过用户交互才能打开
-    configuretion.preferences.javaScriptCanOpenWindowsAutomatically = YES;
+    wkWebConfig.preferences.javaScriptCanOpenWindowsAutomatically = YES;
     
     if (self.Nav.navigationBar.isTranslucent || self.Nav.navigationBar.hidden) {
-        _webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, ScreenNavBarH, ScreenWidth, ScreenHeight - ScreenNavBarH) configuration:configuretion].addTo(self.view);
+        _webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, ScreenNavBarH, ScreenWidth, ScreenHeight - ScreenNavBarH) configuration:wkWebConfig].addTo(self.view);
         _webView.scrollView.scrollIndicatorInsets = _webView.scrollView.contentInset;
     }else{
-        _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - ScreenNavBarH) configuration:configuretion].addTo(self.view);
+        _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - ScreenNavBarH) configuration:wkWebConfig].addTo(self.view);
+        if (self.presentingViewController) {
+            _webView.frame = JR(0, 0, kSW, ScreenHeight - 40);
+        }
     }
     _webVHeight = _webView.height;
     

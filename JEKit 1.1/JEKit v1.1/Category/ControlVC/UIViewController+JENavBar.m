@@ -20,7 +20,7 @@ static CGFloat const jkPresentingNavH = 58.0f;///<
 - (UIColor *)je_navBarLineClr{return objc_getAssociatedObject(self, _cmd) ? : kHexColorA(0xCCCCCC,0.6);}
 
 - (void)setJe_navBarItemClr:(UIColor *)je_navBarItemColor{ objc_setAssociatedObject(self, @selector(je_navBarItemClr), je_navBarItemColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);}
-- (UIColor *)je_navBarItemClr{return objc_getAssociatedObject(self, _cmd) ? : kColorBlue;}
+- (UIColor *)je_navBarItemClr{return objc_getAssociatedObject(self, _cmd) ? : Clr_blue;}
 
 - (void)setJe_navTitleClr:(UIColor *)je_titleColor{ objc_setAssociatedObject(self, @selector(je_navTitleClr), je_titleColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);}
 - (UIColor *)je_navTitleClr{return objc_getAssociatedObject(self, _cmd) ? : JEShare.textClr;}

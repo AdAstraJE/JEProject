@@ -19,7 +19,7 @@
     [self setuptempVC_UI];
     
 #if TARGET_OS_SIMULATOR
-//    JEBtn(JR(kSW - 50,ScreenStatusBarH,50,44),@"test",@16,kColorWhite,self,@selector(testBtnClick),kColorOrange,0,self.view);
+//    JEBtn(JR(kSW - 50,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClick),Clr_orange,0,self.view);
 #endif
 }
 

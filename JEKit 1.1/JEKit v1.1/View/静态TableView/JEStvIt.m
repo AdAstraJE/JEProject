@@ -17,11 +17,11 @@
     mod.iconWH = 22;
     mod.iconTitleMargin = 10;
     mod.titleFont = font(14);
-    mod.titleColor = kColorText;
+    mod.titleColor = Clr_txt;
     mod.descFont = font(14);
-    mod.descColor = kColorText66;
+    mod.descColor = Clr_txt66;
     mod.detailFont = font(11);
-    mod.detailColor = kColorText66;
+    mod.detailColor = Clr_txt66;
     
     return mod;
 }

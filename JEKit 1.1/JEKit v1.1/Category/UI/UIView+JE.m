@@ -13,6 +13,14 @@ UIView * JEVe(CGRect rect,UIColor *clr,__kindof UIView *addTo){
     return _;
 }
 
+UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView *addTo){
+    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:style];
+    UIVisualEffectView *_ = [[UIVisualEffectView alloc] initWithEffect:effect];
+    _.frame = rect;
+    if (addTo) { [addTo addSubview:_]; }
+    return _;
+}
+
 + (__kindof UIView *)Frame:(CGRect)frame color:(UIColor*)color{
     UIView *_ = [[self alloc]initWithFrame:frame];
     _.backgroundColor = color;
@@ -120,7 +128,7 @@ UIView * JEVe(CGRect rect,UIColor *clr,__kindof UIView *addTo){
 
 - (__kindof UIView *)addRectShdow{
     [self layoutIfNeeded];
-    CGFloat LR = 0,TB = 1;
+    CGFloat LR = -2,TB = -2;
     self.layer.shadowOffset = CGSizeMake(LR, TB);
     self.layer.shadowColor = [UIColor colorWithRed:225.0f/255.0f green:225.0f/255.0f blue:225.0f/255.0f alpha:1].CGColor;
     self.layer.shadowOpacity = 0.8;

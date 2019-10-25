@@ -23,7 +23,7 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
     self.backgroundColor = kRGBA(0, 0, 0, 0.4);
     
     _backView =  JEVe(self.bounds, nil, self);//隐藏的点击背景
-    _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), kColorWhite, self);
+    _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), Clr_white, self);
     _Ve_content.rad = 12;
     _maskView = JEVe(_Ve_content.bounds, kRGBA(255, 255, 255, 0.8), _Ve_content);;
     

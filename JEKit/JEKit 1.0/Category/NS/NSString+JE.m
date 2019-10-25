@@ -224,15 +224,19 @@ static NSNumberFormatter *_DS_numFormatter;
 }
 
 
+
+static NSArray <NSString *> *jkRandomArr;///<
 //随机字符串
 + (NSString *)RandomStr:(NSInteger)N{
 #ifdef DEBUG
+    if (jkRandomArr.count == 0) {
+        jkRandomArr = [@"无言独上西楼，月如钩。寂寞梧桐深院锁清秋。剪不断，理还乱，是离愁。别是一般滋味在心头=明月几时有，把酒问青天。不知天上宫阙，今夕是何年？我欲乘风归去，又恐琼楼玉宇，高处不胜寒。起舞弄清影，何似在人间！转朱阁，低绮户，照无眠。不应有恨，何事长向别时圆？人有悲欢离合，月有阴晴圆缺，此事古难全。但愿人长久，千里共婵娟。=安得广厦千万间，大庇天下寒士俱欢颜，风雨不动安如山！呜呼！何时眼前突兀见此屋，吾庐独破受冻死亦足！=关关雎鸠，在河之洲。窈窕淑女，君子好逑。参差荇菜，左右流之。窈窕淑女，寤寐求之。=蒹葭苍苍，白露为霜。所谓伊人，在水一方。溯洄从之，道阻且长；溯游从之，宛在水中央。=枯藤老树昏鸦，小桥流水人家。古道西风瘦马，夕阳西下，断肠人在天涯。=浩荡离愁白日斜，吟鞭东指即天涯。落红不是无情物，化作春泥更护花。=在天愿作比翼鸟，在地愿为连理枝。天长地久有时尽，此恨绵绵无绝期。=色不异空，空不异色，色即是空，空即是色=风急天高猿啸哀，渚清沙白鸟飞回。无边落木萧萧下，不尽长江滚滚来。万里悲秋常作客，百年多病独登台。艰难苦恨繁霜鬓，潦倒新停浊酒杯。=岱宗夫如何，齐鲁青未了。造化钟神秀，阴阳割昏晓。荡胸生曾云，决眦入归鸟。会当凌绝顶，一览众山小。=国破山河在，城春草木深。感时花溅泪，恨别鸟惊心。烽火连三月，家书抵万金。白头搔更短，浑欲不胜簪。=好雨知时节，当春乃发生。随风潜入夜，润物细无声。野径云俱黑，江船火独明。晓看红湿处，花重锦官城。=十年生死两茫茫，不思量，自难忘。千里孤坟，无处话凄凉。纵使相逢应不识，尘满面，鬓如霜。夜来幽梦忽还乡，小轩窗，正梳妆。相顾无言，惟有泪千行。料得年年肠断处，明月夜，短松冈。=大江东去，浪淘尽，千古风流人物。故垒西边，人道是，三国周郎赤壁。乱石穿空，惊涛拍岸，卷起千堆雪。江山如画，一时多少豪杰。遥想公瑾当年，小乔初嫁了，雄姿英发。羽扇纶巾，谈笑间，樯橹灰飞烟灭。故国神游，多情应笑我，早生华发。人生如梦，一尊还酹江月。=日照香炉生紫烟，遥看瀑布挂前川。飞流直下三千尺，疑是银河落九天。" componentsSeparatedByString:@"="];
+    }
     if (N == 0) {  N = 1;}
-//    NSString *sourceString = @"你我他她它上下左右东南西北前后人物无";
-    NSString *sourceString = @"一二三四五六七八九十";
+    NSString *that = jkRandomArr[arc4random_uniform((int)jkRandomArr.count)];
     NSMutableString *result = [[NSMutableString alloc] init];
-    for (int i = 0; i < N; i++){
-        [result appendString:[sourceString substringWithRange:NSMakeRange(rand() % [sourceString length], 1)]];
+    while (result.length < N) {
+        [result appendFormat:@"%@%@",result.length ? @"=" : @"",[that substringToIndex:MIN((N - result.length), that.length - 1)]];
     }
     return result;
 #endif

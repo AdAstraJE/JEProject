@@ -24,7 +24,7 @@
 
 - (UILabel *)La_desc{
     if (_La_desc == nil) {
-        _La_desc = JELab(JR(12, _La_title.bottom + 15, self.contentView.width - 12*2, 50),nil,font(16),kColorWhite,(1),self.contentView);;
+        _La_desc = JELab(JR(12, _La_title.bottom + 15, self.contentView.width - 12*2, 50),nil,font(16),Clr_white,(1),self.contentView);;
     }return _La_desc;
 }
 
@@ -48,7 +48,7 @@
 - (void)dealloc{jkDeallocLog}
 
 + (instancetype)Introduc:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor{
-    return [self Introduc:images tint:tintColor titleDesc:nil descColor:kColorText33];
+    return [self Introduc:images tint:tintColor titleDesc:nil descColor:Clr_txt33];
 }
 
 + (instancetype)Introduc:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor titleDesc:(NSArray <NSArray <NSString *> *> *)titleDesc descColor:(UIColor *)descColor{

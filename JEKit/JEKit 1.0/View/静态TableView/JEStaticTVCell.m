@@ -68,9 +68,9 @@
         viewH = self.height/2;
     }
     _Img_icon.frame = CGRectMake(margin, (self.height - viewH)/2, viewH, viewH);
-    _La_title.frame = CGRectMake(_Img_icon.right + margin, (self.height - viewH)/2, ScreenWidth - 40, viewH);
+    _La_title.frame = CGRectMake(_Img_icon.right + (_Img_icon ? JEShare.stc.iconTitleMargin : margin), (self.height - viewH)/2, ScreenWidth - 40, viewH);
     if (_item.desc.length) {
-        _La_title.frame = CGRectMake(_Img_icon.right + margin, (self.height - viewH)/2, ScreenWidth*0.6, viewH);
+        _La_title.frame = CGRectMake(_Img_icon.right + (_Img_icon ? JEShare.stc.iconTitleMargin : margin), (self.height - viewH)/2, ScreenWidth*0.6, viewH);
     }
     _La_desc.frame = CGRectMake(self.contentView.width - descW - descMargin, (self.height - viewH)/2, descW, viewH);
     _item.middleView.origin = CGPointMake((self.width - _item.middleView.width)/2, (self.height - _item.middleView.height)/2);

@@ -40,6 +40,7 @@
 
 /** 该颜色色差后的颜色 eg. 差别0.618 透明0.9 */
 - (UIColor *)je_Abe:(CGFloat)abe Alpha:(CGFloat)Alpha;
+- (UIColor * (^)(CGFloat alpha))alpha_;
 
 /** (id)color.CGColor ！！！！！    渐变 type 0=上到下 1=左到右 2=左上到右下 3=右上到左下 */
 + (UIColor*)je_gradient:(NSArray <id> *)colors withSize:(CGSize)size type:(NSInteger)type;

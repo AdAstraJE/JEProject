@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 
 UIKIT_EXTERN  UILabel * JELa(CGRect rect,NSString *txt,id fnt,UIColor *clr,NSTextAlignment align,__kindof UIView *addTo);
+UIKIT_EXTERN  UILabel * JELab(CGRect rect,NSString *txt,id fnt,UIColor *clr,NSTextAlignment align,__kindof UIView *addTo);
 UIKIT_EXTERN  UILabel * JELa_(NSString *txt,id fnt,UIColor *clr);
 
 @interface UILabel (JE)

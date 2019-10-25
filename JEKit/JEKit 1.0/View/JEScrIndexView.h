@@ -29,7 +29,7 @@ static NSInteger const jkDefaultScrIndexTitleViewH = 44;///<
 @property(nonatomic,strong,readonly) UIScrollView *Scr_scroll_;///<  下面的容器
 @property(nonatomic,strong,readonly) NSMutableArray <__kindof UIViewController *> *Arr_vc;///<  自定义vc
 @property(nonatomic,strong,readonly) NSMutableArray <__kindof UIView *> *Arr_view;///<  自定义view
-
+@property(nonatomic,strong,readonly) NSMutableArray <UIButton*> *Arr_btns;///< 按钮 
 
 typedef UIViewController *(^LazyLoadBlock)(NSInteger index);
 @property (nonatomic,copy) LazyLoadBlock lazyLoadBlock;

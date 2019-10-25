@@ -38,7 +38,7 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
         UIImageView *_ = [[UIImageView alloc] initWithFrame:self.bounds];
         _.userInteractionEnabled = YES;
         UIImage *image = [self backgroundImageForState:UIControlStateNormal];
-        if (image == nil && ([self imageForState:(UIControlStateNormal)] == nil)) {image = UIImage.clr(kColorWhite); }
+        if (image == nil && ([self imageForState:(UIControlStateNormal)] == nil)) {image = UIImage.clr(Clr_white); }
         _.image = image;
         _.bor = self.bor;
         _.borCol = self.borCol;

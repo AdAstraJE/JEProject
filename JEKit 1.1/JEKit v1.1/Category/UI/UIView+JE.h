@@ -13,6 +13,7 @@ JS(CGFloat width,CGFloat height){
 }
 
 UIKIT_EXTERN  UIView * JEVe(CGRect rect,UIColor *clr,__kindof UIView *addTo);
+UIKIT_EXTERN  UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView *addTo);
 
 @interface UIView (JE)
 

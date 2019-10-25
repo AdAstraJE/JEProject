@@ -64,7 +64,7 @@
 
 - (UILabel *)La_placeHolder {
     if(_La_placeHolder == nil) {
-        [self addSubview:(_La_placeHolder = [UILabel Frame:CGRectMake(8, 6, self.width - 24, 20) text:nil font:self.font color:[UIColor lightGrayColor]])];
+        [self addSubview:(_La_placeHolder = [UILabel Frame:CGRectMake(8, 6, self.width - 24, 20) text:nil font:self.font color:kRGBA(61, 61, 66,0.3)])];
     }
     return _La_placeHolder;
 }
