@@ -175,25 +175,25 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
     return [self viewWithTag:tag];
 }
 
-- (__kindof UIView *)jeCopy{
-    __kindof UIView *view = [self copyView];
-    [self.superview addSubview:view];
-    return view;
+- (__kindof UITableView*)superTableView{
+    return [self superView:UITableView.class];
 }
 
-/** cell view 根据nextResponder 获得 当前的TableView */
-- (UITableView*)superTableView{
+- (__kindof UICollectionView *)superCollectionView{
+    return [self superView:UICollectionView.class];
+}
+
+- (__kindof UIView *)superView:(Class)class{
     for (UIView* next = self; next; next = next.superview) {
-        UIResponder* nextResponder = [next nextResponder];
-        if ([nextResponder isKindOfClass:[UITableView class]]) {
-            return (UITableView*)nextResponder;
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:class]) {
+            return (id)nextResponder;
         }
     }
     return nil;
 }
 
-/** view 根据nextResponder 获得 所在的viewcontroler */
-- (UIViewController*)superVC{
+- (__kindof UIViewController*)superVC{
     UIResponder *responder = self.nextResponder;
     do {
         if ([responder isKindOfClass:[UIViewController class]]) {

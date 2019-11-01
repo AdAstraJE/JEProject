@@ -34,7 +34,7 @@ static JEKit* _sharedManager;
 
 /** 默认UI */
 - (void)defaultTheme{
-    _HUDClr = (kHexColor(0x202020));
+    _HUDClr = UIColor.blackColor;
     _textClr = (kHexColor(0x333333));
     _VCBgClr = (kRGB(244, 245, 246));
     _tvSepClr = (kRGB(220, 220, 220));

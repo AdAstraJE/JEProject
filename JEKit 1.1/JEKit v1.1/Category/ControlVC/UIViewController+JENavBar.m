@@ -4,7 +4,7 @@
 #import <objc/runtime.h>
 #import "JEBaseNavtion.h"
 
-static CGFloat const jkPresentingNavH = 58.0f;///<
+static CGFloat const JKPresentingNavH = 58.0f;///<
 
 @implementation UIViewController (JENavBar)
 
@@ -78,7 +78,7 @@ static const void *jeLa_TitleKey;
 
 - (void)je_useCustomNavBar{
     if (objc_getAssociatedObject(self, @selector(je_navBar)) == nil) {
-        CGFloat height = self.presentingViewController ? jkPresentingNavH : ScreenNavBarH;
+        CGFloat height = self.presentingViewController ? JKPresentingNavH : ScreenNavBarH;
         UIImageView *_ = JEImg(JR(0, 0, ScreenWidth, height),self.je_ctrlVC.je_navBarImage,self.view);
         _.backgroundColor = self.je_ctrlVC.je_navBarClr;
         _.userInteractionEnabled = YES;
@@ -127,7 +127,7 @@ static const void *jeLa_TitleKey;
     NSString *title = [item isKindOfClass:NSString.class] ? item : nil;
     UIImage *img = [item isKindOfClass:UIImage.class] ? item : nil;
     CGFloat x = self.presentingViewController ? 0 : ScreenStatusBarH;
-    CGFloat h = self.presentingViewController ? jkPresentingNavH : kNavBarH44;
+    CGFloat h = self.presentingViewController ? JKPresentingNavH : kNavBarH44;
     UIFont *font = self.presentingViewController ? fontM(17) : font(17);
     
     JEButton *_ = JEBtn(JR(-1,x, -1, h),title,font,self.je_ctrlVC.je_navBarItemClr,target,selector,img,0,self.je_navBar).touchs(10,20,0,16);

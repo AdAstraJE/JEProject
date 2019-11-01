@@ -123,7 +123,7 @@
     }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"完成".loc style:UIBarButtonItemStylePlain target:self action:@selector(TExtvEditimgDown)];
-    [self je_rightBarBtn:@"完成".loc act:@selector(TExtvEditimgDown)];
+    _Btn_done = [self je_rightBarBtn:@"完成".loc act:@selector(TExtvEditimgDown)];
     
     if (_UseTextField) {
         [self Tf_];

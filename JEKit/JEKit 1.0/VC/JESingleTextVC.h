@@ -10,6 +10,7 @@
 #import "JETextView.h"
 #import "JETextField.h"
 #import "JEBaseVC.h"
+#import "JEButton.h"
 
 typedef void(^ResultStringBlock)(NSString *Res);
 
@@ -19,7 +20,7 @@ typedef void(^ResultStringBlock)(NSString *Res);
 
 @property (nonatomic,strong) JETextView *TextV_;
 @property (nonatomic,strong) JETextField *Tf_;
-
+@property (nonatomic,strong) JEButton *Btn_done;
 
 /** Push一个编辑的TextView */
 + (JESingleTextVC *)Title:(NSString*)title text:(NSString*)text placeHolder:(NSString*)place limit:(NSUInteger)limit textHeight:(NSUInteger)textH call:(ResultStringBlock)call;

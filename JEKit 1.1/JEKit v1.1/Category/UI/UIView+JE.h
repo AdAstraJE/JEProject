@@ -62,9 +62,9 @@ UIKIT_EXTERN  UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__
 - (__kindof UIView * (^)(CGFloat w))jeW;///< self.width =
 - (__kindof UIView * (^)(CGFloat h))jeH;///< self.height =
 
-@property (nonatomic,strong,readonly) __kindof UIView *jeCopy;///< copy & addTo superView
-@property (nonatomic,strong,readonly) UITableView *superTableView;///< cell view 根据nextResponder 获得 当前的TableView
-@property (nonatomic,strong,readonly) UIViewController *superVC;///< view 根据nextResponder 获得 所在的viewcontroler
+- (__kindof UITableView*)superTableView;///< cell view 根据nextResponder 获得 当前的TableView
+- (__kindof UICollectionView *)superCollectionView;///< CollectionView
+- (__kindof UIViewController*)superVC;///< view 根据nextResponder 获得 所在的viewcontroler
 
 #pragma mark - 手势
 

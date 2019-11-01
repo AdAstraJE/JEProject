@@ -60,6 +60,9 @@
                                     <barButtonItem title="Item" image="doc.on.doc" catalog="system" id="9O3-rd-XDa"/>
                                     <barButtonItem title="Item" image="pencil.tip" catalog="system" id="5TE-fy-zeF"/>
                                     <barButtonItem title="Item" image="tag" catalog="system" id="vuQ-Br-OFc"/>
+                                    <barButtonItem title="Item" image="hand.raised.slash" catalog="system" id="BoF-ZB-6gL"/>
+                                    <barButtonItem title="Item" image="hand.raised" catalog="system" id="GYN-Bg-j72"/>
+                                    <barButtonItem title="Item" image="arrowtriangle.right.fill" catalog="system" id="r0X-yL-Sja"/>
                                 </items>
                             </toolbar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gk-j5-cn1">
@@ -90,6 +93,8 @@
                                     <barButtonItem title="Item" image="lock" catalog="system" id="ZHg-RQ-Bgd"/>
                                     <barButtonItem title="Item" image="lock.open" catalog="system" id="Fqx-w7-mNp"/>
                                     <barButtonItem title="Item" image="lock.open.fill" catalog="system" id="QVR-Ny-iO6"/>
+                                    <barButtonItem title="Item" image="arrow.up.left.and.arrow.down.right" catalog="system" id="c2v-dL-usv"/>
+                                    <barButtonItem title="Item" image="arrow.down.right.and.arrow.up.left" catalog="system" id="zhe-kx-PaL"/>
                                 </items>
                             </toolbar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VtX-Pd-bjk">
@@ -142,7 +147,10 @@
         <image name="archivebox" catalog="system" width="64" height="52"/>
         <image name="arrow.clockwise" catalog="system" width="56" height="64"/>
         <image name="arrow.counterclockwise" catalog="system" width="56" height="64"/>
+        <image name="arrow.down.right.and.arrow.up.left" catalog="system" width="64" height="58"/>
         <image name="arrow.up.doc" catalog="system" width="56" height="64"/>
+        <image name="arrow.up.left.and.arrow.down.right" catalog="system" width="64" height="56"/>
+        <image name="arrowtriangle.right.fill" catalog="system" width="64" height="56"/>
         <image name="bell" catalog="system" width="64" height="62"/>
         <image name="camera" catalog="system" width="64" height="48"/>
         <image name="doc" catalog="system" width="56" height="64"/>
@@ -155,6 +163,8 @@
         <image name="flag" catalog="system" width="64" height="60"/>
         <image name="folder" catalog="system" width="64" height="46"/>
         <image name="folder.badge.plus" catalog="system" width="64" height="42"/>
+        <image name="hand.raised" catalog="system" width="64" height="64"/>
+        <image name="hand.raised.slash" catalog="system" width="64" height="64"/>
         <image name="icloud" catalog="system" width="64" height="44"/>
         <image name="lock" catalog="system" width="64" height="64"/>
         <image name="lock.fill" catalog="system" width="64" height="64"/>

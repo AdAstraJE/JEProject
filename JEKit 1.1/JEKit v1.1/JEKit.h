@@ -112,7 +112,7 @@
 
 @interface JEKit : NSObject
 
-/// 
+/// share
 + (JEKit *)Shared;
 
 /// 写入钥匙串的UUID
@@ -121,62 +121,43 @@
 /// IsSimulator
 + (BOOL)IsSimulator;
 
-//---------------------------------------------------------------------------------------------------------------------------------
-@property (nonatomic,strong) UIColor *HUDClr;///<  HUD颜色 ### (kHexColor(0x202020))
+#pragma mark -
+@property (nonatomic,strong) UIColor *HUDClr;///<  HUD颜色 ### UIColor.blackColor
 @property (nonatomic,strong) UIColor *textClr;///<  文本颜色 ### 0x333333
 @property (nonatomic,strong) UIColor *themeClr;///<  主题颜色 ### nil
 @property (nonatomic,strong) UIColor *VCBgClr;/// VC background Color ### (kRGB(244, 245, 246))
 @property (nonatomic,strong) UIColor *tvBgClr;///< tableView backgroundColor ### nil
 @property (nonatomic,strong) UIColor *tvSepClr;///< tableView separator 分割线颜色 ### kRGB(220, 220, 220)
-//---------------------------------------------------------------------------------------------------------------------------------
+#pragma mark -
 @property (nonatomic,strong) JEStvUIStyle *stc;///< 静态 tableView 样式
-//---------------------------------------------------------------------------------------------------------------------------------
+#pragma mark -
 @property (nonatomic,assign) NSInteger listMgr_beginPage;///< JEListManager --- beginPage ### 1, 网络字段 页数固定从X开始
 @property (nonatomic,copy)   NSString *listMgr_pageParam;///< JEListManager --- pageParam ### pageIndex, 网络字段
 @property (nonatomic,copy)   NSString *listMgr_rowsParam;///< JEListManager --- rowsParam ### pageSize, 网络字段
 @property (nonatomic,assign) NSInteger listMgr_rowsNum;  ///< JEListManager --- rowsNum   ### 15, 每页多少条
-//---------------------------------------------------------------------------------------------------------------------------------
+#pragma mark -
 
-
-/** 延迟执行 */
+/// 延迟执行
 void delay (float time,void (^block)(void));
 
-
-#pragma mark - AlertController
-
-/// UIAlertControllerStyleAlert 根据字符串组合区分是否重复弹出 默认有个 “取消”
-//+ (void)Alert:(NSString*)title msg:(NSString*)msg act:(NSArray <NSString *> *)actions destruc:(NSArray <NSString *> *)destructive _:(void(^)(NSString *act,NSInteger idx))block;
-//+ (void)Alert:(NSString*)title msg:(NSString*)msg act:(NSArray <NSString *> *)actions destruc:(NSArray <NSString *> *)destructive _:(void(^)(NSString *act,NSInteger idx))block cancel:(NSString *)cancel _:(void (^)(void))cancelBlock;
-//
-///// UIAlertControllerStyleActionSheet
-//+ (void)Sheet:(NSString*)title msg:(NSString*)msg act:(NSArray <NSString *> *)actions destruc:(NSArray <NSString *> *)destructive _:(void(^)(NSString *act,NSInteger idx))block cancel:(NSString *)cancel _:(void (^)(void))cancelBlock;
-
-//- (void)ShowAlert:(NSString*)title msg:(NSString*)msg style:(UIAlertControllerStyle)style actions:(NSArray <NSString *> *)actions block:(void(^)(NSString *act,NSInteger idx))block destructive:(NSArray <NSString *> *)destructive cancel:(NSString *)cancel cancelBlock:(void (^)(void))cancelBlock presentVC:(UIViewController *)presentVC;
-//
-///** RemoveAll UIAlertController  */
-//+ (void)RemoveAllAlert;
-
 #pragma mark - 从系统相册获取图片 | 拍照
-
 typedef void(^pickImgBlock)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker);
 typedef void(^pickImgEndBlock)(void);
 
 @property (nonatomic,strong) UIImagePickerController *picker;///< 调用系统相册中的picker
 
-/** 从系统相册获取图片 [@"拍照",@"从相册中选择"]  */
+/// 从系统相册获取图片 [@"拍照",@"从相册中选择"]
 + (void)PickImageWithTitle:(NSString*)title edit:(BOOL)edit pick:(pickImgBlock)block;
-/** 从系统相册获取图片 直接使用相机或相册 */
+/// 从系统相册获取图片 直接使用相机或相册
 + (void)PickImageWithType:(UIImagePickerControllerSourceType)type edit:(BOOL)edit pick:(pickImgBlock)block;
-/** 选择完图片回调 */
+/// 选择完图片回调
 + (void)pickImageEnd:(pickImgEndBlock)block;
-
-
 
 
 #pragma mark - 定位
 typedef void(^jeLocationBlock)(id location,NSDictionary *address);
 
-/** 获取当前位置 */
+/// 获取当前位置
 + (void)Location:(jeLocationBlock)done;
 
 @end

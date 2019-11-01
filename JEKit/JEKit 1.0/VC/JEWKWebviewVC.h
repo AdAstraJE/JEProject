@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "JEBaseVC.h"
+#import <WebKit/WebKit.h>
 
 @interface JEWKWebviewVC : JEBaseVC
+
+@property (nonatomic,strong) WKWebView *webView;
 
 /** openURL */
 + (void)Open:(NSString *)url;

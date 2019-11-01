@@ -2,7 +2,7 @@
 #import "JEDataBase.h"
 #import "NSObject+YYModel.h"
 
-static NSString *const jkJEObjectCacheName = @"jkJEObjectCacheName";///<
+static NSString *const jkJEObjectCacheName = @"JEObjectCacheName";///<
 
 #ifdef DEBUG
 #define JELog(fmt, ...)     fprintf(stderr,"%s\n",[[NSString stringWithFormat:@"" fmt, ##__VA_ARGS__] UTF8String]);

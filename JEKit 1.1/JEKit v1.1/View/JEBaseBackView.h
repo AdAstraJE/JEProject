@@ -24,10 +24,10 @@ typedef NS_ENUM(NSUInteger, JEPopType) {
 
 - (void)resetWidth:(CGFloat)widht;
     
-/** 显示 */
+/// 显示
 - (void)show;
 
-/** 隐藏 销毁 */
+/// 隐藏 销毁 
 - (void)dismiss;
 
 @end

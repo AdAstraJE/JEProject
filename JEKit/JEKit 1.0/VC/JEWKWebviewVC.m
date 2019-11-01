@@ -1,10 +1,8 @@
 
 #import "JEWKWebviewVC.h"
-#import <WebKit/WebKit.h>
 #import "JEKit.h"
 
 @interface JEWKWebviewVC ()<WKUIDelegate,WKNavigationDelegate>{
-    WKWebView *_webView;
     CGFloat _webVHeight;
     UIProgressView *_progressV;
     UIView *_Ve_tool;
@@ -182,11 +180,7 @@
 
 - (void)webShareClick{
     NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:_webView.URL,_webView.URL.absoluteString,nil];
-    
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
-    NSMutableArray *excludedActivityTypes =  [NSMutableArray arrayWithArray:@[UIActivityTypeCopyToPasteboard,
-                                                                              UIActivityTypeAddToReadingList,]];
-    activityViewController.excludedActivityTypes = excludedActivityTypes;
     [JEApp.window.rootViewController presentViewController:activityViewController animated:YES completion:nil];
 }
 

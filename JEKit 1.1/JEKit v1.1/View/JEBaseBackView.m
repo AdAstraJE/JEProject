@@ -20,11 +20,11 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
 - (instancetype)initWithFrame:(CGRect)frame contentHieht:(CGFloat)height{
     self = [super initWithFrame:frame];
     self.alpha = 0;
-    self.backgroundColor = kRGBA(0, 0, 0, 0.4);
+    self.backgroundColor = kRGBA(0, 0, 0, 0.2);
     
     _backView =  JEVe(self.bounds, nil, self);//隐藏的点击背景
     _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), Clr_white, self);
-    _Ve_content.rad = 12;
+    _Ve_content.rad = 14;
     _maskView = JEVe(_Ve_content.bounds, kRGBA(255, 255, 255, 0.8), _Ve_content);;
     
     return self;
@@ -52,7 +52,6 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
     tapToDismiss ? [_backView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismiss)]] : [_backView removeGestureRecognizer:_backView.gestureRecognizers.firstObject];
 }
 
-/** 显示 */
 - (void)show{
     NSAssert(_Ve_content != nil, @"");
     [UIView animateWithDuration:kAnimateDuration animations:^{
@@ -61,7 +60,6 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
     }];
 }
 
-/** 隐藏 销毁 */
 - (void)dismiss{
     [UIView animateWithDuration:kAnimateDuration animations:^{
         self.alpha = 0;
