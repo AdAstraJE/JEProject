@@ -124,12 +124,13 @@ static NSInteger const jkActionBarHeight = 48;///<
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component{ return 44;}
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {return 1;}
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {return _Arr_custom.count;}
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {return _Arr_custom[row];}
-/*
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {return _Arr_custom[row];}
+
 - (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component{
     return [[NSAttributedString alloc] initWithString:_Arr_custom[row] attributes:@{NSForegroundColorAttributeName : kColorText}];
 }
 
+/*
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
     UILabel* label = (UILabel*)view;
     if (label == nil){

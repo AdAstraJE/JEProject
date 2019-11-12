@@ -19,9 +19,9 @@
     mod.titleFont = font(14);
     mod.titleColor = Clr_txt;
     mod.descFont = font(14);
-    mod.descColor = Clr_txt66;
+    mod.descColor = Clr_txt77;
     mod.detailFont = font(11);
-    mod.detailColor = Clr_txt66;
+    mod.detailColor = Clr_txt77;
     
     return mod;
 }

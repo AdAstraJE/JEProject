@@ -71,7 +71,7 @@
         _.text = _DefaultText;
         _.returnKeyType = UIReturnKeyDone;
         _.delegate = self;
-        _.placeHolder = _PlaceText;
+        _.placeholder = _PlaceText;
         //        _.JEMaxTextLength = _limit;
         [self.view addSubview:TextV_ =  _];
     }
@@ -130,7 +130,7 @@
         return;
     }
     
-    self.TextV_.placeHolder = _PlaceText;
+    self.TextV_.placeholder = _PlaceText;
     [TextV_ becomeFirstResponder];
     
     //显示剩余字符限制的label

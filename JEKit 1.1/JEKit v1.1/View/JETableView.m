@@ -67,13 +67,14 @@
     self.delaysContentTouches = NO;
     if (JEShare.tvBgClr) { self.backgroundColor = JEShare.tvBgClr; }
     if (JEShare.tvSepClr) { self.separatorColor = JEShare.tvSepClr; }
-    
+    [self handelStyleDark];
 }
 
 - (void)didMoveToWindow{
     [super didMoveToWindow];
     if (self.separatorColor == nil && JEShare.tvSepClr) {
         self.separatorColor = JEShare.tvSepClr;
+        [self handelStyleDark];
     }
 }
 
@@ -111,6 +112,20 @@
         }else{
             _Img_expand.frame = orginRect;
         }
+    }
+}
+
+#pragma mark -   dark
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [self handelStyleDark];
+}
+
+- (void)handelStyleDark{
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        BOOL dark = (mode == UIUserInterfaceStyleDark);
+        if (JEShare.tvSepClr) {self.separatorColor = dark ? [UIColor colorWithRed:0.33 green:0.33 blue:0.35 alpha:0.6] : JEShare.tvSepClr;}
+        if (JEShare.tvBgClr) {self.backgroundColor = dark ? UIColor.blackColor : JEShare.tvBgClr;}
     }
 }
 

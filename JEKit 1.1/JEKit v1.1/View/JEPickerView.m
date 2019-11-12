@@ -60,6 +60,7 @@ static NSInteger const jkActionBarHeight = 48;///<
     [_ actionBarWithTitle:title];
     _.dateBlock = date;
     _.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0 ,jkActionBarHeight, ScreenWidth, jkPickViewHeight)].addTo(_.Ve_content);
+    _.datePicker.backgroundColor = UIColor.clearColor;
     _.datePicker.datePickerMode = mode;
     [_.datePicker setDate:(current ? : [NSDate date]) animated:NO];
     _.datePicker.minimumDate = min;
@@ -87,6 +88,7 @@ static NSInteger const jkActionBarHeight = 48;///<
     self = [super initWithFrame:frame contentHieht:jkActionBarHeight + jkPickViewHeight];
     self.popType = JEPopTypeBottom;
     self.tapToDismiss = YES;
+    self.Ve_content.rad = 0;
     [self show];
     return self;
 }
@@ -94,6 +96,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 - (UIPickerView *)pickV{
     if (!_pickV) {
         _pickV = [[UIPickerView alloc]initWithFrame:CGRectMake(0, jkActionBarHeight, ScreenWidth, jkPickViewHeight)].addTo(self.Ve_content);
+        _pickV.backgroundColor = UIColor.clearColor;
         _pickV.delegate = self;
         _pickV.dataSource = self;
     }return _pickV;
@@ -101,9 +104,9 @@ static NSInteger const jkActionBarHeight = 48;///<
 
 - (void)actionBarWithTitle:(NSString *)title{
     UIColor *btnColor = JEShare.themeClr ? : kHexColor(0x007AFF);
-    UIView *_ = JEVe(JR(0, 0, kSW, jkActionBarHeight), kRGBA(255, 255, 255, 0.8), self.Ve_content);
-    [_.layer addSublayer:[CALayer je_drawLine:CGPointMake(0, _.height) to:CGPointMake(_.width, _.height) color:(kHexColor(0xEFEFEF))]];
-    
+    UIView *_ = JEVe(JR(0, 0, kSW, jkActionBarHeight), UIColor.clearColor, self.Ve_content);
+    JEVe(JR(0, _.height, _.width, 0.5), kRGBA(0, 0, 0, 0.2), _);
+
     [JEBtn(JR(15, 0, 60, _.height),@"取消".loc,@16,btnColor,self,@selector(dismiss),nil,0,_).touchs(0,0,0,20) sizeThatWidth];
     JEButton *ok = [JEBtn(CGRectZero,@"确定".loc,@16,btnColor,self,@selector(confirmBtnClick),nil,0,_).touchs(0,20,0,0) sizeThatWidth];
     ok.frame = CGRectMake(ScreenWidth - ok.width - 15, 0, ok.width, _.height);

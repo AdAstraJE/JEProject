@@ -7,8 +7,8 @@
 @property (copy, nonatomic) void(^menuClickedBlock)(NSInteger index, NSString *title);
 @property (strong, nonatomic) UIMenuController *menuVC;
 
-- (void)je_addPressMenuTitles:(NSArray *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block;
-- (void)je_showMenuTitles:(NSArray *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block;
+- (void)je_addPressMenuTitles:(NSArray <NSString *> *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block;
+- (void)je_showMenuTitles:(NSArray <NSString *> *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block;
 
 - (BOOL)je_isMenuVCVisible;
 - (void)je_removePressMenu;

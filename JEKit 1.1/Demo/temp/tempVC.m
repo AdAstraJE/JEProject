@@ -19,12 +19,11 @@
     [self setuptempVC_UI];
     
 #if TARGET_OS_SIMULATOR
-//    JEBtn(JR(kSW - 50,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClick),Clr_orange,0,self.view);
+    JEBtn(JR(kSW - 50,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClick),Clr_orange,0,self.view);
 #endif
 }
 
 - (void)testBtnClick{
-
     UIImage *img = [UIImage je_capture:self.view size:self.view.size];
     img = [img je_limitToWH:100];
 //    img = img.clip(CGRectMake(0, 0, 375, 150));

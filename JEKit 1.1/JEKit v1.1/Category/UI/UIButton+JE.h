@@ -16,6 +16,9 @@
 /// 添加倒角线条线框图
 - (void)je_addBorderLineImg:(UIColor *)clr lineWidth:(CGFloat)width rad:(CGFloat)rad bgClr:(UIColor *)bgClr;
 
+/// titleColor 加点击效果的颜色
+- (void)je_resetTitleClr:(UIColor *)clr;
+
 /// UIControlStateNormal 同时设置有透明度的UIControlStateHighlighted
 - (void)je_resetImg:(UIImage *)img;
 

@@ -8,7 +8,7 @@ static const NSString *kPressMenuSelectorPrefix = @"easePressMenuClicked_";
 static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKey;
 
 #pragma mark M
-- (void)je_addPressMenuTitles:(NSArray *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
+- (void)je_addPressMenuTitles:(NSArray <NSString *> *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
     self.menuClickedBlock = block;
     self.menuTitles = menuTitles;
     if (self.pressGR == nil) {
@@ -17,7 +17,7 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKe
     [self addGestureRecognizer:self.pressGR];
 }
 
-- (void)je_showMenuTitles:(NSArray *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
+- (void)je_showMenuTitles:(NSArray <NSString *> *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
     self.menuClickedBlock = block;
     self.menuTitles = menuTitles;
     [self p_showMenu];

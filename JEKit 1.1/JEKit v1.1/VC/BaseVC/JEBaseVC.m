@@ -2,30 +2,24 @@
 #import "JEBaseVC.h"
 #import "JEKit.h"
 
+static CGFloat const JKPresentingNavH = 58.0f;///<
+
 @implementation JEBaseVC
 
-- (void)dealloc{
-    jkDeallocLog
-}
+- (void)dealloc{jkDeallocLog}
 
+#pragma mark -
 - (BOOL)shouldAutorotate{
     return YES;
 }
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
     return UIInterfaceOrientationPortrait;
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:YES];
-    JEBaseNavtion *nav = (JEBaseNavtion *)self.navigationController;
-    if ([nav isKindOfClass:[JEBaseNavtion class]]) {
-        [nav navigationController:nav didShowViewController:self animated:YES];
-    }
-}
-
+#pragma mark -
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     [self.view endEditing:YES];
@@ -45,51 +39,86 @@
     [super viewDidLoad];
     self.view.backgroundColor = JEShare.VCBgClr;
     
-    if (!self.je_disableNavBar) {
-        [self je_useCustomNavBar];
+    if (!_disableNavBar) { [self navBar];}
+    
+    [self handelStyleDark];
+}
+
+
+#pragma mark - 默认navBar
+- (UIView *)navBar{
+    if (_navBar == nil) {
+        CGFloat height = self.presentingViewController ? JKPresentingNavH : ScreenNavBarH;
+        UIView *_ = JEVe(JR(0, 0, ScreenWidth, height),JEShare.navBarClr, self.view);
+        if (JEShare.navBarImage) {JEImg(_.bounds,JEShare.navBarImage,_);}
+        
+        {
+            CGFloat x = self.presentingViewController ? 14 : (ScreenStatusBarH + 6);
+            UILabel *la = JELab(JR(50,x, ScreenWidth - 50*2, 30),self.title,fontM(18),JEShare.navTitleClr,(1),_);
+            la.adjustsFontSizeToFitWidth = YES;
+            la.backgroundColor = [UIColor clearColor];
+            _navTitleLable = la;
+        }
+        
+        if (JEShare.navBarImage == nil && JEShare.navBarClr == UIColor.whiteColor) {
+            _navBarline = JEVe(JR(0, _.height - 0.5, _.width, 0.5), JEShare.navBarLineClr, _);
+        }
+        
+        if (self.Nav.viewControllers.count > 1) {
+            UIImage *image = JEBundleImg(@"ic_navBack").clr(JEShare.navBarItemClr);
+            _navBackButton = JEBtn(JR(3, ScreenStatusBarH + (kNavBarH44 - 26)/2, 26, 26),nil,_navTitleLable.font ? : font(17),JEShare.navBarItemClr,self,@selector(navBackButtonClick),image,0,_).touchs(ScreenStatusBarH,3,20,40);
+        }
+        self.navBar = _;
+        
     }
-//    UIInterfaceOrientationUnknown            = UIDeviceOrientationUnknown,
-//       UIInterfaceOrientationPortrait           = UIDeviceOrientationPortrait,
-//       UIInterfaceOrientationPortraitUpsideDown = UIDeviceOrientationPortraitUpsideDown,
-//       UIInterfaceOrientationLandscapeLeft      = UIDeviceOrientationLandscapeRight,
-//       UIInterfaceOrientationLandscapeRight     = UIDeviceOrientationLandscapeLeft
-//    UIInterfaceOrientation orien = [UIApplication sharedApplication].statusBarOrientation;
-//    NSLog(@"🔵\nOrientation:%@\n", @(orien));
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceOrientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleWillRotate:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidRotate:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    return _navBar;
 }
 
-//- (void)handleDeviceOrientationChanged:(NSNotification *)notification{
-//    NSDictionary *userInfo = [notification userInfo];
-//    UIInterfaceOrientation appOrientation = [UIApplication sharedApplication].statusBarOrientation;
-//
-//    NSLog(@"\nOrientation:%@\n User Info :%@", @(appOrientation), userInfo);
-//}
-//
-//- (void)handleWillRotate:(NSNotification *)notification{
-//    NSDictionary *userInfo = [notification userInfo];
-//    //    [0]    (null)    @"UIApplicationStatusBarOrientationUserInfoKey" : (int)4
-//    //UIApplicationStatusBarOrientationUserInfoKey
-//    UIInterfaceOrientation orien = userInfo.str(UIApplicationStatusBarOrientationUserInfoKey).integerValue;
-//    NSLog(@"\nWill Rotate %@", userInfo);
-//    //
-//    if (orien == UIInterfaceOrientationLandscapeRight) {
-//        self.je_Btn_back.x = 3 + ScreenSafeArea;
-//    }
-//
-//}
-
-- (void)handleDidRotate:(NSNotification *)notification{
-    NSDictionary *userInfo = [notification userInfo];
-    NSLog(@"\nDid Rotate %@", userInfo);
+- (void)navBackButtonClick{
+    (self.presentingViewController) ? [self dismissViewControllerAnimated:YES completion:nil] : [self.Nav popViewControllerAnimated:YES];
 }
 
-/** tableView默认Frame */
+- (void)setTitle:(NSString *)title{
+    [super setTitle:title];
+    _navTitleLable.text = title;
+}
+
+- (JEButton *)leftNavBtn:(id)item{
+    NSString *title = [item isKindOfClass:NSString.class] ? item : nil;
+    UIImage *img = [item isKindOfClass:UIImage.class] ? item : nil;
+    if (_navBackButton == nil) {
+        _navBackButton = [self createBtn:item target:self act:@selector(navBackButtonClick)];
+    }else{
+        if (img) { [_navBackButton je_resetImg:img];}
+        if (title) {[_navBackButton setTitle:title forState:UIControlStateNormal]; }
+    }
+
+    [_navBackButton sizeThatWidth];
+    _navBackButton.x = 12;
+    return _navBackButton;
+}
+
+- (JEButton *)rightNavBtn:(id)item target:(id)target act:(SEL)selector{
+    JEButton *_ = [self createBtn:item target:target act:selector];
+    _.x = ScreenWidth - _.width - 16;
+    return _;
+}
+
+- (JEButton *)createBtn:(id)item target:(id)target act:(SEL)selector{
+    NSString *title = [item isKindOfClass:NSString.class] ? item : nil;
+    UIImage *img = [item isKindOfClass:UIImage.class] ? item : nil;
+    CGFloat x = self.presentingViewController ? 0 : ScreenStatusBarH;
+    CGFloat h = self.presentingViewController ? JKPresentingNavH : kNavBarH44;
+    UIFont *font = self.presentingViewController ? fontM(17) : font(17);
+    
+    JEButton *_ = JEBtn(JR(-1,x, -1, h),title,font,JEShare.navBarItemClr,target,selector,img,0,self.navBar).touchs(10,20,0,16);
+    [_ sizeThatWidth];
+    return _;
+}
+
+#pragma mark - 默认创建方法
 - (CGRect)tvFrame{
-    return JR(0, self.je_navBar.height, ScreenWidth, ScreenHeight - self.je_navBar.height - (self.presentingViewController ? ScreenStatusBarH : 0));
+    return JR(0, self.navBar.height, ScreenWidth, ScreenHeight - self.navBar.height - (self.presentingViewController ? ScreenStatusBarH : 0));
 }
 
 - (JEStaticTableView *)staticTv{
@@ -133,6 +162,24 @@
 
 - (void)touchesBegan:(nonnull NSSet *)touches withEvent:(nullable UIEvent *)event{
     [self.view endEditing:YES];
+}
+
+#pragma mark -   dark
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [self handelStyleDark];
+}
+
+- (void)handelStyleDark{
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        BOOL dark = (mode == UIUserInterfaceStyleDark);
+        
+        if (JEShare.VCBgClr) {self.view.backgroundColor = dark ? UIColor.blackColor : JEShare.VCBgClr;}
+        if (_navBar) {
+            _navBar.backgroundColor = dark ? UIColor.blackColor : JEShare.navBarClr;
+            _navTitleLable.textColor = dark ? UIColor.whiteColor : JEShare.navTitleClr;
+        }
+    }
 }
 
 @end

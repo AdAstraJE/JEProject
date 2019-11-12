@@ -117,7 +117,7 @@
 #pragma mark - UI 相关设置
 
 - (void)setup_KWWebViewUI{
-    [self je_rightNavBtn:(JEBundleImg(@"ic_navAction").clr(self.je_ctrlVC.je_navBarItemClr)) target:self act:@selector(webShareClick)];
+    [self rightNavBtn:(JEBundleImg(@"ic_navAction").clr(JEShare.navBarItemClr)) target:self act:@selector(webShareClick)];
     
     NSURLRequest *request = (NSURLRequest *)_URL;
     if ([_URL isKindOfClass:[NSURL class]]) {
@@ -138,7 +138,7 @@
     
     //打开网页
     if ([request isKindOfClass:NSURLRequest.class] && request.URL.absoluteString.isNetUrl) {
-        [self.je_Btn_back je_resetImg:JEBundleImg(@"ic_navClose").clr(self.je_ctrlVC.je_navBarItemClr)];
+        [self.navBackButton je_resetImg:JEBundleImg(@"ic_navClose").clr(JEShare.navBarItemClr)];
     }
     
     if ([request isKindOfClass:NSURLRequest.class] && [@[@"md",@"txt",@"json",@"plist",@"h",@"m"] containsObject:[request.URL.absoluteString pathExtension].lowercaseString]) {

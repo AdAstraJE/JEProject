@@ -23,12 +23,7 @@ static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点
         _.titleLabel.font = font;
     }
     
-    if (clr) {
-        [_ setTitleColor:clr forState:UIControlStateNormal];
-        [_ setTitleColor:clr.alpha_(jkAlpha_simple) forState:UIControlStateHighlighted];
-    }else{
-        clr = UIColor.whiteColor;
-    }
+    if (clr) { [_ je_resetTitleClr:clr];}
     
     if (target) { [_ addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];}
     
@@ -67,11 +62,15 @@ static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点
 
 - (void)setText:(NSString *)text{
     [self setTitle:text forState:UIControlStateNormal];
-    
 }
 
 - (void)je_addBgImg:(UIColor *)color rad:(CGFloat)rad{
-    UIImage *image = [UIImage je_clr:color size:self.size];
+    UIImage *image;
+    if ([color isKindOfClass:NSArray.class]) {
+        image = [UIImage je_gradualColors:(id)color size:self.size type:ImageJEGradualType2];
+    }else{
+        image = [UIImage je_clr:color size:self.size];
+    }
     if (rad != 0) {image = [image imageByRoundCornerRadius:rad];}
     [self setBackgroundImage:image forState:UIControlStateNormal];
     [self setBackgroundImage:image.alpha(jkAlpha_bg) forState:UIControlStateHighlighted];
@@ -82,6 +81,11 @@ static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点
     bgImg = [bgImg imageByRoundCornerRadius:rad corners:UIRectCornerAllCorners borderWidth:width borderColor:clr borderLineJoin:kCGLineJoinRound];
     [self setBackgroundImage:bgImg forState:UIControlStateNormal];
     [self setBackgroundImage:bgImg.alpha(jkAlpha_simple) forState:UIControlStateHighlighted];
+}
+
+- (void)je_resetTitleClr:(UIColor *)clr{
+    [self setTitleColor:clr forState:UIControlStateNormal];
+    [self setTitleColor:clr.alpha_(jkAlpha_simple) forState:UIControlStateHighlighted];
 }
 
 - (void)je_resetImg:(UIImage *)img{

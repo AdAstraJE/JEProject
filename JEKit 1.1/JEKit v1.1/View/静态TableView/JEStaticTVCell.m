@@ -21,18 +21,21 @@
 }
 
 - (UILabel *)La_title{
-    if (_La_title == nil) {_La_title = [UILabel Frame:CGRectZero text:nil font:JEShare.stc.titleFont color:JEShare.stc.titleColor].addTo(self.contentView);}
+    if (_La_title == nil) {
+        _La_title = JELab(CGRectZero,nil,JEShare.stc.titleFont,JEShare.stc.titleColor,(0),self.contentView);
+        [self handelStyleDark];
+    }
     return _La_title;
 }
 
 - (UILabel *)La_detail{
     if (_La_detail == nil) {
-        _La_detail = [UILabel Frame:CGRectZero text:nil font:JEShare.stc.detailFont color:JEShare.stc.detailColor].addTo(self.contentView); }
+        _La_detail = JELab(CGRectZero,nil,JEShare.stc.detailFont,JEShare.stc.detailColor,(0),self.contentView); }
     return _La_detail;
 }
 
 - (UILabel *)La_desc{
-    if (_La_desc == nil) {_La_desc = [UILabel Frame:CGRectZero text:nil font:JEShare.stc.descFont color:JEShare.stc.descColor align:NSTextAlignmentRight].addTo(self.contentView);}
+    if (_La_desc == nil) {_La_desc = JELab(CGRectZero,nil,JEShare.stc.descFont,JEShare.stc.descColor,(2),self.contentView);}
     return _La_desc;
 }
 
@@ -96,6 +99,21 @@
     }
     
     return self;
+}
+
+#pragma mark -   dark
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [self handelStyleDark];
+}
+
+- (void)handelStyleDark{
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        BOOL dark = mode == UIUserInterfaceStyleDark;
+        _La_title.textColor = dark ? UIColor.whiteColor : JEShare.stc.titleColor;
+        _La_desc.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.8] : JEShare.stc.descColor;
+        _La_detail.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.8] : JEShare.stc.detailColor;
+    }
 }
 
 @end

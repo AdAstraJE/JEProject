@@ -9,7 +9,7 @@
 #pragma mark - Setters
 
 - (void)dealloc {
-    _placeHolder = nil;
+    _placeholder = nil;
     _placeHolderTextColor = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
 }
@@ -51,8 +51,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(JETextViewDidChange) name:UITextViewTextDidChangeNotification object:self];
 }
 
-- (void)setPlaceHolder:(NSString *)placeHolder {
-    _placeHolder = placeHolder;
+- (void)setPlaceholder:(NSString *)placeHolder {
+    _placeholder = placeHolder;
     self.La_placeHolder.text = placeHolder;
     [self JETextViewDidChange];
 }

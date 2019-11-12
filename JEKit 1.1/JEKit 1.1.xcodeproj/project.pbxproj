@@ -13,6 +13,7 @@
 		89122B882344C57500504741 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89122B872344C57500504741 /* Assets.xcassets */; };
 		89122B8B2344C57500504741 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89122B892344C57500504741 /* LaunchScreen.storyboard */; };
 		89122B8E2344C57500504741 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89122B8D2344C57500504741 /* main.m */; };
+		8954C08F237AB3A10047085A /* UIViewController+JEHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954C08E237AB3A10047085A /* UIViewController+JEHUD.m */; };
 		896BFBAF23557BBB00B64BBF /* DataBaseTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBA923557BBB00B64BBF /* DataBaseTestVC.m */; };
 		896BFBB023557BBB00B64BBF /* H3DetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBAB23557BBB00B64BBF /* H3DetailVC.m */; };
 		896BFBB123557BBB00B64BBF /* H3GameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBAC23557BBB00B64BBF /* H3GameModel.m */; };
@@ -39,7 +40,6 @@
 		899F074A2344D10A00BA89AD /* NSDictionary+JE.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06D82344D10A00BA89AD /* NSDictionary+JE.m */; };
 		899F074B2344D10A00BA89AD /* NSTimer+JE.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06DA2344D10A00BA89AD /* NSTimer+JE.m */; };
 		899F074C2344D10A00BA89AD /* NSDate+JE.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06DC2344D10A00BA89AD /* NSDate+JE.m */; };
-		899F074D2344D10A00BA89AD /* UIViewController+JENavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06DE2344D10A00BA89AD /* UIViewController+JENavBar.m */; };
 		899F074E2344D10A00BA89AD /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06E22344D10A00BA89AD /* UINavigationController+FDFullscreenPopGesture.m */; };
 		899F074F2344D10A00BA89AD /* UIViewController+JE.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06E32344D10A00BA89AD /* UIViewController+JE.m */; };
 		899F07502344D10A00BA89AD /* JESecret.plist in Resources */ = {isa = PBXBuildFile; fileRef = 899F06E52344D10A00BA89AD /* JESecret.plist */; };
@@ -94,6 +94,8 @@
 		89122B8A2344C57500504741 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89122B8C2344C57500504741 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89122B8D2344C57500504741 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8954C08D237AB3A10047085A /* UIViewController+JEHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JEHUD.h"; sourceTree = "<group>"; };
+		8954C08E237AB3A10047085A /* UIViewController+JEHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+JEHUD.m"; sourceTree = "<group>"; };
 		896BFBA823557BBB00B64BBF /* DataBaseTestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBaseTestVC.h; sourceTree = "<group>"; };
 		896BFBA923557BBB00B64BBF /* DataBaseTestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBaseTestVC.m; sourceTree = "<group>"; };
 		896BFBAB23557BBB00B64BBF /* H3DetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H3DetailVC.m; sourceTree = "<group>"; };
@@ -147,10 +149,8 @@
 		899F06DA2344D10A00BA89AD /* NSTimer+JE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+JE.m"; sourceTree = "<group>"; };
 		899F06DB2344D10A00BA89AD /* NSString+JE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JE.h"; sourceTree = "<group>"; };
 		899F06DC2344D10A00BA89AD /* NSDate+JE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+JE.m"; sourceTree = "<group>"; };
-		899F06DE2344D10A00BA89AD /* UIViewController+JENavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+JENavBar.m"; sourceTree = "<group>"; };
 		899F06DF2344D10A00BA89AD /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		899F06E02344D10A00BA89AD /* UIViewController+JE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JE.h"; sourceTree = "<group>"; };
-		899F06E12344D10A00BA89AD /* UIViewController+JENavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JENavBar.h"; sourceTree = "<group>"; };
 		899F06E22344D10A00BA89AD /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		899F06E32344D10A00BA89AD /* UIViewController+JE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+JE.m"; sourceTree = "<group>"; };
 		899F06E52344D10A00BA89AD /* JESecret.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = JESecret.plist; sourceTree = "<group>"; };
@@ -406,12 +406,12 @@
 		899F06DD2344D10A00BA89AD /* ControlVC */ = {
 			isa = PBXGroup;
 			children = (
-				899F06E12344D10A00BA89AD /* UIViewController+JENavBar.h */,
-				899F06DE2344D10A00BA89AD /* UIViewController+JENavBar.m */,
 				899F06DF2344D10A00BA89AD /* UINavigationController+FDFullscreenPopGesture.h */,
 				899F06E22344D10A00BA89AD /* UINavigationController+FDFullscreenPopGesture.m */,
 				899F06E02344D10A00BA89AD /* UIViewController+JE.h */,
 				899F06E32344D10A00BA89AD /* UIViewController+JE.m */,
+				8954C08D237AB3A10047085A /* UIViewController+JEHUD.h */,
+				8954C08E237AB3A10047085A /* UIViewController+JEHUD.m */,
 			);
 			path = ControlVC;
 			sourceTree = "<group>";
@@ -708,7 +708,6 @@
 				899F07712344D10A00BA89AD /* JENetWorking.m in Sources */,
 				899F074E2344D10A00BA89AD /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				89A5254D2345D5C0009DF97F /* tempVC.m in Sources */,
-				899F074D2344D10A00BA89AD /* UIViewController+JENavBar.m in Sources */,
 				899F07492344D10A00BA89AD /* NSArray+JE.m in Sources */,
 				896BFBB023557BBB00B64BBF /* H3DetailVC.m in Sources */,
 				899F075B2344D10A00BA89AD /* JEStaticTVCell.m in Sources */,
@@ -749,6 +748,7 @@
 				899F07372344D10A00BA89AD /* JEBLECommand.m in Sources */,
 				899F07482344D10A00BA89AD /* NSObject+JE.m in Sources */,
 				896BFBB423557C1000B64BBF /* UIImage+animatedGIF.m in Sources */,
+				8954C08F237AB3A10047085A /* UIViewController+JEHUD.m in Sources */,
 				899F07672344D10A00BA89AD /* JEPutDownMenuView.m in Sources */,
 				899F075F2344D10A00BA89AD /* JERefreshFooter.m in Sources */,
 				899F073F2344D10A00BA89AD /* UIImageView+JE.m in Sources */,

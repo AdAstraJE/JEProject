@@ -53,7 +53,7 @@ static NSInteger const jkHeadFootLabelMargin = 15;///<
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (_adjustHeaderHeight != 0) {
+    if (_adjustHeaderHeight != 0 && _Arr_headerTitle[section].length != 0) {
         return [self adjustHeadFoot:_Arr_headerTitle value:_adjustHeaderHeight section:section] + jkHeadFootLabelMargin;
     }
     return self.sectionHeaderHeight;

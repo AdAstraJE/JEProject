@@ -310,12 +310,8 @@ static NSArray <NSString *> *jkRandomArr;///<
 }
 
 - (void)callTelephone{
-    UIWebView *callWebview = [[UIWebView alloc]init];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",self.delSpace]];
-    if([[UIApplication sharedApplication] canOpenURL:url]){
-        [callWebview loadRequest:[NSURLRequest requestWithURL:url]];
-        [([[UIApplication sharedApplication] delegate]).window addSubview:callWebview];
-    }
+    NSMutableString *str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",self.delSpace];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
 
 #pragma mark - 网站地址 转码 解码

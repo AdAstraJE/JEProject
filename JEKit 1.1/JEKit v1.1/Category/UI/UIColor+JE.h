@@ -15,7 +15,7 @@
 #define Clr_yellow        (kHexColor(0xffcc00))
 #define Clr_orange        (kHexColor(0xff9500))
 #define Clr_pink          (kHexColor(0xff2d55))
-#define Clr_green         (kHexColor(0x4cd964))
+#define Clr_green         (kRGB(67, 199, 89))
 #define Clr_red           (kHexColor(0xff3b30))
 
 #define Clr_txt          (kHexColor(0x202020))

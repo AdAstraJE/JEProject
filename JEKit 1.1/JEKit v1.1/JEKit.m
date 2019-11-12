@@ -35,8 +35,13 @@ static JEKit* _sharedManager;
 /** 默认UI */
 - (void)defaultTheme{
     _HUDClr = UIColor.blackColor;
-    _textClr = (kHexColor(0x333333));
     _VCBgClr = (kRGB(244, 245, 246));
+    
+    _navBarClr = UIColor.whiteColor;
+    _navBarLineClr = kHexColorA(0xCCCCCC,0.6);
+    _navBarItemClr = Clr_blue;
+    _navTitleClr = Clr_txt;
+    
     _tvSepClr = (kRGB(220, 220, 220));
     
     _sharedManager.listMgr_beginPage = 1;
@@ -84,14 +89,11 @@ static JEKit* _sharedManager;
 
 #pragma mark -
 
-/** 延迟执行 */
 void delay (float time,void (^block)(void)){
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(),block);
 }
 
 #pragma mark - 从系统相册获取图片 | 拍照
-
-/** 从系统相册获取图片 [@"拍照",@"从相册中选择"]  返回修改过大小的图片  */
 + (void)PickImageWithTitle:(NSString*)title edit:(BOOL)edit pick:(pickImgBlock)block{
     JEKit *picker = [JEKit Shared];
 
@@ -105,14 +107,12 @@ void delay (float time,void (^block)(void)){
     }];
 }
 
-/** 从系统相册获取图片 直接使用相机或相册 */
 + (void)PickImageWithType:(UIImagePickerControllerSourceType)type edit:(BOOL)edit pick:(pickImgBlock)block{
     JEKit *picker = [JEKit Shared];
     picker->_pickImgBlock = block;
     [picker choosePhoto:type edit:edit];
 }
 
-//@"拍照",@"从相册中选择"
 - (void)choosePhoto:(UIImagePickerControllerSourceType)choosetype edit:(BOOL)edit{
     if(![UIImagePickerController isSourceTypeAvailable:choosetype]){
         return;
@@ -156,7 +156,6 @@ void delay (float time,void (^block)(void)){
 
 
 #pragma mark - 定位
-/** 获取当前位置 */
 + (void)Location:(jeLocationBlock)done{
     [JEKit Shared]->_locationBlock = done;
     [[JEKit Shared].locationManager startUpdatingLocation];

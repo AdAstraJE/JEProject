@@ -340,7 +340,7 @@
         return nil;
     }
     
-    UIGraphicsBeginImageContextWithOptions(size, NO, 1);
+    UIGraphicsBeginImageContextWithOptions(size, NO, 3);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
 //    CGColorSpaceRef colorSpace = CGColorGetColorSpace([[colors lastObject] CGColor]);

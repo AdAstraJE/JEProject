@@ -18,6 +18,12 @@ static CGFloat jkRadius = 3;/**< 倒角 */
 
 @implementation JEPutDownMenuCell
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self.backgroundColor = UIColor.whiteColor;
+    return self;
+}
+
 - (UILabel *)La_{
     if (!_La_) { _La_ = [UILabel Frame:CGRectMake(12, 0, self.width, self.height) text:nil font:@13 color:kTitleColor].addTo(self.contentView); }
     return _La_;

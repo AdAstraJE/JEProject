@@ -3,7 +3,7 @@
 
 @interface JETextView : UITextView<UITextViewDelegate>
 
-@property (nonatomic, copy) NSString *placeHolder;///< 提示用户输入的标语
+@property (nonatomic, copy) NSString *placeholder;///< 提示用户输入的标语
 @property (nonatomic, strong) UIColor *placeHolderTextColor;///< 标语文本的颜色
 
 /**  获取自身文本占据有多少行 */

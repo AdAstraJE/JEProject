@@ -2,15 +2,15 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, JEPopType) {
-    JEPopTypeMiddle,/**< 中间渐显 */
-    JEPopTypeBottom,/**< 从最下面上来 */
+    JEPopTypeMiddle,///< 中间渐显
+    JEPopTypeBottom,///< 从最下面上来 
     
 };
 
-/** 弹出的背景 */
+/// 弹出的背景
 @interface JEBaseBackView : UIView
 
-/**  [JEApp.window addSubview:[[view alloc] initWithFrame:JEApp.window.bounds]]; */
+///  [JEApp.window addSubview:[[view alloc] initWithFrame:JEApp.window.bounds]];
 + (instancetype)Show;
 
 - (instancetype)initWithFrame:(CGRect)frame contentHieht:(CGFloat)height;
@@ -20,7 +20,7 @@ typedef NS_ENUM(NSUInteger, JEPopType) {
 
 @property (nonatomic,strong) UIView *Ve_content;///< 主视图
 @property (nonatomic,strong) UIView *backView;
-@property (nonatomic,strong) UIView *maskView;
+@property (nonatomic,strong) UIVisualEffectView *maskView;
 
 - (void)resetWidth:(CGFloat)widht;
     

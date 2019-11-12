@@ -49,9 +49,9 @@ typedef NS_ENUM(NSUInteger, iPhoneScreenType) {
     iPhone5,        ///< 4.0inch   320x568   640x1136    @2x   0.5633
     iPhone6,        ///< 4.7inch   375x667   750x1334    @2x   0.5622    iPhone7,8
     iPhone6plus,    ///< 5.5inch   414x736   1242x2208   @3x   0.5625    iPhone7,8plus
-    iPhoneX,        ///< 5.8inch   375x812   1125x2436   @3x   0.4618    iPhoneXS
-    iPhoneXR,       ///< 6.1inch   414x896   828x1792    @2x   0.4618
-    iPhoneXMax,     ///< 6.5inch   414x896   1242x2688   @3x   0.4620
+    iPhoneX,        ///< 5.8inch   375x812   1125x2436   @3x   0.4618    iPhoneXS 11pro
+    iPhoneXR,       ///< 6.1inch   414x896   828x1792    @2x   0.4618    11
+    iPhoneXMax,     ///< 6.5inch   414x896   1242x2688   @3x   0.4620    
 };
 
 /** [@[@(<#iPhone4#>),@(<#iPhone5#>),@(<#iPhone6,7#>),@(<#iPhone6,7plus#>),@(<#iPhoneX#>)][[UIScreen ScreenType]] floatValue] */

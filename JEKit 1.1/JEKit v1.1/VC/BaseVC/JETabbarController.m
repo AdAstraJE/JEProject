@@ -17,6 +17,7 @@
 
 @implementation JETabbarController
 
+#pragma mark -
 - (BOOL)shouldAutorotate{
     return [self.selectedViewController shouldAutorotate];
 }
@@ -29,12 +30,10 @@
     return [self.selectedViewController preferredInterfaceOrientationForPresentation];
 }
 
-/** JETabbarController 默认样式 */
-- (instancetype)initWithVCs:(NSArray <UIViewController *>*)VCs titles:(NSArray <NSString *> *)titles imgs:(NSArray <NSArray <UIImage*> *> *)imgs theme:(void (^)(JETabbarController *_))block{
+#pragma mark -
+- (instancetype)initWithVCs:(NSArray <UIViewController *>*)VCs titles:(NSArray <NSString *> *)titles imgs:(NSArray <NSArray <UIImage*> *> *)imgs{
     self = [super init];
     self.delegate = self;
-    
-    !block ? : block(self);
     
     [self setupVCs:VCs titles:titles imgs:imgs];
 
@@ -51,13 +50,14 @@
     self.viewControllers = VCs;
 }
 
+#pragma mark -
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = JEShare.VCBgClr;
    
-    [[UITabBarItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, -3.5)];
-    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : Clr_txt99,NSFontAttributeName : [UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
-    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : Clr_txt33,NSFontAttributeName : [UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
+//    [[UITabBarItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, -3.5)];
+//    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : Clr_txt99,NSFontAttributeName : [UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
+//    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : Clr_txt33,NSFontAttributeName : [UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
 }
 
 - (void)hiddenTabbar:(NSArray <NSNumber *> *)indexArr{
@@ -72,7 +72,6 @@
     self.viewControllers = vcs;
 }
 
-/** 显示完全部tabbar */
 - (void)showAllTabbar{
     _Arr_titles = _Arr_titles_orgin.mutableCopy;
     _Arr_img = _Arr_img_orgin.mutableCopy;
@@ -88,12 +87,9 @@
     }
 }
 
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
-    JEBaseNavtion *nav = (JEBaseNavtion *)self.navigationController;
-    if ([nav isKindOfClass:[JEBaseNavtion class]]) {
-        [nav navigationController:nav didShowViewController:viewController animated:YES];
-    }
-    [self viewDidLayoutSubviews];
-}
+//#pragma mark -   
+//- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+//    [self viewDidLayoutSubviews];
+//}
 
 @end

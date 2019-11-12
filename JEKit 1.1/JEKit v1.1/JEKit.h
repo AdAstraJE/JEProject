@@ -24,7 +24,6 @@
  # pod 'skpsmtpmessage'
  # pod 'Bugly'
  # pod 'Masonry'
- # pod 'IQKeyboardManager'
  
  end
 */
@@ -38,7 +37,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 //------------------------------------------------------------------------------------
-#import "UIViewController+JENavBar.h"
+#import "UIViewController+JEHUD.h"
 #import "UIViewController+JE.h"
 #import "UITableViewCell+JE.h"
 #import "UIScrollView+JE.h"
@@ -123,18 +122,24 @@
 
 #pragma mark -
 @property (nonatomic,strong) UIColor *HUDClr;///<  HUD颜色 ### UIColor.blackColor
-@property (nonatomic,strong) UIColor *textClr;///<  文本颜色 ### 0x333333
 @property (nonatomic,strong) UIColor *themeClr;///<  主题颜色 ### nil
 @property (nonatomic,strong) UIColor *VCBgClr;/// VC background Color ### (kRGB(244, 245, 246))
+#pragma mark - "导航栏”
+@property (nonatomic,strong)  UIColor *navBarClr;///< 导航栏背景颜色 ### [UIColor whiteColor]
+@property (nonatomic,strong)  UIImage *navBarImage;///< 导航栏背景图片 ### nil
+@property (nonatomic,strong)  UIColor *navBarLineClr;///< 导航栏底部线条颜色 ### kHexColorA(0xCCCCCC,0.6)
+@property (nonatomic,strong)  UIColor *navBarItemClr;///< 返回键 左右控制键 按钮颜色 ### Clr_blue
+@property (nonatomic,strong)  UIColor *navTitleClr;///< 标题颜色
+#pragma mark - tableView
 @property (nonatomic,strong) UIColor *tvBgClr;///< tableView backgroundColor ### nil
 @property (nonatomic,strong) UIColor *tvSepClr;///< tableView separator 分割线颜色 ### kRGB(220, 220, 220)
-#pragma mark -
+#pragma mark - JEStvUIStyle
 @property (nonatomic,strong) JEStvUIStyle *stc;///< 静态 tableView 样式
-#pragma mark -
-@property (nonatomic,assign) NSInteger listMgr_beginPage;///< JEListManager --- beginPage ### 1, 网络字段 页数固定从X开始
-@property (nonatomic,copy)   NSString *listMgr_pageParam;///< JEListManager --- pageParam ### pageIndex, 网络字段
-@property (nonatomic,copy)   NSString *listMgr_rowsParam;///< JEListManager --- rowsParam ### pageSize, 网络字段
-@property (nonatomic,assign) NSInteger listMgr_rowsNum;  ///< JEListManager --- rowsNum   ### 15, 每页多少条
+#pragma mark - JEListManager
+@property (nonatomic,assign) NSInteger listMgr_beginPage;///< beginPage ### 1, 网络字段 页数固定从X开始
+@property (nonatomic,copy)   NSString *listMgr_pageParam;///< pageParam ### pageIndex, 网络字段
+@property (nonatomic,copy)   NSString *listMgr_rowsParam;///< rowsParam ### pageSize, 网络字段
+@property (nonatomic,assign) NSInteger listMgr_rowsNum;  ///< rowsNum   ### 15, 每页多少条
 #pragma mark -
 
 /// 延迟执行

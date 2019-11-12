@@ -183,7 +183,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
     [super viewDidLoad];
     _toDBlogNumber = 0;
     _Arr_orgin = [NSMutableArray array];
-    [self je_rightNavBtn:@"更多" target:self act:@selector(actionHandle)];//❖
+    [self rightNavBtn:@"更多" target:self act:@selector(actionHandle)];//❖
 
     //显示某个历史
     if (_historyDate) {
@@ -526,8 +526,8 @@ static JEDebugTool__* _sharedManager;
     _Btn_touch = JEBtn(JR(ScreenWidth - 50, 240,50, 50),@"on",@20,nil,self,@selector(closeOpen),Clr_red,12,nil);
     [_Btn_touch addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)]];
     self.nav = [[JEBaseNavtion alloc] initWithRootViewController:[[JEDebugMainVC alloc] init]];
-    self.nav.je_navBarItemClr = Clr_blue;
-    self.nav.je_navTitleClr = Clr_txt33;
+    JEShare.navBarItemClr = Clr_blue;
+    JEShare.navTitleClr = Clr_txt33;
     self.nav.view.hidden = YES;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

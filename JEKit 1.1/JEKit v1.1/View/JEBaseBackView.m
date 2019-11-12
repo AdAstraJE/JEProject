@@ -23,9 +23,9 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
     self.backgroundColor = kRGBA(0, 0, 0, 0.2);
     
     _backView =  JEVe(self.bounds, nil, self);//隐藏的点击背景
-    _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), Clr_white, self);
+    _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), UIColor.clearColor, self);
     _Ve_content.rad = 14;
-    _maskView = JEVe(_Ve_content.bounds, kRGBA(255, 255, 255, 0.8), _Ve_content);;
+    _maskView = JEEFVe(_Ve_content.bounds, UIBlurEffectStyleExtraLight, _Ve_content);
     
     return self;
 }
@@ -38,7 +38,6 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
 - (void)setPopType:(JEPopType)popType{
     _popType = popType;
     if (_popType == JEPopTypeBottom) {
-        _Ve_content.rad = 0;
         _Ve_content.height += ScreenSafeArea;
         _Ve_content.frame = CGRectMake(0, ScreenHeight, ScreenWidth, _Ve_content.height);
         _maskView.frame = _Ve_content.bounds;

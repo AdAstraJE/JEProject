@@ -20,7 +20,7 @@ static CGFloat const jkDuration = 0.2;///<
 }
 
 + (instancetype)ShowImgFrom:(UIImageView*)view tureImg:(UIImage*)tureimg {
-    return [JEShowImg ShowImgFrom:view tureImg:tureimg action:YES].addTo(JEApp.window);
+    return [JEShowImg ShowImgFrom:view tureImg:tureimg action:YES];
 }
 
 + (instancetype)ShowImgFrom:(UIImageView*)from tureImg:(UIImage*)tureImg action:(BOOL)action{
@@ -30,7 +30,7 @@ static CGFloat const jkDuration = 0.2;///<
         img = from.image;
     }
     if (img == nil) {return nil;}
-    JEShowImg *view = [[JEShowImg alloc] initWithFrame:JR(0, 0, kSW, kSH) from:from tureImg:tureImg action:action];
+    JEShowImg *view = [[JEShowImg alloc] initWithFrame:JR(0, 0, kSW, kSH) from:from tureImg:tureImg action:action].addTo(JEApp.window);
     return view;
 }
 

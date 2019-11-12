@@ -3,13 +3,14 @@
 #import "JEKit.h"
 #import "tempVC.h"
 #import "DataBaseTestVC.h"
+#import "JEWKWebviewVC.h"
 
 @implementation Tab_1VC
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"J".loc;
+    self.title = @"JE".loc;
     
     [self setupTab_1VC_UI];
     
@@ -43,9 +44,11 @@ JEBtn(JR(0,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnC
     JEStvIt_(nil,@"JEKit", nil, 1, ^(JEStvIt *item) {
         [tempVC ShowVC];
     }).to(arr);
-    JEStvIt_(nil,@"DataBase", nil, 1, ^(JEStvIt *item) {
+    JEStvIt *DataBase = JEStvIt_(nil,@"DataBase", @"DataBase", 1, ^(JEStvIt *item) {
         [DataBaseTestVC ShowVC];
     }).to(arr);
+    DataBase.detail = @"数据库";
+    
     self.staticTv.Arr_item = @[arr];
     
 //    self.liteTv = [JELiteTV Frame:self.tvFrame style:0 cellC:UITableViewCell.class cellH:80 cell:^(__kindof UITableViewCell * _Nonnull cell, UITableView * _Nonnull tv, NSIndexPath * _Nonnull idxP, id  _Nonnull obj) {
