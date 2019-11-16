@@ -37,13 +37,17 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = JEShare.VCBgClr;
+    self.backgroundColor = JEShare.VCBgClr;
     
     if (!_disableNavBar) { [self navBar];}
     
     [self handelStyleDark];
 }
 
+- (void)setBackgroundColor:(UIColor *)backgroundColor{
+    _backgroundColor = backgroundColor;
+    self.view.backgroundColor = backgroundColor;
+}
 
 #pragma mark - 默认navBar
 - (UIView *)navBar{
@@ -173,8 +177,7 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
     if (@available(iOS 13.0, *)) {
         UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
         BOOL dark = (mode == UIUserInterfaceStyleDark);
-        
-        if (JEShare.VCBgClr) {self.view.backgroundColor = dark ? UIColor.blackColor : JEShare.VCBgClr;}
+        self.view.backgroundColor = dark ? UIColor.blackColor : _backgroundColor;
         if (_navBar) {
             _navBar.backgroundColor = dark ? UIColor.blackColor : JEShare.navBarClr;
             _navTitleLable.textColor = dark ? UIColor.whiteColor : JEShare.navTitleClr;

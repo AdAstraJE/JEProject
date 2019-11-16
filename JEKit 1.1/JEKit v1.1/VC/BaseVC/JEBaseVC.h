@@ -5,8 +5,9 @@
 @class JELiteTV;
 @class JEButton;
 
-
 @interface JEBaseVC : UIViewController
+
+@property (nonatomic,strong) UIColor *backgroundColor;///< 
 
 #pragma mark - navBar
 @property (nonatomic,assign) BOOL disableNavBar;///< 不使用自定义navBar ### NO
@@ -33,5 +34,8 @@
 
 /// 默认Frame的tableView创建方法 
 - (JETableView *)defaultTv:(UITableViewStyle)style cell:(id)cellClass;
+
+/// 黑暗模式
+- (void)handelStyleDark;
 
 @end

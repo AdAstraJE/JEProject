@@ -26,6 +26,7 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
     _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), UIColor.clearColor, self);
     _Ve_content.rad = 14;
     _maskView = JEEFVe(_Ve_content.bounds, UIBlurEffectStyleExtraLight, _Ve_content);
+    [self handelStyleDark];
     
     return self;
 }
@@ -66,6 +67,19 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
+}
+
+#pragma mark - StyleDark 黑暗模式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [self handelStyleDark];
+}
+
+- (void)handelStyleDark{
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        BOOL dark = (mode == UIUserInterfaceStyleDark);
+        _maskView.effect = [UIBlurEffect effectWithStyle:dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight];
+    }
 }
 
 @end

@@ -111,8 +111,8 @@
         UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
         BOOL dark = mode == UIUserInterfaceStyleDark;
         _La_title.textColor = dark ? UIColor.whiteColor : JEShare.stc.titleColor;
-        _La_desc.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.8] : JEShare.stc.descColor;
-        _La_detail.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.8] : JEShare.stc.detailColor;
+        _La_desc.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.7] : JEShare.stc.descColor;
+        _La_detail.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.7] : JEShare.stc.detailColor;
     }
 }
 

@@ -13,7 +13,7 @@ typedef void(^JEStvSwitchBlock)(JEStvIt *item,BOOL on);///< cell switch valueCha
 /** 默认样式 */
 + (JEStvUIStyle *)DefaultStyle;
 
-@property (nonatomic,strong) UIColor *backgroundColor;///<   ### nil
+@property (nonatomic,strong) UIColor *backgroundColor;///<   ### JEShare.VCBgClr
 @property (nonatomic,assign) CGFloat sectionHeaderHeight;///< ### 12
 @property (nonatomic,assign) CGFloat sectionFooterHeight;///< ### 1
 @property (nonatomic,assign) CGFloat defaultCellHeight;///< ### 48

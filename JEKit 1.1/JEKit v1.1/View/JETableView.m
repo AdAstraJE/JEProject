@@ -125,7 +125,9 @@
         UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
         BOOL dark = (mode == UIUserInterfaceStyleDark);
         if (JEShare.tvSepClr) {self.separatorColor = dark ? [UIColor colorWithRed:0.33 green:0.33 blue:0.35 alpha:0.6] : JEShare.tvSepClr;}
-        if (JEShare.tvBgClr) {self.backgroundColor = dark ? UIColor.blackColor : JEShare.tvBgClr;}
+        if (JEShare.tvBgClr) {
+            self.backgroundColor = dark ? UIColor.blackColor : JEShare.tvBgClr;
+        }
     }
 }
 

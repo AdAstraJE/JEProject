@@ -94,15 +94,11 @@
 /** 在发送请求之前，决定是否跳转 */
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
     NSURL *url = navigationAction.request.URL;
-    if ([url.scheme isEqualToString:@"tel"] || [url.absoluteString containsString:@"ituns.apple.com"]) {
+    if ([url.scheme hasPrefix:@"itms-appss"] || [url.scheme isEqualToString:@"tel"] || [url.absoluteString containsString:@"ituns.apple.com"]) {
         [[UIApplication sharedApplication] openURL:navigationAction.request.URL options:@{UIApplicationOpenURLOptionsSourceApplicationKey:@YES} completionHandler:nil];
         [self.Nav popViewControllerAnimated:NO];
     }
-    
-    //    if (navigationAction.navigationType == WKNavigationTypeLinkActivated) { // 对于跨域，需要手动跳转
-    //        [[UIApplication sharedApplication] openURL:navigationAction.request.URL];
-    //        decisionHandler(WKNavigationActionPolicyCancel);return; // 不允许web内跳转
-    //    }
+
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
@@ -135,7 +131,7 @@
             if ([str hasPrefix:prefix]) { request = [NSURLRequest requestWithURL:[str substringFromIndex:prefix.length].url];break;}
         }
     }
-    
+
     //打开网页
     if ([request isKindOfClass:NSURLRequest.class] && request.URL.absoluteString.isNetUrl) {
         [self.navBackButton je_resetImg:JEBundleImg(@"ic_navClose").clr(JEShare.navBarItemClr)];

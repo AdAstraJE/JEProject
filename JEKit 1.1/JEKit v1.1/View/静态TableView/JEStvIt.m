@@ -10,6 +10,7 @@
 
 + (JEStvUIStyle *)DefaultStyle{
     JEStvUIStyle *mod = [[JEStvUIStyle alloc] init];
+    mod.backgroundColor = JEShare.VCBgClr;
     mod.sectionHeaderHeight = 12.0f;
     mod.sectionFooterHeight = 1.0f;
     mod.defaultCellHeight = MAX(48.0f, ScrnAdapt(48.0f));

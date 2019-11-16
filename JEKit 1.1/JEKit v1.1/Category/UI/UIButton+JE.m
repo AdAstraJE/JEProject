@@ -36,7 +36,7 @@ static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点
     _.adjustsImageWhenHighlighted = NO;
     if ([img isKindOfClass:UIColor.class]) {
         [_ je_addBgImg:(UIColor *)img rad:rad];
-        [_ setTitleColor:clr.alpha_(jkAlpha_bg) forState:UIControlStateHighlighted];
+        [_ setTitleColor:((UIColor *)img).alpha_(jkAlpha_bg) forState:UIControlStateHighlighted];
     }
     else if ([img isKindOfClass:NSArray.class]){
         image = [UIImage je_gradualColors:img size:frame.size type:ImageJEGradualType2];

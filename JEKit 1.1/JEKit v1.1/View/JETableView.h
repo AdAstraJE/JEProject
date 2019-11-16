@@ -27,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 跟随滑动拉伸效果传入 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 
+/// dark
+- (void)handelStyleDark;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -76,6 +76,8 @@ static CGFloat const jkDuration = 0.2;///<
     
     _original = _ImgV.frame;
     
+    [self handelStyleDark];
+    
     return self;
 }
 
@@ -136,6 +138,19 @@ static CGFloat const jkDuration = 0.2;///<
         }];
     }
     
+}
+
+#pragma mark - StyleDark 黑暗模式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [self handelStyleDark];
+}
+
+- (void)handelStyleDark{
+    if (@available(iOS 13.0, *)) {
+        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
+        BOOL dark = (mode == UIUserInterfaceStyleDark);
+        _Ve_effect.effect = [UIBlurEffect effectWithStyle:dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight];
+    }
 }
 
 //- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
