@@ -43,7 +43,7 @@ UIKIT_EXTERN  UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__
 - (void)je_triangle;
     
 - (void)addShdow;///< 默认的阴影效果
-- (__kindof UIView *)addRectShdow;///< 全边框阴影效果
+- (__kindof UIView *)je_shadowRad:(CGFloat)rad edge:(CGFloat)edge clr:(UIColor *)clr;///< 全边框阴影效果
 
 - (void)removeWithClass:(Class)classV;///< remove对应class的view
 - (void)border:(UIColor *)color width:(CGFloat)width;///< 添加边框

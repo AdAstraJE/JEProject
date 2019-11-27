@@ -328,7 +328,6 @@
     return newImage;
 }
 
-/** 渐变色 左到右*/
 + (UIImage*)je_gradualColors:(NSArray <UIColor *>*)colors size:(CGSize)size type:(ImageJEGradualType)type{
     NSMutableArray *ar = [NSMutableArray array];
    
@@ -343,7 +342,6 @@
     UIGraphicsBeginImageContextWithOptions(size, NO, 3);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
-//    CGColorSpaceRef colorSpace = CGColorGetColorSpace([[colors lastObject] CGColor]);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (CFArrayRef)ar, NULL);

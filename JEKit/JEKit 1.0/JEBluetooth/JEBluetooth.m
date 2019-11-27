@@ -86,9 +86,11 @@ static JEBluetooth *_instance;
 
 /** 尝试连接 以前连接过的设备 */
 - (void)reconnectHistoryPeripheral{
-    if ([JEBLEDevice HistoryDevices].count) {
-        _reconnectHistoryDevice = YES;
+    if ([JEBLEDevice HistoryDevices].count == 0) {
+        return;
     }
+    
+    _reconnectHistoryDevice = YES;
     [self willConnectHistoryPeripheral];
 }
 

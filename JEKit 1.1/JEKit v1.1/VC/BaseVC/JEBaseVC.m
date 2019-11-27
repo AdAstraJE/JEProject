@@ -39,7 +39,7 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
     [super viewDidLoad];
     self.backgroundColor = JEShare.VCBgClr;
     
-    if (!_disableNavBar) { [self navBar];}
+    if (!_disableNavBar) { [self createNavBar];}
     
     [self handelStyleDark];
 }
@@ -50,32 +50,28 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
 }
 
 #pragma mark - 默认navBar
-- (UIView *)navBar{
-    if (_navBar == nil) {
-        CGFloat height = self.presentingViewController ? JKPresentingNavH : ScreenNavBarH;
-        UIView *_ = JEVe(JR(0, 0, ScreenWidth, height),JEShare.navBarClr, self.view);
-        if (JEShare.navBarImage) {JEImg(_.bounds,JEShare.navBarImage,_);}
-        
-        {
-            CGFloat x = self.presentingViewController ? 14 : (ScreenStatusBarH + 6);
-            UILabel *la = JELab(JR(50,x, ScreenWidth - 50*2, 30),self.title,fontM(18),JEShare.navTitleClr,(1),_);
-            la.adjustsFontSizeToFitWidth = YES;
-            la.backgroundColor = [UIColor clearColor];
-            _navTitleLable = la;
-        }
-        
-        if (JEShare.navBarImage == nil && JEShare.navBarClr == UIColor.whiteColor) {
-            _navBarline = JEVe(JR(0, _.height - 0.5, _.width, 0.5), JEShare.navBarLineClr, _);
-        }
-        
-        if (self.Nav.viewControllers.count > 1) {
-            UIImage *image = JEBundleImg(@"ic_navBack").clr(JEShare.navBarItemClr);
-            _navBackButton = JEBtn(JR(3, ScreenStatusBarH + (kNavBarH44 - 26)/2, 26, 26),nil,_navTitleLable.font ? : font(17),JEShare.navBarItemClr,self,@selector(navBackButtonClick),image,0,_).touchs(ScreenStatusBarH,3,20,40);
-        }
-        self.navBar = _;
-        
+- (void)createNavBar{
+    CGFloat height = self.presentingViewController ? JKPresentingNavH : ScreenNavBarH;
+    UIView *_ = JEVe(JR(0, 0, ScreenWidth, height),JEShare.navBarClr, self.view);
+    if (JEShare.navBarImage) {JEImg(_.bounds,JEShare.navBarImage,_);}
+    
+    {
+        CGFloat x = self.presentingViewController ? 14 : (ScreenStatusBarH + 6);
+        UILabel *la = JELab(JR(50,x, ScreenWidth - 50*2, 30),self.title,fontM(18),JEShare.navTitleClr,(1),_);
+        la.adjustsFontSizeToFitWidth = YES;
+        la.backgroundColor = [UIColor clearColor];
+        _navTitleLable = la;
     }
-    return _navBar;
+    
+    if (JEShare.navBarImage == nil && JEShare.navBarClr == UIColor.whiteColor) {
+        _navBarline = JEVe(JR(0, _.height - 0.5, _.width, 0.5), JEShare.navBarLineClr, _);
+    }
+    
+    if (self.Nav.viewControllers.count > 1) {
+        UIImage *image = JEBundleImg(@"ic_navBack").clr(JEShare.navBarItemClr);
+        _navBackButton = JEBtn(JR(3, ScreenStatusBarH + (kNavBarH44 - 26)/2, 26, 26),nil,_navTitleLable.font ? : font(17),JEShare.navBarItemClr,self,@selector(navBackButtonClick),image,0,_).touchs(ScreenStatusBarH,3,20,40);
+    }
+    _navBar = _;
 }
 
 - (void)navBackButtonClick{
@@ -115,14 +111,14 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
     CGFloat h = self.presentingViewController ? JKPresentingNavH : kNavBarH44;
     UIFont *font = self.presentingViewController ? fontM(17) : font(17);
     
-    JEButton *_ = JEBtn(JR(-1,x, -1, h),title,font,JEShare.navBarItemClr,target,selector,img,0,self.navBar).touchs(10,20,0,16);
+    JEButton *_ = JEBtn(JR(-1,x, -1, h),title,font,JEShare.navBarItemClr,target,selector,img,0,_navBar).touchs(10,20,0,16);
     [_ sizeThatWidth];
     return _;
 }
 
 #pragma mark - 默认创建方法
 - (CGRect)tvFrame{
-    return JR(0, self.navBar.height, ScreenWidth, ScreenHeight - self.navBar.height - (self.presentingViewController ? ScreenStatusBarH : 0));
+    return JR(0, _navBar.height, ScreenWidth, ScreenHeight - _navBar.height - (self.presentingViewController ? ScreenStatusBarH : 0));
 }
 
 - (JEStaticTableView *)staticTv{

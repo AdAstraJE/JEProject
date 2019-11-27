@@ -470,7 +470,13 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
                 @"kSKPSMTPPartContentTransferEncodingKey" : @"base64"
                 };
     [mail setValue:@[plainPart,vcfPart] forKey:@"parts"];
-    [mail performSelectorOnMainThread:@selector(send) withObject:nil waitUntilDone:YES];
+    @try {
+        [mail performSelectorOnMainThread:@selector(send) withObject:nil waitUntilDone:YES];
+    } @catch (NSException *exception) {
+        [JEApp.window.rootViewController showHUD:Format(@"%@%@",@"失败",exception.description) type:(HUDMarkTypefailure)];
+    } @finally {
+        
+    }
 }
 
 - (void)send{}

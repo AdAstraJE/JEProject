@@ -127,6 +127,16 @@ UIView * JEVe(CGRect rect,UIColor *clr,__kindof UIView *addTo){
     return self;
 }
 
+- (__kindof UIView *)je_shadowRad:(CGFloat)rad edge:(CGFloat)edge clr:(UIColor *)clr{
+    [self layoutIfNeeded];
+    self.layer.cornerRadius = rad;
+    self.layer.shadowOffset = CGSizeMake(-edge, -edge);
+    self.layer.shadowColor = clr ? clr.CGColor : [UIColor colorWithRed:0 green:0 blue:0 alpha:0.16].CGColor;
+    self.layer.shadowOpacity = 0.8;
+    self.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0,0, self.width + fabs(edge)*2, self.height + fabs(edge)*2) cornerRadius:rad].CGPath;
+    return self;
+}
+
 - (void)removeWithClass:(Class)classV{
     for (UIView *view in self.subviews) {
         if ([view isKindOfClass:classV]) {

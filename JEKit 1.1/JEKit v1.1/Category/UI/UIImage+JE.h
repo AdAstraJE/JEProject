@@ -57,10 +57,10 @@ typedef NS_ENUM(NSUInteger, ImageJEWaterMarkType) {
 
 /// 渐变色类型
 typedef NS_ENUM(NSUInteger, ImageJEGradualType) {
-    ImageJEGradualType1,///< 上到下
-    ImageJEGradualType2,///< 左到右
-    ImageJEGradualType3,///< 左上到右下
-    ImageJEGradualType4,///< 右上到左下
+    ImageJEGradualType1 = 0,///< 上到下
+    ImageJEGradualType2 = 1,///< 左到右
+    ImageJEGradualType3 = 2,///< 左上到右下
+    ImageJEGradualType4 = 3,///< 右上到左下
 };
 
 /// 渐变色图片 左到右

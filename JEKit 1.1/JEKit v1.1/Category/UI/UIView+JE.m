@@ -126,13 +126,13 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
     self.layer.shadowPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, self.height - 1, self.width, 1)].CGPath;
 }
 
-- (__kindof UIView *)addRectShdow{
+- (__kindof UIView *)je_shadowRad:(CGFloat)rad edge:(CGFloat)edge clr:(UIColor *)clr{
     [self layoutIfNeeded];
-    CGFloat LR = -2,TB = -2;
-    self.layer.shadowOffset = CGSizeMake(LR, TB);
-    self.layer.shadowColor = [UIColor colorWithRed:225.0f/255.0f green:225.0f/255.0f blue:225.0f/255.0f alpha:1].CGColor;
+    self.layer.shadowOffset = CGSizeMake(-edge, -edge);
+    self.layer.shadowColor = clr ? clr.CGColor : [UIColor colorWithRed:225.0f/255.0f green:225.0f/255.0f blue:225.0f/255.0f alpha:1].CGColor;
     self.layer.shadowOpacity = 0.8;
-    self.layer.shadowPath = [UIBezierPath bezierPathWithRect:CGRectMake(0,0, self.width + LR*2, self.height + TB*2)].CGPath;
+    self.layer.cornerRadius = rad;
+    self.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0,0, self.width + fabs(edge)*2, self.height + fabs(edge)*2) cornerRadius:rad].CGPath;
     return self;
 }
 

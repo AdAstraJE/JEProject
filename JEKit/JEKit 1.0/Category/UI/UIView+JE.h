@@ -50,6 +50,7 @@ UIKIT_EXTERN  UIView * JEVe(CGRect rect,UIColor *clr,__kindof UIView *addTo);
     
 - (void)addShdow;/**< 默认的阴影效果 */
 - (__kindof UIView *)addRectShdow;/**< 全边框阴影效果 */
+- (__kindof UIView *)je_shadowRad:(CGFloat)rad edge:(CGFloat)edge clr:(UIColor *)clr;
 
 - (void)removeWithClass:(Class)classV;/**< remove对应class的view */
 - (void)border:(UIColor *)color width:(CGFloat)width;/**< 添加边框 */

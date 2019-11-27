@@ -49,7 +49,7 @@
     if (_Swi == nil) {
         _Swi = [[UISwitch alloc] init].addTo(self.contentView);
         [_Swi addTarget:self action:@selector(swiValueChange) forControlEvents:UIControlEventValueChanged];
-        if (JEShare.stc.swiColor) { _Swi.tintColor =  _Swi.onTintColor = JEShare.stc.swiColor; }
+        if (JEShare.stc.swiColor) { _Swi.onTintColor = JEShare.stc.swiColor; }
     }
     return _Swi;
 }
