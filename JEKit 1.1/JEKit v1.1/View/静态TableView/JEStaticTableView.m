@@ -82,13 +82,13 @@ static NSInteger const jkHeadFootLabelMargin = 15;///<
 
 - (void)handelStyleDark{
     [super handelStyleDark];
-    if (@available(iOS 13.0, *)) {
-        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-        BOOL dark = (mode == UIUserInterfaceStyleDark);
-        if (JEShare.stc.backgroundColor) {
-            self.backgroundColor = dark ? UIColor.blackColor : JEShare.stc.backgroundColor;
-        }
+    BOOL dark = NO;
+    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
+    
+    if (JEShare.stc.backgroundColor) {
+        self.backgroundColor = dark ? UIColor.blackColor : JEShare.stc.backgroundColor;
     }
+    
 }
 
 @end

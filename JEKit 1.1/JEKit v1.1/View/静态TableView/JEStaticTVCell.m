@@ -107,13 +107,12 @@
 }
 
 - (void)handelStyleDark{
-    if (@available(iOS 13.0, *)) {
-        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-        BOOL dark = mode == UIUserInterfaceStyleDark;
-        _La_title.textColor = dark ? UIColor.whiteColor : JEShare.stc.titleColor;
-        _La_desc.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.7] : JEShare.stc.descColor;
-        _La_detail.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.7] : JEShare.stc.detailColor;
-    }
+    BOOL dark = NO;
+    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
+    
+    _La_title.textColor = dark ? UIColor.whiteColor : JEShare.stc.titleColor;
+    _La_desc.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.7] : JEShare.stc.descColor;
+    _La_detail.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.7] : JEShare.stc.detailColor;
 }
 
 @end

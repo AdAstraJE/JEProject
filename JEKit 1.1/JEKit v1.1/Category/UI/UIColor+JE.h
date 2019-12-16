@@ -18,12 +18,12 @@
 #define Clr_green         (kRGB(67, 199, 89))
 #define Clr_red           (kHexColor(0xff3b30))
 
-#define Clr_txt          (kHexColor(0x202020))
-#define Clr_txt33        (kHexColor(0x333333))
-#define Clr_txt66        (kHexColor(0x666666))
-#define Clr_txt77        (kHexColor(0x777777))
-#define Clr_txt99        (kHexColor(0x999999))
-#define Clr_txtC8        (kHexColor(0xC8C8C8))
+#define Clr_txt          (kHexColor(0x202020))//32,
+#define Clr_txt33        (kHexColor(0x333333))//51,
+#define Clr_txt66        (kHexColor(0x666666))//102,
+#define Clr_txt77        (kHexColor(0x777777))//119,
+#define Clr_txt99        (kHexColor(0x999999))//153,
+#define Clr_txtC8        (kHexColor(0xC8C8C8))//200,
 
 @interface UIColor (JE)
 

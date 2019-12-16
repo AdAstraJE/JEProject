@@ -4,9 +4,10 @@
 
 @implementation JELiteTV{
     Class _cellClass;
+    NSString *_cellIdentifier;
 }
 
-+ (JELiteTV *)Frame:(CGRect)frame style:(UITableViewStyle)style cellC:(Class)cellClass cellH:(CGFloat)cellHeight
++ (JELiteTV *)Frame:(CGRect)frame style:(UITableViewStyle)style cellC:(nullable Class)cellClass cellH:(CGFloat)cellHeight
                cell:(nullable void (^)(__kindof UITableViewCell *cell,UITableView *tv,NSIndexPath *idxP,id obj))cell select:(nullable void (^)(UITableView *tv,NSIndexPath *idxP,id obj))select to:(UIView * _Nullable)to{
     JELiteTV *tv = [[self alloc] initWithFrame:frame style:style cellC:cellClass cellH:cellHeight];
     tv.cell = cell;
@@ -31,6 +32,11 @@
     self.contentInset = UIEdgeInsetsMake(0, 0, (self.sectionHeaderHeight + self.sectionFooterHeight)*2, 0);
     
     return self;
+}
+
+- (void)registerClass:(Class)cellClass forCellReuseIdentifier:(NSString *)identifier{
+    [super registerClass:cellClass forCellReuseIdentifier:identifier];
+    _cellIdentifier = identifier;
 }
 
 #pragma mark - UITableView Delegate DataSource
@@ -75,7 +81,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_cell) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[_cellClass className] forIndexPath:indexPath];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:_cellIdentifier forIndexPath:indexPath];
         if (_cellClass == UITableViewCell.class && _select == nil) { cell.selectionStyle = UITableViewCellSelectionStyleNone;}
         _cell(cell,tableView,indexPath,(tableView.Arr[(_sections ? indexPath.section : indexPath.row)]));
      
@@ -83,7 +89,7 @@
     }
     if (_cells) { return _cells(tableView,indexPath);}
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[_cellClass className] forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:_cellIdentifier forIndexPath:indexPath];
     [cell je_loadCell:tableView.Arr[(_sections ? indexPath.section : indexPath.row)]];
     return cell;
 }

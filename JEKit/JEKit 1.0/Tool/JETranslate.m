@@ -24,6 +24,7 @@ static NSString * const jkAppsecret = @"3DXZbTizSZRt13bfdCuB";///<
                                               @[@"ru",@"俄语"],
                                               @[@"kor",@"韩语"],
                                               @[@"ara",@"阿拉伯语"],
+                                              @[@"el",@"希腊语"],
                                               ];
     
     [arr enumerateObjectsUsingBlock:^(NSArray<NSString *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

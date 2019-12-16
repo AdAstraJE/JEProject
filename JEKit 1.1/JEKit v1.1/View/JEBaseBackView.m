@@ -75,11 +75,11 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
 }
 
 - (void)handelStyleDark{
-    if (@available(iOS 13.0, *)) {
-        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-        BOOL dark = (mode == UIUserInterfaceStyleDark);
-        _maskView.effect = [UIBlurEffect effectWithStyle:dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight];
-    }
+    BOOL dark = NO;
+    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
+    
+    _maskView.effect = [UIBlurEffect effectWithStyle:dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight];
+    
 }
 
 @end

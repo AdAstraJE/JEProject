@@ -43,7 +43,7 @@ static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点
         if (rad != 0) {image = [image imageByRoundCornerRadius:rad];}
         [_ setBackgroundImage:image forState:UIControlStateNormal];
         [_ setBackgroundImage:image.alpha(jkAlpha_bg) forState:UIControlStateHighlighted];
-        [_ setTitleColor:clr.alpha_(jkAlpha_bg) forState:UIControlStateHighlighted];
+        if (clr) {[_ setTitleColor:clr.alpha_(jkAlpha_bg) forState:UIControlStateHighlighted];}
     }
     else if ([img isKindOfClass:NSString.class] || [img isKindOfClass:UIImage.class]){
         [_ je_resetImg:([img isKindOfClass:NSString.class] ? [UIImage imageNamed:img] : img)];

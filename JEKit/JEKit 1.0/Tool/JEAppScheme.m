@@ -45,7 +45,7 @@ static JEAppScheme* _sharedManager;
 /** 自动登录记录过的用户 */
 + (void)AutoLogin{
     NSDictionary *userDic = [USDF objectForKey:jkJEUserDictionaryKey];
-    if (userDic.count && [self CachePassword].length) {
+    if (userDic.count && [self CachePassword]) {
         [self LoginAccount:[self CacheAccount] password:nil user:[(NSClassFromString([USDF objectForKey:jkJEUserClassKey])) modelWithJSON:userDic]];
     }
 }

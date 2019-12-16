@@ -170,14 +170,13 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
 }
 
 - (void)handelStyleDark{
-    if (@available(iOS 13.0, *)) {
-        UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
-        BOOL dark = (mode == UIUserInterfaceStyleDark);
-        self.view.backgroundColor = dark ? UIColor.blackColor : _backgroundColor;
-        if (_navBar) {
-            _navBar.backgroundColor = dark ? UIColor.blackColor : JEShare.navBarClr;
-            _navTitleLable.textColor = dark ? UIColor.whiteColor : JEShare.navTitleClr;
-        }
+    BOOL dark = NO;
+    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
+    
+    self.view.backgroundColor = dark ? UIColor.blackColor : _backgroundColor;
+    if (_navBar) {
+        _navBar.backgroundColor = dark ? UIColor.blackColor : JEShare.navBarClr;
+        _navTitleLable.textColor = dark ? UIColor.whiteColor : JEShare.navTitleClr;
     }
 }
 

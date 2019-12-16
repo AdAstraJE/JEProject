@@ -117,7 +117,7 @@ end
 #define SSELF          __strong __typeof(wself)strongSelf = wself;
 
 #define JEApp          ([[UIApplication sharedApplication] delegate])
-#define kAPPName       ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"])//CFBundleName
+#define kAPPName       (([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]) ? : ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]))
 #define kAPPBundleId   ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"])
 #define kAPPVersions   ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"])
 #define kAPPVersion    ([kAPPVersions stringByReplacingOccurrencesOfString:@"." withString:@""])

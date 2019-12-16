@@ -37,7 +37,7 @@
 }
 
 - (BDH_16 *)_10_to_16{
-    NSString *hex = [[NSString alloc] initWithFormat:@"%1x",self.intValue];
+    NSString *hex = [[NSString alloc] initWithFormat:@"%1llx",self.longLongValue];
     return (BDH_16 *)[NSString stringWithFormat:@"%@%@",hex.length%2 != 0 ? @"0" : @"",hex];
 }
 
@@ -87,6 +87,7 @@
 
 - (NSData *)_16_to_data{
     NSString *hex = [[self uppercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([hex hasPrefix:@"0X"]) {hex = [hex substringFromIndex:2]; }
     if ([hex length]%2 != 0) {
         NSAssert(nil, @"");
         return nil;
@@ -105,18 +106,18 @@
 }
 
 - (NSArray <BDH_10 *> *)bytes2{
-    return [self._10_to_16 separatBytes:2]._to10;;
+    return [self._10_to_16 separatBytes:2]._to10;
 }
 
 - (NSArray <BDH_10 *> *)bytes3{
-    return [self._10_to_16 separatBytes:3]._to10;;
+    return [self._10_to_16 separatBytes:3]._to10;
 }
 
 - (NSArray <BDH_10 *> *)bytes4{
-    return [self._10_to_16 separatBytes:4]._to10;;
+    return [self._10_to_16 separatBytes:4]._to10;
 }
 
--(NSArray *)separatBytes:(NSInteger)count{
+- (NSArray *)separatBytes:(NSInteger)count{
     if ([self length]%2!=0) {
         NSAssert(nil, @"");return nil;
     }

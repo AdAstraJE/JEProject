@@ -66,9 +66,7 @@ static JEBluetooth *_instance;
         [_central cancelPeripheralConnection:device.peripheral];
     }
     
-#if TARGET_OS_SIMULATOR
     [self deviceChangeToConnectState:NO device:device];
-#endif
 }
 
 /** 更改当前设备连接状态 */
@@ -77,6 +75,9 @@ static JEBluetooth *_instance;
     
     device.didConnect = (device.peripheral.state == CBPeripheralStateConnected);
     for (BLE_deviceBlock obj in _Dic_deviceChangeBlock.allValues) { ! obj ? : obj(device);}
+    if (!connect && device.UUID) {
+        [_Dic_devices removeObjectForKey:device.UUID];
+    }
 }
 
 - (void)centralState:(BLE_centralState)block{
@@ -190,16 +191,17 @@ static JEBluetooth *_instance;
 
 #pragma mark  连接成功
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
+     __kindof JEBLEDevice *device = _Dic_devices[peripheral.identifier.UUIDString];
+    if (!device) {return; }
+    
     peripheral.delegate = self;
     [peripheral discoverServices:nil];
     
-    __kindof JEBLEDevice *device = _Dic_devices[peripheral.identifier.UUIDString];
     [device saveDevice];
     [JEBLEDevice JE_Debug_AddLog:BLELog__(@"✅ 连接成功 %@",[self debug:peripheral device:device])];
     
     if ([_Arr_errorDisconnectUUID containsObject:peripheral.identifier.UUIDString]) {
         [_Arr_errorDisconnectUUID removeObject:peripheral.identifier.UUIDString];
-        
     }
     
     if (_Arr_errorDisconnectUUID.count == 0) {[self stopScan];}
@@ -268,7 +270,7 @@ static JEBluetooth *_instance;
             [device.Dic_crts setValue:crt forKey:crt.UUID.UUIDString];
             [device discoverCharacteristics:crt];
         }else{
-//            BLELog(@"🔴 项目未纪录的特征%@ %@",UUID,crt.propertyDebugInfo);
+//            BLELog(@"🔴 项目未纪录的特征%@ %@",crt.UUID.UUIDString,crt.propertyDebugInfo);
         }
     }
     device.linkedService += 1;
@@ -312,6 +314,7 @@ static JEBluetooth *_instance;
     NSString *debug = BLELog__(@"%@ %@, %@",(crt.isNotifying ? @"🔔收" : @"💬收"),crt.value,@((long long)[[NSDate date] timeIntervalSince1970]));
     [device receiveData:peripheral crt:crt notifiy:notifiy debug:debug];
 }
+
 
 #pragma mark 写入数据成功
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
