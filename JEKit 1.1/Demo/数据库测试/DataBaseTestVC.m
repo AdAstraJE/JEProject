@@ -4,6 +4,32 @@
 #import "JEDBModel.h"
 #import "H3DetailVC.h"
 #import "H3GameModel.h"
+#import "JEBluetooth.h"
+
+@interface testttttt : JEDBModel
+
+@property (nonatomic,strong) NSData *data;///<
+@property (nonatomic,strong) UIColor *color;///<
+@property (nonatomic,assign) CGRect rect;///<
+@property (nonatomic,assign) CGPoint point;///<
+@property (nonatomic,assign) CGSize size;///<
+@property (nonatomic,assign) NSRange range;///<
+@property (nonatomic,assign) UIEdgeInsets inset;///<
+@property (nonatomic,assign) UIOffset offset;///<
+@property (nonatomic,assign) CGAffineTransform transform;
+@property (nonatomic,assign) double double_;///<
+
+@end
+
+@implementation testttttt
+
++ (NSArray<NSString *> *)IgnorePropertys{
+    return @[@"double_"];
+}
+
+@end
+
+
 
 @implementation DataBaseTestVC{
     JEStvIt *_item_addHero,*_item_addArm;
@@ -22,6 +48,33 @@
     NSMutableArray <JEStvIt *> *section1 = [NSMutableArray array];
     
     section1.add([JEStvIt Title:@"test" select:^(JEStvIt *item) {
+        [testttttt CreateTable];
+//
+        testttttt *f = testttttt.new;
+        f.ID = 1;
+        f.date = NSDate.date;
+        f.data = @"ff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020aff01020a"._16_to_data;
+        f.data = nil;
+        f.color = UIColor.redColor;
+        f.size = CGSizeMake(1, 2);
+        f.point = CGPointMake(3, 4);
+        f.rect = CGRectMake(5, 6, 7, 8);
+        f.offset = UIOffsetMake(9, 10);
+        f.inset = UIEdgeInsetsMake(-11, -12, -13, -14);
+        f.range = NSMakeRange(15, 16);
+        f.transform = CGAffineTransformMake(17, 18, 19, 20, 21,22);
+        [f dbSave];
+        
+//        NSString *b = [f.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+//        JELog(@"%@",b);
+
+        [testttttt AllModel:^(NSMutableArray<testttttt *> *models) {
+            testttttt *f = models.firstObject;
+            JELog(@"%@",[f modelDescription]);
+
+        } desc:YES];
+        
+
         //        [JEDataBase SharedDbName:@"JE"];
 //        H3ArmModel *mod = [H3ArmModel LastModel];
 //        JELog(@"%@",[mod modelDescription]);
@@ -29,8 +82,8 @@
 //        JELog(@"%@",@(NSOrderedSame));
 //        JELog(@"%@",@(NSOrderedDescending));
         
-        NSArray *arr = [H3ArmModel AllModelByDesc:YES];
-        JELog(@"%@",@(arr.count));
+//        NSArray *arr = [H3ArmModel AllModelByDesc:YES];
+//        JELog(@"%@",@(arr.count));
     }]);
     
     section1.add([JEStvIt Title:@"一条龙" select:^(JEStvIt *item) {

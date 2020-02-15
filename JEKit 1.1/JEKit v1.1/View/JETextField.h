@@ -28,6 +28,7 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
 - (void)textFieldDidEndEditing:(UITextField *)textField;
 
+@property (nonatomic,copy) void (^didChangeBlock)(UITextField *textField);
 @property (nonatomic,copy) void (^didEndBlock)(UITextField *textField);
 
 @end

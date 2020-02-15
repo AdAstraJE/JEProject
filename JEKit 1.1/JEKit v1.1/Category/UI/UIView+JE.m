@@ -9,6 +9,7 @@
 
 UIView * JEVe(CGRect rect,UIColor *clr,__kindof UIView *addTo){
     UIView *_ = [UIView Frame:rect color:clr];
+    if ([addTo isKindOfClass:UIVisualEffectView.class]) {addTo = ((UIVisualEffectView *)addTo).contentView;}
     if (addTo) { [addTo addSubview:_]; }
     return _;
 }
@@ -17,6 +18,7 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
     UIBlurEffect *effect = [UIBlurEffect effectWithStyle:style];
     UIVisualEffectView *_ = [[UIVisualEffectView alloc] initWithEffect:effect];
     _.frame = rect;
+    if ([addTo isKindOfClass:UIVisualEffectView.class]) {addTo = ((UIVisualEffectView *)addTo).contentView;}
     if (addTo) { [addTo addSubview:_]; }
     return _;
 }
@@ -280,7 +282,21 @@ static char kActionHandlerRotateGestureKey;
 
 - (__kindof UIView * (^)(NSInteger tag))tag_{ return ^id (NSInteger tag){self.tag = tag;return self;};}
 - (__kindof UIView * (^)(NSInteger rad))rad_{return ^id (NSInteger rad){ self.rad = rad;return self;};}
-- (__kindof UIView *(^)(__kindof UIView *))addTo{ return ^id (UIView *view){ if(view){[view addSubview:self];}; return self;};}
+- (__kindof UIView *(^)(__kindof UIView *))addTo{
+    return ^id (UIView *view){
+        if ([view isKindOfClass:UIVisualEffectView.class]) {view = ((UIVisualEffectView *)view).contentView;}
+        if(view){ [view addSubview:self];}
+        return self;
+    };
+}
+- (__kindof UIView *(^)(__kindof UIView *))insertTo{
+    return ^id (UIView *view){
+        if ([view isKindOfClass:UIVisualEffectView.class]) {view = ((UIVisualEffectView *)view).contentView;}
+        if(view){ [view insertSubview:self atIndex:0];}
+        return self;
+    };
+}
+
 - (__kindof UIView *(^)(CGRect))jeFrame{return ^id (CGRect rect){ self.frame = rect;return self;};}
 
 - (__kindof UIView * (^)(CGFloat x))jeX{ return ^id (CGFloat x){self.x = x;return self;};}

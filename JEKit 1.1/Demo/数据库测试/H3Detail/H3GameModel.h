@@ -61,6 +61,8 @@ typedef NS_ENUM(NSUInteger, H3RaceType) {
 @property NSMutableArray <NSNumber *> *race; ///< ..
 @property NSMutableArray <H3HeroModel *> *heros; ///< ..
 
+@property (nonatomic,copy) void (^selectBlock)(NSInteger index,NSString *str);///< 
+
 
 @end
 

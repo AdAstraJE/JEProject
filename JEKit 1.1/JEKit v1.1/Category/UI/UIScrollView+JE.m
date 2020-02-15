@@ -7,6 +7,27 @@
 
 @implementation UIScrollView (JE)
 
+- (CGFloat)contentInsetTop{return self.contentInset.top;}
+- (CGFloat)contentInsetLeft{return self.contentInset.left;}
+- (CGFloat)contentInsetBottom{return self.contentInset.bottom;}
+- (CGFloat)contentInsetRight{return self.contentInset.right;}
+
+- (void)setContentInsetTop:(CGFloat)contentInsetTop{
+    self.contentInset = UIEdgeInsetsMake(contentInsetTop, self.contentInset.left, self.contentInset.bottom, self.contentInset.right);
+}
+
+- (void)setContentInsetLeft:(CGFloat)contentInsetLeft{
+    self.contentInset = UIEdgeInsetsMake(self.contentInset.top, contentInsetLeft, self.contentInset.bottom, self.contentInset.right);
+}
+
+- (void)setContentInsetBottom:(CGFloat)contentInsetBottom{
+    self.contentInset = UIEdgeInsetsMake(self.contentInset.top, self.contentInset.left, contentInsetBottom, self.contentInset.right);
+}
+
+- (void)setContentInsetRight:(CGFloat)contentInsetRight{
+    self.contentInset = UIEdgeInsetsMake(self.contentInset.top, self.contentInset.left, self.contentInset.bottom, contentInsetRight);
+}
+
 /// UIScrollView 处理和侧滑返回的冲突问题,  有UIScrollView时没有全屏侧滑返回，但至少有边界的侧滑返回
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && [otherGestureRecognizer isKindOfClass:[FDPanGestureRecognizer class]] && ([otherGestureRecognizer locationInView:otherGestureRecognizer.view].x < QTZAllowedInitialDistanceToLeftEdge )) {
@@ -108,7 +129,7 @@
     }
     
     if (title != nil && title.length == 0) {  title = @"暂无数据".loc;}
-    JELab(JR(0,imageV ? (imageV.bottom + 20) : (contantY + contatnH*0.4),ve.width, [title heightWithFont:font(14) width:ve.width]),title,@14,Clr_txt77,(1),ve);
+    JELab(JR(0,imageV ? (imageV.bottom + 15) : (contantY + contatnH*0.4),ve.width, [title heightWithFont:font(14) width:ve.width]),title,@14,Clr_txt77,(1),ve);
     
     return ve;
 }

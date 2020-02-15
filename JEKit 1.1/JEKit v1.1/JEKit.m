@@ -35,9 +35,9 @@ static JEKit* _sharedManager;
 /** 默认UI */
 - (void)defaultTheme{
     _HUDClr = UIColor.blackColor;
-    _VCBgClr = (kRGB(244, 245, 246));
+    _VCBgClr = UIColor.whiteColor;
     
-    _navBarClr = UIColor.whiteColor;
+//    _navBarClr = UIColor.whiteColor;
     _navBarLineClr = kHexColorA(0xCCCCCC,0.6);
     _navBarItemClr = Clr_blue;
     _navTitleClr = Clr_txt;
@@ -177,9 +177,8 @@ void delay (float time,void (^block)(void)){
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         if (error || [placemarks count] == 0) {  return ;}
-        NSDictionary *mark = placemarks.firstObject.addressDictionary;
         if ([JEKit Shared]->_locationBlock) {
-            [JEKit Shared]->_locationBlock(locations.lastObject,mark);
+            [JEKit Shared]->_locationBlock(locations.lastObject,placemarks);
             [JEKit Shared]->_locationBlock = nil;
         }
     }];

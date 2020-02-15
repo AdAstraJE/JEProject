@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4D5DE5F491A45208FA980D03 /* libPods-JEKit 1.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1517DF10B2C528CC1B6AD5BF /* libPods-JEKit 1.1.a */; };
+		8911B98723F54C1200990031 /* JETableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911B98523F54C1100990031 /* JETableViewCell.m */; };
 		89122B7D2344C57400504741 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89122B7C2344C57400504741 /* AppDelegate.m */; };
 		89122B862344C57400504741 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89122B842344C57400504741 /* Main.storyboard */; };
 		89122B882344C57500504741 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89122B872344C57500504741 /* Assets.xcassets */; };
@@ -86,6 +87,8 @@
 
 /* Begin PBXFileReference section */
 		1517DF10B2C528CC1B6AD5BF /* libPods-JEKit 1.1.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JEKit 1.1.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8911B98523F54C1100990031 /* JETableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JETableViewCell.m; sourceTree = "<group>"; };
+		8911B98623F54C1100990031 /* JETableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JETableViewCell.h; sourceTree = "<group>"; };
 		89122B782344C57400504741 /* JEKit 1.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JEKit 1.1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89122B7B2344C57400504741 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		89122B7C2344C57400504741 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -482,6 +485,8 @@
 				899F071A2344D10A00BA89AD /* JETextView.m */,
 				89BDC71D2351E755009583F2 /* JETableView.h */,
 				89BDC71E2351E755009583F2 /* JETableView.m */,
+				8911B98623F54C1100990031 /* JETableViewCell.h */,
+				8911B98523F54C1100990031 /* JETableViewCell.m */,
 				89BDC71A2351E73E009583F2 /* JELiteTV.h */,
 				89BDC71B2351E73E009583F2 /* JELiteTV.m */,
 				899F06FA2344D10A00BA89AD /* JEIntroducView.h */,
@@ -720,6 +725,7 @@
 				899F07742344D10A00BA89AD /* JETranslate.m in Sources */,
 				899F076A2344D10A00BA89AD /* JETextView.m in Sources */,
 				899F075D2344D10A00BA89AD /* JEStvIt.m in Sources */,
+				8911B98723F54C1200990031 /* JETableViewCell.m in Sources */,
 				899F07442344D10A00BA89AD /* UIView+JE.m in Sources */,
 				899F074C2344D10A00BA89AD /* NSDate+JE.m in Sources */,
 				899F075C2344D10A00BA89AD /* JEStaticTableView.m in Sources */,

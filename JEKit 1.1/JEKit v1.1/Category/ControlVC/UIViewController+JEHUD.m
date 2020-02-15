@@ -4,7 +4,7 @@
 
 static NSInteger const jkNoLimitTime = -1;///< 时间不限
 static CGFloat const jkHudAnimatedDuration = 1.8;///< HUD默认显示时间
-static CGFloat const jkHudAnimatedMarkTypeDuration = 0.8;///< MarkType默认显示时间
+static CGFloat const jkHudAnimatedMarkTypeDuration = 0.8;///< 仅MarkType默认显示时间
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷  JEHUDView : UIView   🔷🔷🔷🔷🔷🔷🔷🔷
 @interface JEHUDView : UIView
@@ -94,7 +94,7 @@ static CGFloat const jkHudAnimatedMarkTypeDuration = 0.8;///< MarkType默认显�
     }
 
     if (type != HUDMarkTypeNone) {
-        delay = jkHudAnimatedMarkTypeDuration;
+        if(text.length == 0) {delay = jkHudAnimatedMarkTypeDuration;}
         HUD.mode = MBProgressHUDModeCustomView;
         NSDictionary *dic = @{@(HUDMarkTypeSuccess) : @"ic_markSuc",@(HUDMarkTypefailure) : @"ic_markFail",@(HUDMarkTypeNetError) : @"ic_markNetError",@(HUDMarkTypeSystemBusy) : @"ic_markSystemBusy"};
         HUD.customView = [[UIImageView alloc] initWithImage:JEBundleImg(dic[@(type)])];

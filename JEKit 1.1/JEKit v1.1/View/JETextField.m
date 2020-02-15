@@ -114,6 +114,8 @@ static NSInteger const jkTextMargin = 8;///<
         }
     }
     _La_rightPlaceHolder.hidden = self.text.length;
+    
+    !_didChangeBlock ? : _didChangeBlock(self);
 }
 
 

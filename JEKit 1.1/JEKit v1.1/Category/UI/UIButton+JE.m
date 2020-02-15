@@ -8,6 +8,7 @@
 
 static CGFloat const jkAlpha_bg = 0.618;///< 背景时 点击高亮的透明度
 static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点击高亮透明度
+static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的效果一样
 
 @implementation UIButton (JE)
 @dynamic bcImg;
@@ -33,7 +34,7 @@ static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点
     }
     
     UIImage *image;
-    _.adjustsImageWhenHighlighted = NO;
+    
     if ([img isKindOfClass:UIColor.class]) {
         [_ je_addBgImg:(UIColor *)img rad:rad];
         [_ setTitleColor:((UIColor *)img).alpha_(jkAlpha_bg) forState:UIControlStateHighlighted];
@@ -46,7 +47,13 @@ static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点
         if (clr) {[_ setTitleColor:clr.alpha_(jkAlpha_bg) forState:UIControlStateHighlighted];}
     }
     else if ([img isKindOfClass:NSString.class] || [img isKindOfClass:UIImage.class]){
-        [_ je_resetImg:([img isKindOfClass:NSString.class] ? [UIImage imageNamed:img] : img)];
+        image = ([img isKindOfClass:NSString.class] ? [UIImage imageNamed:img] : img);
+        if (title) {
+            _.adjustsImageWhenHighlighted = NO;
+            [_ je_resetImg:image];
+        }else{
+            [_ setImage:image forState:(UIControlStateNormal)];
+        }
     }
    
     return _;
@@ -85,12 +92,15 @@ static CGFloat const jkAlpha_simple = 0.3;///< 单图片、文字 或 边框 点
 
 - (void)je_resetTitleClr:(UIColor *)clr{
     [self setTitleColor:clr forState:UIControlStateNormal];
+    [self setTitleColor:clr.alpha_(jkAlpha_disable) forState:UIControlStateDisabled];
     [self setTitleColor:clr.alpha_(jkAlpha_simple) forState:UIControlStateHighlighted];
 }
 
 - (void)je_resetImg:(UIImage *)img{
-    [self setImage:img forState:UIControlStateNormal];
-    [self setImage:img.alpha(jkAlpha_simple) forState:UIControlStateHighlighted];
+    if (img) {
+        [self setImage:img forState:UIControlStateNormal];
+        [self setImage:img.alpha(jkAlpha_simple) forState:UIControlStateHighlighted];
+    }
 }
 
 - (instancetype)sizeThatWidth{

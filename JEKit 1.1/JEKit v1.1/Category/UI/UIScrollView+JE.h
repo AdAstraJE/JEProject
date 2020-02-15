@@ -4,6 +4,12 @@
 
 @interface UIScrollView (JE)
 
+//CGFloat top, left, bottom, right;
+@property (nonatomic,assign) CGFloat contentInsetTop;///< contentInset.top
+@property (nonatomic,assign) CGFloat contentInsetLeft;///< contentInset.left
+@property (nonatomic,assign) CGFloat contentInsetBottom;///< contentInset.bottom
+@property (nonatomic,assign) CGFloat contentInsetRight;///< contentInset.right
+
 @property (nonatomic,strong) NSMutableArray *Arr;///< 默认基础数据源
 @property(nonatomic,strong) UIActivityIndicatorView *ActView;///< tableview 默认ActView
 

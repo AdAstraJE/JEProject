@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
          select:(nullable void (^)(UITableView *tv,NSIndexPath *idxP,id obj))select
              to:(UIView * _Nullable)to;
 
+- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style cellC:(Class)cellClass cellH:(CGFloat)cellH;
+
 @property (nonatomic,copy) NSInteger (^sections)(UITableView *tv);///< numberOfSectionsInTableView
 @property (nonatomic,copy) NSInteger (^rows)    (UITableView *tv,NSInteger section);///< numberOfRowsInSection
 @property (nonatomic,copy) CGFloat   (^rowH)    (UITableView *tv,NSIndexPath *idx);///< heightForRowAtIndexPath

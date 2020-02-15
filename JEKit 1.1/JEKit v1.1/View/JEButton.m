@@ -18,6 +18,9 @@ static NSInteger const jkActTitleLeftMargin = 8;///<
 
 JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL action,id img,CGFloat rad,__kindof UIView *addTo){
     JEButton *btn = [JEButton Frame:rect title:title font:fnt color:clr rad:rad tar:target sel:action img:img];
+    if ([addTo isKindOfClass:UIVisualEffectView.class]) {
+        addTo = ((UIVisualEffectView *)addTo).contentView;
+    }
     if (addTo) {[addTo addSubview:btn];}
     return btn;
 }
@@ -38,7 +41,9 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
         UIImageView *_ = [[UIImageView alloc] initWithFrame:self.bounds];
         _.userInteractionEnabled = YES;
         UIImage *image = [self backgroundImageForState:UIControlStateNormal];
-        if (image == nil && ([self imageForState:(UIControlStateNormal)] == nil)) {image = UIImage.clr(Clr_white); }
+//        if (image == nil && ([self imageForState:(UIControlStateNormal)] == nil)) {
+//            image = UIImage.clr(Clr_white);
+//        }
         _.image = image;
         _.bor = self.bor;
         _.borCol = self.borCol;
@@ -72,9 +77,9 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
     }
     [self.Act_ startAnimating];
     if (self.userInteractionEnabled) {
-        self.userInteractionEnabled = !_disableInLoading;
+        self.userInteractionEnabled = _enableInLoading;
     }
-    if (_disableInLoading) {
+    if (!_enableInLoading) {
         [self setTitleColor:_normalTitleColor.abe(1,(1 - 0.618)) forState:UIControlStateNormal];
     }
     
@@ -109,8 +114,9 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    if (_Act_.isAnimating && _coverView == nil) {
-        [self reloadActX];
+    if (_Act_.isAnimating) {
+        self.imageView.hidden = YES;
+        _coverView ? (self.titleLabel.hidden = YES) : [self reloadActX];
     }
 }
 
@@ -118,11 +124,12 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
     if (!_Act_.isAnimating) {
         return;
     }
+    
+    self.imageView.hidden = self.titleLabel.hidden = NO;
     [self setTitleColor:_normalTitleColor forState:UIControlStateNormal];
     self.userInteractionEnabled = YES;
     [_Act_ stopAnimating];
     _coverView.hidden = YES;
-    self.imageView.hidden = NO;
 }
 
 //添加边界 点击范围
@@ -146,6 +153,11 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
 
 - (void)setImageTitleSpace:(CGFloat)imageTitleSpace{
     _imageTitleSpace = imageTitleSpace;
+    [self setEdgeInsetsStyle:_edgeInsetsStyle];
+}
+
+- (void)setFrame:(CGRect)frame{
+    [super setFrame:frame];
     [self setEdgeInsetsStyle:_edgeInsetsStyle];
 }
 

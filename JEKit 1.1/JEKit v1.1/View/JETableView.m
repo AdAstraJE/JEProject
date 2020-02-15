@@ -2,43 +2,14 @@
 #import "JETableView.h"
 #import "JEKit.h"
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JETableViewCell1   🔷🔷🔷🔷🔷🔷🔷🔷
-@implementation JETableViewCell1
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-    self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    self.textLabel.font = JEShare.stc.titleFont;
-    self.textLabel.textColor = JEShare.stc.titleColor;
-    self.detailTextLabel.font = JEShare.stc.descFont;
-    self.detailTextLabel.textColor = JEShare.stc.descColor;
-    return self;
-}
-
-@end
-
-
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JETableViewCell3   🔷🔷🔷🔷🔷🔷🔷🔷
-@implementation JETableViewCell3
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
-    self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    self.textLabel.font = JEShare.stc.titleFont;
-    self.textLabel.textColor = JEShare.stc.titleColor;
-    self.detailTextLabel.font = JEShare.stc.detailFont;
-    self.detailTextLabel.textColor = JEShare.stc.detailColor;
-    return self;
-}
-
-@end
-
-
-
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JETableView   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation JETableView{
     __weak UIImageView *_Img_expand;
     CGFloat _expandOrginHeight;
+}
+
+- (void)dealloc{
+    jkDeallocLog
+    [self.Arr removeAllObjects];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style{
@@ -124,9 +95,9 @@
     BOOL dark = NO;
     if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
     
-    if (JEShare.tvSepClr) {self.separatorColor = dark ? [UIColor colorWithRed:0.33 green:0.33 blue:0.35 alpha:0.6] : JEShare.tvSepClr;}
+    if (JEShare.tvSepClr) {self.separatorColor = dark ? kRGBA(84, 84, 89, 0.6) : JEShare.tvSepClr;}
     if (JEShare.tvBgClr) {
-        self.backgroundColor = dark ? UIColor.blackColor : JEShare.tvBgClr;
+        self.backgroundColor = dark ? (UIColor.clearColor ? : UIColor.blackColor) : JEShare.tvBgClr;
     }
     
 }

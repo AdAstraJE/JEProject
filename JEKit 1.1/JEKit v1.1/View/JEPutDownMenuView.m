@@ -135,6 +135,7 @@ static CGFloat jkRadius = 3;/**< 倒角 */
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
         [self->_backView removeFromSuperview];
+        self->_backView = nil;
         self.selectBlock = nil;
     }];
 }

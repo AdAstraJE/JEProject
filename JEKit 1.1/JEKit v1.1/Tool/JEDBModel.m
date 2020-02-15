@@ -3,6 +3,7 @@
 #import "JEDataBase.h"
 #import <objc/runtime.h>
 #import "NSObject+YYModel.h"
+#import <UIKit/UIKit.h>
 
 #ifdef DEBUG
 #define DBLog(fmt, ...) fprintf(stderr,"💾  %s\n",[[NSString stringWithFormat:fmt, ##__VA_ARGS__] UTF8String]);
@@ -10,11 +11,11 @@
 #define DBLog(...)
 #endif
 #define Format(...)     ([NSString stringWithFormat:__VA_ARGS__])
-#define kTEXT_TypeArr   (@[@"@\"NSString\"",@"@\"NSNumber\"",@"@\"NSArray\"",@"@\"NSMutableArray\"",@"@\"NSDictionary\"",@"@\"NSMutableDictionary\""])
 
-static NSString * const kDB_TEXT     =    @"TEXT";
-static NSString * const kDB_INTEGER  =    @"INTEGER";
-static NSString * const kDB_REAL     =    @"REAL";///< 浮点数
+
+static NSString * const kDB_text     =    @"text";
+static NSString * const kDB_integer  =    @"integer";
+static NSString * const kDB_real     =    @"real";///< 浮点数
 
 static NSString * const kColumn_id =      @"ID";///< 父类 id 字段名
 static NSString * const kColumn_Date =    @"date";///< 父类 NSDate 字段名
@@ -25,6 +26,7 @@ static NSString * const kColumn_Date =    @"date";///< 父类 NSDate 字段名
 + (NSString *)TableName { return NSStringFromClass(self.class);}
 + (NSString *)PrimaryKey{ return @"ID";}
 + (NSArray <Class> *)PropertysFromSuper{  return nil;}
++ (NSArray <NSString *> *)IgnorePropertys{  return nil;}
 
 #pragma mark -   YY 自定义处理 NSDate
 
@@ -43,7 +45,7 @@ static NSDateFormatter *staticDateFormatter;
     if (![date containsString:@"UTC"] && [date containsString:@"-"]) {
         self.date = [self.staticDateFormatter dateFromString:date];
     }else{
-        self.date = [NSDate dateWithTimeIntervalSince1970:date.longLongValue];
+        if (date.length) {self.date = [NSDate dateWithTimeIntervalSince1970:date.longLongValue];}
     }
     
     return YES;
@@ -59,19 +61,24 @@ static NSDateFormatter *staticDateFormatter;
     
     unsigned int count;
     objc_property_t *propertys = class_copyPropertyList([super class], &count);
+    NSArray <NSString *> *ignores = [self IgnorePropertys];
     for (int i = 0; i < count; i++){
         objc_property_t property = propertys[i];
         NSString *name = [NSString stringWithUTF8String:property_getName(property)];
+        if ([ignores containsObject:name]) {continue;}
+        
         NSString *type = [NSString stringWithUTF8String:property_copyAttributeValue(property,"T")];
-        [propertysDic setValue:type forKey:name];
+        if (![type isEqualToString:@"@?"]) {//property block 
+            [propertysDic setValue:type forKey:name];
+        }
     }
     free(propertys);
     
     NSArray <Class > *superPro = [self PropertysFromSuper];
     if (superPro.count) {
-        [superPro enumerateObjectsUsingBlock:^(Class  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSDictionary *dic = [obj DBModelPropertys];
-            [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [superPro enumerateObjectsUsingBlock:^(Class  sClass, NSUInteger idx, BOOL * stop) {
+            NSDictionary *dic = [sClass DBModelPropertys];
+            [dic enumerateKeysAndObjectsUsingBlock:^(id  key, id obj, BOOL * stop) {
                 [propertysDic setObject:obj forKey:key];
             }];
         }];
@@ -87,7 +94,7 @@ static NSDateFormatter *staticDateFormatter;
     if (filtArr) { return filtArr;
     }else{ filtArr  = [NSMutableArray array];}
     
-    [[self DBModelPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull type, BOOL * _Nonnull stop) {
+    [[self DBModelPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * key, NSString * type, BOOL * stop) {
         if ([@[@"@\"NSArray\"",@"@\"NSMutableArray\"",@"@\"NSDictionary\"",@"@\"NSMutableDictionary\""] containsObject:type]) {
             [filtArr addObject:key];
         }else{//自定义的类
@@ -100,13 +107,11 @@ static NSDateFormatter *staticDateFormatter;
     return filtArr;
 }
 
-/// NSDate类型的属性名称
-+ (NSArray <NSString *> *)NSDatePropertys{
-    NSMutableArray <NSString *> *filtArr = [NSMutableArray arrayWithArray:@[kColumn_Date]];
-    [[self DBModelPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull type, BOOL * _Nonnull stop) {
-        if ([@[@"@\"NSDate\""] containsObject:type]) { [filtArr addObject:key];}
-    }];
-    return filtArr;
++ (NSMutableArray <NSString *> *)FiltPropertys:(NSString *)string{
+    NSMutableArray <NSString *> *filtArr = [NSMutableArray array];
+    [[self DBModelPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * key, NSString * type, BOOL * stop) {
+        if ([type containsString:string]) { [filtArr addObject:key];}
+    }];return filtArr;
 }
 
 /// 属性与表结构类型对应关系
@@ -116,19 +121,21 @@ static NSDateFormatter *staticDateFormatter;
     }else{ dbDic  = [NSMutableDictionary dictionary];}
     
     //NSDate按时间戳字符串处理
-    NSArray <NSString *> *TEXT = kTEXT_TypeArr;
-    NSArray <NSString *> *INTEGER = @[@"i",@"q",@"d",@"b"];
+    NSArray <NSString *> *textT = @[@"@\"NSString\"",@"@\"NSNumber\"",@"@\"NSArray\"",@"@\"NSMutableArray\"",@"@\"NSDictionary\"",@"@\"NSMutableDictionary\""];
+    NSArray <NSString *> *intT = @[@"i",@"s",@"q",@"c",@"b",@"l"];
+    NSArray <NSString *> *floatT = @[@"f",@"d"];
     
-    [[self DBModelPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull type, BOOL * _Nonnull stop) {
-        if      ([TEXT containsObject:type]) {                          [dbDic setValue:kDB_TEXT forKey:key]; }
-        else if ([@"@\"NSDate\"" isEqualToString:type]){                [dbDic setValue:kDB_INTEGER forKey:key]; }
-        else if ([INTEGER containsObject:[type lowercaseString]]){      [dbDic setValue:kDB_INTEGER forKey:key]; }
-        else if ([@"f" isEqualToString:[type lowercaseString]]){        [dbDic setValue:kDB_REAL forKey:key]; }
-        else{                                                           [dbDic setValue:kDB_TEXT forKey:key]; }//其他 按字符串处理
+    [[self DBModelPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * key, NSString * type, BOOL * stop) {
+        
+        if      ([textT containsObject:type]) {                   [dbDic setValue:kDB_text forKey:key]; }
+        else if ([type containsString:@"NSDate"]){                [dbDic setValue:kDB_integer forKey:key]; }
+        else if ([intT containsObject:type.lowercaseString]){     [dbDic setValue:kDB_integer forKey:key]; }
+        else if ([floatT containsObject:type.lowercaseString]){   [dbDic setValue:kDB_real forKey:key]; }
+        else{                                                     [dbDic setValue:kDB_text forKey:key]; }//其他 按字符串处理
     }];
     
-    if ([[self PrimaryKey] isEqualToString:kColumn_id]) { [dbDic setValue:kDB_INTEGER forKey:kColumn_id];}//父类的
-    [dbDic setValue:kDB_INTEGER forKey:kColumn_Date];//父类的
+    if ([[self PrimaryKey] isEqualToString:kColumn_id]) { [dbDic setValue:kDB_integer forKey:kColumn_id];}//父类的
+    [dbDic setValue:kDB_integer forKey:kColumn_Date];//父类的
     
     objc_setAssociatedObject(self, __func__, dbDic, OBJC_ASSOCIATION_COPY);
 //    DBLog(@"%@\n%@",[self TableName],dbDic);
@@ -148,9 +155,9 @@ static NSDateFormatter *staticDateFormatter;
 }
 
 + (void)CreateTable:(JEDBResult)done{
-    NSString *autoKey = Format(@"%@ %@ primary key autoincrement,",kColumn_id,kDB_INTEGER);//没有主键时拼上
+    NSString *autoKey = Format(@"%@ %@ primary key autoincrement,",kColumn_id,kDB_integer);//没有主键时拼上
     NSMutableString *SQL = Format(@"create table if not exists %@ (%@",[self TableName],[self PrimaryKey] ? @"" : autoKey).mutableCopy;
-    [[self SQLPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, NSString * _Nonnull type, BOOL * _Nonnull stop) {
+    [[self SQLPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * name, NSString * type, BOOL * stop) {
         [SQL appendFormat:@"%@ %@,",name,type];
     }];
     
@@ -162,14 +169,14 @@ static NSDateFormatter *staticDateFormatter;
 
 + (void)UpdateTable{
     NSMutableArray <NSString *> *tableColumn = [NSMutableArray array];
-    [[self QuerySchema:Format(@"pragma table_info('%@')",[self TableName])] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [[self QuerySchema:Format(@"pragma table_info('%@')",[self TableName])] enumerateObjectsUsingBlock:^(NSDictionary * obj, NSUInteger idx, BOOL * stop) {
         [tableColumn addObject:obj[@"name"]];
     }];
     NSMutableDictionary <NSString *,NSString *> *newColumn = [self SQLPropertys].mutableCopy;
     [newColumn removeObjectsForKeys:tableColumn];
     if (newColumn.count == 0) { return;}
     DBLog(@"%@ 表要新加的字段%@",[self TableName],newColumn);
-    [newColumn enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull name, NSString * _Nonnull type, BOOL * _Nonnull stop) {
+    [newColumn enumerateKeysAndObjectsUsingBlock:^(NSString * name, NSString * type, BOOL * stop) {
         [self ExecuteUpdate:@[(Format(@"alter table %@ ADD column %@ %@;",[self TableName],name,type))] arguments:nil done:nil];
     }];
 }
@@ -201,32 +208,63 @@ static NSDateFormatter *staticDateFormatter;
 - (NSArray *)createReplace_SQL_Arguments{
     NSMutableString *columnName = [NSMutableString string],*columnValue = [NSMutableString string];
     NSMutableArray *arguments = [NSMutableArray array];
-    [[self.class SQLPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString *type, BOOL * _Nonnull stop) {
+    [[self.class SQLPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString * key, NSString *type, BOOL * stop) {
         [columnName appendFormat:@"%@%@",columnName.length ? @"," : @"",key];
         [columnValue appendFormat:@"%@%@",columnValue.length ? @"," : @"",@"?"];
-        [arguments addObject:[self columnValue:[self valueForKey:key] type:[self.class SQLPropertys][key]]];
+        [arguments addObject:[self columnValue:[self valueForKey:key] key:key DBtype:type]];
     }];
     NSString *SQL = Format(@"replace into %@ (%@) values (%@)",[self.class TableName],columnName,columnValue);
     return @[SQL,arguments];
 }
 
 /// 实际传入SQL的字符拼接 String
-- (NSString *)columnValue:(id)value type:(NSString *)type{
-    if ([type isEqualToString:kDB_TEXT]) {
+- (NSString *)columnValue:(id)value key:(NSString *)key DBtype:(NSString *)DBtype{
+    if ([DBtype isEqualToString:kDB_text]) {
         if(value && ([NSBundle bundleForClass:[value class]] == [NSBundle mainBundle])){//自定义的类
             return [value modelToJSONString] ? : @"";
         }
-        if (value == nil || [value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]) {
+        if (value == nil || [value isKindOfClass:NSString.class] || [value isKindOfClass:NSNumber.class]) {
             return (Format(@"%@",value ? : @""));
         }
+        if ([value isKindOfClass:NSValue.class]) {
+            return [self.class HandelNSValue:value type:[self.class DBModelPropertys][key]] ? : @"";
+        }
+        if ([value isKindOfClass:NSData.class]) {
+            return [((NSData *)value) base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+        }
+        if ([value isKindOfClass:UIColor.class]) {
+            CGFloat r, g, b, a;
+            [value getRed:&r green:&g blue:&b alpha:&a];
+            return [NSString stringWithFormat:@"%.4f,%.4f,%.4f,%.4f", r, g, b, a];
+        }
         
-        return [value modelToJSONString];
+        return [value modelToJSONString] ? : @"";
     }else if ([value isKindOfClass:[NSDate class]]){
         return Format(@"%lld",(long long)[(NSDate *)value timeIntervalSince1970]);//NSDate按时间戳处理 1970
     }else{
              
     }
-    return Format(@"%@",value);
+    return (Format(@"%@",value ? : @""));
+}
+
++ (id)HandelNSValue:(id)value type:(NSString *)t{
+    BOOL v = [value isKindOfClass:NSString.class];
+    if ([t containsString:@"CGRect"]) {
+        return (v ? [NSValue valueWithCGRect:CGRectFromString(value)] : NSStringFromCGRect([value CGRectValue]));
+    }else if ([t containsString:@"CGPoint"]) {
+        return (v ? [NSValue valueWithCGPoint:CGPointFromString(value)] : NSStringFromCGPoint([value CGPointValue]));
+    }else if ([t containsString:@"CGSize"]) {
+        return (v ? [NSValue valueWithCGSize:CGSizeFromString(value)] : NSStringFromCGSize([value CGSizeValue]));
+    }else if ([t containsString:@"UIOffset"]) {
+        return (v ? [NSValue valueWithUIOffset:UIOffsetFromString(value)] : NSStringFromUIOffset([value UIOffsetValue]));
+    }else if ([t containsString:@"NSRange"]) {
+        return (v ? [NSValue valueWithRange:NSRangeFromString(value)] : NSStringFromRange([value rangeValue]));
+    }else if ([t containsString:@"UIEdgeInsets"]) {
+        return (v ? [NSValue valueWithUIEdgeInsets:UIEdgeInsetsFromString(value)] : NSStringFromUIEdgeInsets([value UIEdgeInsetsValue]));
+    }else if ([t containsString:@"CGAffineTransform"]) {
+        return (v ? [NSValue valueWithCGAffineTransform:CGAffineTransformFromString(value)] : NSStringFromCGAffineTransform([value CGAffineTransformValue]));
+    }
+    return nil;
 }
 
 /// 子线程 executeUpdate  (arguments个数不为0时 必须 count = SQLArr.count)
@@ -240,7 +278,7 @@ static NSDateFormatter *staticDateFormatter;
     [JEdbQe inDatabase:^(FMDatabase * _Nonnull db) {
         if (isTransaction) {[db beginTransaction];}
         
-        [SQLArr enumerateObjectsUsingBlock:^(NSString * _Nonnull SQL, NSUInteger idx, BOOL * _Nonnull stop) {
+        [SQLArr enumerateObjectsUsingBlock:^(NSString * SQL, NSUInteger idx, BOOL * stop) {
             if (arguments) {
                 [db executeUpdate:SQL withArgumentsInArray:arguments[idx]] ? (suc++) : (*stop = YES);//withArgumentsInArray
             }else{
@@ -259,7 +297,7 @@ static NSDateFormatter *staticDateFormatter;
 #pragma mark -------------------------------------------查询----------------------------------------------
 
 + (void)Query:(NSString *)SQL done:(JEDBSelectBlock)done{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSMutableArray <__kindof JEDBModel *> *result = [self Query:SQL];
         dispatch_async(dispatch_get_main_queue(), ^{!done ? : done(result); });
     });
@@ -275,19 +313,23 @@ static NSDateFormatter *staticDateFormatter;
 
 + (NSMutableArray <id> *)Query:(NSString *)SQL modClass:(Class)modClass dbQe:(FMDatabaseQueue *)dbQe{
     NSMutableArray <id> *result = [NSMutableArray array];
-    NSArray <NSString *> *NSDatePropertys = [self NSDatePropertys];
+    NSArray <NSString *> *NSDatePropertys = [[self FiltPropertys:@"NSDate"] arrayByAddingObject:kColumn_Date];
+    NSArray <NSString *> *NSDataPropertys = [self FiltPropertys:@"NSData"];
+    NSArray <NSString *> *UIColorPropertys = [self FiltPropertys:@"UIColor"];
     NSArray <NSString *> *JsonPropertys = [self JsonPropertys];
     
     if (dbQe == nil) {DBLog(@"⚠️未打开");}
     [dbQe inDatabase:^(FMDatabase * _Nonnull db) {
         FMResultSet *rs =  [db executeQuery:SQL];
+        NSNumber *containNSValue = nil;
+        
         while ([rs next]) {
             if (modClass == nil) {
                 [result addObject:rs.resultDictionary];
             }else{
-                NSMutableDictionary *dic = (NSMutableDictionary *)rs.resultDictionary;
+                NSMutableDictionary <NSString *,id> *dic = (NSMutableDictionary *)rs.resultDictionary;
                 
-                [JsonPropertys enumerateObjectsUsingBlock:^(NSString * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+                [JsonPropertys enumerateObjectsUsingBlock:^(NSString * key, NSUInteger idx, BOOL * stop) {
                     NSString *jsonStr = dic[key];
                     if ([jsonStr isKindOfClass:[NSNull class]]) { jsonStr = @"";}
                     if (jsonStr) {
@@ -296,14 +338,44 @@ static NSDateFormatter *staticDateFormatter;
                     }
                 }];
                 
-                [NSDatePropertys enumerateObjectsUsingBlock:^(NSString * _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+                [NSDatePropertys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL * stop) {
                     NSDate *date = dic[key];
                     if ([date isKindOfClass:NSDate.class]) {
-                        [dic setValue:date forKey:key];
+                        dic[key] = date;
                     }else{
-                        [dic setValue:[NSDate dateWithTimeIntervalSince1970:[dic[key] longLongValue]] forKey:key];
+                        long long timeStamp = [dic[key] longLongValue];
+                        if (timeStamp != 0) {dic[key] = [NSDate dateWithTimeIntervalSince1970:timeStamp];;}
                     }
                 }];
+                
+                [NSDataPropertys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL * stop) {
+                    dic[key] = [[NSData alloc] initWithBase64EncodedString:dic[key] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+                }];
+                
+                [UIColorPropertys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL * stop) {
+                    NSArray <NSString *> *arr = [dic[key] componentsSeparatedByString:@","];
+                    if (arr.count >= 4) {
+                        dic[key] = [UIColor colorWithRed:arr[0].floatValue green:arr[1].floatValue blue:arr[2].floatValue alpha:arr[3].floatValue];
+                    }
+                }];
+                
+                
+                if (containNSValue == nil) {
+                    containNSValue = @(NO);
+                    for (NSString *obj in dic.allKeys) {
+                        NSString *t = [self DBModelPropertys][obj];
+                        if ([t containsString:@"CGSize"] || [t containsString:@"CGPoint"] || [t containsString:@"NSRange"] || [t containsString:@"UIOffset"] || [t containsString:@"UIEdgeInsets"] || [t containsString:@"CGAffineTransform"]) {
+                            containNSValue = @(YES);break;
+                        }
+                    }
+                }
+                
+                if (containNSValue.boolValue) {
+                    [[self DBModelPropertys] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *t, BOOL * stop) {
+                        id value = [self HandelNSValue:dic[key] type:t];
+                        if (value) {dic[key] = value;}
+                    }];
+                }
                 
                 [result addObject:[modClass modelWithJSON:dic]];//用YYkit的Json转模型
             }
@@ -387,7 +459,7 @@ static NSDateFormatter *staticDateFormatter;
 }
 
 //----------------------------------------------------------------------------------------
-//@"where bpm = \"48\" and bpL = \"75\""
-//@"set upload = \"1\" where bpm = \"49\""
+//@"where a = \"48\" and b = \"75\""
+//@"set upload = \"1\" where a = \"49\""
 
 @end

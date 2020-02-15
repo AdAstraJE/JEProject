@@ -45,7 +45,7 @@
 }
 
 - (NSData*)data{
-    return   [self dataUsingEncoding:NSUTF8StringEncoding];
+    return  [self dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSString*)base64{

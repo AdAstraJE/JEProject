@@ -3,7 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -44,7 +44,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="2Cl-4I-SbF"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="more" id="kd2-Ev-bZz"/>
+                    <tabBarItem key="tabBarItem" image="plus.square.on.square" catalog="system" id="kd2-Ev-bZz"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FlA-yB-kfa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -183,4 +183,7 @@
             <point key="canvasLocation" x="700" y="-98"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="plus.square.on.square" catalog="system" width="64" height="56"/>
+    </resources>
 </document>

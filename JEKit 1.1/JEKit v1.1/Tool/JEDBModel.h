@@ -16,8 +16,9 @@ typedef void (^JEDBResult)(BOOL success);///< 执行结果
 
 #pragma mark ------------------------------------------可子类重新定义-----------------------------------------------
 + (NSString *)TableName;///< 表名字 ###默认 NSStringFromClass([self class])
-+ (NSString *)PrimaryKey;///< 重新定义 Primary Key 主键 ### 默认父类的id
-+ (NSArray <Class> *)PropertysFromSuper;///< 要加入的父类属性 （继承默认不会加上父类属性滴）
++ (NSString *)PrimaryKey;///< 重新定义 主键Primary Key  ### 默认父类的ID
++ (NSArray <Class> *)PropertysFromSuper;///< 要加入的父类属性 （继承默认不会加上父类属性）
++ (NSArray <NSString *> *)IgnorePropertys;///< 要忽略的属性
 
 #pragma mark -------------------------------------------建表、更新表----------------------------------------------
 

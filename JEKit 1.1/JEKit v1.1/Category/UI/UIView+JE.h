@@ -56,6 +56,7 @@ UIKIT_EXTERN  UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__
 - (__kindof UIView * (^)(NSInteger tag))tag_;///< self.tag =
 - (__kindof UIView * (^)(NSInteger rad))rad_;///< self.rad =
 - (__kindof UIView * (^)(__kindof UIView *view))addTo;///< [view addSubview:self]
+- (__kindof UIView * (^)(__kindof UIView *view))insertTo;///< [view insertSubview:self atIndex:0]
 - (__kindof UIView * (^)(CGRect rect))jeFrame;///< self.frame =
 - (__kindof UIView * (^)(CGFloat x))jeX;///< self.x =
 - (__kindof UIView * (^)(CGFloat y))jeY;///< self.y =

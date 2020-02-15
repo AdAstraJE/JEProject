@@ -485,6 +485,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEDebugTool__   🔷 工具
 
 static BOOL _enableSimulator = NO;
+static BOOL _disableTool = NO;
 static dispatch_once_t _onceToken;
 static JEDebugTool__* _sharedManager;
 
@@ -494,10 +495,12 @@ static JEDebugTool__* _sharedManager;
 
 + (id)allocWithZone:(struct _NSZone *)zone{
 #ifdef DEBUG
+    
     dispatch_once(&_onceToken, ^{
         if ([JEKit IsSimulator] && !_enableSimulator) {
             return ;
         }
+        if (_disableTool) {return;}
         
         _sharedManager = [super allocWithZone:zone];
         _sharedManager.beginDate = [NSDate date];
@@ -514,6 +517,7 @@ static JEDebugTool__* _sharedManager;
 
 /** 转换显示或隐藏 */
 + (void)SwitchONOff{
+    if (_disableTool) {return;}
     [JEDebugTool__ Shared]->_Btn_touch.alpha =  [JEDebugTool__ Shared].nav.view.alpha = (fabs(1 - [JEDebugTool__ Shared]->_Btn_touch.alpha));
 }
 
@@ -521,6 +525,8 @@ static JEDebugTool__* _sharedManager;
     _enableSimulator = YES;
     if (_onceToken != 0) { _onceToken = 0; }
 }
+
++ (void)DisableTool{_disableTool = YES;}
 
 - (void)loadDebugView{
     _Btn_touch = JEBtn(JR(ScreenWidth - 50, 240,50, 50),@"on",@20,nil,self,@selector(closeOpen),Clr_red,12,nil);

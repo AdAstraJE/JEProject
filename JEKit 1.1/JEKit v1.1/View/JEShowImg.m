@@ -2,8 +2,72 @@
 #import "JEShowImg.h"
 #import "JEKit.h"
 #import "YYAnimatedImageView.h"
+#import <PhotosUI/PhotosUI.h>
 
 static CGFloat const jkDuration = 0.2;///<
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷    JELivePhotoView   🔷🔷🔷🔷🔷🔷🔷🔷
+
+@interface JELivePhotoView : PHLivePhotoView
+@property (nonatomic,assign) BOOL playing;///<
+@end
+
+@implementation JELivePhotoView{
+    UIView *_Ve_desc;
+    UIImageView *_Img_;
+    UILabel *_La_desc;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    self.delegate = (id<PHLivePhotoViewDelegate>)self;
+    return self;
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    UIView *showView = self.subviews.firstObject.subviews.firstObject;
+    if (showView == nil) {return;}
+    if (_Ve_desc == nil) {
+        _Ve_desc = JEVe(JR(6, 6, 115.5/2, 42/2), nil, showView).rad_(3);
+        
+        _Img_ = JEImg(JR(5,(_Ve_desc.height - 15.5)/2 + 0.25,16.5,15.5),nil,_Ve_desc);
+        _La_desc = JELab(JR(23.5,0,_Ve_desc.width - 24,_Ve_desc.height),@"实况".loc,@14,UIColor.darkGrayColor,(0),_Ve_desc);
+        
+        [self handelStyleDark];
+    }
+}
+
+- (void)livePhotoView:(PHLivePhotoView *)livePhotoView willBeginPlaybackWithStyle:(PHLivePhotoViewPlaybackStyle)playbackStyle{
+    _playing = _Ve_desc.hidden = YES;
+}
+
+- (void)livePhotoView:(PHLivePhotoView *)livePhotoView didEndPlaybackWithStyle:(PHLivePhotoViewPlaybackStyle)playbackStyle{
+    _playing = _Ve_desc.hidden = NO;
+}
+
+#pragma mark - StyleDark 黑暗模式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [self handelStyleDark];
+}
+
+- (void)handelStyleDark{
+    BOOL dark = NO;
+    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
+    _Ve_desc.backgroundColor = dark ? kRGBA(0, 0, 0, 0.8) : kRGBA(255, 255, 255, 0.8);
+    UIColor *clr = dark ? UIColor.lightGrayColor : UIColor.darkGrayColor;
+    _La_desc.textColor = clr;
+    _Img_.image = JEBundleImg(@"ic_livePhoto").clr(clr);
+}
+
+@end
+
+
+
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEShowImg   🔷🔷🔷🔷🔷🔷🔷🔷
 
 @implementation JEShowImg{
     __weak UIView *_Ve_from;
@@ -13,59 +77,78 @@ static CGFloat const jkDuration = 0.2;///<
     UIVisualEffectView *_Ve_effect;
     YYAnimatedImageView  *_ImgV;
     JEButton *_Btn_action;
+    
+    JELivePhotoView *_photoView;
 }
+
+- (void)dealloc{ jkDeallocLog}
 
 + (instancetype)ShowImgFrom:(UIImageView*)view{
-    return [JEShowImg ShowImgFrom:view tureImg:nil];
+    return [JEShowImg ShowImgFrom:view trueImg:nil];
 }
 
-+ (instancetype)ShowImgFrom:(UIImageView*)view tureImg:(UIImage*)tureimg {
-    return [JEShowImg ShowImgFrom:view tureImg:tureimg action:YES];
++ (instancetype)ShowImgFrom:(UIImageView*)view trueImg:(UIImage*)trueImg {
+    return [JEShowImg ShowImgFrom:view trueImg:trueImg action:YES];
 }
 
-+ (instancetype)ShowImgFrom:(UIImageView*)from tureImg:(UIImage*)tureImg action:(BOOL)action{
++ (instancetype)ShowImgFrom:(UIImageView*)from trueImg:(UIImage*)trueImg action:(BOOL)action{
     if (from.image == nil) {return nil;}
-    UIImage *img = tureImg;
-    if (tureImg == nil && [from isKindOfClass:[UIImageView class]] ) {
+    UIImage *img = trueImg;
+    if (trueImg == nil && [from isKindOfClass:[UIImageView class]] ) {
         img = from.image;
     }
     if (img == nil) {return nil;}
-    JEShowImg *view = [[JEShowImg alloc] initWithFrame:JR(0, 0, kSW, kSH) from:from tureImg:tureImg action:action].addTo(JEApp.window);
+    JEShowImg *view = [[JEShowImg alloc] initWithFrame:JR(0, 0, kSW, kSH) from:from trueImg:trueImg action:action].addTo(JEApp.window);
     return view;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame from:(UIImageView*)from tureImg:(UIImage*)tureImg action:(BOOL)action{
++ (instancetype)ShowLivePhoto:(id)livePhoto{
+    JEShowImg *view = [[JEShowImg alloc] initWithFrame:JR(0, 0, kSW, kSH) from:nil trueImg:livePhoto action:NO].addTo(JEApp.window);
+    return view;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame from:(UIImageView*)from trueImg:(UIImage*)trueImg action:(BOOL)action{
     self = [super initWithFrame:frame];
     self.alpha = 0;
-    _Ve_from = from;
 
-    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
-    _Ve_effect = [[UIVisualEffectView alloc] initWithEffect:effect].addTo(self);
+    _Ve_effect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]].addTo(self);
     _Ve_effect.frame = self.bounds;
-    
-    _oldframe = [from convertRect:from.bounds toView:JEApp.window];
-    _ImgV = [[YYAnimatedImageView alloc] initWithFrame:_oldframe].addTo(self);
-    _ImgV.image = tureImg ? : from.image;
-    
-    _ImgV.contentMode = from.contentMode;
-    _ImgV.userInteractionEnabled = YES;
-    _ImgV.clipsToBounds  = from.clipsToBounds;
-    
+      
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HideImage)];
     tapGes.delegate = (id<UIGestureRecognizerDelegate>)self;
+    tapGes.delaysTouchesBegan = YES;
     [self addGestureRecognizer:tapGes];
     
-    UIPinchGestureRecognizer *pinGes = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinch:)];
-    pinGes.delegate = (id<UIGestureRecognizerDelegate>)self;
-    [_ImgV addGestureRecognizer:pinGes];
-    
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-    panGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
-    [_ImgV addGestureRecognizer:panGestureRecognizer];
-    
-    if (action) {
-        UIImage *image = JEBundleImg(@"ic_navAction").clr(Clr_blue);
-        _Btn_action = JEBtn(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,nil,self,@selector(JEShowImgShareBtnClick),image,0,self).touchs(15,15,15,15);
+    if ([trueImg isKindOfClass:PHLivePhoto.class]) {
+        _photoView = [[JELivePhotoView alloc]initWithFrame:CGRectMake(0, 0,kSW,kSH)].addTo(self);
+        _photoView.livePhoto = (id)trueImg;
+        _photoView.contentMode = UIViewContentModeScaleAspectFit;
+        [_photoView startPlaybackWithStyle:PHLivePhotoViewPlaybackStyleUndefined];
+    }else{
+        _Ve_from = from;
+        _oldframe = [from convertRect:from.bounds toView:JEApp.window];
+        
+        _ImgV = [[YYAnimatedImageView alloc] initWithFrame:_oldframe].addTo(self);
+        _ImgV.image = trueImg ? : from.image;
+        
+        _ImgV.contentMode = from.contentMode;
+        _ImgV.userInteractionEnabled = YES;
+        _ImgV.clipsToBounds  = from.clipsToBounds;
+        
+        UIPinchGestureRecognizer *pinGes = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinch:)];
+        pinGes.delegate = (id<UIGestureRecognizerDelegate>)self;
+        [_ImgV addGestureRecognizer:pinGes];
+        
+        UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        panGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+        [_ImgV addGestureRecognizer:panGestureRecognizer];
+        
+        if (action) {
+            UIImage *image = JEBundleImg(@"ic_navAction").clr(Clr_blue);
+            _Btn_action = JEBtn(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,nil,self,@selector(JEShowImgShareBtnClick),image,0,self).touchs(15,15,15,15);
+        }
+ 
+        _original = _ImgV.frame;
     }
     
     [UIView animateWithDuration:jkDuration delay:0 options:(UIViewAnimationOptionCurveEaseInOut) animations:^{
@@ -73,11 +156,7 @@ static CGFloat const jkDuration = 0.2;///<
         self.alpha = 1;
         self->_Ve_from.alpha = 0;
     } completion:nil];
-    
-    _original = _ImgV.frame;
-    
-    [self handelStyleDark];
-    
+
     return self;
 }
 
@@ -91,9 +170,11 @@ static CGFloat const jkDuration = 0.2;///<
 }
 
 - (void)HideImage{
+    if (_photoView && _photoView.playing) { return;}
     [UIView animateWithDuration:jkDuration delay:0 options:(UIViewAnimationOptionCurveEaseOut) animations:^{
         self->_ImgV.frame = self->_oldframe;
         self->_Btn_action.alpha = self->_Ve_effect.alpha = 0;
+        self->_photoView.alpha = 0;
     } completion:^(BOOL finished) {
         self->_Ve_from.alpha = 1;
         [self removeFromSuperview];
@@ -140,21 +221,8 @@ static CGFloat const jkDuration = 0.2;///<
     
 }
 
-#pragma mark - StyleDark 黑暗模式
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [self handelStyleDark];
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return YES;
 }
-
-- (void)handelStyleDark{
-    BOOL dark = NO;
-    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    
-    _Ve_effect.effect = [UIBlurEffect effectWithStyle:dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight];
-    
-}
-
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
-//    return YES;
-//}
 
 @end

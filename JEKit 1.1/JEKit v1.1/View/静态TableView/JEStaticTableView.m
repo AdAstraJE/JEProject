@@ -14,7 +14,7 @@ static NSInteger const jkHeadFootLabelMargin = 15;///<
 
     self.delegate = (id<UITableViewDelegate>)self;
     self.dataSource = (id<UITableViewDataSource>)self;
-    self.contentInset = UIEdgeInsetsMake(0, 0, (self.sectionHeaderHeight + self.sectionFooterHeight)*2, 0);
+    self.contentInsetBottom = (self.sectionHeaderHeight + self.sectionFooterHeight)*2;
     [self handelStyleDark];
     
     return self;

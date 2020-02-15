@@ -5,7 +5,7 @@
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event{
     if(!self.dragging){
-        [[self nextResponder]touchesBegan:touches withEvent:event];
+        [[self nextResponder] touchesBegan:touches withEvent:event];
     }
     [super touchesBegan:touches withEvent:event];
 }

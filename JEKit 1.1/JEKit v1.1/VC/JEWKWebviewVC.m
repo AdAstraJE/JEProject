@@ -131,11 +131,14 @@
             if ([str hasPrefix:prefix]) { request = [NSURLRequest requestWithURL:[str substringFromIndex:prefix.length].url];break;}
         }
     }
-
+//
+//    BOOL hhh = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"http+:[^\\s]*"] evaluateWithObject:request.URL.absoluteString];
+//    https://gitee.com/
     //打开网页
-    if ([request isKindOfClass:NSURLRequest.class] && request.URL.absoluteString.isNetUrl) {
-        [self.navBackButton je_resetImg:JEBundleImg(@"ic_navClose").clr(JEShare.navBarItemClr)];
-    }
+    //    if ([request isKindOfClass:NSURLRequest.class] && request.URL.absoluteString.isNetUrl) {
+    [self.navBackButton je_resetImg:JEBundleImg(@"ic_navClose").clr(JEShare.navBarItemClr)];
+    self.navBackButton.x += 5.5;
+//    }
     
     if ([request isKindOfClass:NSURLRequest.class] && [@[@"md",@"txt",@"json",@"plist",@"h",@"m"] containsObject:[request.URL.absoluteString pathExtension].lowercaseString]) {
         NSStringEncoding *useEncodeing = nil;
@@ -171,15 +174,19 @@
     }
 
 
-    UIImage *arrow = JEBundleImg(@"ic_navBack");
+    UIImage *leftArrow = JEBundleImg(@"ic_navBack").clr(Clr_blue);
+    UIImage *rightArrow = [leftArrow je_rotate:180];
     
     UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
     UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect].addTo(self.view);
     effectView.frame = CGRectMake(0, ScreenHeight - 44 - ScreenSafeArea, ScreenWidth, 44 + ScreenSafeArea);
     
-    _Btn_back = JEBtn(JR(ScreenWidth/2 - 44 - 40,0,44,44),nil,@0,nil,_webView,@selector(goBack),arrow.clr([UIColor blackColor]),0,effectView.contentView);
-
-    _Btn_forward = JEBtn(JR(ScreenWidth/2 + 40,0,44,44),nil,@0,nil,_webView,@selector(goForward),[arrow je_rotate:180].clr([UIColor blackColor]),0,effectView.contentView);
+    _Btn_back = JEBtn(JR(ScreenWidth/2 - 44 - 40,0,44,44),nil,@0,nil,_webView,@selector(goBack),leftArrow,0,effectView.contentView);
+    [_Btn_back setImage:leftArrow.clr(Clr_txtC8) forState:(UIControlStateDisabled)];
+    
+    _Btn_forward = JEBtn(JR(ScreenWidth/2 + 40,0,44,44),nil,@0,nil,_webView,@selector(goForward),rightArrow,0,effectView.contentView);
+    [_Btn_forward setImage:rightArrow.clr(Clr_txtC8) forState:(UIControlStateDisabled)];
+    
     _Ve_tool = effectView;
     _Ve_tool.hidden = YES;
 }

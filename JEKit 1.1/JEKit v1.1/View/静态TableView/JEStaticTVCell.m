@@ -107,6 +107,7 @@
 }
 
 - (void)handelStyleDark{
+    [super handelStyleDark];
     BOOL dark = NO;
     if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
     

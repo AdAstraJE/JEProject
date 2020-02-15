@@ -1,5 +1,8 @@
 
 #import <UIKit/UIKit.h>
+@class JEButton;
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, JEPopType) {
     JEPopTypeMiddle,///< 中间渐显
@@ -23,7 +26,14 @@ typedef NS_ENUM(NSUInteger, JEPopType) {
 @property (nonatomic,strong) UIVisualEffectView *maskView;
 
 - (void)resetWidth:(CGFloat)widht;
-    
+- (void)resetHeight:(CGFloat)height;
+
+- (void)addCancelConfirmBtn;
+@property (nonatomic,strong) JEButton *__nullable Btn_cancel;///< 取消
+@property (nonatomic,strong) JEButton *__nullable Btn_confirm;///< 确定
+@property (nonatomic,strong) UIView *lineH,*lineV;
+- (void)confirmBtnClick;
+
 /// 显示
 - (void)show;
 
@@ -36,7 +46,9 @@ typedef NS_ENUM(NSUInteger, JEPopType) {
 @end
 
 
-
 @interface JEInputView : JEBaseBackView
 
 @end
+
+
+NS_ASSUME_NONNULL_END

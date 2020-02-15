@@ -117,8 +117,8 @@ static const void *jeLa_TitleKey;
 - (void)je_setBackButtonTitle:(NSString *)title{
     [self.Btn_back setTitle:title forState:UIControlStateNormal];
     [self.Btn_back sizeThatWidth];
-    self.Btn_back.height = 44;
-    self.Btn_back.y = ScreenStatusBarH;
+    self.Btn_back.height = self.presentingViewController ? jkPresentingNavH : 44;
+    self.Btn_back.y = self.presentingViewController ? 0 : ScreenStatusBarH;
     [self.Btn_back setImage:nil forState:UIControlStateNormal];
     [self.Btn_back setImage:nil forState:UIControlStateHighlighted];
 }
@@ -163,9 +163,9 @@ static const void *jeLa_TitleKey;
         }
     }
     
-    CGFloat x = self.presentingViewController ? 0 : ScreenStatusBarH;
+    CGFloat y = self.presentingViewController ? 0 : ScreenStatusBarH;
     CGFloat h = self.presentingViewController ? jkPresentingNavH : 44;
-    JEButton *btnBack = JEBtn(JR(-1, x, -1, h),title,@18,self.controlVC.je_navBarItemColor,target,selector,nil,0,nil).touchs(20,30,0,12);
+    JEButton *btnBack = JEBtn(JR(-1, y, -1, h),title,@18,self.controlVC.je_navBarItemColor,target,selector,nil,0,nil).touchs(20,30,0,12);
     btnBack.width = [btnBack sizeThatFits:CGSizeMake(ScreenWidth*0.4, 44)].width;
     btnBack.x = ScreenWidth - btnBack.width - 10;
     return btnBack;

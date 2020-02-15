@@ -15,6 +15,9 @@ UIImageView * JEImg(CGRect rect,id img,__kindof UIView *addTo){
     else if ([img isKindOfClass:[UIColor class]]){image = UIImage.clr(img); }
     if (image) { imgView.image = image;}
     
+    if ([addTo isKindOfClass:UIVisualEffectView.class]) {
+        addTo = ((UIVisualEffectView *)addTo).contentView;
+    }
     if (addTo) {  [addTo addSubview:imgView];}
     return imgView;
 }

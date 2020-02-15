@@ -247,7 +247,9 @@ static JEBluetooth *_instance;
 
 #pragma mark - CBPeripheralDelegate - 发现服务
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
-    if (error) {BLELog(@"🔴 发现服务出错：%@",error); return; }
+    if (error) {BLELog(@"🔴 发现服务出错：%@",error);
+        [self cancelDevice:_Dic_devices[peripheral.identifier.UUIDString]];
+        return; }
     
     _Dic_devices[peripheral.identifier.UUIDString].serviceCount = peripheral.services.count;
     

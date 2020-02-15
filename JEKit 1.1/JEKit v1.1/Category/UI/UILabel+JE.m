@@ -6,6 +6,7 @@
 
 UILabel * JELab(CGRect rect,NSString *txt,id fnt,UIColor *clr,NSTextAlignment align,__kindof UIView *addTo){
     UILabel *la = [UILabel Frame:rect text:txt font:fnt color:clr align:align];
+    if ([addTo isKindOfClass:UIVisualEffectView.class]) {addTo = ((UIVisualEffectView *)addTo).contentView;}
     if (addTo) { [addTo addSubview:la];}
     return la;
 }
@@ -179,7 +180,7 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     if (prefix) {
         [textAttrStr appendAttributedString:imgStr];
         [textAttrStr appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-        [textAttrStr appendAttributedString:self.attributedText];
+        if (self.attributedText) {[textAttrStr appendAttributedString:self.attributedText];}
     }else{
         [textAttrStr appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
         [textAttrStr appendAttributedString:imgStr];

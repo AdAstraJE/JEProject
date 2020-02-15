@@ -47,6 +47,8 @@
 
 @interface JEDebugTool__ : NSObject
 
++ (void)DisableTool;
+
 @property (nonatomic,strong) UINavigationController *nav;
 @property (nonatomic,strong) UIButton *Btn_touch;///< open close 悬浮小按钮
 @property (nonatomic,strong) NSDate *beginDate;///< Log开始时间

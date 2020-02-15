@@ -3,6 +3,7 @@
 #import "JEKit.h"
 
 static CGFloat const JKPresentingNavH = 58.0f;///<
+static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 
 @implementation JEBaseVC
 
@@ -53,25 +54,35 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
 - (void)createNavBar{
     CGFloat height = self.presentingViewController ? JKPresentingNavH : ScreenNavBarH;
     UIView *_ = JEVe(JR(0, 0, ScreenWidth, height),JEShare.navBarClr, self.view);
+    if (JEShare.navBarClr == nil) {
+        _navBarEffect = JEEFVe(_.bounds, UIBlurEffectStyleExtraLight, _);
+    }
+
     if (JEShare.navBarImage) {JEImg(_.bounds,JEShare.navBarImage,_);}
-    
     {
-        CGFloat x = self.presentingViewController ? 14 : (ScreenStatusBarH + 6);
-        UILabel *la = JELab(JR(50,x, ScreenWidth - 50*2, 30),self.title,fontM(18),JEShare.navTitleClr,(1),_);
+        CGFloat x = self.presentingViewController ? 14 : (ScreenStatusBarH + 7);
+        UILabel *la = JELab(JR(50,x, ScreenWidth - 50*2, 30),self.title,fontM(17),JEShare.navTitleClr,(1),_);
         la.adjustsFontSizeToFitWidth = YES;
         la.backgroundColor = [UIColor clearColor];
         _navTitleLable = la;
     }
     
-    if (JEShare.navBarImage == nil && JEShare.navBarClr == UIColor.whiteColor) {
-        _navBarline = JEVe(JR(0, _.height - 0.5, _.width, 0.5), JEShare.navBarLineClr, _);
+    if (JEShare.navBarImage == nil) {
+        _navBarline = JEVe(JR(0, _.height - 0.5, _.width, 0.5), nil, _);
     }
     
     if (self.Nav.viewControllers.count > 1) {
         UIImage *image = JEBundleImg(@"ic_navBack").clr(JEShare.navBarItemClr);
-        _navBackButton = JEBtn(JR(3, ScreenStatusBarH + (kNavBarH44 - 26)/2, 26, 26),nil,_navTitleLable.font ? : font(17),JEShare.navBarItemClr,self,@selector(navBackButtonClick),image,0,_).touchs(ScreenStatusBarH,3,20,40);
+        _navBackButton = JEBtn(JR(1.5, ScreenStatusBarH + (kNavBarH44 - 26)/2, 26, 26),nil,_navTitleLable.font ? : font(17),JEShare.navBarItemClr,self,@selector(navBackButtonClick),nil,0,_).touchs(ScreenStatusBarH,3,20,40);
+        [_navBackButton je_resetImg:image];
     }
     _navBar = _;
+}
+
+/// navBar navBarEffect navBarline frame
+- (void)resetNavBarHeight:(CGFloat)h{
+    _navBar.height = _navBarEffect.height = h;
+    _navBarline.y = _navBarline.superview.height - _navBarline.height;
 }
 
 - (void)navBackButtonClick{
@@ -83,35 +94,39 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
     _navTitleLable.text = title;
 }
 
-- (JEButton *)leftNavBtn:(id)item{
+- (void)leftNavBtn:(id)item{
     NSString *title = [item isKindOfClass:NSString.class] ? item : nil;
     UIImage *img = [item isKindOfClass:UIImage.class] ? item : nil;
     if (_navBackButton == nil) {
-        _navBackButton = [self createBtn:item target:self act:@selector(navBackButtonClick)];
+        _navBackButton = [self leftBtn:item target:self act:@selector(navBackButtonClick)];
     }else{
         if (img) { [_navBackButton je_resetImg:img];}
         if (title) {[_navBackButton setTitle:title forState:UIControlStateNormal]; }
     }
 
     [_navBackButton sizeThatWidth];
-    _navBackButton.x = 12;
-    return _navBackButton;
+    _navBackButton.x = JKNavItemTitleMargin;
 }
 
 - (JEButton *)rightNavBtn:(id)item target:(id)target act:(SEL)selector{
-    JEButton *_ = [self createBtn:item target:target act:selector];
-    _.x = ScreenWidth - _.width - 16;
+    JEButton *_ = [self leftBtn:item target:target act:selector];
+    _.x = ScreenWidth - _.width - JKNavItemTitleMargin;
+    if (self.presentingViewController) {
+        _.titleLabel.font = fontM(_.titleLabel.font.pointSize);
+    }
+    
     return _;
 }
 
-- (JEButton *)createBtn:(id)item target:(id)target act:(SEL)selector{
+- (JEButton *)leftBtn:(id)item target:(id)target act:(SEL)selector{
     NSString *title = [item isKindOfClass:NSString.class] ? item : nil;
     UIImage *img = [item isKindOfClass:UIImage.class] ? item : nil;
     CGFloat x = self.presentingViewController ? 0 : ScreenStatusBarH;
     CGFloat h = self.presentingViewController ? JKPresentingNavH : kNavBarH44;
-    UIFont *font = self.presentingViewController ? fontM(17) : font(17);
+    UIFont *font = font(17);
     
-    JEButton *_ = JEBtn(JR(-1,x, -1, h),title,font,JEShare.navBarItemClr,target,selector,img,0,_navBar).touchs(10,20,0,16);
+    JEButton *_ = JEBtn(JR(JKNavItemTitleMargin,x, -1, h),title,font,JEShare.navBarItemClr,target,selector,nil,0,_navBar).touchs(10,20,0,16);
+    [_ je_resetImg:img];
     [_ sizeThatWidth];
     return _;
 }
@@ -121,36 +136,51 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
     return JR(0, _navBar.height, ScreenWidth, ScreenHeight - _navBar.height - (self.presentingViewController ? ScreenStatusBarH : 0));
 }
 
+- (CGRect)tvFrameFull{
+    return JR(0, 0, ScreenWidth, ScreenHeight - (self.presentingViewController ? (ScreenStatusBarH*2 - ScreenSafeArea) : 0));
+}
+
 - (JEStaticTableView *)staticTv{
     if (_staticTv == nil) {
-        _staticTv = [[JEStaticTableView alloc] initWithFrame:self.tvFrame];
-        [self.view insertSubview:_staticTv atIndex:0];
+        JEStaticTableView *tv = [[JEStaticTableView alloc] initWithFrame:self.tvFrameFull];
+        if (_navBar) {tv.contentInsetTop = _navBar.height - (self.presentingViewController ? 0 : ScreenStatusBarH);}
+        [self.view insertSubview:tv atIndex:0];
+        _staticTv = tv;
     }
     return _staticTv;
 }
 
 - (JETableView *)defaultTv:(UITableViewStyle)style cell:(id)cellClass{
-    JETableView *_ = [[JETableView alloc]initWithFrame:self.tvFrame style:style];
-    _.rowHeight = 45.0f;
-    _.delegate = (id<UITableViewDelegate>)self;
-    _.dataSource = (id<UITableViewDataSource>)self;
-    if (style == UITableViewStylePlain) {
-        _.tableFooterView = [UIView new];
-    }
+    JETableView *tv = [[JETableView alloc]initWithFrame:self.tvFrameFull style:style];
+    tv.rowHeight = 45.0f;
+    tv.delegate = (id<UITableViewDelegate>)self;
+    tv.dataSource = (id<UITableViewDataSource>)self;
+    if (style == UITableViewStylePlain) {tv.tableFooterView = [UIView new];}
     
     if ([cellClass isKindOfClass:[NSArray class]]) {
         [cellClass enumerateObjectsUsingBlock:^(Class obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [_ registerClass:obj forCellReuseIdentifier:NSStringFromClass(obj)];
+            [tv registerClass:obj forCellReuseIdentifier:NSStringFromClass(obj)];
         }];
     }else{
         if (cellClass) {
-            [_ registerClass:cellClass forCellReuseIdentifier:NSStringFromClass(cellClass)];
+            [tv registerClass:cellClass forCellReuseIdentifier:NSStringFromClass(cellClass)];
         }else{
-            [_ registerClass:[UITableViewCell class] forCellReuseIdentifier:[UITableViewCell className]];
+            [tv registerClass:[UITableViewCell class] forCellReuseIdentifier:[UITableViewCell className]];
         }
     }
-    [self.view insertSubview:_ atIndex:0];
-    return _;
+    if (_navBar) {tv.contentInsetTop = _navBar.height - (self.presentingViewController ? 0 : ScreenStatusBarH);}
+    [self.view insertSubview:tv atIndex:0];
+    return tv;
+}
+
+- (JELiteTV *)liteTv:(UITableViewStyle)style cellC:(nullable Class)cellClass cellH:(CGFloat)cellHeight
+               cell:(nullable void (^)(__kindof UITableViewCell *cell,UITableView *tv,NSIndexPath *idxP,id obj))cell select:(nullable void (^)(UITableView *tv,NSIndexPath *idxP,id obj))select{
+    JELiteTV *tv = [[JELiteTV alloc] initWithFrame:self.tvFrameFull style:style cellC:cellClass cellH:cellHeight];
+    tv.cell = cell;
+    tv.select = select;
+    if (_navBar) {tv.contentInsetTop = _navBar.height - (self.presentingViewController ? 0 : ScreenStatusBarH);}
+    [self.view insertSubview:tv atIndex:0];
+    return tv;
 }
 
 
@@ -172,10 +202,12 @@ static CGFloat const JKPresentingNavH = 58.0f;///<
 - (void)handelStyleDark{
     BOOL dark = NO;
     if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    
     self.view.backgroundColor = dark ? UIColor.blackColor : _backgroundColor;
+    
+    if (JEShare.navBarLineClr) {_navBarline.backgroundColor = dark ? kRGBA(84, 84, 89, 0.6) : JEShare.navBarLineClr;}
     if (_navBar) {
-        _navBar.backgroundColor = dark ? UIColor.blackColor : JEShare.navBarClr;
+        _navBar.backgroundColor = dark ? nil : JEShare.navBarClr;
+        _navBarEffect.effect = [UIBlurEffect effectWithStyle:(dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight)];
         _navTitleLable.textColor = dark ? UIColor.whiteColor : JEShare.navTitleClr;
     }
 }

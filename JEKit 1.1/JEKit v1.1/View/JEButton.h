@@ -27,7 +27,7 @@ UIKIT_EXTERN  JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,i
 @property (nonatomic,assign) CGFloat imageTitleSpace;///< 图片与文本的间距
 
 @property (nonatomic,strong) UIActivityIndicatorView *Act_;///< UIActivityIndicatorView
-@property (nonatomic,assign) BOOL disableInLoading ;///< loading 时不可点击,default NO
+@property (nonatomic,assign) BOOL enableInLoading ;///< loading 时可点击,default NO
 
 /// 覆盖式的 进度中。
 - (void)coverLoading;

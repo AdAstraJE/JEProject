@@ -28,13 +28,16 @@ static NSString * const jkAppsecret = @"3DXZbTizSZRt13bfdCuB";///<
                                               ];
     
     [arr enumerateObjectsUsingBlock:^(NSArray<NSString *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self Translate:target to:obj.firstObject done:^(JETranslateResult *result, NSError *error) {
-            NSMutableString *string = [NSMutableString string];
-            [result.trans_result enumerateObjectsUsingBlock:^(TransResult * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [string appendFormat:@"\n\"%@\" = \"%@\";",obj.src,obj.dst];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(((float)idx *1) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self Translate:target to:obj.firstObject done:^(JETranslateResult *result, NSError *error) {
+                NSMutableString *string = [NSMutableString string];
+                [result.trans_result enumerateObjectsUsingBlock:^(TransResult * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [string appendFormat:@"\n\"%@\" = \"%@\";",obj.src,obj.dst];
+                }];
+                JELog(@"👁‍🗨%@\n%@\n\n\n",obj.lastObject,string);
             }];
-            JELog(@"👁‍🗨%@\n%@\n\n\n",obj.lastObject,string);
-        }];
+        });
+        
     }];
 }
 

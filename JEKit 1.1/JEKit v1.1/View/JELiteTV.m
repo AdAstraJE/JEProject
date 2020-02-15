@@ -29,7 +29,7 @@
     self.sectionHeaderHeight = [JEKit Shared].stc.sectionHeaderHeight;
     self.sectionFooterHeight = [JEKit Shared].stc.sectionFooterHeight;
     
-    self.contentInset = UIEdgeInsetsMake(0, 0, (self.sectionHeaderHeight + self.sectionFooterHeight)*2, 0);
+    self.contentInsetBottom = (self.sectionHeaderHeight + self.sectionFooterHeight)*2;
     
     return self;
 }

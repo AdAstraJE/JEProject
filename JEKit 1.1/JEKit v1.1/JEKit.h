@@ -123,9 +123,9 @@
 #pragma mark -
 @property (nonatomic,strong) UIColor *HUDClr;///<  HUD颜色 ### UIColor.blackColor
 @property (nonatomic,strong) UIColor *themeClr;///<  主题颜色 ### nil
-@property (nonatomic,strong) UIColor *VCBgClr;/// VC background Color ### (kRGB(244, 245, 246))
+@property (nonatomic,strong) UIColor *VCBgClr;/// VC background Color ### UIColor.whiteColor //(kRGB(244, 245, 246))
 #pragma mark - "导航栏”
-@property (nonatomic,strong)  UIColor *navBarClr;///< 导航栏背景颜色 ### [UIColor whiteColor]
+@property (nonatomic,strong)  UIColor *navBarClr;///< 导航栏背景颜色 ###  nil
 @property (nonatomic,strong)  UIImage *navBarImage;///< 导航栏背景图片 ### nil
 @property (nonatomic,strong)  UIColor *navBarLineClr;///< 导航栏底部线条颜色 ### kHexColorA(0xCCCCCC,0.6)
 @property (nonatomic,strong)  UIColor *navBarItemClr;///< 返回键 左右控制键 按钮颜色 ### Clr_blue
@@ -160,7 +160,7 @@ typedef void(^pickImgEndBlock)(void);
 
 
 #pragma mark - 定位
-typedef void(^jeLocationBlock)(id location,NSDictionary *address);
+typedef void(^jeLocationBlock)(id location,id placemark);
 
 /// 获取当前位置
 + (void)Location:(jeLocationBlock)done;

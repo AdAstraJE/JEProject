@@ -13,15 +13,15 @@ typedef void(^JEStvSwitchBlock)(JEStvIt *item,BOOL on);///< cell switch valueCha
 /** 默认样式 */
 + (JEStvUIStyle *)DefaultStyle;
 
-@property (nonatomic,strong) UIColor *backgroundColor;///<   ### JEShare.VCBgClr
+@property (nonatomic,strong) UIColor *backgroundColor;///<   ### JEShare.tvBgClr
 @property (nonatomic,assign) CGFloat sectionHeaderHeight;///< ### 12
 @property (nonatomic,assign) CGFloat sectionFooterHeight;///< ### 1
-@property (nonatomic,assign) CGFloat defaultCellHeight;///< ### 48
+@property (nonatomic,assign) CGFloat cellHeight;///< ### 45
 @property (nonatomic,assign) CGFloat margin;///< 左右边距 ### 15
 @property (nonatomic,assign) CGFloat iconWH;///< 图标长宽 ### 22
 @property (nonatomic,assign) CGFloat iconTitleMargin;///< 图标 title 边距 ### 10
 @property (nonatomic,strong) UIFont  *titleFont;///<   ### font(14)
-@property (nonatomic,strong) UIColor *titleColor;///<   ### Clr_txt
+@property (nonatomic,strong) UIColor *titleColor;///<   ### nil
 @property (nonatomic,strong) UIFont  *descFont;///<   ### font(14)
 @property (nonatomic,strong) UIColor *descColor;///<   ### Clr_txt77
 @property (nonatomic,strong) UIFont  *detailFont;///<   ### font(11)

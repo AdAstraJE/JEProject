@@ -4,6 +4,7 @@
 #import "tempVC.h"
 #import "DataBaseTestVC.h"
 #import "JEWKWebviewVC.h"
+#import "UIDevice+YYAdd.h"
 
 @implementation Tab_1VC
 
@@ -20,6 +21,8 @@ JEBtn(JR(0,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnC
 }
 
 - (void)testBtnClick{
+    
+    JELog(@"%@",[NSByteCountFormatter stringFromByteCount:32423488 countStyle:NSByteCountFormatterCountStyleFile]);
 //    [Tab_1VC ShowVC];
 //    [self showHUD];
 //    JEApp.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];

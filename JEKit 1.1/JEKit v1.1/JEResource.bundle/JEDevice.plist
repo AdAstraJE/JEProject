@@ -49,7 +49,7 @@
 	<key>Watch4,4</key>
 	<string>Apple Watch Series 4 (A1976/A2008)</string>
 	<key>iPad1,1</key>
-	<string>iPad 1G (A1219/A1337)</string>
+	<string>iPad 1G</string>
 	<key>iPad11,1</key>
 	<string>iPad Mini 5 WiFi</string>
 	<key>iPad11,2</key>
@@ -59,111 +59,111 @@
 	<key>iPad11,4</key>
 	<string>iPad Air 3</string>
 	<key>iPad2,1</key>
-	<string>iPad 2 (A1395)</string>
+	<string>iPad 2</string>
 	<key>iPad2,2</key>
-	<string>iPad 2 (A1396)</string>
+	<string>iPad 2</string>
 	<key>iPad2,3</key>
-	<string>iPad 2 (A1397)</string>
+	<string>iPad 2</string>
 	<key>iPad2,4</key>
-	<string>iPad 2 (A1395+New Chip)</string>
+	<string>iPad 2</string>
 	<key>iPad2,5</key>
-	<string>iPad Mini 1G (A1432)</string>
+	<string>iPad Mini 1G</string>
 	<key>iPad2,6</key>
-	<string>iPad Mini 1G (A1454)</string>
+	<string>iPad Mini 1G</string>
 	<key>iPad2,7</key>
-	<string>iPad Mini 1G (A1455)</string>
+	<string>iPad Mini 1G</string>
 	<key>iPad3,1</key>
-	<string>iPad 3 (A1416)</string>
+	<string>iPad 3</string>
 	<key>iPad3,2</key>
-	<string>iPad 3 (A1403)</string>
+	<string>iPad 3</string>
 	<key>iPad3,3</key>
-	<string>iPad 3 (A1430)</string>
+	<string>iPad 3</string>
 	<key>iPad3,4</key>
-	<string>iPad 4 (A1458)</string>
+	<string>iPad 4</string>
 	<key>iPad3,5</key>
-	<string>iPad 4 (A1459)</string>
+	<string>iPad 4</string>
 	<key>iPad3,6</key>
-	<string>iPad 4 (A1460)</string>
+	<string>iPad 4</string>
 	<key>iPad4,1</key>
-	<string>iPad Air (A1474)</string>
+	<string>iPad Air</string>
 	<key>iPad4,2</key>
-	<string>iPad Air (A1475)</string>
+	<string>iPad Air</string>
 	<key>iPad4,3</key>
-	<string>iPad Air (A1476)</string>
+	<string>iPad Air</string>
 	<key>iPad4,4</key>
-	<string>iPad Mini 2G (A1489)</string>
+	<string>iPad Mini 2G</string>
 	<key>iPad4,5</key>
-	<string>iPad Mini 2G (A1490)</string>
+	<string>iPad Mini 2G</string>
 	<key>iPad4,6</key>
-	<string>iPad Mini 2G (A1491)</string>
+	<string>iPad Mini 2G</string>
 	<key>iPad4,7</key>
-	<string>iPad Mini 3 (WiFi)</string>
+	<string>iPad Mini 3</string>
 	<key>iPad4,8</key>
-	<string>iPad Mini 3 (Cellular)</string>
+	<string>iPad Mini 3</string>
 	<key>iPad4,9</key>
-	<string>iPad Mini 3 (Cellular)</string>
+	<string>iPad Mini 3</string>
 	<key>iPad5,1</key>
-	<string>iPad Mini 4 (WiFi)</string>
+	<string>iPad Mini 4</string>
 	<key>iPad5,2</key>
-	<string>iPad Mini 4 (Cellular)</string>
+	<string>iPad Mini 4</string>
 	<key>iPad5,3</key>
-	<string>iPad Air 2 (WiFi)</string>
+	<string>iPad Air 2</string>
 	<key>iPad5,4</key>
-	<string>iPad Air 2 (Cellular)</string>
+	<string>iPad Air 2</string>
 	<key>iPad6,11</key>
-	<string>iPad 5 (WiFi)</string>
+	<string>iPad 5</string>
 	<key>iPad6,12</key>
-	<string>iPad 5 (Cellular)</string>
+	<string>iPad 5</string>
 	<key>iPad6,3</key>
-	<string>iPad Pro 9.7-inch (WiFi)</string>
+	<string>iPad Pro 9.7-inch</string>
 	<key>iPad6,4</key>
-	<string>iPad Pro 9.7-inch (Cellular)</string>
+	<string>iPad Pro 9.7-inch</string>
 	<key>iPad6,7</key>
-	<string>iPad Pro 12.9-inch (WiFi)</string>
+	<string>iPad Pro 12.9-inch</string>
 	<key>iPad6,8</key>
-	<string>iPad Pro 12.9-inch (Cellular)</string>
+	<string>iPad Pro 12.9-inch</string>
 	<key>iPad7,1</key>
-	<string>iPad Pro 12.9-inch 2nd-gen (WiFi)</string>
+	<string>iPad Pro 12.9-inch 2nd-gen</string>
 	<key>iPad7,2</key>
-	<string>iPad Pro 12.9-inch 2nd-gen (Cellular)</string>
+	<string>iPad Pro 12.9-inch 2nd-gen</string>
 	<key>iPad7,3</key>
-	<string>iPad Pro 10.5-inch (WiFi)</string>
+	<string>iPad Pro 10.5-inch</string>
 	<key>iPad7,4</key>
-	<string>iPad Pro 10.5-inch (Cellular)</string>
+	<string>iPad Pro 10.5-inch</string>
 	<key>iPad7,5</key>
-	<string>iPad 6 (WiFi)</string>
+	<string>iPad 6</string>
 	<key>iPad7,6</key>
-	<string>iPad 6 (Cellular)</string>
+	<string>iPad 6</string>
 	<key>iPad8,1</key>
-	<string>iPad Pro (11-inch) (A1980)</string>
+	<string>iPad Pro (11-inch)</string>
 	<key>iPad8,2</key>
-	<string>iPad Pro (11-inch) (A1980)</string>
+	<string>iPad Pro (11-inch)</string>
 	<key>iPad8,3</key>
-	<string>iPad Pro (11-inch) (A1934/A1979/A2013)</string>
+	<string>iPad Pro (11-inch)</string>
 	<key>iPad8,4</key>
-	<string>iPad Pro (11-inch) (A1934/A1979/A2013)</string>
+	<string>iPad Pro (11-inch)</string>
 	<key>iPad8,5</key>
-	<string>iPad Pro 3 (12.9-inch) (A1876)</string>
+	<string>iPad Pro 3 (12.9-inch)</string>
 	<key>iPad8,6</key>
-	<string>iPad Pro 3 (12.9-inch) (A1876)</string>
+	<string>iPad Pro 3 (12.9-inch)</string>
 	<key>iPad8,7</key>
-	<string>iPad Pro 3 (12.9-inch) (A1895/A1983/A2014)</string>
+	<string>iPad Pro 3 (12.9-inch)</string>
 	<key>iPad8,8</key>
-	<string>iPad Pro 3 (12.9-inch) (A1895/A1983/A2014)</string>
+	<string>iPad Pro 3 (12.9-inch)</string>
 	<key>iPhone1,1</key>
 	<string>iPhone 1G</string>
 	<key>iPhone1,2</key>
 	<string>iPhone 3G</string>
 	<key>iPhone10,1</key>
-	<string>iPhone 8 (A1864/A1898/A1899)</string>
+	<string>iPhone 8</string>
 	<key>iPhone10,2</key>
-	<string>iPhone 8 Plus (A1864/A1898/A1899)</string>
+	<string>iPhone 8 Plus</string>
 	<key>iPhone10,3</key>
 	<string>iPhone X Global</string>
 	<key>iPhone10,4</key>
-	<string>iPhone 8 (A1905)</string>
+	<string>iPhone 8</string>
 	<key>iPhone10,5</key>
-	<string>iPhone 8 Plus (A1897)</string>
+	<string>iPhone 8 Plus</string>
 	<key>iPhone10,6</key>
 	<string>iPhone X</string>
 	<key>iPhone11,2</key>
@@ -213,23 +213,23 @@
 	<key>iPhone8,4</key>
 	<string>iPhone SE</string>
 	<key>iPhone9,1</key>
-	<string>国行、日版、港行iPhone 7</string>
+	<string>iPhone 7</string>
 	<key>iPhone9,2</key>
-	<string>港行、国行iPhone 7 Plus</string>
+	<string>iPhone 7 Plus</string>
 	<key>iPhone9,3</key>
-	<string>美版、台版iPhone 7</string>
+	<string>iPhone 7</string>
 	<key>iPhone9,4</key>
-	<string>美版、台版iPhone 7 Plus</string>
+	<string>iPhone 7 Plus</string>
 	<key>iPod1,1</key>
-	<string>iPod Touch 1G (A1213)</string>
+	<string>iPod Touch 1G</string>
 	<key>iPod2,1</key>
-	<string>iPod Touch 2G (A1288)</string>
+	<string>iPod Touch 2G</string>
 	<key>iPod3,1</key>
-	<string>iPod Touch 3G (A1318)</string>
+	<string>iPod Touch 3G</string>
 	<key>iPod4,1</key>
-	<string>iPod Touch 4G (A1367)</string>
+	<string>iPod Touch 4G</string>
 	<key>iPod5,1</key>
-	<string>iPod Touch 5G (A1421/A1509)</string>
+	<string>iPod Touch 5G</string>
 	<key>iPod7,1</key>
 	<string>iPod touch 6G</string>
 	<key>i386</key>

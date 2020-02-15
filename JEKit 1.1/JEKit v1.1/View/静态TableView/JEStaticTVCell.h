@@ -1,8 +1,9 @@
 
 #import <UIKit/UIKit.h>
 #import "JEStvIt.h"
+#import "JETableView.h"
 
-@interface JEStaticTVCell : UITableViewCell
+@interface JEStaticTVCell : JETableViewCell
 
 @property (nonatomic,strong) UIImageView *Img_icon;///< 默认图标
 @property (nonatomic,strong) UILabel *La_title;///< 标题
