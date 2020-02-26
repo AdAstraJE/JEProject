@@ -37,7 +37,7 @@
 - (BOOL)isASCII;                ///< 单个字符 是否ASCII码
 - (BOOL)is_A_Z_0_9;             ///< 单个字符 验证是否字母数字码
 - (BOOL)isNumber;               ///< 单个字符 验证是否是数字
-- (BOOL)isNetUrl;               ///< 是否为链接
+- (BOOL)isLink;               ///< 是否为链接
 
 #pragma mark -
 

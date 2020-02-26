@@ -123,7 +123,6 @@ static CGFloat const jkHudAnimatedMarkTypeDuration = 0.8;///< 仅MarkType默认�
     if (JEShare.HUDClr) {
         HUD.bezelView.color = JEShare.HUDClr;
     }
-//    HUD.bezelView.layer.cornerRadius = 6.5;
     return HUD;
 }
 

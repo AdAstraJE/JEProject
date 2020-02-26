@@ -3,6 +3,46 @@
 #import <WebKit/WebKit.h>
 #import "JEKit.h"
 
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEOpenInSafariActivity   🔷 在Safari中打开
+@interface JEOpenInSafariActivity : UIActivity
+
+@end
+
+@implementation JEOpenInSafariActivity{
+    NSURL *_url;
+}
+
++ (UIActivityCategory)activityCategory{ return UIActivityCategoryAction;}
+- (NSString *)activityTitle{ return NSLocalizedString(@"在Safari中打开", nil);}
+- (UIImage *)activityImage{ return JEBundleImg(@"ic_safari");}
+- (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {return YES;}
+
+- (void)prepareWithActivityItems:(NSArray *)activityItems {
+    for (NSObject *obj in activityItems) {
+        if ([obj isKindOfClass:NSURL.class]) { _url = (NSURL *)obj; }
+    }
+}
+
+- (void)performActivity{
+    if (_url) {
+        [[UIApplication sharedApplication] openURL:_url options:@{UIApplicationOpenURLOptionsSourceApplicationKey:@YES} completionHandler:nil];
+    }
+    [self activityDidFinish:YES];
+}
+
+- (void)performFinish{
+    
+}
+
+@end
+
+
+
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEWKWebviewVC   🔷🔷🔷🔷🔷🔷🔷🔷
+
 @interface JEWKWebviewVC ()<WKUIDelegate,WKNavigationDelegate>{
     WKWebView *_webView;
     CGFloat _webVHeight;
@@ -10,6 +50,7 @@
     UIView *_Ve_tool;
     UIButton *_Btn_back,*_Btn_forward;///< 返回 前进
     NSString *_textResource,*_tempFileSharePath;
+    BOOL _netLink;
 }
 
 @end
@@ -131,14 +172,13 @@
             if ([str hasPrefix:prefix]) { request = [NSURLRequest requestWithURL:[str substringFromIndex:prefix.length].url];break;}
         }
     }
-//
-//    BOOL hhh = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"http+:[^\\s]*"] evaluateWithObject:request.URL.absoluteString];
-//    https://gitee.com/
+
     //打开网页
-    //    if ([request isKindOfClass:NSURLRequest.class] && request.URL.absoluteString.isNetUrl) {
-    [self.navBackButton je_resetImg:JEBundleImg(@"ic_navClose").clr(JEShare.navBarItemClr)];
-    self.navBackButton.x += 5.5;
-//    }
+    if ([request isKindOfClass:NSURLRequest.class] && request.URL.absoluteString.isLink && !request.URL.fileURL) {
+        _netLink = YES;
+        [self.navBackButton je_resetImg:JEBundleImg(@"ic_navClose").clr(JEShare.navBarItemClr)];
+        self.navBackButton.x += 5.5;
+    }
     
     if ([request isKindOfClass:NSURLRequest.class] && [@[@"md",@"txt",@"json",@"plist",@"h",@"m"] containsObject:[request.URL.absoluteString pathExtension].lowercaseString]) {
         NSStringEncoding *useEncodeing = nil;
@@ -205,7 +245,7 @@
         }
     }
     
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:(_netLink ? @[[[JEOpenInSafariActivity alloc] init]] : nil)];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 

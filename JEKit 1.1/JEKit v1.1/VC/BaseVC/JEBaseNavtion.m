@@ -28,9 +28,8 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationBar.hidden = YES;
     self.fd_viewControllerBasedNavigationBarAppearanceEnabled = NO;
-    self.fd_prefersNavigationBarHidden = YES;
+    self.navigationBar.hidden = self.fd_prefersNavigationBarHidden = YES;
 }
 
 //- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{

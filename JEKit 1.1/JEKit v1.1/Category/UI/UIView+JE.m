@@ -108,7 +108,7 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
 }
 
 /** mask 为三角形 */
-- (void)je_triangle{
+- (__kindof UIView *)je_triangle{
     CAShapeLayer *layer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(self.width/2, 0)];
@@ -119,6 +119,7 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
     //    layer.frame = self.bounds;
     //    layer.path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corner cornerRadii:CGSizeMake(rad, rad)].CGPath;
     self.layer.mask = layer;
+    return self;
 }
 
 - (void)addShdow{

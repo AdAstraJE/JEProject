@@ -71,9 +71,9 @@ static CGFloat const jkDuration = 0.2;///<
 
 @implementation JEShowImg{
     __weak UIView *_Ve_from;
-    
-    CGRect _oldframe;
-    CGRect _original;
+    BOOL _dissmissed;
+    CGRect _oldFrame;
+    CGRect _showFrame;
     UIVisualEffectView *_Ve_effect;
     YYAnimatedImageView  *_ImgV;
     JEButton *_Btn_action;
@@ -114,7 +114,7 @@ static CGFloat const jkDuration = 0.2;///<
     _Ve_effect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]].addTo(self);
     _Ve_effect.frame = self.bounds;
       
-    UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HideImage)];
+    UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissImageTap)];
     tapGes.delegate = (id<UIGestureRecognizerDelegate>)self;
     tapGes.delaysTouchesBegan = YES;
     [self addGestureRecognizer:tapGes];
@@ -126,9 +126,9 @@ static CGFloat const jkDuration = 0.2;///<
         [_photoView startPlaybackWithStyle:PHLivePhotoViewPlaybackStyleUndefined];
     }else{
         _Ve_from = from;
-        _oldframe = [from convertRect:from.bounds toView:JEApp.window];
+        _oldFrame = [from convertRect:from.bounds toView:JEApp.window];
         
-        _ImgV = [[YYAnimatedImageView alloc] initWithFrame:_oldframe].addTo(self);
+        _ImgV = [[YYAnimatedImageView alloc] initWithFrame:_oldFrame].addTo(self);
         _ImgV.image = trueImg ? : from.image;
         
         _ImgV.contentMode = from.contentMode;
@@ -148,11 +148,12 @@ static CGFloat const jkDuration = 0.2;///<
             _Btn_action = JEBtn(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,nil,self,@selector(JEShowImgShareBtnClick),image,0,self).touchs(15,15,15,15);
         }
  
-        _original = _ImgV.frame;
+        
     }
     
     [UIView animateWithDuration:jkDuration delay:0 options:(UIViewAnimationOptionCurveEaseInOut) animations:^{
         self->_ImgV.frame = CGRectMake(0,(ScreenHeight - self->_ImgV.image.size.height*ScreenWidth/self->_ImgV.image.size.width)/2 , ScreenWidth, self->_ImgV.image.size.height*ScreenWidth/self->_ImgV.image.size.width);
+        self->_showFrame = self->_ImgV.frame;
         self.alpha = 1;
         self->_Ve_from.alpha = 0;
     } completion:nil];
@@ -169,10 +170,12 @@ static CGFloat const jkDuration = 0.2;///<
     [JEApp.window.rootViewController presentViewController:activityViewController animated:YES completion:nil];
 }
 
-- (void)HideImage{
+- (void)dismissImageTap{
     if (_photoView && _photoView.playing) { return;}
+    if (_dissmissed) {return;}_dissmissed = YES;
+    
     [UIView animateWithDuration:jkDuration delay:0 options:(UIViewAnimationOptionCurveEaseOut) animations:^{
-        self->_ImgV.frame = self->_oldframe;
+        self->_ImgV.frame = self->_oldFrame;
         self->_Btn_action.alpha = self->_Ve_effect.alpha = 0;
         self->_photoView.alpha = 0;
     } completion:^(BOOL finished) {
@@ -191,10 +194,13 @@ static CGFloat const jkDuration = 0.2;///<
         ges.view.transform = CGAffineTransformScale(ges.view.transform, ges.scale, ges.scale);
         ges.scale = 1;
     }
+    if (ges.view.transform.a < 1) {
+        ges.view.transform = CGAffineTransformMake(1, ges.view.transform.b, ges.view.transform.c, 1, ges.view.transform.tx, ges.view.transform.ty);
+    }
     
     if (ges.state == UIGestureRecognizerStateEnded || ges.state == UIGestureRecognizerStateChanged){
         [UIView animateWithDuration:0.2 animations:^{
-            if (ges.view.width < self->_original.size.width) {ges.view.frame = self->_original;}
+            if (ges.view.width < self->_showFrame.size.width) {ges.view.frame = self->_showFrame;}
             if (ges.view.x > 0 ) {ges.view.x = 0;}
             if (ges.view.right < ScreenWidth) { ges.view.right = ScreenWidth;}
             if ((ges.view.y < 0 && ges.view.height < ScreenHeight) ||(ges.view.height > ScreenHeight && ges.view.y > 0)   ) { ges.view.y = 0;}
@@ -210,11 +216,33 @@ static CGFloat const jkDuration = 0.2;///<
                                          ges.view.center.y + translation.y  * (A > 10 ? (A - 10)*0.8 : 1));
     [ges setTranslation:CGPointZero inView:JEApp.window];
     
+    if (ges.state == UIGestureRecognizerStateChanged && ges.view.transform.a == 1) {
+        CGFloat centerY = ges.view.centerY - _showFrame.origin.y - _showFrame.size.height/2;
+        if (centerY > 0) {
+            CGFloat max = kSH*0.6;
+            CGFloat pro = MIN(centerY, max)/max;
+            _Ve_effect.alpha = 1 - pro;
+        }else{
+            _Ve_effect.alpha = 1;
+        }
+    }
+    
     if (ges.state == UIGestureRecognizerStateEnded) {
+        if (self->_Ve_effect.alpha <= 0.8) {
+            [self dismissImageTap];
+            return;
+        }
         [UIView animateWithDuration:0.2 animations:^{
+            self->_Ve_effect.alpha = 1;
             if (ges.view.x > 0 ) {ges.view.x = 0;}
             if (ges.view.right <= ScreenWidth) { ges.view.right = ScreenWidth;}
-            if ((ges.view.y <= 0 && ges.view.height <= ScreenHeight) ||(ges.view.height >= ScreenHeight && ges.view.y >= 0)   ) { ges.view.y = 0;}
+            if (ges.view.transform.a != 1) {
+                if ((ges.view.y <= 0 && ges.view.height <= ScreenHeight) ||(ges.view.height >= ScreenHeight && ges.view.y >= 0)   ) { ges.view.y = 0;}
+            }else{
+                if (ges.view.y != self->_showFrame.origin.y) {
+                    ges.view.y = self->_showFrame.origin.y;
+                }
+            }
             if ((ges.view.bottom > ScreenHeight && ges.view.height < ScreenHeight) || (ges.view.height > ScreenHeight && ges.view.bottom < ScreenHeight)) { ges.view.bottom = ScreenHeight;}
         }];
     }

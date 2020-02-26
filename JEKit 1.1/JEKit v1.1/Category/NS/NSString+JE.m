@@ -155,8 +155,8 @@ static NSNumberFormatter *_DS_numFormatter;
     return (specialrang.location != NSNotFound);
 }
 
-- (BOOL)isNetUrl{
-    return [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"http+:[^\\s]*"] evaluateWithObject:self];
+- (BOOL)isLink{
+    return ([[NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypeLink) error:nil] matchesInString:self options:(NSMatchingReportProgress) range:NSMakeRange(0, self.length)].count != 0);
 }
 
 - (NSMutableDictionary *)parameters{
