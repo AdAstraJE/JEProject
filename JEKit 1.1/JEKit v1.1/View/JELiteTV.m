@@ -12,7 +12,7 @@
     JELiteTV *tv = [[self alloc] initWithFrame:frame style:style cellC:cellClass cellH:cellHeight];
     tv.cell = cell;
     tv.select = select;
-    [to addSubview:tv];
+    tv.addTo(to);
     return tv;
 }
 

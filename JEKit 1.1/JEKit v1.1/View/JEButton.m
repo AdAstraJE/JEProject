@@ -157,8 +157,12 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
 }
 
 - (void)setFrame:(CGRect)frame{
+    CGRect oldFrame = self.frame;
+    
     [super setFrame:frame];
-    [self setEdgeInsetsStyle:_edgeInsetsStyle];
+    if (oldFrame.size.width != frame.size.width || oldFrame.size.height != frame.size.height) {
+        [self setEdgeInsetsStyle:_edgeInsetsStyle];
+    }
 }
 
 - (void)setEdgeInsetsStyle:(JEBtnStyle)edgeInsetsStyle {

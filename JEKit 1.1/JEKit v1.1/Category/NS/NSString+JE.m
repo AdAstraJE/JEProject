@@ -20,6 +20,10 @@
     return [NSURL URLWithString:[self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
 }
 
+- (NSString *)filePathName{
+    return [self stringByReplacingOccurrencesOfString:@"/" withString:@":"];
+}
+
 - (NSURL *)fileUrl{
     return [NSURL fileURLWithPath:self];
 }
@@ -359,6 +363,14 @@ static NSNumberFormatter *_DS_numFormatter;
 
 - (NSDate *)date{
     return [NSDate dateWithTimeIntervalSince1970:self.longLongValue];
+}
+
+- (NSString *)timeDesc{
+    int time = self.intValue;
+    int seconds = time%60;
+    int minutes = (time/60)%60;
+    int hours = time/3600;
+    return (hours == 0 ? [NSString stringWithFormat:@"%.2d:%.2d",minutes,seconds] : [NSString stringWithFormat:@"%.2d:%.2d:%.2d",hours,minutes,seconds]);
 }
 
 @end

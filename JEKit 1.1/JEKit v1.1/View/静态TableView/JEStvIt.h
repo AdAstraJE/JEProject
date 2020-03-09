@@ -54,6 +54,7 @@ UIKIT_EXTERN  JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITabl
 @property (nonatomic,assign) BOOL switchOn;///< switch状态
 @property (nonatomic,copy) JEStvSwitchBlock switchBlock;///< switch valueChange 的回调
 
+@property (nonatomic,assign) NSInteger tag;///< ### 0
 
 /// 各种默认构建方法
 + (JEStvIt *)Title:(NSString *)title select:(JEStvSelectBlock)select;

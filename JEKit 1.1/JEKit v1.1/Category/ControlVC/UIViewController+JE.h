@@ -42,6 +42,6 @@
 - (void)Alert:(NSString*)title msg:(NSString*)msg act:(NSArray <NSString *> *)actions destruc:(NSArray <NSString *> *)destructive _:(void(^)(NSString *act,NSInteger idx))block cancel:(NSString *)cancel _:(void (^)(void))cancelBlock;
 
 /// UIAlertControllerStyleActionSheet
-- (void)Sheet:(NSString*)title msg:(NSString*)msg act:(NSArray <NSString *> *)actions destruc:(NSArray <NSString *> *)destructive _:(void(^)(NSString *act,NSInteger idx))block cancel:(NSString *)cancel _:(void (^)(void))cancelBlock;
+- (void)ActionSheet:(NSString*)title msg:(NSString*)msg act:(NSArray <NSString *> *)actions destruc:(NSArray <NSString *> *)destructive _:(void(^)(NSString *act,NSInteger idx))block cancel:(NSString *)cancel _:(void (^)(void))cancelBlock;
 
 @end

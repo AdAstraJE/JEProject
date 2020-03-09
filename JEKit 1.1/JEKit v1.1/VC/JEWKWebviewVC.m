@@ -57,10 +57,6 @@
 
 @implementation JEWKWebviewVC
 
-- (void)dealloc{
-    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-}
-
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     if (self.Nav == nil && _tempFileSharePath) {

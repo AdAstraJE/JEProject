@@ -9,7 +9,6 @@
 
 - (void)dealloc{
     jkDeallocLog
-    [self.Arr removeAllObjects];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style{
@@ -41,12 +40,14 @@
     [self handelStyleDark];
 }
 
+- (void)setJeSeparatorColor:(UIColor *)jeSeparatorColor{
+    _jeSeparatorColor = jeSeparatorColor;
+    self.separatorColor = jeSeparatorColor;
+}
+
 - (void)didMoveToWindow{
     [super didMoveToWindow];
-    if (self.separatorColor == nil && JEShare.tvSepClr) {
-        self.separatorColor = JEShare.tvSepClr;
-        [self handelStyleDark];
-    }
+    [self handelStyleDark];
 }
 
 /// 手指点在按钮上 依然可以滑动
@@ -94,8 +95,12 @@
 - (void)handelStyleDark{
     BOOL dark = NO;
     if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    
-    if (JEShare.tvSepClr) {self.separatorColor = dark ? kRGBA(84, 84, 89, 0.6) : JEShare.tvSepClr;}
+    if (dark) {
+        self.separatorColor = kRGBA(84, 84, 89, 0.6);
+    }else{
+        self.separatorColor = _jeSeparatorColor ? : JEShare.tvSepClr;
+    }
+
     if (JEShare.tvBgClr) {
         self.backgroundColor = dark ? (UIColor.clearColor ? : UIColor.blackColor) : JEShare.tvBgClr;
     }

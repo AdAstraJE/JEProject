@@ -120,7 +120,7 @@
     [self ShowAlert:title msg:msg style:(UIAlertControllerStyleAlert) actions:actions block:block destructive:destructive cancel:cancel cancelBlock:cancelBlock];
 }
 
-- (void)Sheet:(NSString*)title msg:(NSString*)msg act:(NSArray <NSString *> *)actions destruc:(NSArray <NSString *> *)destructive _:(void(^)(NSString *act,NSInteger idx))block cancel:(NSString *)cancel _:(void (^)(void))cancelBlock{
+- (void)ActionSheet:(NSString*)title msg:(NSString*)msg act:(NSArray <NSString *> *)actions destruc:(NSArray <NSString *> *)destructive _:(void(^)(NSString *act,NSInteger idx))block cancel:(NSString *)cancel _:(void (^)(void))cancelBlock{
     [self ShowAlert:title msg:msg style:(UIAlertControllerStyleActionSheet) actions:actions block:block destructive:destructive cancel:cancel cancelBlock:cancelBlock];
 }
 

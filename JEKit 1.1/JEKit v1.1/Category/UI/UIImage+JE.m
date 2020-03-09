@@ -20,7 +20,7 @@
     if (color == nil) {color = [UIColor clearColor];}
     CGRect rect=(CGRect){{0.0f,0.0f},size};
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0f);
-    CGContextRef context=UIGraphicsGetCurrentContext();
+    CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, color.CGColor);
     CGContextFillRect(context, rect);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -74,7 +74,7 @@
 - (UIImage * (^)(CGRect rect))clip{
     return ^id (CGRect rect){
         CGImageRef sourceImageRef = [self CGImage];
-        CGImageRef newImageRef = CGImageCreateWithImageInRect(sourceImageRef, rect);
+        CGImageRef newImageRef = CGImageCreateWithImageInRect(sourceImageRef, CGRectMake(CGRectGetMinX(rect)*self.scale, CGRectGetMinY(rect)*self.scale, CGRectGetWidth(rect)*self.scale, CGRectGetHeight(rect)*self.scale));
         UIImage *newImage = [UIImage imageWithCGImage:newImageRef scale:self.scale orientation:(UIImageOrientationUp)];
         CGImageRelease(newImageRef);
         return newImage;

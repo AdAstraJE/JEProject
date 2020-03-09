@@ -44,7 +44,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="2Cl-4I-SbF"/>
                     </view>
-                    <tabBarItem key="tabBarItem" image="checkmark" catalog="system" id="kd2-Ev-bZz"/>
+                    <tabBarItem key="tabBarItem" id="kd2-Ev-bZz"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FlA-yB-kfa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -157,7 +157,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="uAO-EW-Wtg"/>
                     </view>
-                    <tabBarItem key="tabBarItem" image="xmark" catalog="system" id="da4-pn-bkM"/>
+                    <tabBarItem key="tabBarItem" image="sun.max" catalog="system" landscapeImage="sun.max" id="da4-pn-bkM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yzD-5Z-kd8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -184,7 +184,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="checkmark" catalog="system" width="64" height="56"/>
-        <image name="xmark" catalog="system" width="64" height="56"/>
+        <image name="sun.max" catalog="system" width="64" height="62"/>
     </resources>
 </document>

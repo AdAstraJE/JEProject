@@ -16,6 +16,7 @@
 - (NSString *)delSpace;         ///< 去空格 stringByReplacingOccurrencesOfString:@" " withString:@""
 - (NSString *(^)(NSString*))del;///< 去掉某些字符
 - (NSURL *)url;                 ///< [NSURL URLWithString:(NSString *)CFB
+- (NSString *)filePathName;     ///< [self stringByReplacingOccurrencesOfString:@"/" withString:@":"]
 - (NSURL *)fileUrl;             ///< [NSURL fileURLWithPath:self]
 - (NSString *)date;             ///< 1970 长时间戳对应的NSDate
 - (NSString *)HH_MM;            ///< min -> HH:MM
@@ -54,7 +55,7 @@
 - (NSString *)addStr:(NSString *)string;///< 拼上字符串
 - (NSString*)je_limitTo:(NSInteger)limit;///< 限制的最大显示长度字符
 
-/** JE的国际化“脚本” */
+/// JE的国际化“脚本” 
 + (void)JE_Locailzable;
 
 @end
@@ -64,5 +65,6 @@
 @interface NSNumber (JE)
 
 - (NSDate *)date;///<  1970 长时间戳对应的NSDate
+- (NSString *)timeDesc;///< eg. 01:28
 
 @end

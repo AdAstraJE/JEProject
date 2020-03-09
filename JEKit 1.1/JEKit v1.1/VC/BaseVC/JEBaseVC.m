@@ -40,7 +40,7 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
     [super viewDidLoad];
     self.backgroundColor = JEShare.VCBgClr;
     
-    if (!_disableNavBar) { [self createNavBar];}
+    if (!_disableNavBar && JEShare.customNavView) { [self createNavBar];}
     
     [self handelStyleDark];
 }
@@ -48,6 +48,11 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 - (void)setBackgroundColor:(UIColor *)backgroundColor{
     _backgroundColor = backgroundColor;
     self.view.backgroundColor = backgroundColor;
+}
+
+- (void)setTitle:(NSString *)title{
+    [super setTitle:title];
+    _navTitleLable.text = title;
 }
 
 #pragma mark - 默认navBar
@@ -87,11 +92,6 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 
 - (void)navBackButtonClick{
     (self.presentingViewController) ? [self dismissViewControllerAnimated:YES completion:nil] : [self.Nav popViewControllerAnimated:YES];
-}
-
-- (void)setTitle:(NSString *)title{
-    [super setTitle:title];
-    _navTitleLable.text = title;
 }
 
 - (void)leftNavBtn:(id)item{
@@ -178,7 +178,10 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
     JELiteTV *tv = [[JELiteTV alloc] initWithFrame:self.tvFrameFull style:style cellC:cellClass cellH:cellHeight];
     tv.cell = cell;
     tv.select = select;
-    if (_navBar) {tv.contentInsetTop = _navBar.height - (self.presentingViewController ? 0 : ScreenStatusBarH);}
+    if (_navBar) {
+        CGFloat value = _navBar.height - (self.presentingViewController ? 0 : ScreenStatusBarH);
+        tv.contentInset = UIEdgeInsetsMake(value, 0, value + ScreenSafeArea, 0);
+    }
     [self.view insertSubview:tv atIndex:0];
     return tv;
 }

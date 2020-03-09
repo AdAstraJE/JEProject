@@ -2,6 +2,7 @@
 #import "JEBaseNavtion.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "JEDebugTool__.h"
+#import "JEKit.h"
 
 @implementation JEBaseNavtion
 
@@ -29,7 +30,7 @@
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.fd_viewControllerBasedNavigationBarAppearanceEnabled = NO;
-    self.navigationBar.hidden = self.fd_prefersNavigationBarHidden = YES;
+    self.navigationBar.hidden = self.fd_prefersNavigationBarHidden = (JEShare.customNavView);
 }
 
 //- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{

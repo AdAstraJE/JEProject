@@ -9,6 +9,7 @@ static CGFloat const jkDuration = 0.2;///<
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷    JELivePhotoView   🔷🔷🔷🔷🔷🔷🔷🔷
 
+API_AVAILABLE(ios(9.1))
 @interface JELivePhotoView : PHLivePhotoView
 @property (nonatomic,assign) BOOL playing;///<
 @end
@@ -109,10 +110,10 @@ static CGFloat const jkDuration = 0.2;///<
 
 - (instancetype)initWithFrame:(CGRect)frame from:(UIImageView*)from trueImg:(UIImage*)trueImg action:(BOOL)action{
     self = [super initWithFrame:frame];
-    self.alpha = 0;
 
     _Ve_effect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]].addTo(self);
     _Ve_effect.frame = self.bounds;
+    _Ve_effect.alpha = 0;
       
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissImageTap)];
     tapGes.delegate = (id<UIGestureRecognizerDelegate>)self;
@@ -120,17 +121,19 @@ static CGFloat const jkDuration = 0.2;///<
     [self addGestureRecognizer:tapGes];
     
     if ([trueImg isKindOfClass:PHLivePhoto.class]) {
+        self.alpha = 0;
         _photoView = [[JELivePhotoView alloc]initWithFrame:CGRectMake(0, 0,kSW,kSH)].addTo(self);
         _photoView.livePhoto = (id)trueImg;
         _photoView.contentMode = UIViewContentModeScaleAspectFit;
         [_photoView startPlaybackWithStyle:PHLivePhotoViewPlaybackStyleUndefined];
     }else{
         _Ve_from = from;
+        _Ve_from.alpha = 0;
         _oldFrame = [from convertRect:from.bounds toView:JEApp.window];
         
         _ImgV = [[YYAnimatedImageView alloc] initWithFrame:_oldFrame].addTo(self);
         _ImgV.image = trueImg ? : from.image;
-        
+        _ImgV.rad = _Ve_from.rad;
         _ImgV.contentMode = from.contentMode;
         _ImgV.userInteractionEnabled = YES;
         _ImgV.clipsToBounds  = from.clipsToBounds;
@@ -147,15 +150,14 @@ static CGFloat const jkDuration = 0.2;///<
             UIImage *image = JEBundleImg(@"ic_navAction").clr(Clr_blue);
             _Btn_action = JEBtn(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,nil,self,@selector(JEShowImgShareBtnClick),image,0,self).touchs(15,15,15,15);
         }
- 
-        
     }
     
     [UIView animateWithDuration:jkDuration delay:0 options:(UIViewAnimationOptionCurveEaseInOut) animations:^{
         self->_ImgV.frame = CGRectMake(0,(ScreenHeight - self->_ImgV.image.size.height*ScreenWidth/self->_ImgV.image.size.width)/2 , ScreenWidth, self->_ImgV.image.size.height*ScreenWidth/self->_ImgV.image.size.width);
         self->_showFrame = self->_ImgV.frame;
         self.alpha = 1;
-        self->_Ve_from.alpha = 0;
+        self->_Ve_effect.alpha = 1;
+        self->_ImgV.rad = 0;
     } completion:nil];
 
     return self;
@@ -176,6 +178,7 @@ static CGFloat const jkDuration = 0.2;///<
     
     [UIView animateWithDuration:jkDuration delay:0 options:(UIViewAnimationOptionCurveEaseOut) animations:^{
         self->_ImgV.frame = self->_oldFrame;
+        self->_ImgV.rad = self->_Ve_from.rad;
         self->_Btn_action.alpha = self->_Ve_effect.alpha = 0;
         self->_photoView.alpha = 0;
     } completion:^(BOOL finished) {

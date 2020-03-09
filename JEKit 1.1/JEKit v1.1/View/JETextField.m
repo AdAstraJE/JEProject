@@ -15,10 +15,6 @@ static NSInteger const jkTextMargin = 8;///<
     UILabel *_La_rightPlaceHolder;
 }
 
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     self.delegate = (id<UITextFieldDelegate>)self;

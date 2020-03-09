@@ -8,12 +8,6 @@
 
 #pragma mark - Setters
 
-- (void)dealloc {
-    _placeHolder = nil;
-    _placeHolderTextColor = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
-}
-
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
     [self setup];
@@ -47,7 +41,6 @@
     self.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.enablesReturnKeyAutomatically = YES;
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(JETextViewDidChange) name:UITextViewTextDidChangeNotification object:self];
 }
 

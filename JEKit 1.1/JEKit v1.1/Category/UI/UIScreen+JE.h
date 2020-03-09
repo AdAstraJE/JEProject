@@ -28,9 +28,9 @@
 #define iPhoneXR_Screen            ((ScreenWidth == 896 || ScreenHeight == 896) && (([UIScreen mainScreen].scale) == 2))
 #define iPhoneXM_Screen            ((ScreenWidth == 896 || ScreenHeight == 896) && (([UIScreen mainScreen].scale) == 3))
 
-#define font(X)  ([UIFont systemFontOfSize:X])
 #define fontT(X) ([UIFont systemFontOfSize:X weight:UIFontWeightThin])
 #define fontL(X) ([UIFont systemFontOfSize:X weight:UIFontWeightLight])
+#define font(X)  ([UIFont systemFontOfSize:X])
 #define fontM(X) ([UIFont systemFontOfSize:X weight:UIFontWeightMedium])
 #define fontS(X) ([UIFont systemFontOfSize:X weight:UIFontWeightSemibold])
 #define fontB(X) ([UIFont systemFontOfSize:X weight:UIFontWeightBold])

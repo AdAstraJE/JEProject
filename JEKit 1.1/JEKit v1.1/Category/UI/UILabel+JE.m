@@ -175,7 +175,7 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     
     NSTextAttachment *attach = [[NSTextAttachment alloc] init];
     attach.image = image;
-    attach.bounds = CGRectMake(0, - (self.frame.size.height - size.height)/2,size.width, size.height);
+    attach.bounds = CGRectMake(0, -(self.font.lineHeight - self.font.pointSize)/2,size.width, size.height);
     NSAttributedString *imgStr = [NSAttributedString attributedStringWithAttachment:attach];
     if (prefix) {
         [textAttrStr appendAttributedString:imgStr];
