@@ -20,7 +20,7 @@
     if (@available(iOS 13.0, *)) {return UIColor.quaternaryLabelColor;} else {return UIColor.blackColor;}
 }
 + (UIColor *)je_sepLine{
-    return [UIColor Light:[UIColor colorWithWhite:0 alpha:0.12] dark:[UIColor colorWithWhite:1 alpha:0.12]];
+    return [UIColor Light:[UIColor colorWithWhite:0 alpha:0.12] dark:[UIColor colorWithWhite:1 alpha:0.2]];
 }
 + (UIColor *)Light:(UIColor *)light dark:(UIColor *)dark{
     if (@available(iOS 13.0, *)) {

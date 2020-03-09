@@ -40,10 +40,6 @@
     if (JEShare.tvSepClr) { self.separatorColor = JEShare.tvSepClr; }
 }
 
-- (void)setJeSeparatorColor:(UIColor *)jeSeparatorColor{
-    _jeSeparatorColor = jeSeparatorColor;
-    self.separatorColor = jeSeparatorColor;
-}
 
 /// 手指点在按钮上 依然可以滑动
 - (BOOL)touchesShouldCancelInContentView:(UIView *)view {

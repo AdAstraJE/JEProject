@@ -6,7 +6,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JETableView : UITableView
 
-@property (nonatomic,strong) UIColor *jeSeparatorColor;///< custom时设置
 @property (nonatomic,assign) BOOL headExpandEffect;///< tableHeaderView 有bound Frame的imageView 拉动时扩张效果 默认NO
 
 /// tableHeaderView里跟随滑动拉伸效果的UIImageView

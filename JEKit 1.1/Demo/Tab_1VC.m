@@ -16,7 +16,7 @@
     [self setupTab_1VC_UI];
     
 #if TARGET_OS_SIMULATOR
-JEBtn(JR(0,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClick),Clr_orange,0,self.view);
+JEBtn(JR(0,ScreenNavBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClick),Clr_orange,0,self.view);
 #endif
 }
 
