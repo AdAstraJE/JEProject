@@ -54,10 +54,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = JEShare.VCBgClr;
-   
-//    [[UITabBarItem appearance] setTitlePositionAdjustment:UIOffsetMake(0, -3.5)];
-//    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : Clr_txt99,NSFontAttributeName : [UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
-//    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : Clr_txt33,NSFontAttributeName : [UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
+
 }
 
 - (void)hiddenTabbar:(NSArray <NSNumber *> *)indexArr{

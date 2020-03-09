@@ -9,8 +9,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JEBaseVC : UIViewController
 
-@property (nonatomic,strong) UIColor *backgroundColor;///< 
-
 #pragma mark - navBar
 @property (nonatomic,assign) BOOL disableNavBar;///< 不使用自定义navBar ### NO
 @property (nonatomic,strong)  UIView *navBar;///< 自定义导航栏

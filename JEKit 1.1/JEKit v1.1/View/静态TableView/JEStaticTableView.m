@@ -8,14 +8,13 @@ static NSInteger const jkHeadFootLabelMargin = 15;///<
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style{
     self = [super initWithFrame:frame style:UITableViewStyleGrouped];
+    if(JEShare.stc.backgroundColor){self.backgroundColor = JEShare.stc.backgroundColor;};
     self.sectionHeaderHeight = JEShare.stc.sectionHeaderHeight;
     self.sectionFooterHeight = JEShare.stc.sectionFooterHeight;
-    if (JEShare.stc.backgroundColor) { self.backgroundColor = JEShare.stc.backgroundColor;}
 
     self.delegate = (id<UITableViewDelegate>)self;
     self.dataSource = (id<UITableViewDataSource>)self;
     self.contentInsetBottom = (self.sectionHeaderHeight + self.sectionFooterHeight)*2;
-    [self handelStyleDark];
     
     return self;
 }
@@ -78,17 +77,6 @@ static NSInteger const jkHeadFootLabelMargin = 15;///<
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     JEStvIt *item = _Arr_item[indexPath.section][indexPath.row];
     !item.selectBlock ? : item.selectBlock(item);
-}
-
-- (void)handelStyleDark{
-    [super handelStyleDark];
-    BOOL dark = NO;
-    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    
-    if (JEShare.stc.backgroundColor) {
-        self.backgroundColor = dark ? UIColor.blackColor : JEShare.stc.backgroundColor;
-    }
-    
 }
 
 @end

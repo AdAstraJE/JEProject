@@ -7,20 +7,8 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.selectedBackgroundView = JEVe(self.bounds, nil, nil);
-    [self handelStyleDark];
+    self.selectedBackgroundView = JEVe(self.bounds, [UIColor Light:kRGB(229, 229,234) dark:kRGB(44, 44, 47)], nil);
     return self;
-}
-
-#pragma mark - StyleDark 黑暗模式
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [self handelStyleDark];
-}
-
-- (void)handelStyleDark{
-    BOOL dark = NO;
-    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    self.selectedBackgroundView.backgroundColor = dark ? kRGB(44, 44, 47) :kRGB(229, 229,234);
 }
 
 @end

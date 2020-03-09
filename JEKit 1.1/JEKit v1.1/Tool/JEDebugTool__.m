@@ -533,7 +533,7 @@ static JEDebugTool__* _sharedManager;
     [_Btn_touch addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)]];
     self.nav = [[JEBaseNavtion alloc] initWithRootViewController:[[JEDebugMainVC alloc] init]];
     JEShare.navBarItemClr = Clr_blue;
-    JEShare.navTitleClr = Clr_txt33;
+    JEShare.navTitleClr = nil;
     self.nav.view.hidden = YES;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

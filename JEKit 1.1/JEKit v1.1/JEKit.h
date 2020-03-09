@@ -123,7 +123,7 @@
 #pragma mark -
 @property (nonatomic,strong) UIColor *HUDClr;///<  HUD颜色 ### UIColor.blackColor
 @property (nonatomic,strong) UIColor *themeClr;///<  主题颜色 ### nil
-@property (nonatomic,strong) UIColor *VCBgClr;/// VC background Color ### UIColor.whiteColor //(kRGB(244, 245, 246))
+@property (nonatomic,strong) UIColor *VCBgClr;/// VC background Color ### nil
 #pragma mark - "导航栏”
 @property (nonatomic,assign)  BOOL customNavView;///< 自定义导航栏 ###  NO
 @property (nonatomic,strong)  UIColor *navBarClr;///< 导航栏背景颜色 ###  nil
@@ -133,7 +133,7 @@
 @property (nonatomic,strong)  UIColor *navTitleClr;///< 标题颜色
 #pragma mark - tableView
 @property (nonatomic,strong) UIColor *tvBgClr;///< tableView backgroundColor ### nil
-@property (nonatomic,strong) UIColor *tvSepClr;///< tableView separator 分割线颜色 ### kRGB(220, 220, 220)
+@property (nonatomic,strong) UIColor *tvSepClr;///< tableView separator 分割线颜色 ### nil
 #pragma mark - JEStvUIStyle
 @property (nonatomic,strong) JEStvUIStyle *stc;///< 静态 tableView 样式
 #pragma mark - JEListManager

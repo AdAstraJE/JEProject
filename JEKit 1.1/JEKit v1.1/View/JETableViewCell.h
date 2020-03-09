@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// base
 @interface JETableViewCell : UITableViewCell
 
-- (void)handelStyleDark;
-
 @end
 
 

@@ -21,10 +21,10 @@ const static CGFloat kAnimateDuration  = 0.15;///< 动画时间
     self = [super initWithFrame:frame];
     self.tintColor = Clr_blue;
     self.alpha = 0;
-    self.backgroundColor = kRGBA(0, 0, 0, 0.2);
+    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.2) dark:kRGBA(0, 0, 0, 0.48)];
     
     _backView =  JEVe(self.bounds, nil, self);//隐藏的点击背景
-    _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), kRGBA(255, 255, 255, 0.6), self);
+    _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), [UIColor Light:kRGBA(255, 255, 255, 0.6) dark:kRGBA(62, 62, 62, 0.8)], self);
     _Ve_content.rad = 14;
     _maskView = JEEFVe(_Ve_content.bounds, UIBlurEffectStyleRegular, _Ve_content);
     [self handelStyleDark];
@@ -66,8 +66,8 @@ const static CGFloat kAnimateDuration  = 0.15;///< 动画时间
     _Btn_confirm = JEBtn(JR(_Btn_cancel.width,_Btn_cancel.y, _Btn_cancel.width,btnH),@"确定".loc,font(17),self.tintColor,self,@selector(confirmBtnClick),nil,0,_);
     [_Btn_confirm setTitleColor:self.tintColor forState:(UIControlStateHighlighted)];
 
-    _lineH = JEVe(JR(0, _.height - btnH - 0.5, _.width, 0.5), nil, _);
-    _lineV = JEVe(JR(_.width/2 - 0.3, _lineH.y, 0.6, btnH), nil, _);
+    _lineH = JEVe(JR(0, _.height - btnH - 0.5, _.width, 0.5), UIColor.je_sepLine, _);
+    _lineV = JEVe(JR(_.width/2 - 0.3, _lineH.y, 0.6, btnH), UIColor.je_sepLine, _);
 //    [_ insertSubview:_line1 atIndex:1];
 //    [_ insertSubview:_line2 atIndex:1];
     
@@ -108,15 +108,11 @@ const static CGFloat kAnimateDuration  = 0.15;///< 动画时间
 - (void)handelStyleDark{
     BOOL dark = NO;
     if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    self.backgroundColor = dark ? kRGBA(0, 0, 0, 0.48) : kRGBA(0, 0, 0, 0.2);
-    _Ve_content.backgroundColor = dark ? kRGBA(62, 62, 62, 0.8) : kRGBA(255, 255, 255, 0.6);
     
     UIColor *clr = (dark ? kRGB(62, 62, 62) : kRGB(222, 222, 222));
     UIImage *image = UIImage.clr(clr);
     [_Btn_cancel setBackgroundImage:image forState:UIControlStateHighlighted];
-    [_Btn_confirm setBackgroundImage:image forState:UIControlStateHighlighted];
-
-    _lineH.backgroundColor = _lineV.backgroundColor = kRGBA(187, 188, 189, (dark ? 0.3 : 0.65));
+    [_Btn_confirm setBackgroundImage:image forState:UIControlStateHighlighted]; 
 }
 
 @end

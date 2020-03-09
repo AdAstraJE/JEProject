@@ -23,7 +23,6 @@
 - (UILabel *)La_title{
     if (_La_title == nil) {
         _La_title = JELab(CGRectZero,nil,JEShare.stc.titleFont,JEShare.stc.titleColor,(0),self.contentView);
-        [self handelStyleDark];
     }
     return _La_title;
 }
@@ -99,21 +98,6 @@
     }
     
     return self;
-}
-
-#pragma mark -   dark
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [self handelStyleDark];
-}
-
-- (void)handelStyleDark{
-    [super handelStyleDark];
-    BOOL dark = NO;
-    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    
-    _La_title.textColor = dark ? UIColor.whiteColor : JEShare.stc.titleColor;
-    _La_desc.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.7] : JEShare.stc.descColor;
-    _La_detail.textColor = dark ? [UIColor colorWithWhite:1 alpha:0.7] : JEShare.stc.detailColor;
 }
 
 @end

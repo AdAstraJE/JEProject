@@ -23,9 +23,9 @@ typedef void(^JEStvSwitchBlock)(JEStvIt *item,BOOL on);///< cell switch valueCha
 @property (nonatomic,strong) UIFont  *titleFont;///<   ### font(14)
 @property (nonatomic,strong) UIColor *titleColor;///<   ### nil
 @property (nonatomic,strong) UIFont  *descFont;///<   ### font(14)
-@property (nonatomic,strong) UIColor *descColor;///<   ### Clr_txt77
+@property (nonatomic,strong) UIColor *descColor;///<   ### gary1
 @property (nonatomic,strong) UIFont  *detailFont;///<   ### font(11)
-@property (nonatomic,strong) UIColor *detailColor;///<   ### Clr_txt77
+@property (nonatomic,strong) UIColor *detailColor;///<   ### gary1
 @property (nonatomic,strong) UIColor *swiColor;///<   ### nil
 @property (nonatomic,strong) UIColor *cellColor;///<   ### nil
 

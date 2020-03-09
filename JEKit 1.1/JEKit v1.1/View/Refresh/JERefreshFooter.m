@@ -27,7 +27,7 @@
     [self setTitle:@"" forState:MJRefreshStateRefreshing];
     [self setTitle:@"——————————   END   ——————————".loc forState:MJRefreshStateNoMoreData];
     self.stateLabel.font = font(12);
-    self.stateLabel.textColor = Clr_txtC8;
+    self.stateLabel.textColor = gary2;
 }
 
 - (void)placeSubviews{

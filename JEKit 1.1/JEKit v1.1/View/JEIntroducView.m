@@ -48,7 +48,7 @@
 - (void)dealloc{jkDeallocLog}
 
 + (instancetype)Introduc:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor{
-    return [self Introduc:images tint:tintColor titleDesc:nil descColor:Clr_txt33];
+    return [self Introduc:images tint:tintColor titleDesc:nil descColor:UIColor.je_txt];
 }
 
 + (instancetype)Introduc:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor titleDesc:(NSArray <NSArray <NSString *> *> *)titleDesc descColor:(UIColor *)descColor{

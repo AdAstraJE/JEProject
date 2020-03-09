@@ -110,7 +110,7 @@ static NSInteger const jkActionBarHeight = 48;///<
     [JEBtn(JR(15, 0, 60, _.height),@"取消".loc,@16,btnColor,self,@selector(dismiss),nil,0,_).touchs(0,0,0,20) sizeThatWidth];
     JEButton *ok = [JEBtn(CGRectZero,@"确定".loc,@16,btnColor,self,@selector(confirmBtnClick),nil,0,_).touchs(0,20,0,0) sizeThatWidth];
     ok.frame = CGRectMake(ScreenWidth - ok.width - 15, 0, ok.width, _.height);
-    JELab(JR(9, 0, ScreenWidth - 9, _.height),title,@14.5,Clr_txt,(NSTextAlignmentCenter),_);
+    JELab(JR(9, 0, ScreenWidth - 9, _.height),title,@14.5,nil,(NSTextAlignmentCenter),_);
 }
 
 - (void)confirmBtnClick{
@@ -127,7 +127,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {return _Arr_custom[row];}
 /*
 - (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    return [[NSAttributedString alloc] initWithString:_Arr_custom[row] attributes:@{NSForegroundColorAttributeName : Clr_txt}];
+    return [[NSAttributedString alloc] initWithString:_Arr_custom[row] attributes:@{NSForegroundColorAttributeName : c}];
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
@@ -144,7 +144,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 
 - (NSString *)titleFromPickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     UILabel *la = (UILabel*)[pickerView viewForRow:row forComponent:component];
-    la.textColor = JEShare.themeClr ? : Clr_txt33;
+    la.textColor = JEShare.themeClr ? : nil;
     return _Arr_custom[row];
 }
 */

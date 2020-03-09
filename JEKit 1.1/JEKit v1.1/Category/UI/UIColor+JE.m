@@ -3,6 +3,40 @@
 
 @implementation UIColor (JE)
 
+#pragma mark - UIUserInterfaceStyleDark | UIUserInterfaceStyleLight  
++ (UIColor *)je_bw{
+    return [UIColor Light:UIColor.whiteColor dark:UIColor.blackColor];
+}
++ (UIColor *)je_txt{
+    if (@available(iOS 13.0, *)) {return UIColor.labelColor;} else {return UIColor.blackColor;}
+}
++ (UIColor *)je_gary1{
+    if (@available(iOS 13.0, *)) {return UIColor.secondaryLabelColor;} else {return UIColor.blackColor;}
+}
++ (UIColor *)je_gary2{
+    if (@available(iOS 13.0, *)) {return UIColor.tertiaryLabelColor;} else {return UIColor.blackColor;}
+}
++ (UIColor *)je_gary3{
+    if (@available(iOS 13.0, *)) {return UIColor.quaternaryLabelColor;} else {return UIColor.blackColor;}
+}
++ (UIColor *)je_sepLine{
+    return [UIColor Light:[UIColor colorWithWhite:0 alpha:0.12] dark:[UIColor colorWithWhite:1 alpha:0.12]];
+}
++ (UIColor *)Light:(UIColor *)light dark:(UIColor *)dark{
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor *(UITraitCollection *c) {
+            return (c.userInterfaceStyle == UIUserInterfaceStyleDark) ? dark : light;
+        }];
+    } else {
+        return light;
+    }
+}
+
+
+
+
+
+#pragma mark -
 + (UIColor *)Random{
     return [UIColor colorWithRed:(arc4random()%255)/255.0f green:(arc4random()%255)/255.0f blue:(arc4random()%255)/255.0f alpha:1];
 }

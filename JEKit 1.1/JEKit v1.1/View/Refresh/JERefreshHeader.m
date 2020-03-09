@@ -28,7 +28,7 @@
 - (UIImageView *)arrowView{
     if (!_arrowView) {
         shapeLayer = [CAShapeLayer layer];
-        UIImage *image = JEBundleImg(@"ic_refreshArrow").clr(Clr_txtC8);
+        UIImage *image = JEBundleImg(@"ic_refreshArrow").clr(gary2);
         UIImageView *arrowView = [[UIImageView alloc] initWithImage:image];
         [self addSubview:_arrowView = arrowView];
     }
@@ -121,7 +121,7 @@
     path.lineWidth = 1;
     [path addArcWithCenter:_arrowView.center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
     shapeLayer.path = path.CGPath;
-    shapeLayer.strokeColor = _color ? _color.CGColor : Clr_txtC8.CGColor;
+    shapeLayer.strokeColor = _color ? _color.CGColor : gary2.CGColor;
     shapeLayer.fillColor = [[UIColor clearColor] CGColor];
     [shapeLayer removeFromSuperlayer];
     [self.layer addSublayer:shapeLayer];

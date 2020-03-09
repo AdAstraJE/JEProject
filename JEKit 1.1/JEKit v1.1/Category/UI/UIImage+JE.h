@@ -66,7 +66,4 @@ typedef NS_ENUM(NSUInteger, ImageJEGradualType) {
 /// 渐变色图片 左到右
 + (UIImage*)je_gradualColors:(NSArray <UIColor *>*)colors size:(CGSize)size type:(ImageJEGradualType)type;
 
-/// 模糊效果图片 blur 0.0~1.0 颜色要有透明度
-- (UIImage*)je_boxblurImageWithBlur:(CGFloat)blur withTintColor:(UIColor*)tintColor;
-
 @end

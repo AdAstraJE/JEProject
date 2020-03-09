@@ -129,7 +129,7 @@
     }
     
     if (title != nil && title.length == 0) {  title = @"暂无数据".loc;}
-    JELab(JR(0,imageV ? (imageV.bottom + 15) : (contantY + contatnH*0.4),ve.width, [title heightWithFont:font(14) width:ve.width]),title,@14,Clr_txt77,(1),ve);
+    JELab(JR(0,imageV ? (imageV.bottom + 15) : (contantY + contatnH*0.4),ve.width, [title heightWithFont:font(14) width:ve.width]),title,@14,gary1,(1),ve);
     
     return ve;
 }
@@ -141,7 +141,7 @@
     UIView *Ve = [self customInfo:(@"网络异常，请稍后再试").loc image:@"ic_markNetError"];
     [Ve.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull La, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([La isKindOfClass:[UILabel class]]) {
-            UIButton *btn = JEBtn(JR((self.width - 100)/2, La.bottom + 20, 100, 30),@"重新加载".loc,@14,Clr_txt77,target,action,[UIColor whiteColor],0,Ve);
+            UIButton *btn = JEBtn(JR((self.width - 100)/2, La.bottom + 20, 100, 30),@"重新加载".loc,@14,gary1,target,action,[UIColor whiteColor],0,Ve);
             [btn je_addBorderLineImg:(kHexColor(0xDDDDDD)) lineWidth:1 rad:btn.height/2 bgClr:nil];
             *stop = YES;
         }

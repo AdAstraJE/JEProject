@@ -31,7 +31,7 @@ API_AVAILABLE(ios(9.1))
     UIView *showView = self.subviews.firstObject.subviews.firstObject;
     if (showView == nil) {return;}
     if (_Ve_desc == nil) {
-        _Ve_desc = JEVe(JR(6, 6, 115.5/2, 42/2), nil, showView).rad_(3);
+        _Ve_desc = JEVe(JR(6, 6, 115.5/2, 42/2), [UIColor Light:kRGBA(255, 255, 255, 0.8) dark:kRGBA(0, 0, 0, 0.8)], showView).rad_(3);
         
         _Img_ = JEImg(JR(5,(_Ve_desc.height - 15.5)/2 + 0.25,16.5,15.5),nil,_Ve_desc);
         _La_desc = JELab(JR(23.5,0,_Ve_desc.width - 24,_Ve_desc.height),@"实况".loc,@14,UIColor.darkGrayColor,(0),_Ve_desc);
@@ -56,7 +56,6 @@ API_AVAILABLE(ios(9.1))
 - (void)handelStyleDark{
     BOOL dark = NO;
     if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    _Ve_desc.backgroundColor = dark ? kRGBA(0, 0, 0, 0.8) : kRGBA(255, 255, 255, 0.8);
     UIColor *clr = dark ? UIColor.lightGrayColor : UIColor.darkGrayColor;
     _La_desc.textColor = clr;
     _Img_.image = JEBundleImg(@"ic_livePhoto").clr(clr);

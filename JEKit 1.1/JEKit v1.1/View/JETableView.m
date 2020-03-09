@@ -25,6 +25,7 @@
 
 /** 修改有点击效果 */
 - (void)defaultConfigure{
+    if(JEShare.tvBgClr){ self.backgroundColor = JEShare.tvBgClr;}
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     _headExpandEffect = NO;
     
@@ -37,17 +38,11 @@
     self.delaysContentTouches = NO;
     if (JEShare.tvBgClr) { self.backgroundColor = JEShare.tvBgClr; }
     if (JEShare.tvSepClr) { self.separatorColor = JEShare.tvSepClr; }
-    [self handelStyleDark];
 }
 
 - (void)setJeSeparatorColor:(UIColor *)jeSeparatorColor{
     _jeSeparatorColor = jeSeparatorColor;
     self.separatorColor = jeSeparatorColor;
-}
-
-- (void)didMoveToWindow{
-    [super didMoveToWindow];
-    [self handelStyleDark];
 }
 
 /// 手指点在按钮上 依然可以滑动
@@ -85,26 +80,6 @@
             _Img_expand.frame = orginRect;
         }
     }
-}
-
-#pragma mark -   dark
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [self handelStyleDark];
-}
-
-- (void)handelStyleDark{
-    BOOL dark = NO;
-    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    if (dark) {
-        self.separatorColor = kRGBA(84, 84, 89, 0.6);
-    }else{
-        self.separatorColor = _jeSeparatorColor ? : JEShare.tvSepClr;
-    }
-
-    if (JEShare.tvBgClr) {
-        self.backgroundColor = dark ? (UIColor.clearColor ? : UIColor.blackColor) : JEShare.tvBgClr;
-    }
-    
 }
 
 @end

@@ -35,14 +35,13 @@ static JEKit* _sharedManager;
 /** 默认UI */
 - (void)defaultTheme{
     _HUDClr = UIColor.blackColor;
-    _VCBgClr = UIColor.whiteColor;
     
-//    _navBarClr = UIColor.whiteColor;
-    _navBarLineClr = kHexColorA(0xCCCCCC,0.6);
+    _navBarLineClr = UIColor.je_sepLine;
     _navBarItemClr = Clr_blue;
-    _navTitleClr = Clr_txt;
-    
-    _tvSepClr = (kRGB(220, 220, 220));
+    _navTitleClr = UIColor.je_txt;
+
+//    _tvSepClr = [UIColor Light:(kRGB(222, 223, 224)) dark:kRGBA(235,235,245,0.4)];
+    _tvSepClr = UIColor.je_sepLine;
     
     _sharedManager.listMgr_beginPage = 1;
     _sharedManager.listMgr_pageParam = @"pageIndex";

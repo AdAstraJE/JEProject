@@ -38,16 +38,11 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.backgroundColor = JEShare.VCBgClr;
+    self.view.backgroundColor = JEShare.VCBgClr ? : [UIColor Light:UIColor.whiteColor dark:UIColor.blackColor];
     
     if (!_disableNavBar && JEShare.customNavView) { [self createNavBar];}
     
     [self handelStyleDark];
-}
-
-- (void)setBackgroundColor:(UIColor *)backgroundColor{
-    _backgroundColor = backgroundColor;
-    self.view.backgroundColor = backgroundColor;
 }
 
 - (void)setTitle:(NSString *)title{
@@ -73,7 +68,7 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
     }
     
     if (JEShare.navBarImage == nil) {
-        _navBarline = JEVe(JR(0, _.height - 0.5, _.width, 0.5), nil, _);
+        _navBarline = JEVe(JR(0, _.height - 0.33, _.width, 0.33), JEShare.navBarLineClr, _);
     }
     
     if (self.Nav.viewControllers.count > 1) {
@@ -205,16 +200,10 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 - (void)handelStyleDark{
     BOOL dark = NO;
     if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    self.view.backgroundColor = dark ? UIColor.blackColor : _backgroundColor;
-    
-    if (JEShare.navBarLineClr) {_navBarline.backgroundColor = dark ? kRGBA(84, 84, 89, 0.6) : JEShare.navBarLineClr;}
-    if (_navBar) {
-        _navBar.backgroundColor = dark ? nil : JEShare.navBarClr;
-        _navBarEffect.effect = [UIBlurEffect effectWithStyle:(dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight)];
-        _navTitleLable.textColor = dark ? UIColor.whiteColor : JEShare.navTitleClr;
-    }
+    _navBarEffect.effect = [UIBlurEffect effectWithStyle:(dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight)];
 }
 
 @end
+
 
 
