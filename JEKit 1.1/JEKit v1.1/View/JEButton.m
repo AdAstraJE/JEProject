@@ -17,12 +17,21 @@ static NSInteger const jkActTitleLeftMargin = 8;///<
 }
 
 JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL action,id img,CGFloat rad,__kindof UIView *addTo){
-    JEButton *btn = [JEButton Frame:rect title:title font:fnt color:clr rad:rad tar:target sel:action img:img];
+    JEButton *_ = [JEButton Frame:rect title:title font:fnt color:clr rad:rad tar:target sel:action img:img];
     if ([addTo isKindOfClass:UIVisualEffectView.class]) {
         addTo = ((UIVisualEffectView *)addTo).contentView;
     }
-    if (addTo) {[addTo addSubview:btn];}
-    return btn;
+    if (addTo) {[addTo addSubview:_];}
+    return _;
+}
+
+JEButton * JEBtnSys(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL action,id img,CGFloat rad,__kindof UIView *addTo){
+    JEButton *_ = [JEButton System:rect title:title font:fnt color:clr rad:rad tar:target sel:action img:img];
+    if ([addTo isKindOfClass:UIVisualEffectView.class]) {
+        addTo = ((UIVisualEffectView *)addTo).contentView;
+    }
+    if (addTo) {[addTo addSubview:_];}
+    return _;
 }
 
 - (void)setLoc:(NSString *)loc{
@@ -284,8 +293,13 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
 
 @implementation JEFrameBtn
 
-- (instancetype)initWithFrame:(CGRect)frame imgF:(CGRect)imgf titF:(CGRect)titf  title:(NSString*)title font:(id)font color:(UIColor*)titleColor rad:(CGFloat)rad tar:(id)target sel:(SEL)action img:(id)img{
-    self = [[self class] Frame:frame title:title font:font color:titleColor rad:rad tar:target sel:action img:img];
+- (instancetype)initWithFrame:(CGRect)frame imgF:(CGRect)imgf titF:(CGRect)titf  title:(NSString*)title font:(id)font color:(UIColor*)titleColor rad:(CGFloat)rad tar:(id)target sel:(SEL)action img:(id)img system:(BOOL)system{
+    if (system) {
+        self = [[self class] System:frame title:title font:font color:titleColor rad:rad tar:target sel:action img:img];
+    }else{
+        self = [[self class] Frame:frame title:title font:font color:titleColor rad:rad tar:target sel:action img:img];
+    }
+    
     self.imgf = imgf;
     self.titf = titf;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -297,7 +311,8 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
     return self;
 }
 
-/** 设置文本和图片距离文本的水平位置 UIControlStateNormal*/
+
+/// 设置文本和图片距离文本的水平位置 UIControlStateNormal
 - (void)resetTitle:(NSString*)title imgMargin:(CGFloat)margin{
     [self setTitle:title forState:UIControlStateNormal];
     self.imgf = CGRectMake((self.width/2 + [self.currentTitle widthWithFont:self.titleLabel.font height:self.height]/2) + margin , self.imgf.origin.y, self.imgf.size.width, self.imgf.size.height);
@@ -307,17 +322,17 @@ JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL a
     }
 }
 
-/** 覆盖父类在highlighted时的所有操作 */
+/// 覆盖父类在highlighted时的所有操作
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
 }
 
-/** 调整内部ImageView的frame */
+/// 调整内部ImageView的frame
 - (CGRect)imageRectForContentRect:(CGRect)contentRect{
     return _imgf;
 }
 
-/** 调整内部UILabel的frame */
+/// 调整内部UILabel的frame
 - (CGRect)titleRectForContentRect:(CGRect)contentRect{
     if (!CGRectEqualToRect(_titf, CGRectZero)){
         return _titf;

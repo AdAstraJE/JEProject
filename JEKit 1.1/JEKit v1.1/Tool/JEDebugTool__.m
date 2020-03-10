@@ -198,7 +198,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         [self.Tv_list.Arr addObject:_detailMod];
         [self.Tv_list reloadData];
     }else{
-        [JEBtn(JR(10, ScreenStatusBarH, -1, 44),@"历史",@18,Clr_blue,self,@selector(historyBtnClick),nil,0,self.view).touchs(ScreenStatusBarH,3,20,20) sizeThatWidth];
+        [JEBtnSys(JR(10, ScreenStatusBarH, -1, 44),@"历史",@18,Clr_blue,self,@selector(historyBtnClick),nil,0,self.view).touchs(ScreenStatusBarH,3,20,20) sizeThatWidth];
     }
 }
 

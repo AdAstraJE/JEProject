@@ -2,7 +2,7 @@
 #import "JEBaseBackView.h"
 #import "JEKit.h"
 
-const static CGFloat kAnimateDuration  = 0.15;///< 动画时间
+const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
 #define kViewMargin (ScreenWidth *0.11)
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷  @implementation JEBaseBackView   🔷🔷🔷🔷🔷🔷🔷🔷
@@ -102,6 +102,7 @@ const static CGFloat kAnimateDuration  = 0.15;///< 动画时间
 
 #pragma mark - StyleDark 黑暗模式
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange:previousTraitCollection];
     [self handelStyleDark];
 }
 

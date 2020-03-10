@@ -21,9 +21,9 @@
     mod.titleFont = font(14);
 //    mod.titleColor = Clr_txt;
     mod.descFont = font(14);
-    mod.descColor = gary1;
+    mod.descColor = Tgray1;
     mod.detailFont = font(11);
-    mod.detailColor = gary1;
+    mod.detailColor = Tgray1;
     
     return mod;
 }

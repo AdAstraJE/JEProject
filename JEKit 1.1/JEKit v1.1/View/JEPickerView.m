@@ -103,12 +103,12 @@ static NSInteger const jkActionBarHeight = 48;///<
 }
 
 - (void)actionBarWithTitle:(NSString *)title{
-    UIColor *btnColor = JEShare.themeClr ? : kHexColor(0x007AFF);
+    UIColor *btnColor = JEShare.themeClr ? : Clr_blue;
     UIView *_ = JEVe(JR(0, 0, kSW, jkActionBarHeight), UIColor.clearColor, self.Ve_content);
-    JEVe(JR(0, _.height, _.width, 0.5), kRGBA(0, 0, 0, 0.2), _);
+    JEVe(JR(0, _.height, _.width, 0.5), UIColor.je_sepLine, _);
 
-    [JEBtn(JR(15, 0, 60, _.height),@"取消".loc,@16,btnColor,self,@selector(dismiss),nil,0,_).touchs(0,0,0,20) sizeThatWidth];
-    JEButton *ok = [JEBtn(CGRectZero,@"确定".loc,@16,btnColor,self,@selector(confirmBtnClick),nil,0,_).touchs(0,20,0,0) sizeThatWidth];
+    [JEBtnSys(JR(15, 0, 60, _.height),@"取消".loc,@16,btnColor,self,@selector(dismiss),nil,0,_).touchs(0,0,0,20) sizeThatWidth];
+    JEButton *ok = [JEBtnSys(CGRectZero,@"确定".loc,@16,btnColor,self,@selector(confirmBtnClick),nil,0,_).touchs(0,20,0,0) sizeThatWidth];
     ok.frame = CGRectMake(ScreenWidth - ok.width - 15, 0, ok.width, _.height);
     JELab(JR(9, 0, ScreenWidth - 9, _.height),title,@14.5,nil,(NSTextAlignmentCenter),_);
 }

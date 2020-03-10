@@ -62,26 +62,26 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
 - (CGFloat)y{return                 CGRectGetMinY(self.frame);}
 - (void)setY:(CGFloat)y{            SetFrame(frame.origin.y = y);}
 
-//边框宽
+///边框宽
 - (CGFloat)bor{ return self.layer.borderWidth;}
 - (void)setBor:(CGFloat)bor{
     self.layer.borderWidth = bor;
 }
 
-//边框颜色
+///边框颜色
 - (UIColor *)borCol{return [UIColor colorWithCGColor:self.layer.borderColor];}
 - (void)setBorCol:(UIColor *)borCol{
     self.layer.borderColor = borCol.CGColor;
 }
 
-//倒角
+///倒角
 - (CGFloat)rad{ return self.layer.cornerRadius;}
 - (void)setRad:(CGFloat)rad{
     self.layer.cornerRadius = rad;
     self.layer.masksToBounds = YES;
 }
 
-//变圆 视图性能相对差一些 ，但现在的硬件情况 ,+用的view不多的基本没影响
+///变圆 视图性能相对差一些 ，但现在的硬件情况 ,+用的view不多的基本没影响
 - (BOOL)beRound{
     [self layoutIfNeeded];
     self.layer.masksToBounds = YES;
@@ -99,7 +99,7 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
     return self;
 }
 
-/** mask layer 部分倒角 */
+/// mask layer 部分倒角
 - (void)je_corner:(UIRectCorner)corner rad:(CGFloat)rad{
     CAShapeLayer *layer = [CAShapeLayer layer];
     layer.frame = self.bounds;
@@ -107,7 +107,7 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
     self.layer.mask = layer;
 }
 
-/** mask 为三角形 */
+/// mask 为三角形
 - (__kindof UIView *)je_triangle{
     CAShapeLayer *layer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -158,7 +158,7 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
 #endif
 }
 
-//添加边框
+///添加边框
 - (void)border:(UIColor *)color width:(CGFloat)width;{
     if (color != nil) {
         self.layer.borderColor = color.CGColor;
@@ -218,7 +218,7 @@ static char kActionHandlerLongPressGestureKey;
 static char kActionHandlerRotateBlockKey;
 static char kActionHandlerRotateGestureKey;
 
-//单点击手势
+///单点击手势
 - (void)tapGesture:(GestureActionBlock)block{
     self.userInteractionEnabled = YES;
     UITapGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerTapGestureKey);
@@ -237,7 +237,7 @@ static char kActionHandlerRotateGestureKey;
     }
 }
 
-//长按手势
+///长按手势
 - (void)longPressGestrue:(GestureActionBlock)block{
     self.userInteractionEnabled = YES;
     UILongPressGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerLongPressGestureKey);
@@ -256,7 +256,7 @@ static char kActionHandlerRotateGestureKey;
     }
 }
 
-//旋转手势
+///旋转手势
 - (void)rotateGesture:(GestureActionBlock)block{
     self.userInteractionEnabled = YES;
     UIRotationGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerRotateGestureKey);

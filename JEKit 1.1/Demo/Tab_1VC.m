@@ -5,6 +5,7 @@
 #import "DataBaseTestVC.h"
 #import "JEWKWebviewVC.h"
 #import "UIDevice+YYAdd.h"
+#import "JEBaseBackView.h"
 
 @implementation Tab_1VC
 
@@ -21,8 +22,11 @@ JEBtn(JR(0,ScreenNavBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClic
 }
 
 - (void)testBtnClick{
+//    self.staticTv.backgroundColor = UIColor.redColor;
+//    [JEInputView Show];
+//    JELog(@"%@",[NSByteCountFormatter stringFromByteCount:32423488 countStyle:NSByteCountFormatterCountStyleFile]);
     
-    JELog(@"%@",[NSByteCountFormatter stringFromByteCount:32423488 countStyle:NSByteCountFormatterCountStyleFile]);
+    
 //    [Tab_1VC ShowVC];
 //    [self showHUD];
 //    JEApp.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];

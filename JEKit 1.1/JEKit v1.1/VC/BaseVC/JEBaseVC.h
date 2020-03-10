@@ -37,8 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign,readonly) CGRect tvFrameFull;///< tableView默认Frame
 @property (nonatomic,assign,readonly) CGRect tvFrame;///< 
 @property (nonatomic,strong) JETableView *tableView;///< 默认的tableView
-@property (nonatomic,strong) JELiteTV *liteTv;///< 默认的tableView
-@property (nonatomic,strong) JEStaticTableView *staticTv;///< 静态 tableView 
+@property (nonatomic,strong) JELiteTV *__nullable liteTv;///< 默认的tableView
+@property (nonatomic,strong) JEStaticTableView *__nullable staticTv;///< 静态 tableView 
 
 /// 默认Frame的tableView创建方法 
 - (JETableView *)defaultTv:(UITableViewStyle)style cell:(id)cellClass;
@@ -46,9 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 默认Frame的JELiteTV创建方法
 - (JELiteTV *)liteTv:(UITableViewStyle)style cellC:(nullable Class)cellClass cellH:(CGFloat)cellHeight
                 cell:(nullable void (^)(__kindof UITableViewCell *cell,UITableView *tv,NSIndexPath *idxP,id obj))cell select:(nullable void (^)(UITableView *tv,NSIndexPath *idxP,id obj))select;
-
-/// 黑暗模式
-- (void)handelStyleDark;
 
 @end
 

@@ -218,10 +218,10 @@
     effectView.frame = CGRectMake(0, ScreenHeight - 44 - ScreenSafeArea, ScreenWidth, 44 + ScreenSafeArea);
     
     _Btn_back = JEBtn(JR(ScreenWidth/2 - 44 - 40,0,44,44),nil,@0,nil,_webView,@selector(goBack),leftArrow,0,effectView.contentView);
-    [_Btn_back setImage:leftArrow.clr(gary2) forState:(UIControlStateDisabled)];
+    [_Btn_back setImage:leftArrow.clr(Tgray2) forState:(UIControlStateDisabled)];
     
     _Btn_forward = JEBtn(JR(ScreenWidth/2 + 40,0,44,44),nil,@0,nil,_webView,@selector(goForward),rightArrow,0,effectView.contentView);
-    [_Btn_forward setImage:rightArrow.clr(gary2) forState:(UIControlStateDisabled)];
+    [_Btn_forward setImage:rightArrow.clr(Tgray2) forState:(UIControlStateDisabled)];
     
     _Ve_tool = effectView;
     _Ve_tool.hidden = YES;

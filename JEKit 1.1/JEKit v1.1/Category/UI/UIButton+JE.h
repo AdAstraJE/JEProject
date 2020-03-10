@@ -4,7 +4,10 @@
 @interface UIButton (JE)
 
 ///  (font = NSNumber | UIFont) ~~~ (img = UIColor | imageName | 渐变色数组) 
-+ (instancetype)Frame:(CGRect)frame title:(NSString*)title font:(id)font color:(UIColor*)titleColor rad:(CGFloat)rad tar:(id)target sel:(SEL)action img:(id)img;
++ (instancetype)Frame:(CGRect)frame title:(NSString*)title font:(id)font color:(UIColor*)clr rad:(CGFloat)rad tar:(id)target sel:(SEL)action img:(id)img;
+
+/// UIButtonTypeSystem
++ (instancetype)System:(CGRect)frame title:(NSString*)title font:(id)font color:(UIColor*)clr rad:(CGFloat)rad tar:(id)target sel:(SEL)action img:(id)img;
 
 /// 设置 backgroundImage 颜色
 @property (nonatomic,strong) IBInspectable UIColor *bcImg;

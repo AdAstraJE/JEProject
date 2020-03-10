@@ -15,19 +15,23 @@ static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的�
 
 + (instancetype)Frame:(CGRect)frame title:(NSString*)title font:(id)font color:(UIColor*)clr rad:(CGFloat)rad tar:(id)target sel:(SEL)action img:(id)img{
     UIButton *_ = [[self alloc] initWithFrame:frame];
-    
     [_ setTitle:title forState:UIControlStateNormal];
-    
     if ([font isKindOfClass:NSNumber.class]) {
         _.titleLabel.font = [UIFont systemFontOfSize:((NSNumber*)font).floatValue];
     }else if ([font isKindOfClass:UIFont.class]){
         _.titleLabel.font = font;
     }
-    
-    if (clr) { [_ je_resetTitleClr:clr];}
-    
     if (target) { [_ addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];}
     
+    
+    if (clr) {
+        [_ je_resetTitleClr:clr];
+    }else{
+        if (![img isKindOfClass:UIColor.class]) {
+            [_ je_resetTitleClr:UIColor.je_txt];
+        }
+    }
+
     //倒角只是背景图片的倒角
     if (rad != 0 && !([img isKindOfClass:UIColor.class] || [img isKindOfClass:NSArray.class])) {
         _.rad = rad;
@@ -56,6 +60,30 @@ static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的�
         }
     }
    
+    return _;
+}
+
++ (instancetype)System:(CGRect)frame title:(NSString*)title font:(id)font color:(UIColor*)clr rad:(CGFloat)rad tar:(id)target sel:(SEL)action img:(id)img{
+    UIButton *_ = [self buttonWithType:(UIButtonTypeSystem)];
+    _.frame = frame;
+    [_ setTitle:title forState:UIControlStateNormal];
+    _.tintColor = clr;
+    if ([font isKindOfClass:NSNumber.class]) {
+        _.titleLabel.font = [UIFont systemFontOfSize:((NSNumber*)font).floatValue];
+    }else if ([font isKindOfClass:UIFont.class]){
+        _.titleLabel.font = font;
+    }
+    if (target) { [_ addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];}
+    
+    
+    if (rad != 0) { _.rad = rad;}
+    UIImage *image;
+    if ([img isKindOfClass:NSString.class]){image = [UIImage imageNamed:img];}
+    if ([img isKindOfClass:UIImage.class]) {image = img;}
+    if (image) {
+        [_ setImage:image forState:(UIControlStateNormal)];
+    }
+    
     return _;
 }
 

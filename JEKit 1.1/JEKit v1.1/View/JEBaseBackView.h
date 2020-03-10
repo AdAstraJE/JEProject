@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger, JEPopType) {
 - (void)resetWidth:(CGFloat)widht;
 - (void)resetHeight:(CGFloat)height;
 
+/// 添加模拟系统的 取消 确定
 - (void)addCancelConfirmBtn;
 @property (nonatomic,strong) JEButton *__nullable Btn_cancel;///< 取消
 @property (nonatomic,strong) JEButton *__nullable Btn_confirm;///< 确定

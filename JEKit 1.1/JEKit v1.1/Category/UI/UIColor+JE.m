@@ -4,24 +4,37 @@
 @implementation UIColor (JE)
 
 #pragma mark - UIUserInterfaceStyleDark | UIUserInterfaceStyleLight  
-+ (UIColor *)je_bw{
++ (UIColor *)je_wb{
     return [UIColor Light:UIColor.whiteColor dark:UIColor.blackColor];
 }
 + (UIColor *)je_txt{
     if (@available(iOS 13.0, *)) {return UIColor.labelColor;} else {return UIColor.blackColor;}
 }
-+ (UIColor *)je_gary1{
++ (UIColor *)je_Tgray1{
     if (@available(iOS 13.0, *)) {return UIColor.secondaryLabelColor;} else {return UIColor.blackColor;}
 }
-+ (UIColor *)je_gary2{
++ (UIColor *)je_Tgray2{
     if (@available(iOS 13.0, *)) {return UIColor.tertiaryLabelColor;} else {return UIColor.blackColor;}
 }
-+ (UIColor *)je_gary3{
++ (UIColor *)je_Tgray3{
     if (@available(iOS 13.0, *)) {return UIColor.quaternaryLabelColor;} else {return UIColor.blackColor;}
 }
 + (UIColor *)je_sepLine{
     return [UIColor Light:[UIColor colorWithWhite:0 alpha:0.12] dark:[UIColor colorWithWhite:1 alpha:0.2]];
 }
++ (UIColor *)gray1{
+    return [UIColor Light:kRGBA(142, 142, 147, 1.0) dark:kRGBA(142, 142, 147, 1.0)];}
++ (UIColor *)gray2{
+    return [UIColor Light:kRGBA(174, 174, 178, 1.0) dark:kRGBA(99, 99, 102, 1.0)];}
++ (UIColor *)gray3{
+    return [UIColor Light:kRGBA(199, 199, 204, 1.0) dark:kRGBA(72, 72, 74, 1.0)];}
++ (UIColor *)gray4{
+    return [UIColor Light:kRGBA(209, 209, 214, 1.0) dark:kRGBA(58, 58, 60, 1.0)];}
++ (UIColor *)gray5{
+    return [UIColor Light:kRGBA(229, 229, 234, 1.0) dark:kRGBA(44, 44, 46, 1.0)];}
++ (UIColor *)gray6{
+    return [UIColor Light:kRGBA(242, 242, 247, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
+
 + (UIColor *)Light:(UIColor *)light dark:(UIColor *)dark{
     if (@available(iOS 13.0, *)) {
         return [UIColor colorWithDynamicProvider:^UIColor *(UITraitCollection *c) {
@@ -31,8 +44,6 @@
         return light;
     }
 }
-
-
 
 
 

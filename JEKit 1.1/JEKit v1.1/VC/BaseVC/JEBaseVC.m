@@ -1,6 +1,7 @@
 
 #import "JEBaseVC.h"
 #import "JEKit.h"
+#import "JEVisualEffectView.h"
 
 static CGFloat const JKPresentingNavH = 58.0f;///<
 static CGFloat const JKNavItemTitleMargin = 16.0f;///<
@@ -42,7 +43,7 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
     
     if (!_disableNavBar && JEShare.customNavView) { [self createNavBar];}
     
-    [self handelStyleDark];
+//    [self handelStyleDark];
 }
 
 - (void)setTitle:(NSString *)title{
@@ -55,7 +56,7 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
     CGFloat height = self.presentingViewController ? JKPresentingNavH : ScreenNavBarH;
     UIView *_ = JEVe(JR(0, 0, ScreenWidth, height),JEShare.navBarClr, self.view);
     if (JEShare.navBarClr == nil) {
-        _navBarEffect = JEEFVe(_.bounds, UIBlurEffectStyleExtraLight, _);
+        _navBarEffect = [[JEVisualEffectView alloc] initWithFrame:_.bounds].addTo(_);
     }
 
     if (JEShare.navBarImage) {JEImg(_.bounds,JEShare.navBarImage,_);}
@@ -72,9 +73,7 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
     }
     
     if (self.Nav.viewControllers.count > 1) {
-        UIImage *image = JEBundleImg(@"ic_navBack").clr(JEShare.navBarItemClr);
-        _navBackButton = JEBtn(JR(1.5, ScreenStatusBarH + (kNavBarH44 - 26)/2, 26, 26),nil,_navTitleLable.font ? : font(17),JEShare.navBarItemClr,self,@selector(navBackButtonClick),nil,0,_).touchs(ScreenStatusBarH,3,20,40);
-        [_navBackButton je_resetImg:image];
+        _navBackButton = JEBtnSys(JR(1.5, ScreenStatusBarH + (kNavBarH44 - 26)/2, 26, 26),nil,_navTitleLable.font ? : font(17),JEShare.navBarItemClr,self,@selector(navBackButtonClick),JEBundleImg(@"ic_navBack"),0,_).touchs(ScreenStatusBarH,3,20,40);
     }
     _navBar = _;
 }
@@ -90,13 +89,11 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 }
 
 - (void)leftNavBtn:(id)item{
-    NSString *title = [item isKindOfClass:NSString.class] ? item : nil;
-    UIImage *img = [item isKindOfClass:UIImage.class] ? item : nil;
     if (_navBackButton == nil) {
         _navBackButton = [self leftBtn:item target:self act:@selector(navBackButtonClick)];
     }else{
-        if (img) { [_navBackButton je_resetImg:img];}
-        if (title) {[_navBackButton setTitle:title forState:UIControlStateNormal]; }
+        if ([item isKindOfClass:NSString.class]) {[_navBackButton setTitle:item forState:(UIControlStateNormal)];}
+        if ([item isKindOfClass:UIImage.class]) {[_navBackButton setImage:item forState:(UIControlStateNormal)];}
     }
 
     [_navBackButton sizeThatWidth];
@@ -109,7 +106,6 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
     if (self.presentingViewController) {
         _.titleLabel.font = fontM(_.titleLabel.font.pointSize);
     }
-    
     return _;
 }
 
@@ -120,8 +116,7 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
     CGFloat h = self.presentingViewController ? JKPresentingNavH : kNavBarH44;
     UIFont *font = font(17);
     
-    JEButton *_ = JEBtn(JR(JKNavItemTitleMargin,x, -1, h),title,font,JEShare.navBarItemClr,target,selector,nil,0,_navBar).touchs(10,20,0,16);
-    [_ je_resetImg:img];
+    JEButton *_ = JEBtnSys(JR(JKNavItemTitleMargin,x, -1, h),title,font,JEShare.navBarItemClr,target,selector,img,0,_navBar).touchs(10,20,0,16);
     [_ sizeThatWidth];
     return _;
 }
@@ -190,17 +185,6 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 
 - (void)touchesBegan:(nonnull NSSet *)touches withEvent:(nullable UIEvent *)event{
     [self.view endEditing:YES];
-}
-
-#pragma mark -   dark
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [self handelStyleDark];
-}
-
-- (void)handelStyleDark{
-    BOOL dark = NO;
-    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    _navBarEffect.effect = [UIBlurEffect effectWithStyle:(dark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight)];
 }
 
 @end

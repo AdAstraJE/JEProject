@@ -83,6 +83,7 @@
 		89A5254D2345D5C0009DF97F /* tempVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5254C2345D5C0009DF97F /* tempVC.m */; };
 		89BDC71C2351E73E009583F2 /* JELiteTV.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BDC71B2351E73E009583F2 /* JELiteTV.m */; };
 		89BDC71F2351E755009583F2 /* JETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89BDC71E2351E755009583F2 /* JETableView.m */; };
+		89DCD0A224178A47007E0B06 /* JEVisualEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DCD0A124178A47007E0B06 /* JEVisualEffectView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -234,6 +235,8 @@
 		89BDC71B2351E73E009583F2 /* JELiteTV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JELiteTV.m; sourceTree = "<group>"; };
 		89BDC71D2351E755009583F2 /* JETableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JETableView.h; sourceTree = "<group>"; };
 		89BDC71E2351E755009583F2 /* JETableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JETableView.m; sourceTree = "<group>"; };
+		89DCD0A024178A47007E0B06 /* JEVisualEffectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JEVisualEffectView.h; sourceTree = "<group>"; };
+		89DCD0A124178A47007E0B06 /* JEVisualEffectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JEVisualEffectView.m; sourceTree = "<group>"; };
 		C7707A3C43673805008E5CCD /* Pods-JEKit 1.1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JEKit 1.1.release.xcconfig"; path = "Target Support Files/Pods-JEKit 1.1/Pods-JEKit 1.1.release.xcconfig"; sourceTree = "<group>"; };
 		D3149E03131056393AD3CE49 /* Pods-JEKit 1.1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JEKit 1.1.debug.xcconfig"; path = "Target Support Files/Pods-JEKit 1.1/Pods-JEKit 1.1.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -482,6 +485,8 @@
 				899F06FC2344D10A00BA89AD /* JEPhotoGroupView.h */,
 				899F07192344D10A00BA89AD /* JEPhotoGroupView.m */,
 				899F06FB2344D10A00BA89AD /* JETextView.h */,
+				89DCD0A024178A47007E0B06 /* JEVisualEffectView.h */,
+				89DCD0A124178A47007E0B06 /* JEVisualEffectView.m */,
 				899F071A2344D10A00BA89AD /* JETextView.m */,
 				89BDC71D2351E755009583F2 /* JETableView.h */,
 				89BDC71E2351E755009583F2 /* JETableView.m */,
@@ -719,6 +724,7 @@
 				899F077D2344D56900BA89AD /* Tab_2VC.m in Sources */,
 				899F075E2344D10A00BA89AD /* JEBaseBackView.m in Sources */,
 				899F07702344D10A00BA89AD /* JEAppScheme.m in Sources */,
+				89DCD0A224178A47007E0B06 /* JEVisualEffectView.m in Sources */,
 				899F07392344D10A00BA89AD /* JEBluetooth.m in Sources */,
 				899F07762344D10A00BA89AD /* JEDBModel.m in Sources */,
 				899F073C2344D10A00BA89AD /* UITableViewCell+JE.m in Sources */,

@@ -33,9 +33,6 @@
     self.navigationBar.hidden = self.fd_prefersNavigationBarHidden = (JEShare.customNavView);
 }
 
-//- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-//    
-//}
 
 #ifdef DEBUG
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {

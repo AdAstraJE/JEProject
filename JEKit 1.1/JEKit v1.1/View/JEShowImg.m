@@ -16,7 +16,7 @@ API_AVAILABLE(ios(9.1))
 
 @implementation JELivePhotoView{
     UIView *_Ve_desc;
-    UIImageView *_Img_;
+    UIButton *_Img_;
     UILabel *_La_desc;
 }
 
@@ -32,11 +32,9 @@ API_AVAILABLE(ios(9.1))
     if (showView == nil) {return;}
     if (_Ve_desc == nil) {
         _Ve_desc = JEVe(JR(6, 6, 115.5/2, 42/2), [UIColor Light:kRGBA(255, 255, 255, 0.8) dark:kRGBA(0, 0, 0, 0.8)], showView).rad_(3);
-        
-        _Img_ = JEImg(JR(5,(_Ve_desc.height - 15.5)/2 + 0.25,16.5,15.5),nil,_Ve_desc);
-        _La_desc = JELab(JR(23.5,0,_Ve_desc.width - 24,_Ve_desc.height),@"实况".loc,@14,UIColor.darkGrayColor,(0),_Ve_desc);
-        
-        [self handelStyleDark];
+        UIColor *clr = [UIColor Light:UIColor.darkGrayColor dark:UIColor.lightGrayColor];
+        _Img_ = JEBtnSys(JR(5,(_Ve_desc.height - 15.5)/2 + 0.25,16.5,15.5),nil,nil,clr,nil,nil,JEBundleImg(@"ic_livePhoto"),0,_Ve_desc);
+        _La_desc = JELab(JR(23.5,0,_Ve_desc.width - 24,_Ve_desc.height),@"实况".loc,@14,clr,(0),_Ve_desc);
     }
 }
 
@@ -46,19 +44,6 @@ API_AVAILABLE(ios(9.1))
 
 - (void)livePhotoView:(PHLivePhotoView *)livePhotoView didEndPlaybackWithStyle:(PHLivePhotoViewPlaybackStyle)playbackStyle{
     _playing = _Ve_desc.hidden = NO;
-}
-
-#pragma mark - StyleDark 黑暗模式
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
-    [self handelStyleDark];
-}
-
-- (void)handelStyleDark{
-    BOOL dark = NO;
-    if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
-    UIColor *clr = dark ? UIColor.lightGrayColor : UIColor.darkGrayColor;
-    _La_desc.textColor = clr;
-    _Img_.image = JEBundleImg(@"ic_livePhoto").clr(clr);
 }
 
 @end
@@ -146,8 +131,8 @@ API_AVAILABLE(ios(9.1))
         [_ImgV addGestureRecognizer:panGestureRecognizer];
         
         if (action) {
-            UIImage *image = JEBundleImg(@"ic_navAction").clr(Clr_blue);
-            _Btn_action = JEBtn(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,nil,self,@selector(JEShowImgShareBtnClick),image,0,self).touchs(15,15,15,15);
+            UIImage *image = JEBundleImg(@"ic_navAction");
+            _Btn_action = JEBtnSys(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,JEShare.navBarItemClr ? : Clr_blue,self,@selector(JEShowImgShareBtnClick),image,0,self).touchs(15,15,15,15);
         }
     }
     
