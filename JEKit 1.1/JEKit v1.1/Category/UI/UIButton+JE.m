@@ -176,14 +176,14 @@ static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的�
 
 static const void *UIButtonBlockKey = &UIButtonBlockKey;
 
-- (__kindof UIButton *)click:(je_btnClickBlock)block{
+- (__kindof UIButton *)click:(void (^)(__kindof UIButton *sender))block{
     objc_setAssociatedObject(self, UIButtonBlockKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
     [self addTarget:self action:@selector(je_btnClick:) forControlEvents:UIControlEventTouchUpInside];
     return self;
 }
 
 - (void)je_btnClick:(UIButton *)btn{
-    je_btnClickBlock block = objc_getAssociatedObject(self, UIButtonBlockKey);
+    void (^block)(__kindof UIButton *) = objc_getAssociatedObject(self, UIButtonBlockKey);
     !block ? : block(self);
 }
 

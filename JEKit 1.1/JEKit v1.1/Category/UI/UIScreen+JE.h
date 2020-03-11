@@ -36,7 +36,7 @@
 #define fontB(X) ([UIFont systemFontOfSize:X weight:UIFontWeightBold])
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   UIScreen   🔷 (JE)
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIScreen   🔷 (JE)
 @interface UIScreen (JE)
 
 typedef NS_ENUM(NSUInteger, iPhoneScreenType) {
@@ -49,26 +49,26 @@ typedef NS_ENUM(NSUInteger, iPhoneScreenType) {
     iPhoneXMax,     ///< 6.5inch   414x896   1242x2688   @3x   0.4620    
 };
 
-/** [@[@(<#iPhone4#>),@(<#iPhone5#>),@(<#iPhone6,7#>),@(<#iPhone6,7plus#>),@(<#iPhoneX#>),@(<#iPhoneXR#>),@(<#iPhoneXMax#>)][[UIScreen ScreenType]] floatValue] */
+/// [@[@(<#iPhone4#>),@(<#iPhone5#>),@(<#iPhone6,7#>),@(<#iPhone6,7plus#>),@(<#iPhoneX#>),@(<#iPhoneXR#>),@(<#iPhoneXMax#>)][[UIScreen ScreenType]] floatValue]
 + (iPhoneScreenType)ScreenType;
 
-/** safeArea 底部距离 */
+/// safeArea 底部距离
 + (CGFloat)SafeAreaBottom;
 
-/** 全部屏幕类型分辨率 */
+/// 全部屏幕类型分辨率
 + (NSArray <NSString *>*)AllScreenDPI;
 
-/// DeviceName
+/// DeviceName iPhone11 Pro
 + (NSString*)DeviceName;
 
 @end
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   NSArray   🔷 (Screen)
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSArray   🔷 (Screen)
 @interface NSArray (Screen)
 
-/** @[@(iPhone4),@(iPhone5),@(iPhone6,7),@(iPhone6,7plus),@(iPhoneX)五种屏幕适配 */
+/// @[@(iPhone4),@(iPhone5),@(iPhone6,7),@(iPhone6,7plus),@(iPhoneX)五种屏幕适配
 @property (nonatomic,assign,readonly) CGFloat adaptScreen;
 
 @end
@@ -76,7 +76,7 @@ typedef NS_ENUM(NSUInteger, iPhoneScreenType) {
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   NSLayoutConstraint   🔷 (adapt)
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSLayoutConstraint   🔷 (adapt)
 IB_DESIGNABLE
 @interface NSLayoutConstraint(adapt)
 

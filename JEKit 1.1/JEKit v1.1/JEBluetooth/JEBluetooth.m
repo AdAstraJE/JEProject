@@ -45,7 +45,6 @@ static JEBluetooth *_instance;
     return _central;
 }
 
-/** 搜索 唯一key 重复会覆盖block */
 - (void)scanPeripheral:(BLE_deviceBlock)block blockKey:(NSString *)blockKey{
     [_Dic_scanBlock setValue:block forKey:blockKey];
     if (block) {
@@ -54,12 +53,10 @@ static JEBluetooth *_instance;
     }
 }
 
-/** 设备状态改变 回调   唯一key 重复会覆盖block */
 - (void)deviceChange:(BLE_deviceBlock)block blockKey:(NSString *)blockKey{
     [_Dic_deviceChangeBlock setValue:block forKey:blockKey];
 }
 
-/** 断开当前设备 */
 - (void)cancelDevice:(JEBLEDevice *)device{
     [JEBLEDevice JE_Debug_AddLog:BLELog__(@"主动断开 %@",[self debug:device.peripheral device:device])];
     if (device.peripheral.state == CBPeripheralStateConnecting || device.peripheral.state == CBPeripheralStateConnected) {
@@ -71,7 +68,6 @@ static JEBluetooth *_instance;
 #endif
 }
 
-/** 更改当前设备连接状态 */
 - (void)deviceChangeToConnectState:(BOOL)connect device:(JEBLEDevice *)device{
     if (device == nil) { return;}
     
@@ -84,7 +80,6 @@ static JEBluetooth *_instance;
     !_block_state ? : _block_state((CBManagerState)self.central.state);
 }
 
-/** 尝试连接 以前连接过的设备 */
 - (void)reconnectHistoryPeripheral{
     if ([JEBLEDevice HistoryDevices].count) {
         _reconnectHistoryDevice = YES;
@@ -106,7 +101,6 @@ static JEBluetooth *_instance;
     }
 }
 
-/** 停止搜索 实际有需要断开重现中不会停止 */
 - (void)stopScan{
     if (_Arr_errorDisconnectUUID.count == 0) {
         [JEBLEDevice JE_Debug_AddLog:BLELog__(@"停止搜索")];
@@ -228,7 +222,7 @@ static JEBluetooth *_instance;
     }
 }
 
-/** 重连段开的设备 */
+/// 重连段开的设备 
 - (void)reconnectDisConnectDevice{
     if (_Arr_errorDisconnectUUID.count == 0) {
         [_errorTimer invalidate];

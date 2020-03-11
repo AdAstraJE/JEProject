@@ -177,7 +177,7 @@
     !_handleEnd ? : _handleEnd(_Tv_);
 }
 
-/** 获得实际数组 默认处理数组数据方法 */
+/// 获得实际数组 默认处理数组数据方法 
 - (void)defaultHandleListArr:(NSArray*)dataSoure{
     NSInteger maxRow = [[_param objectForKey:([JEKit Shared].listMgr_rowsParam)] integerValue] ? [[_param objectForKey:([JEKit Shared].listMgr_rowsParam)] integerValue] : [JEKit Shared].listMgr_rowsNum;
     if (dataSoure.count == 0 || (_currentPage == [JEKit Shared].listMgr_beginPage && dataSoure.count < maxRow)) {//请求 没数据

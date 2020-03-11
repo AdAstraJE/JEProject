@@ -3,8 +3,8 @@
 #import "JEKit.h"
 
 @interface JEScrIndexView ()<UIScrollViewDelegate>{
-    NSMutableArray <JEButton *> *_Arr_btns;/**< 按钮 */
-    NSMutableArray <JEButton *> *_Arr_titleSeeBtns;/**< 视觉差标题Label */
+    NSMutableArray <JEButton *> *_Arr_btns;///< 按钮
+    NSMutableArray <JEButton *> *_Arr_titleSeeBtns;///< 视觉差标题Label
     NSInteger _currentIndex;
     NSArray <NSNumber *> *_Arr_selectClrRGB;
     NSArray <NSNumber *> *_Arr_normalClrRGB;
@@ -12,9 +12,9 @@
     CGFloat _startContentOffsetX;
 }
 
-@property(nonatomic,strong,readonly) UIScrollView *Scr_title;/**< 标题scrollview */
-@property(nonatomic,strong,readonly) UIView *Ve_board;/**< 滑块 */
-@property(nonatomic,strong,readonly) UIView *Ve_hide;/**< 视觉差用 */
+@property(nonatomic,strong,readonly) UIScrollView *Scr_title;///< 标题scrollview
+@property(nonatomic,strong,readonly) UIView *Ve_board;///< 滑块
+@property(nonatomic,strong,readonly) UIView *Ve_hide;///< 视觉差用
 
 @end
 
@@ -62,7 +62,7 @@
     _Arr_normalClrRGB = @[@(r),@(g),@(b)];
 }
 
-/** 设置样式后 再设置标题 */
+/// 设置样式后 再设置标题
 - (void)loadTitles:(NSArray <NSString *>*)Arr_title{
     for (id obj in Arr_title) {
         [_Arr_view addObject:obj];
@@ -198,7 +198,7 @@
 
 #pragma mark -
 
-/** 滑到指定位置  0 1 2 3 4 */
+/// 滑到指定位置  0 1 2 3 4 
 - (UIView*)sliderToIndex:(NSInteger)index{
     if (_Arr_btns.count > index) {
         [self boardBtnClick:_Arr_btns[index]];

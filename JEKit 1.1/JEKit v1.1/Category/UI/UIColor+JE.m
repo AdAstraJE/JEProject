@@ -11,15 +11,16 @@
     if (@available(iOS 13.0, *)) {return UIColor.labelColor;} else {return UIColor.blackColor;}
 }
 + (UIColor *)je_Tgray1{
-    if (@available(iOS 13.0, *)) {return UIColor.secondaryLabelColor;} else {return UIColor.blackColor;}
+    if (@available(iOS 13.0, *)) {return UIColor.secondaryLabelColor;} else {return kRGBA(60, 60, 67, 0.6);}
 }
 + (UIColor *)je_Tgray2{
-    if (@available(iOS 13.0, *)) {return UIColor.tertiaryLabelColor;} else {return UIColor.blackColor;}
+    if (@available(iOS 13.0, *)) {return UIColor.tertiaryLabelColor;} else {return kRGBA(60, 60, 67, 0.3);}
 }
 + (UIColor *)je_Tgray3{
-    if (@available(iOS 13.0, *)) {return UIColor.quaternaryLabelColor;} else {return UIColor.blackColor;}
+    if (@available(iOS 13.0, *)) {return UIColor.quaternaryLabelColor;} else {return kRGBA(60, 60, 67, 0.2);}
 }
-+ (UIColor *)je_sepLine{
++ (UIColor *)je_sep{
+//    if (@available(iOS 13.0, *)) {return UIColor.separatorColor;} else {return kRGBA(60, 60, 67, 0.3);}
     return [UIColor Light:[UIColor colorWithWhite:0 alpha:0.12] dark:[UIColor colorWithWhite:1 alpha:0.2]];
 }
 + (UIColor *)gray1{

@@ -35,12 +35,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     return La;
 }
 
-+ (instancetype)Copy:(UILabel *)la{
-//    UILabel *La = [[self alloc] initWithFrame:la.frame];
-    return nil;
-}
-
-/** 设置文本 和 字体 */
 - (void)setText:(NSString *)text font:(id)font{
     self.text = text;
     if ([font isKindOfClass:[NSNumber class]]) {
@@ -50,7 +44,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     }
 }
 
-/** 设置文本 和 字体颜色 */
 - (void)setText:(NSString *)text color:(UIColor*)color{
     self.text = text;
     if ([color isKindOfClass:[UIColor class]]) {
@@ -58,7 +51,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     }
 }
 
-/** 适应当前宽 */
 - (instancetype)sizeThatWidth{
     CGRect old = self.frame;
     old.size.width = [self sizeThatFits:CGSizeZero].width;
@@ -66,7 +58,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     return self;
 }
 
-/** 适应当前高 */
 - (instancetype)sizeThatHeight{
     CGRect old = self.frame;
     old.size.height = [self sizeThatFits:CGSizeMake(old.size.width, CGFLOAT_MAX)].height;
@@ -74,7 +65,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     return self;
 }
 
-/** 全部有行间距的 */
 - (instancetype)paragraph:(CGFloat)para{
     [self paragraph:para str:self.text];
     return self;
@@ -93,13 +83,11 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     return self;
 }
 
-/** 部分字符串 添加删除线 */
 - (void)delLineStr:(NSString*)editStr{
     [self addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) editStr:editStr];
     [self addAttribute:NSBaselineOffsetAttributeName value:@0 editStr:editStr];
 }
 
-/** 修改 部分字符串 字体大小  */
 - (void)editFont:(UIFont*)font str:(NSString*)editStr{
     [self editFont:font color:nil str:@[editStr]];
 }
@@ -108,7 +96,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     [self je_addAttribute:NSFontAttributeName value:font range:range];
 }
 
-/** 修改 部分字符串 字体颜色  */
 - (void)editColor:(UIColor*)color str:(NSString*)editStr{
     [self editFont:nil color:color str:@[editStr]];
 }
@@ -117,7 +104,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     [self je_addAttribute:NSForegroundColorAttributeName value:color range:range];
 }
 
-/** 修改 部分字符串 属性  */
 - (void)je_addAttribute:(NSString *)name value:(id)value range:(NSRange)range{
     if (range.location + range.length > self.text.length) {
         return;
@@ -128,7 +114,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     [self setAttributedText:attribute];
 }
 
-/** 修改 部分字符串 属性  */
 - (void)addAttribute:(NSString *)name value:(id)value editStr:(NSString*)editStr{
     NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
     NSRange range = [self.text rangeOfString:editStr];
@@ -140,7 +125,6 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     [self setAttributedText:attribute];
 }
 
-/** 修改 部分字符串 字体大小 颜色 */
 - (void)editFont:(UIFont*)font color:(UIColor*)color str:(NSArray <NSString *> *)strs{
     NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
     [strs enumerateObjectsUsingBlock:^(NSString * _Nonnull editStr, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -153,12 +137,10 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
     [self setAttributedText:attribute];
 }
 
-/** 后缀添加个图片 */
 - (void)je_addSuffixImg:(UIImage *)image size:(CGSize)size{
     [self je_addImgAtPrefix:NO image:image size:size];
 }
 
-/** 前缀添加个图片 */
 - (void)je_addPrefixImg:(UIImage *)image size:(CGSize)size{
     [self je_addImgAtPrefix:YES image:image size:size];
 }

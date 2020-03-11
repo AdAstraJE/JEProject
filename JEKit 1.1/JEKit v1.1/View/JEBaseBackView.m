@@ -66,8 +66,8 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
     _Btn_confirm = JEBtn(JR(_Btn_cancel.width,_Btn_cancel.y, _Btn_cancel.width,btnH),@"确定".loc,font(17),self.tintColor,self,@selector(confirmBtnClick),nil,0,_);
     [_Btn_confirm setTitleColor:self.tintColor forState:(UIControlStateHighlighted)];
 
-    _lineH = JEVe(JR(0, _.height - btnH - 0.5, _.width, 0.5), UIColor.je_sepLine, _);
-    _lineV = JEVe(JR(_.width/2 - 0.3, _lineH.y, 0.6, btnH), UIColor.je_sepLine, _);
+    _lineH = JEVe(JR(0, _.height - btnH - 0.5, _.width, 0.5), UIColor.je_sep, _);
+    _lineV = JEVe(JR(_.width/2 - 0.3, _lineH.y, 0.6, btnH), UIColor.je_sep, _);
 //    [_ insertSubview:_line1 atIndex:1];
 //    [_ insertSubview:_line2 atIndex:1];
     

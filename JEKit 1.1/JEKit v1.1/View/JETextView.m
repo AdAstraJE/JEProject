@@ -97,13 +97,13 @@
 }
 
 
-//强制按字符长度计算限制文本的最大长度 (一个中文算两个字符！) 加强判断 设另个为0
+/// 强制按字符长度计算限制文本的最大长度 (一个中文算两个字符！) 加强判断 设另个为0
 - (void)setJEMaxCharactersLength:(NSUInteger)JEMaxCharactersLength{
     _JEMaxCharactersLength = JEMaxCharactersLength;
     _JEMaxTextLength = 0;
 }
 
-//强制按text.length长度计算限制文本的最大长度 加强判断  设另个为0
+/// 强制按text.length长度计算限制文本的最大长度 加强判断  设另个为0
 - (void)setJEMaxTextLength:(NSUInteger)JEMaxTextLength{
     _JEMaxTextLength = JEMaxTextLength;
     self.delegate = (id<UITextViewDelegate>)self;

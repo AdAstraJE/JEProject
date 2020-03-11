@@ -3,11 +3,10 @@
 #include <execinfo.h>
 #import "NSDictionary+JE.h"
 
-
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSArray   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation NSArray (JE)
 
-/** 按 字段 给数组排序 */
-- (NSArray*)je_sortByKey:(NSString*)key Asc:(BOOL)ascend{
+- (NSArray*)je_sortByKey:(NSString*)key asc:(BOOL)ascend{
     return [self sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:key ascending:ascend]]];
 }
 
@@ -42,11 +41,14 @@
 @end
 
 
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSMutableArray   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation NSMutableArray (SafeAccess)
 
 - (NSMutableArray * (^)(id obj))add{
     return ^id (id obj){
-        if (obj != nil) {[self addObject:obj];}
+        if (obj) {[self addObject:obj];}else{NSAssert(nil, @"nil");}
         return self;
     };
 }

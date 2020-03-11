@@ -7,8 +7,11 @@
 #import "UIDevice+YYAdd.h"
 #import "JEBaseBackView.h"
 
-@implementation Tab_1VC
+#import "JEBluetooth+Category.h"
+#import "JEBLEDevice.h"
+#import "JEBluetooth.h"
 
+@implementation Tab_1VC
 
 - (void)viewDidLoad {
     [super viewDidLoad];

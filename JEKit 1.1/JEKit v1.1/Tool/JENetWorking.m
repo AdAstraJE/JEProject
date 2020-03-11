@@ -5,7 +5,7 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import "JEKit.h"
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   @implementation JENetWorking   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   @implementation JENetWorking   🔷🔷🔷🔷🔷🔷🔷🔷
 
 @implementation JENetWorking{
     NSDate *_errorAlertDate;///< 上次HUD error 警告时间 控制时间间隔用
@@ -31,7 +31,7 @@ static JENetWorking *_instance;
 
 - (void)cellularData{
     CTCellularData *cellularData = [[CTCellularData alloc] init];
-    /* 此函数会在网络权限改变时再次调用 */
+    /// 此函数会在网络权限改变时再次调用
     cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
         self->_cellularState = state;
     };
@@ -319,14 +319,14 @@ static JENetWorking *_instance;
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   UIViewController (JENetWorking)   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIViewController (JENetWorking)   🔷🔷🔷🔷🔷🔷🔷🔷
 
 @implementation UIViewController (JENetWorking)
 
 - (BOOL)noAutoHUD{ return [objc_getAssociatedObject(self, _cmd) boolValue];}
 - (void)setNoAutoHUD:(BOOL)noAutoHUD{ objc_setAssociatedObject(self, @selector(noAutoHUD), @(noAutoHUD), OBJC_ASSOCIATION_RETAIN_NONATOMIC);}
 
-/** 该VC所有进行中的请求id */
+/// 该VC所有进行中的请求id 
 - (NSMutableArray <NSNumber *> *)Arr_taskId{
     NSMutableArray *Arrobj = objc_getAssociatedObject(self, _cmd);
     if (Arrobj == nil) {
@@ -373,7 +373,7 @@ static JENetWorking *_instance;
     });
 }
 
-/** 该页面离开导航栏栈了 取消还在进行网络请求 */
+/// 该页面离开导航栏栈了 取消还在进行网络请求 
 - (void)jeNetWork_viewDidDisappear:(BOOL)animated{
     [self jeNetWork_viewDidDisappear:animated];
     if (self.Nav == nil) {

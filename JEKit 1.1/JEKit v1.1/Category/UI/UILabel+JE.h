@@ -6,53 +6,55 @@ UIKIT_EXTERN  UILabel * JELa_(NSString *txt,id fnt,UIColor *clr);
 
 @interface UILabel (JE)
 
-/** NSLocalizedString 国际化 */
+/// NSLocalizedString 国际化
 @property (nonatomic,copy) IBInspectable NSString *loc;
 
-/** UILabel  font = NSNumber | UIFont*/
-+ (instancetype)Frame:(CGRect)frame text:(NSString*)text font:(id)font color:(UIColor*)color;
+/// UILabel  font = NSNumber | UIFont
 + (instancetype)Frame:(CGRect)frame text:(NSString*)text font:(id)font color:(UIColor*)color align:(NSTextAlignment)ment;
++ (instancetype)Frame:(CGRect)frame text:(NSString*)text font:(id)font color:(UIColor*)color;
 
-/** 适应当前宽 */
+/// 适应当前宽
 - (instancetype)sizeThatWidth;
 
-/** 适应当前高 */
+/// 适应当前高
 - (instancetype)sizeThatHeight;
 
-/** 设置文本 和 字体 */
+/// 设置文本 和 字体
 - (void)setText:(NSString *)text font:(UIFont*)font;
 
-/** 设置文本 和 字体颜色 */
+/// 设置文本 和 字体颜色
 - (void)setText:(NSString *)text color:(UIColor*)color;
 
-/** 全部有行间距的 */
-- (instancetype)paragraph:(CGFloat)para;
+/// 全部有行间距的
 - (instancetype)paragraph:(CGFloat)para str:(NSString*)str;
+- (instancetype)paragraph:(CGFloat)para;
 
-/** 部分字符串 添加删除线 */
+/// 部分字符串 添加删除线
 - (void)delLineStr:(NSString*)editStr;
 
-/** 修改 部分字符串 字体大小  */
+/// 修改 部分字符串 字体大小
 - (void)editFont:(UIFont*)font str:(NSString*)editStr;
+/// 修改 部分字符串 字体大小
 - (void)editFont:(UIFont*)font range:(NSRange)range;
 
-/** 修改 部分字符串 字体颜色  */
+/// 修改 部分字符串 字体颜色
 - (void)editColor:(UIColor*)color str:(NSString*)editStr;
+/// 修改 部分字符串 字体颜色
 - (void)editColor:(UIColor*)color range:(NSRange)range;
 
-/** 修改 部分字符串 属性  */
+/// 修改 部分字符串 属性
 - (void)addAttribute:(NSString *)name value:(id)value editStr:(NSString*)editStr;
 
-/** 修改 部分字符串 字体大小 颜色 */
+/// 修改 部分字符串 字体大小 颜色
 - (void)editFont:(UIFont*)font color:(UIColor*)color str:(NSArray <NSString *> *)strs;
 
-/** 后缀添加个图片 */
+/// 后缀添加个图片
 - (void)je_addSuffixImg:(UIImage *)image size:(CGSize)size;
 
-/** 前缀添加个图片 */
+/// 前缀添加个图片
 - (void)je_addPrefixImg:(UIImage *)image size:(CGSize)size;
 
-/** adjustsFontSizeToFitWidth = YES */
+/// adjustsFontSizeToFitWidth = YES
 - (__kindof UILabel * (^)(void))adjust;
 
 

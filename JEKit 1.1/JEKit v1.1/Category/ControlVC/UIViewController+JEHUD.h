@@ -17,8 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIViewController (JEHUD)
 
 @property (nonatomic,strong) JEHUDView *HUDView;///< 显示时只有返回键可以点击
-
-- (MBProgressHUD *)HUD;
+@property (nonatomic,strong,readonly) MBProgressHUD *HUD;///< hud
 
 /// 一直显示HUD 不可点击
 - (void)showHUD;

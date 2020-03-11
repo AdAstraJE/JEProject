@@ -2,10 +2,14 @@
 #import "JEGuideMaskView.h"
 
 typedef NS_ENUM(NSInteger, JEGuideMaskDirection){
-    JEGuideMaskDirectionLeftTop,///< 左上方
-    JEGuideMaskDirectionLeftBottom,///< 左下方
-    JEGuideMaskDirectionRightTop,///< 右上方
-    JEGuideMaskDirectionRightBottom///< 右下方
+    /// 左上方
+    JEGuideMaskDirectionLeftTop,
+    /// 左下方
+    JEGuideMaskDirectionLeftBottom,
+    /// 右上方
+    JEGuideMaskDirectionRightTop,
+    /// 右下方
+    JEGuideMaskDirectionRightBottom,
 };
 
 static NSTimeInterval const jkDuration = 0.25f;///< 动画时间
@@ -32,7 +36,6 @@ static NSTimeInterval const jkDuration = 0.25f;///< 动画时间
     return guideView;
 }
 
-/** 根据view desc 实现  */
 + (instancetype)ShowWithView:(NSArray <__kindof UIView *> *)views desc:(NSArray <NSString *> *)desc{
     JEGuideMaskView *guideView = [[JEGuideMaskView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     guideView->_Arr_view = views;
@@ -100,7 +103,6 @@ static NSTimeInterval const jkDuration = 0.25f;///< 动画时间
     [_maskLayer addAnimation:anim forKey:NULL];
 }
 
-/** 设置 items 的 frame */
 - (void)congifureItemsFrame{
     if ([_layout respondsToSelector:@selector(guideMaskView:colorForDescriptionAtIndex:)]){
         _La_desc.textColor = [_layout guideMaskView:self colorForDescriptionAtIndex:_currentIndex];
@@ -189,7 +191,6 @@ static NSTimeInterval const jkDuration = 0.25f;///< 动画时间
     }];
 }
 
-/** 获取可见的视图的frame */
 - (CGRect)fetchVisualFrame{
     if (_currentIndex >= _count){
         return CGRectZero;
@@ -213,7 +214,6 @@ static NSTimeInterval const jkDuration = 0.25f;///< 动画时间
     return visualRect;
 }
 
-/** 获取可见区域的方位 */
 - (JEGuideMaskDirection)fetchVisualRegion{
     CGPoint visualCenter = CGPointMake(CGRectGetMidX([self fetchVisualFrame]),CGRectGetMidY([self fetchVisualFrame])); // 可见区域的中心坐标
     CGPoint viewCenter   = CGPointMake(CGRectGetMidX(self.bounds),CGRectGetMidY(self.bounds));                         // self.view 的中心坐标

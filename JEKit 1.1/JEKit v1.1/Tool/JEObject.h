@@ -5,9 +5,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JEObject : NSObject
 
-+ (instancetype)Cache;///< 唯一缓存
-- (void)cache:(void (^_Nullable)(void))block;///< 按className缓存一个模型
-- (void)initialConfig;///< 首次创建时配置
+/// 唯一缓存
++ (instancetype)Cache;
+
+/// 按className缓存一个模型
+- (void)cache:(void (^_Nullable)(void))block;
+
+/// 首次创建时配置
+- (void)initialConfig;
 
 @end
 

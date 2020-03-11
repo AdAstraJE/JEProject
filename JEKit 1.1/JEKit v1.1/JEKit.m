@@ -1,52 +1,37 @@
 
 #import "JEKit.h"
-#import <AVFoundation/AVFoundation.h>
-#import <AssetsLibrary/ALAsset.h>
-#import <CoreLocation/CoreLocation.h>
-#import <Photos/Photos.h>
 #import "YYKeychain.h"
 
-@interface JEKit ()
+@implementation JEKit
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
-
-@end
-
-@implementation JEKit{
-    pickImgBlock _pickImgBlock;
-    pickImgEndBlock _pickImgEndBlock;
-    jeLocationBlock _locationBlock;
-}
-
-static JEKit* _sharedManager;
+static JEKit *_shared;
 + (id)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedManager = [super allocWithZone:zone];
-        [_sharedManager defaultTheme];
+        _shared = [super allocWithZone:zone];
+        [_shared defaultTheme];
     });
     
-    return _sharedManager;
+    return _shared;
 }
 
 + (instancetype)Shared{ return [[self alloc] init];}
-- (instancetype)init{return _sharedManager;}
+- (instancetype)init{return _shared;}
 
-/** 默认UI */
 - (void)defaultTheme{
-    _HUDClr = UIColor.blackColor;
+    _HUDClr = [UIColor Light:kRGBA(0, 0, 0,0.9) dark:kRGBA(255, 255, 255,0.1)];
     
-    _navBarLineClr = UIColor.je_sepLine;
+    _navBarLineClr = UIColor.je_sep;
     _navBarItemClr = Clr_blue;
     _navTitleClr = UIColor.je_txt;
 
-//    _tvSepClr = [UIColor Light:(kRGB(222, 223, 224)) dark:kRGBA(235,235,245,0.4)];
-    _tvSepClr = UIColor.je_sepLine;
+    _tvSepClr = UIColor.je_sep;
+    _tvCellSelectBgClr = [UIColor Light:kRGB(229, 229,234) dark:kRGB(44, 44, 47)];
     
-    _sharedManager.listMgr_beginPage = 1;
-    _sharedManager.listMgr_pageParam = @"pageIndex";
-    _sharedManager.listMgr_rowsParam = @"pageSize";
-    _sharedManager.listMgr_rowsNum = 15;
+    _shared.listMgr_beginPage = 1;
+    _shared.listMgr_pageParam = @"pageIndex";
+    _shared.listMgr_rowsParam = @"pageSize";
+    _shared.listMgr_rowsNum = 15;
 }
 
 - (JEStvUIStyle *)stc{
@@ -92,95 +77,5 @@ void delay (float time,void (^block)(void)){
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(),block);
 }
 
-#pragma mark - 从系统相册获取图片 | 拍照
-+ (void)PickImageWithTitle:(NSString*)title edit:(BOOL)edit pick:(pickImgBlock)block{
-    JEKit *picker = [JEKit Shared];
-
-    [JEApp.window.rootViewController Alert:title msg:nil act:@[@"拍照".loc,@"从相册中选择".loc] destruc:nil _:^(NSString *act, NSInteger idx) {
-        picker->_pickImgBlock = block;
-        if (idx == 0) {
-            [picker choosePhoto:UIImagePickerControllerSourceTypeCamera edit:edit];
-        }else if (idx == 1){
-            [picker choosePhoto:UIImagePickerControllerSourceTypePhotoLibrary edit:edit];
-        }
-    }];
-}
-
-+ (void)PickImageWithType:(UIImagePickerControllerSourceType)type edit:(BOOL)edit pick:(pickImgBlock)block{
-    JEKit *picker = [JEKit Shared];
-    picker->_pickImgBlock = block;
-    [picker choosePhoto:type edit:edit];
-}
-
-- (void)choosePhoto:(UIImagePickerControllerSourceType)choosetype edit:(BOOL)edit{
-    if(![UIImagePickerController isSourceTypeAvailable:choosetype]){
-        return;
-    }
-    if(choosetype == UIImagePickerControllerSourceTypeCamera){
-        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            return;
-        }
-    }
-    
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.navigationBar.translucent = YES;
-    picker.allowsEditing = edit;
-    picker.delegate = (id<UINavigationControllerDelegate,UIImagePickerControllerDelegate>)self;
-    picker.sourceType = choosetype;
-    [JEApp.window.rootViewController presentViewController:picker animated:YES completion:nil];
-    _picker = picker;
-}
-
-- (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    UIImage *originalImage = ([info objectForKey:UIImagePickerControllerEditedImage] ? : [info objectForKey:UIImagePickerControllerOriginalImage] );
-    UIImage *fixImg = [originalImage je_limitToWH:800];
-    
-    if (_pickImgBlock) {
-        _pickImgBlock(originalImage,fixImg,picker);
-        _pickImgBlock = nil;
-    }
-    
-    [picker dismissViewControllerAnimated:YES completion:^{ self->_picker = nil;}];
-    if (_pickImgEndBlock) { _pickImgEndBlock();}
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    [picker dismissViewControllerAnimated:YES completion:^{self->_picker = nil; }];
-    if (_pickImgEndBlock) {_pickImgEndBlock(); }
-}
-
-+ (void)pickImageEnd:(pickImgEndBlock)block{
-    [JEKit Shared]->_pickImgEndBlock = block;
-}
-
-
-#pragma mark - 定位
-+ (void)Location:(jeLocationBlock)done{
-    [JEKit Shared]->_locationBlock = done;
-    [[JEKit Shared].locationManager startUpdatingLocation];
-}
-
-- (CLLocationManager *)locationManager {
-    if(_locationManager == nil) {
-        CLLocationManager *_ = [[CLLocationManager alloc] init];
-        _.delegate = (id<CLLocationManagerDelegate>)self;
-        _.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-        [_ requestWhenInUseAuthorization];
-        _locationManager = _;
-    }
-    return _locationManager;
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    [manager stopUpdatingLocation];
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        if (error || [placemarks count] == 0) {  return ;}
-        if ([JEKit Shared]->_locationBlock) {
-            [JEKit Shared]->_locationBlock(locations.lastObject,placemarks);
-            [JEKit Shared]->_locationBlock = nil;
-        }
-    }];
-}
 
 @end

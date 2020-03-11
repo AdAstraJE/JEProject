@@ -3,7 +3,6 @@
 
 @implementation NSDate (JE)
 
-/** 字符时间戳 */
 - (NSNumber *)ts{
     return @((long long)[self timeIntervalSince1970]);
 }
@@ -12,7 +11,6 @@
     return [self timeIntervalSince1970];
 }
 
-/** 时间成分 */
 - (NSDateComponents *)components{
     return [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:self];
 }
@@ -41,12 +39,10 @@
     return ([[NSDateFormatter dateFormatFromTemplate:@"j" options:0 locale:[NSLocale currentLocale]] rangeOfString:@"a"].location != NSNotFound);
 }
 
-/** 两个时间比较 */
 +(NSDateComponents *)dateComponents:(NSCalendarUnit)unit fromDate:(NSDate *)fromDate toDate:(NSDate *)toDate{
     return [[NSCalendar currentCalendar] components:unit fromDate:fromDate toDate:toDate options:0];
 }
 
-/** 根据年份、月份、日期、小时数、分钟数、秒数返回NSDate */
 + (NSDate *)dateWithYear:(NSUInteger)year Month:(NSUInteger)month Day:(NSUInteger)day Hour:(NSUInteger)hour  Minute:(NSUInteger)minute  Second:(NSUInteger)second{
     NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate date]];
     dateComponents.year = year;
@@ -66,37 +62,30 @@
     return gapDay;
 }
 
-/** 这个月的天数 */
 - (NSInteger)monthDays{
     return [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self].length;
 }
 
-/** 这年的天数 */
 - (NSInteger)yearDays{
     return [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitYear forDate:self].length;
 }
 
-/** 获取当天是当年的第几周 */
 - (NSUInteger)weekOfDayInYear{
     return [[NSCalendar currentCalendar] ordinalityOfUnit:NSCalendarUnitWeekday inUnit:NSCalendarUnitYear forDate:self];
 }
 
-/** 获取一小时后的时间 */
 - (NSDate *)oneHourLater{
     return [NSDate dateWithTimeInterval:3600 sinceDate:self];
 }
 
-/** 判断与某一天是否为同一天 */
 - (BOOL)isSameDay:(NSDate *)otherDate{
     return  (self.year == otherDate.year && self.month == otherDate.month && self.day == otherDate.day);
 }
 
-/** 判断与某一天是否为同一周 */
 - (BOOL)isSameWeek:(NSDate *)otherDate{
     return  (self.year == otherDate.year  && self.month == otherDate.month && self.weekOfDayInYear == otherDate.weekOfDayInYear);
 }
 
-/** 判断与某一天是否为同一月 */
 - (BOOL)isSameMonth:(NSDate *)otherDate{
     return (self.year == otherDate.year && self.month == otherDate.month);
 }
@@ -110,8 +99,6 @@
     return [[[NSCalendar currentCalendar] components:NSCalendarUnitQuarter fromDate:self] isLeapMonth];
 }
 
-
-/** 多久以前呢 ？ 1分钟内 X分钟前 X天前 */
 - (NSString *)je_whatTimeAgo{
     if (self == nil) {
         return @"";
@@ -127,7 +114,6 @@
     return  result;
 }
 
-/// 前段时间日期的描述
 - (NSString *)je_whatTimeBefore{
     if (self == nil) {
         return @"";

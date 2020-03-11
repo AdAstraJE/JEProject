@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 #import "JEBaseBackView.h"
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEPickerView   🔷
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEPickerView   🔷
 @interface JEPickerView : JEBaseBackView <UIPickerViewDelegate,UIPickerViewDataSource>
 
 typedef void(^JEPVCusArrBlock)(NSInteger index,NSString *title);
@@ -36,7 +36,7 @@ typedef void(^JEPVDateBlock)(NSDate *date);
 @end
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEPickerView_City   🔷 地区选择
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEPickerView_City   🔷 地区选择
 @interface JEPickerView_City : JEPickerView
 
 @property (nonatomic,copy) JEPVLocationBlock locationBlock;

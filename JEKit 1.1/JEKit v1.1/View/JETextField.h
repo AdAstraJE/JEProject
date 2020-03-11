@@ -15,13 +15,13 @@
 @property (nonatomic,assign)  NSUInteger JEMaxCharactersLength;///< 强制按字符长度计算限制文本的最大长度 (一个中文算两个字符！)
 @property (nonatomic,assign)  NSUInteger JEMaxTextLength;///< 强制按text.length长度计算限制文本的最大长度
 
-/** 右边也加placeHolder */
+/// 右边也加placeHolder
 - (void)addRightPlaceHolder:(NSString *)placeHolder;
 
-/** 当前选择的范围 */
+/// 当前选择的范围
 - (NSRange)selectedRange;
 
-/** 设置选择范围 必须为第一响应者才有效 */
+/// 设置选择范围 必须为第一响应者才有效 
 - (void)setSelectedRange:(NSRange)range;
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;

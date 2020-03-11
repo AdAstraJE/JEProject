@@ -12,6 +12,7 @@
 
 @property (nonatomic,strong) id URL;///< URL
 @property (nonatomic,copy)  NSString  *HTMLString;
+@property (nonatomic,assign) BOOL handelDarkModel;///< 简单处理黑色模式 ### NO
 
 @end
 

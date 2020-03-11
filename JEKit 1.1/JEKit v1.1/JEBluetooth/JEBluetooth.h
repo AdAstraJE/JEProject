@@ -4,17 +4,21 @@
 #import "JEBLEDevice.h"
 
 typedef NS_ENUM(NSUInteger, BLEHighLowType) {
-    BLEHighLowTypeHigh,///< 高位 1 = 01 00 00 00
-    BLEHighLowTypeLow,///< 底位  1 = 00 00 00 01
+    /// 高位 1 = 01 00 00 00
+    BLEHighLowTypeHigh,
+    /// 底位  1 = 00 00 00 01
+    BLEHighLowTypeLow,
 };
 
-typedef void (^BLE_centralState)(CBManagerState state);/**< 状态回调 */
-typedef void (^BLE_deviceBlock)(__kindof JEBLEDevice *device);/**< 设备回调 */
+/// 状态回调
+typedef void (^BLE_centralState)(CBManagerState state);
+/// 设备回调
+typedef void (^BLE_deviceBlock)(__kindof JEBLEDevice *device);
 
-/** 单设备蓝牙处理工具 */
+/// 单设备蓝牙处理工具
 @interface JEBluetooth : NSObject
 
-/** 单例 */
+/// 单例
 + (instancetype)Shared;
 //----------------------------------------------------------------------------------------------------
 @property (nonatomic,strong) __kindof JEBLEDevice *simulatorDevice;///< 模拟器用
@@ -35,25 +39,25 @@ typedef void (^BLE_deviceBlock)(__kindof JEBLEDevice *device);/**< 设备回调 
 @property (nonatomic,strong) NSMutableArray <NSString *> *Arr_errorDisconnectUUID;///< 异常断开连接的设备的UUID
 
 
-/** 尝试连接 以前连接过的设备 */
+/// 尝试连接 以前连接过的设备
 - (void)reconnectHistoryPeripheral;
 
-/** 蓝牙状态 */
+/// 蓝牙状态
 - (void)centralState:(BLE_centralState)block;
 
-/** 搜索 唯一key 重复会覆盖block */
+/// 搜索 唯一key 重复会覆盖block
 - (void)scanPeripheral:(BLE_deviceBlock)block blockKey:(NSString *)blockKey;
 
-/** 设备状态改变 回调   唯一key 重复会覆盖block */
+/// 设备状态改变 回调   唯一key 重复会覆盖block
 - (void)deviceChange:(BLE_deviceBlock)block blockKey:(NSString *)blockKey;
 
-/** 停止搜索 实际有需要断开重现中不会停止 */
+/// 停止搜索 实际有需要断开重现中不会停止
 - (void)stopScan;
 
-/** 持有&尝试连接 */
+/// 持有&尝试连接
 - (void)connectDevice:(JEBLEDevice *)device;
 
-/** 断开当前设备 */
+/// 断开当前设备 
 - (void)cancelDevice:(JEBLEDevice *)device;
 
 @end

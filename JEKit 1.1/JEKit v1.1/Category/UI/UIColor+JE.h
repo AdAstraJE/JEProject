@@ -30,7 +30,7 @@
 @property (class, nonatomic, readonly) UIColor *je_Tgray1;///< secondaryLabelColor (60,60,67,0.6) | (235,235,245,0.6)
 @property (class, nonatomic, readonly) UIColor *je_Tgray2;///< tertiaryLabelColor  (60,60,67,0.3) | (235,235,245,0.3)
 @property (class, nonatomic, readonly) UIColor *je_Tgray3;///< quaternaryLabelColor (60,60,67,0.18) | (235,235,245,0.16)
-@property (class, nonatomic, readonly) UIColor *je_sepLine;///< 分割线
+@property (class, nonatomic, readonly) UIColor *je_sep;///< 分割线 UIColor.separatorColor
 
 @property (class, nonatomic, readonly) UIColor *gray1;///< systemGrayColor   (142, 142, 147, 1.0) | (142, 142, 147, 1.0)
 @property (class, nonatomic, readonly) UIColor *gray2;///< systemGray2Color  (174, 174, 178, 1.0) | (99, 99, 102, 1.0)

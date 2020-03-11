@@ -133,7 +133,6 @@
 
 #pragma mark -
 
-/** 保存到指定相册名字 */
 - (void)je_savedToAlbum:(NSString*)AlbumName success:(void(^)(void))completeBlock fail:(void(^)(void))failBlock{
     PHFetchResult *collectonResuts = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     __block BOOL isExisted = NO;
@@ -254,7 +253,6 @@
     return img;
 }
 
-/** 旋转角度后的图片 */
 - (UIImage*)je_rotate:(CGFloat)degrees{
     CGFloat width = CGImageGetWidth(self.CGImage);
     CGFloat height = CGImageGetHeight(self.CGImage);
@@ -278,7 +276,6 @@
     return newImage;
 }
 
-/** 加水印 */
 - (UIImage *)je_waterMark:(NSString *)text color:(UIColor *)color font:(UIFont *)font type:(ImageJEWaterMarkType)type offset:(CGPoint)offset{
     CGSize size = self.size;
     CGRect rect = (CGRect){CGPointZero,size};
@@ -312,7 +309,6 @@
     return calRect;
 }
 
-/** 加水印 */
 - (UIImage *)je_waterMark:(UIImage *)waterImage size:(CGSize)imgSize type:(ImageJEWaterMarkType)type offset:(CGPoint)offset{
     CGSize size = self.size;
     CGRect rect = (CGRect){CGPointZero,size};

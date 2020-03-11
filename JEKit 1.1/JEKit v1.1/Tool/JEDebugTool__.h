@@ -5,7 +5,7 @@
 #import "JEBaseVC.h"
 @class JEDebugToolModel;
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolModel   🔷 显示模型
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolModel   🔷 显示模型
 
 @interface JEDebugToolModel : JEDBModel
 @property (nonatomic,copy) NSString *indexTime;///< 请求时间
@@ -23,7 +23,7 @@
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugMainVC   🔷 数据显示VC
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugMainVC   🔷 数据显示VC
 
 @interface JEDebugMainVC : JEBaseVC <UITableViewDelegate,UITableViewDataSource>
 
@@ -36,7 +36,7 @@
 @end
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugTimeListTVC   🔷 历史时间列表VC
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugTimeListTVC   🔷 历史时间列表VC
 
 @interface JEDebugTimeListVC : JEBaseVC
 
@@ -59,14 +59,14 @@
 
 + (void)EnableSimulator;
 
-/** 转换显示或隐藏 */
+/// 转换显示或隐藏
 + (void)SwitchONOff;
 
-/** 标准添加log     ( id -> NSArray,NSDictionary,NSString,NSNumber )    */
+/// 标准添加log     ( id -> NSArray,NSDictionary,NSString,NSNumber )
 + (void)LogTitle:(NSString *)title noti:(id)noti detail:(id)detail;
 + (void)LogTitle:(NSString *)title noti:(id)noti detail:(id)detail toDB:(BOOL)toDB;
 
-/** 简单添加log  默认存进数据库 */
+/// 简单添加log  默认存进数据库 
 + (void)LogSimple:(id)simple;
 + (void)LogSimple:(id)simple toDB:(BOOL)toDB;
 

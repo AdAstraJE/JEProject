@@ -207,7 +207,15 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
     return nil;
 }
 
-
+- (__kindof UIView *)find:(NSString *)className{
+    for (__kindof UIView * _Nonnull obj in self.subviews) {
+        if ([obj isKindOfClass:NSClassFromString(className)]) {
+            return obj;
+        }
+        return [obj find:className];
+    }
+    return nil;
+}
 
 #pragma mark - 手势
 
@@ -219,7 +227,7 @@ static char kActionHandlerRotateBlockKey;
 static char kActionHandlerRotateGestureKey;
 
 ///单点击手势
-- (void)tapGesture:(GestureActionBlock)block{
+- (void)tapGesture:(void (^)(UIGestureRecognizer *ges))block{
     self.userInteractionEnabled = YES;
     UITapGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerTapGestureKey);
     if (!gesture){
@@ -232,13 +240,13 @@ static char kActionHandlerRotateGestureKey;
 
 - (void)handleActionForTapGesture:(UITapGestureRecognizer*)gesture{
     if (gesture.state == UIGestureRecognizerStateRecognized){
-        GestureActionBlock block = objc_getAssociatedObject(self, &kActionHandlerTapBlockKey);
+        void (^block)(UIGestureRecognizer *) = objc_getAssociatedObject(self, &kActionHandlerTapBlockKey);
         if (block){ block(gesture); }
     }
 }
 
 ///长按手势
-- (void)longPressGestrue:(GestureActionBlock)block{
+- (void)longPressGestrue:(void (^)(UIGestureRecognizer *ges))block{
     self.userInteractionEnabled = YES;
     UILongPressGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerLongPressGestureKey);
     if (!gesture)  {
@@ -251,13 +259,13 @@ static char kActionHandlerRotateGestureKey;
 
 - (void)handleActionForLongPressGesture:(UITapGestureRecognizer*)gesture{
     if (gesture.state == UIGestureRecognizerStateBegan){
-        GestureActionBlock block = objc_getAssociatedObject(self, &kActionHandlerLongPressBlockKey);
+        void (^block)(UIGestureRecognizer *) = objc_getAssociatedObject(self, &kActionHandlerLongPressBlockKey);
         if (block){  block(gesture);}
     }
 }
 
 ///旋转手势
-- (void)rotateGesture:(GestureActionBlock)block{
+- (void)rotateGesture:(void (^)(UIGestureRecognizer *ges))block{
     self.userInteractionEnabled = YES;
     UIRotationGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerRotateGestureKey);
     if (!gesture){
@@ -274,7 +282,7 @@ static char kActionHandlerRotateGestureKey;
         view.transform = CGAffineTransformRotate(view.transform, gesture.rotation);
         [gesture setRotation:0];
         
-        GestureActionBlock block = objc_getAssociatedObject(self, &kActionHandlerRotateBlockKey);
+        void (^block)(UIGestureRecognizer *) = objc_getAssociatedObject(self, &kActionHandlerRotateBlockKey);
         if (block){ block(gesture); }
     }
 }

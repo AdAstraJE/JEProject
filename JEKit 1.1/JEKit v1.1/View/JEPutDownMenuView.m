@@ -6,10 +6,10 @@
 #define kTitleColor                 (kHexColor(0x222222))//字体颜色
 #define DEGREES_TO_RADIANS(degrees) ((3.14159265359 * degrees)/ 180)
 
-static CGFloat jkAnimateDuration  = 0.20;/**< 动画时间 */
-static CGFloat jkTableRowHeight   = 44;/**< 行高 */
-static CGFloat jkLineW = 0.8;/**< 边框宽 */
-static CGFloat jkRadius = 3;/**< 倒角 */
+static CGFloat jkAnimateDuration  = 0.20;///< 动画时间
+static CGFloat jkTableRowHeight   = 44;///< 行高
+static CGFloat jkLineW = 0.8;///< 边框宽
+static CGFloat jkRadius = 3;///< 倒角
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEPutDownMenuCell   🔷🔷🔷🔷🔷🔷🔷🔷
 @interface JEPutDownMenuCell : UITableViewCell
@@ -42,6 +42,7 @@ static CGFloat jkRadius = 3;/**< 倒角 */
     NSArray  <NSString *> *_Arr_list;
     BOOL _upward;///< 展开方向 YES 为向上
     CGFloat _arrowX;///< 箭头位置百分比
+    void (^_selectBlock)(NSString *str,NSInteger index);
 }
 
 @end
@@ -52,11 +53,11 @@ static CGFloat jkRadius = 3;/**< 倒角 */
     jkDeallocLog
 }
 
-+ (void)ShowIn:(UIView *)view point:(CGPoint)point list:(NSArray <NSString *> *)list select:(selectBlock)block{
++ (void)ShowIn:(UIView *)view point:(CGPoint)point list:(NSArray <NSString *> *)list select:(void (^)(NSString *str,NSInteger index))block{
     [self ShowIn:view point:point list:list select:block upward:NO arrowX:0.5];
 }
 
-+ (void)ShowIn:(UIView *)view point:(CGPoint)point list:(NSArray <NSString *> *)list select:(selectBlock)block upward:(BOOL)upward arrowX:(CGFloat)arrowX{
++ (void)ShowIn:(UIView *)view point:(CGPoint)point list:(NSArray <NSString *> *)list select:(void (^)(NSString *str,NSInteger index))block upward:(BOOL)upward arrowX:(CGFloat)arrowX{
     CGFloat MaxW = 40;
     for (NSString *Str  in list) {
         MaxW = MAX(MaxW, [Str widthWithFont:font(13) height:20]);
@@ -69,7 +70,7 @@ static CGFloat jkRadius = 3;/**< 倒角 */
     [view addSubview:MenuView];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame inView:(UIView *)inview list:(NSArray <NSString *> *)list select:(selectBlock)block upward:(BOOL)upward arrowX:(CGFloat)arrowX{
+- (instancetype)initWithFrame:(CGRect)frame inView:(UIView *)inview list:(NSArray <NSString *> *)list select:(void (^)(NSString *str,NSInteger index))block upward:(BOOL)upward arrowX:(CGFloat)arrowX{
     self = [super initWithFrame:CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame), CGRectGetWidth(frame),0)];
     self.backgroundColor = [UIColor clearColor];
     _selectBlock = block;
@@ -112,7 +113,6 @@ static CGFloat jkRadius = 3;/**< 倒角 */
     }
 }
 
-/** 显示 */
 - (void)ShowView:(CGFloat)height{
     [self ChangeNavPopGestureEnable:NO];
     self.layer.anchorPoint = CGPointMake(0.5,_upward ? 0.5 : 0);
@@ -124,7 +124,6 @@ static CGFloat jkRadius = 3;/**< 倒角 */
     }];
 }
 
-/** 隐藏 销毁 */
 - (void)HideView{
     [self ChangeNavPopGestureEnable:YES];
     [UIView animateWithDuration:jkAnimateDuration animations:^{
@@ -136,7 +135,7 @@ static CGFloat jkRadius = 3;/**< 倒角 */
         [self removeFromSuperview];
         [self->_backView removeFromSuperview];
         self->_backView = nil;
-        self.selectBlock = nil;
+        self->_selectBlock = nil;
     }];
 }
 

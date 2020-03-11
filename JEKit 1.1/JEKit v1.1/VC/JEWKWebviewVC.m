@@ -51,6 +51,7 @@
     UIButton *_Btn_back,*_Btn_forward;///< 返回 前进
     NSString *_textResource,*_tempFileSharePath;
     BOOL _netLink;
+    BOOL _darked;///< 处理设置过背景黑色
 }
 
 @end
@@ -81,7 +82,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = self.title;
-    
+   
     [self setup_KWWebViewUI];
 
 }
@@ -118,6 +119,14 @@
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;{
 //    [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '260%'" completionHandler:nil];
     
+    if (_handelDarkModel) {
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                delay(0.1, ^{self->_webView.scrollView.hidden = NO;});
+            }
+            [self reloadWebViewColor];
+        }
+    }
 }
 
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation;{}
@@ -128,7 +137,7 @@
     decisionHandler(WKNavigationResponsePolicyAllow);
 }
 
-/** 在发送请求之前，决定是否跳转 */
+/// 在发送请求之前，决定是否跳转
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
     NSURL *url = navigationAction.request.URL;
     if ([url.scheme hasPrefix:@"itms-appss"] || [url.scheme isEqualToString:@"tel"] || [url.absoluteString containsString:@"ituns.apple.com"]) {
@@ -146,6 +155,33 @@
     }]];
     [self presentViewController:alert animated:YES completion:NULL];
 }
+
+#pragma mark - StyleDark 黑暗模式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self reloadWebViewColor];
+}
+
+- (void)reloadWebViewColor{
+    if (@available(iOS 13.0, *)) {
+        BOOL dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);
+        NSString *backgroundColor = @"\"#000000\"";
+        NSString *labelColor = @"'#E5E5EA'";
+        if (dark) {
+            _darked = YES;
+        }else{
+            if (!_darked) {
+                return;
+            }
+            backgroundColor = @"\"#FFFFFF\"";
+            labelColor = @"'#000000'";
+        }
+        
+        [_webView evaluateJavaScript:[NSString stringWithFormat:@"document.body.style.backgroundColor=%@",backgroundColor] completionHandler:nil];
+        [_webView evaluateJavaScript:[NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor=%@",labelColor] completionHandler:nil];
+    }
+}
+
 
 #pragma mark - UI 相关设置
 
@@ -208,7 +244,14 @@
     }else{
         _HTMLString ? [_webView loadHTMLString:_HTMLString baseURL:nil] : [_webView loadRequest:request];
     }
-
+    
+    if (_handelDarkModel) {
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                _webView.scrollView.hidden = YES;
+            }
+        }
+    }
 
     UIImage *leftArrow = JEBundleImg(@"ic_navBack").clr(Clr_blue);
     UIImage *rightArrow = [leftArrow je_rotate:180];

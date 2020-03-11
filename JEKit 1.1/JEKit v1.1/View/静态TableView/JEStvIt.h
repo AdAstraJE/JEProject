@@ -4,13 +4,15 @@
 @class JEStvIt;
 @class JEStaticTVCell;
 
-typedef void(^JEStvSelectBlock)(JEStvIt *item);///< didSelectRow
-typedef void(^JEStvSwitchBlock)(JEStvIt *item,BOOL on);///< cell switch valueChange
+/// didSelectRow
+typedef void(^JEStvSelectBlock)(JEStvIt *item);
+/// cell switch valueChange
+typedef void(^JEStvSwitchBlock)(JEStvIt *item,BOOL on);
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEStvUIStyle   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEStvUIStyle   🔷🔷🔷🔷🔷🔷🔷🔷
 @interface JEStvUIStyle : NSObject
 
-/** 默认样式 */
+/// 默认样式 
 + (JEStvUIStyle *)DefaultStyle;
 
 @property (nonatomic,strong) UIColor *backgroundColor;///<   ### JEShare.tvBgClr
@@ -35,7 +37,7 @@ typedef void(^JEStvSwitchBlock)(JEStvIt *item,BOOL on);///< cell switch valueCha
 
 UIKIT_EXTERN  JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAccessoryType indicator, JEStvSelectBlock block);
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEStvIt   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEStvIt   🔷🔷🔷🔷🔷🔷🔷🔷
 @interface JEStvIt : NSObject
 
 @property (nonatomic,strong) UIImage *icon;///< icon 图标

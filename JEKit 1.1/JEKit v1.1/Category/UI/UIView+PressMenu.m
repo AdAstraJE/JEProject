@@ -12,7 +12,7 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKe
     self.menuClickedBlock = block;
     self.menuTitles = menuTitles;
     if (self.pressGR == nil) {
-        self.pressGR = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlePress:)];
+        self.pressGR = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     }
     [self addGestureRecognizer:self.pressGR];
 }
@@ -98,7 +98,7 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKe
     }
 }
 
-- (void)handlePress:(UIGestureRecognizer*)recognizer{
+- (void)handleLongPress:(UIGestureRecognizer*)recognizer{
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         [self p_showMenu];
     }

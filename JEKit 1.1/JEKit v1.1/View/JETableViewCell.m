@@ -7,8 +7,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.selectedBackgroundView = JEVe(self.bounds, [UIColor Light:kRGB(229, 229,234) dark:kRGB(44, 44, 47)], nil);
-//    self.backgroundColor = [UIColor Light:UIColor.whiteColor dark:[UIColor colorWithRed:0.11 green:0.11 blue:0.12 alpha:1]];
+    self.selectedBackgroundView = JEVe(self.bounds, JEShare.tvCellSelectBgClr, nil);
     return self;
 }
 

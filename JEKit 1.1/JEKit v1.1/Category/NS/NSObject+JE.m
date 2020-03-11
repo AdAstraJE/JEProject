@@ -45,7 +45,7 @@
     return nil;
 }
 
-/** 属性值和列表 */
+/// 属性值和列表
 - (NSDictionary <NSString *,id> *)je_propertyDictionary{
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     unsigned int outCount;
@@ -100,7 +100,7 @@
 #endif
 }
 
-/** 属性集合 */
+/// 属性集合 
 + (NSArray <NSString *> *)je_ClassPropertyList {
     NSMutableArray *allProperties = [[NSMutableArray alloc] init];
     unsigned int outCount;

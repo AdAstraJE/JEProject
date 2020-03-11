@@ -2,7 +2,7 @@
 #import "JEIntroducView.h"
 #import "JEKit.h"
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEIntroducCell : UICollectionViewCell   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEIntroducCell : UICollectionViewCell   🔷🔷🔷🔷🔷🔷🔷🔷
 @interface JEIntroducCell : UICollectionViewCell
 @property (nonatomic,strong) UIImageView *Img;///< 就图片咯
 @property (nonatomic,strong) UILabel *La_title;///< title
@@ -31,7 +31,9 @@
 @end
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEIntroducView   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEIntroducView   🔷🔷🔷🔷🔷🔷🔷🔷
 
 @interface JEIntroducView () <UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -103,7 +105,7 @@
 
     return self;
 }
-/** 重设描述图片frame */
+
 - (void)resetDescImgFrame:(CGRect)frame{
     _Img_back.frame = frame;
     _Img_front.frame = frame;

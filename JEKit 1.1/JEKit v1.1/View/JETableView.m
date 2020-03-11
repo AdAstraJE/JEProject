@@ -23,7 +23,6 @@
     return self;
 }
 
-/** 修改有点击效果 */
 - (void)defaultConfigure{
     if(JEShare.tvBgClr){ self.backgroundColor = JEShare.tvBgClr;}
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;

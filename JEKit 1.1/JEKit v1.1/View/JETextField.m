@@ -7,7 +7,7 @@ static NSInteger const jkTextMargin = 8;///<
 
 @interface JETextField ()
 
-@property (nonatomic,strong) UIView *Ve_alpha;/**< 编辑的时候不允许点击 覆盖个透明的view */
+@property (nonatomic,strong) UIView *Ve_alpha;///< 编辑的时候不允许点击 覆盖个透明的view
 
 @end
 

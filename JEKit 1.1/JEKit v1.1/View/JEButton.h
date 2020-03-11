@@ -48,8 +48,8 @@ UIKIT_EXTERN  JEButton * JEBtnSys(CGRect rect,NSString *title,id fnt,UIColor *cl
 
 @interface JEFrameBtn : JEButton
 
-@property (nonatomic,assign)  CGRect imgf;/**< 图片在按钮中的位置  UIViewContentModeScaleAspectFit*/
-@property (nonatomic,assign)  CGRect titf;/**< 文本在按钮中的位置 */
+@property (nonatomic,assign)  CGRect imgf;///< 图片在按钮中的位置  UIViewContentModeScaleAspectFit
+@property (nonatomic,assign)  CGRect titf;///< 文本在按钮中的位置
 
 /// 专门的图片位置 & 文本位置 整体
 - (instancetype)initWithFrame:(CGRect)frame imgF:(CGRect)imgf titF:(CGRect)titf  title:(NSString*)title font:(id)font color:(UIColor*)titleColor rad:(CGFloat)rad tar:(id)target sel:(SEL)action img:(id)img system:(BOOL)system;

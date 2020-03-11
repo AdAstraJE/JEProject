@@ -14,7 +14,7 @@ static NSString * const jkSeparatedStr = @"  ————  ";///< 分割用
 static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolModel   🔷 显示模型
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolModel   🔷 显示模型
 @implementation JEDebugToolModel
 
 + (NSString *)PrimaryKey{return @"indexTime";}
@@ -22,7 +22,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 @end
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolTimeListModel   🔷 时间列表模型
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolTimeListModel   🔷 时间列表模型
 
 @interface JEDebugToolTimeListModel : JEDBModel
 @property (nonatomic,assign) NSInteger number;///< log数量
@@ -33,7 +33,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 @end
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolCell   🔷 Cell
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolCell   🔷 Cell
 
 @interface JEDebugToolCell : UITableViewCell
 @property (nonatomic,strong) UITextView *TextView;///< 详情显示用
@@ -137,7 +137,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugTimeListVC   🔷 历史时间列表VC
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugTimeListVC   🔷 历史时间列表VC
 
 @implementation JEDebugTimeListVC
 
@@ -172,7 +172,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   @implementation JEDebugMainVC   🔷 数据显示VC
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   @implementation JEDebugMainVC   🔷 数据显示VC
 
 @implementation JEDebugMainVC{
     NSInteger _toDBlogNumber;
@@ -482,7 +482,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEDebugTool__   🔷 工具
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   @interface JEDebugTool__   🔷 工具
 
 static BOOL _enableSimulator = NO;
 static BOOL _disableTool = NO;
@@ -515,7 +515,7 @@ static JEDebugTool__* _sharedManager;
     return _sharedManager;
 }
 
-/** 转换显示或隐藏 */
+/// 转换显示或隐藏 
 + (void)SwitchONOff{
     if (_disableTool) {return;}
     [JEDebugTool__ Shared]->_Btn_touch.alpha =  [JEDebugTool__ Shared].nav.view.alpha = (fabs(1 - [JEDebugTool__ Shared]->_Btn_touch.alpha));

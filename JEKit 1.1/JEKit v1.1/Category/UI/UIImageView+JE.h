@@ -6,14 +6,14 @@ UIKIT_EXTERN  UIImageView * JEImg_(CGSize size,id img);
 
 @interface UIImageView (JE)
 
-/** UIImageView */
+/// UIImageView
 + (instancetype)F:(CGRect)frame name:(NSString*)name;
 + (instancetype)F:(CGRect)frame image:(UIImage*)image;
 + (instancetype)F:(CGRect)frame mode:(UIViewContentMode)mode;
 
-- (__kindof UIImageView * (^)(UIViewContentMode mode))mode_;///< self.contentMode =
+- (__kindof UIImageView * (^)(UIViewContentMode mode))mode_;///< self.contentMode = UIViewContentMode
 
-/** 加个点击放大显示图片功能 */
+/// 加个点击放大显示图片功能
 - (void)tapToshowImg;
 
 @end

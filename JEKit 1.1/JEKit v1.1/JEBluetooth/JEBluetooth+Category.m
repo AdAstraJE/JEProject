@@ -2,23 +2,23 @@
 #import "JEBluetooth+Category.h"
 #import "JEBluetooth.h"
 
-#pragma mark -   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵   BDH_2   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   BDH_2   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation BDH_2
 
 @end
 
-#pragma mark -   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵   BDH_10   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   BDH_10   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation BDH_10
 
 @end
 
-#pragma mark -   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵   BDH_16   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   BDH_16   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation BDH_16
 
 @end
 
 
-#pragma mark -   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵   NSString (JEBluetoothReadWrite)   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSString (JEBluetoothReadWrite)   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation NSString (JEBluetoothReadWrite)
 
 - (BDH_10 *)_2_to_10{
@@ -151,10 +151,8 @@
 - (NSString *)at:(NSInteger)index{
     if (index < self.length && index >= 0) {
         return [self substringWithRange:NSMakeRange(index, 1)];
-    }else{
-        NSAssert(nil, @"");
-        return nil;
     }
+    NSAssert(nil, @"");return nil;
 }
 
 @end
@@ -162,7 +160,7 @@
 
 
 
-#pragma mark -   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵   NSArray (JEBluetoothReadWrite)   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSArray (JEBluetoothReadWrite)   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation NSArray (JEBluetoothReadWrite)
 
 - (NSArray <BDH_16 *> *)_to16{
@@ -251,9 +249,8 @@
 - (NSMutableArray <NSArray <NSString *> *> *)group:(NSInteger)N{
     if (self.count%N != 0) {
 #ifdef DEBUG
-        [self JE_Debug_AddLog:[NSString stringWithFormat:@"🔴🔴🔴🔴不能整除count:%@ gourpBy:%@  \n%@",@(self.count),@(N),self._to16.join]];
+        [self JE_Debug_AddLog:[NSString stringWithFormat:@"DEBUG - 🔴🔴🔴不能整除count:%@ gourpBy:%@  \n%@",@(self.count),@(N),self._to16.join]];
 #endif
-//        NSAssert(nil, @"不能整除");
         return nil;
     }
     NSMutableArray *arr = [NSMutableArray array];
@@ -287,7 +284,7 @@
 
 
 
-#pragma mark -   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵   NSData (JEBluetoothReadWrite)   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSData (JEBluetoothReadWrite)   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation NSData (JEBluetoothReadWrite)
 
 - (NSArray <BDH_10 *> *)_10_Arr{
@@ -314,7 +311,7 @@
 
 
 
-#pragma mark -   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵   CBCharacteristic (JE)   🔵🔵🔵🔵🔵🔵🔵🔵  🔵🔵🔵🔵🔵🔵🔵🔵
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   CBCharacteristic (JE)   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation CBCharacteristic (JE)
 
 - (NSString *)propertyDebugInfo{

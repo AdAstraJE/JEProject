@@ -45,7 +45,6 @@ UIImageView * JEImg_(CGSize size,id img){
 
 - (__kindof UIImageView * (^)(UIViewContentMode mode))mode_{ return ^id (NSInteger mode){self.contentMode = mode;return self;};}
 
-/** 加个点击显示 放大图片 */
 - (void)tapToshowImg{
     [self tapGesture:^(UIGestureRecognizer *ges) {
         [JEShowImg ShowImgFrom:(UIImageView*)ges.view];

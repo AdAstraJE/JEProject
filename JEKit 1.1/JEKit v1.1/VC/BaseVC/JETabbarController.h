@@ -7,6 +7,8 @@
 
 /// JETabbarController 默认样式 
 - (instancetype)initWithVCs:(NSArray <UIViewController *>*)VCs titles:(NSArray <NSString *> *)titles imgs:(NSArray <NSArray <UIImage*> *> *)imgs;
+
+/// setupVCs
 - (void)setupVCs:(NSArray <UIViewController *>*)VCs titles:(NSArray <NSString *> *)titles imgs:(NSArray <NSArray <UIImage*> *> *)imgs;
 
 /// 遍历隐藏tabbar

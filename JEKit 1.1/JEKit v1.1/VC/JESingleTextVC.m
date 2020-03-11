@@ -15,7 +15,6 @@
 @property (nonatomic,assign) NSUInteger limit;
 @property (nonatomic,assign) NSUInteger VHeight;
 @property (nonatomic,assign) BOOL UseTextField;
-@property (nonatomic,copy)   NSString *UseTableSex;/**< tableview 选性别 */
 
 @end
 
@@ -29,7 +28,6 @@
     }
 }
 
-/** Push一个编辑的TextView */
 +(JESingleTextVC *)Title:(NSString*)title text:(NSString*)text placeHolder:(NSString*)place limit:(NSUInteger)limit textHeight:(NSUInteger)textH call:(ResultStringBlock)call{
     JESingleTextVC *TextVc =  [[JESingleTextVC alloc]init];
     TextVc.VcTitle = title;
@@ -42,20 +40,9 @@
     return TextVc;
 }
 
-/** Push一个编辑的 TextField */
 +(JESingleTextVC *)Title:(NSString*)title TfText:(NSString*)text placeHolder:(NSString*)place limit:(NSUInteger)limit call:(ResultStringBlock)call{
     JESingleTextVC *TextVc = [JESingleTextVC Title:title text:text placeHolder:place limit:limit textHeight:0 call:call];
     TextVc.UseTextField = YES;
-    return TextVc;
-}
-
-/** Push一个选择性别的 */
-+(JESingleTextVC *)Title:(NSString*)title sex:(NSString*)sex call:(ResultStringBlock)call{
-    JESingleTextVC *TextVc =  [[JESingleTextVC alloc]init];
-    TextVc.VcTitle = title;
-    TextVc.ResCall = call;
-    TextVc.UseTableSex = sex;
-    [TextVc showVC];
     return TextVc;
 }
 
@@ -105,12 +92,7 @@
     [super viewDidLoad];
 
     self.title = _VcTitle;
-    
-    if (_UseTableSex) {
-        [self SetupTableview];
-        return;
-    }
-    
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"完成".loc style:UIBarButtonItemStylePlain target:self action:@selector(TExtvEditimgDown)];
     [self rightNavBtn:@"完成".loc target:self act:@selector(TExtvEditimgDown)];
     
@@ -131,38 +113,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewDidChange:) name:UITextFieldTextDidChangeNotification object:TextV_];
 }
-
-#pragma mark - 选性别的
-
-- (void)SetupTableview{
-    UITableView *_ = [[UITableView alloc]initWithFrame:CGRectMake(0, TopSep, ScreenWidth, 88) style:UITableViewStyleGrouped];
-    _.delegate = (id<UITableViewDelegate>)self;
-    _.dataSource = (id<UITableViewDataSource>)self;
-    _.scrollEnabled = NO;
-    [_ registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
-    if (@available(iOS 11.0, *)) {
-        _.estimatedRowHeight = 0;
-        _.estimatedSectionHeaderHeight = 0;
-        _.estimatedSectionFooterHeight = 0;
-    }
-    [self.view addSubview: Tv_ = _];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{ return  0.1;}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{ return 2;}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    cell.textLabel.text = indexPath.row ? @"女".loc : @"男".loc;
-    cell.accessoryType =  [cell.textLabel.text isEqualToString:_UseTableSex] ?   UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    !_ResCall ?: _ResCall(indexPath.row ? @"女".loc : @"男".loc);
-    [self.Nav popViewControllerAnimated:YES];
-}
-
 
 #pragma mark - 完成
 

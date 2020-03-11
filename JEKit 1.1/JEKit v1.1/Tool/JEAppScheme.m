@@ -3,6 +3,10 @@
 #import "JEKit.h"
 #import "JEBaseNavtion.h"
 #import "JEIntroducView.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AssetsLibrary/ALAsset.h>
+#import <CoreLocation/CoreLocation.h>
+#import <Photos/Photos.h>
 
 static NSString * const jkJEDefaultNotiTips         = @"jkJEDefaultNotiTips";///< 区分出现过的情况
 static NSString * const jkJEUserClassKey            = @"jkJEUserClassKey";///< 模型class
@@ -10,39 +14,40 @@ static NSString * const jkJEUserAccountKey          = @"jkJEUserAccountKey";///<
 static NSString * const jkJEUserPasswordKey         = @"jkJEUserPasswordKey";///< 密码
 static NSString * const jkJEUserDictionaryKey       = @"jkJEUserDictionaryKey";///< 用户Dic
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   @implementation JEAppScheme   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
-
 @implementation JEAppScheme{
     NSObject <JESchemeDelegate> *_appUser;
+
+    void (^_pickImgEnd)(void);
+    void (^_pickImgDone)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker);
+    
+    CLLocationManager *_locationManager;
+    void (^_location)(id location,id placemark);
 }
 
-static JEAppScheme* _sharedManager;
+static JEAppScheme *_shared;
 + (id)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedManager = [super allocWithZone:zone];
+        _shared = [super allocWithZone:zone];
     });
     
-    return _sharedManager;
+    return _shared;
 }
 
 + (instancetype)Shared{ return [[self alloc] init];}
-- (instancetype)init{   return _sharedManager;}
+- (instancetype)init{   return _shared;}
 
-/** 当前用户 */
 + (NSObject <JESchemeDelegate> *)User{
-    return [JEAppScheme Shared]->_appUser;
+    return _shared->_appUser;
 }
 
-/** 更新保存用户 */
 + (void)SaveUser{
-    if ([JEAppScheme Shared]->_appUser) {
-        [USDF setObject:[[JEAppScheme Shared]->_appUser modelToJSONObject] forKey:jkJEUserDictionaryKey];
+    if (_shared->_appUser) {
+        [USDF setObject:[_shared->_appUser modelToJSONObject] forKey:jkJEUserDictionaryKey];
         [USDF synchronize];
     }
 }
 
-/** 自动登录记录过的用户 */
 + (void)AutoLogin{
     NSDictionary *userDic = [USDF objectForKey:jkJEUserDictionaryKey];
     if (userDic.count && [self CachePassword].length) {
@@ -50,11 +55,10 @@ static JEAppScheme* _sharedManager;
     }
 }
 
-/** 记录并登录用户 */
 + (void)LoginAccount:(NSString *)account password:(NSString *)password user:(NSObject <JESchemeDelegate> *)user{
     if (user == nil ) { return; }
 
-    [JEAppScheme Shared]->_appUser = user;
+    _shared->_appUser = user;
 //    if (user.userId.length == 0) {return;}
     NSString *databaseName = user.userId;
     if ([user.class respondsToSelector:@selector(databaseName)]) {
@@ -79,29 +83,27 @@ static JEAppScheme* _sharedManager;
     if ([user.class respondsToSelector:@selector(DidSetRootVC)]) { [user.class DidSetRootVC];}
 }
 
-/** 退出登录 至(Main.storyboard) */
 + (void)Logout{
     [[JENetWorking Shared] cancelAllTask];
     [JEDataBase Close];
     [USDF removeObjectForKey:jkJEUserPasswordKey];
     [USDF synchronize];
     
-    if ([[JEAppScheme Shared]->_appUser.class respondsToSelector:@selector(WillLogout)]) {
-        [[JEAppScheme Shared]->_appUser.class WillLogout];
+    if ([_shared->_appUser.class respondsToSelector:@selector(WillLogout)]) {
+        [_shared->_appUser.class WillLogout];
     }
     
     JEApp.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];
     [JEApp.window.layer je_fade];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
-    if ([[JEAppScheme Shared]->_appUser.class respondsToSelector:@selector(DidLogout)]) {
-        [[JEAppScheme Shared]->_appUser.class DidLogout];
+    if ([_shared->_appUser.class respondsToSelector:@selector(DidLogout)]) {
+        [_shared->_appUser.class DidLogout];
     }
     
-    [JEAppScheme Shared]->_appUser = nil;
+    _shared->_appUser = nil;
 }
 
-/** 是否第一次出现的情况  区分版本号否  第一次 返回 YES*/
 + (BOOL)isFirstCaseByVersion:(BOOL)version caseKey:(NSString*)caseKey{
     NSMutableArray <NSString *> *notiArr = [NSMutableArray arrayWithArray:[USDF objectForKey:jkJEDefaultNotiTips]];
     NSString *versionNoti = [NSString stringWithFormat:@"%@_%@",caseKey,version ? kAPPVersion : @""];
@@ -115,13 +117,11 @@ static JEAppScheme* _sharedManager;
     return NO;
 }
 
-/** 自动显示一次引导页,图片名字格式(【引导页%d_%@】,%d:序号从1开始 %@:屏幕分辨率)  eg.引导页1_640_960 */
 + (void)AutoShowIntroducViewWithTint:(UIColor *)tint{
     if (![self isFirstCaseByVersion:NO caseKey:[JEIntroducView className]]) {
         return;
     }
 
-//    NSString *defaultSuffix = @"750_1334";
     NSString *suffix = @"";
     if (iPhone4_Screen) { suffix = @"640_960";}
     else if (iPhone5_Screen || iPhone6_Screen || iPhone6Plus_Screen) { suffix = @"750_1334";}
@@ -142,5 +142,95 @@ static JEAppScheme* _sharedManager;
 + (JEBaseNavtion *)RootVC  { return (JEBaseNavtion *)JEApp.window.rootViewController;}
 + (NSString *)CacheAccount {return [USDF objectForKey:jkJEUserAccountKey];}
 + (NSString *)CachePassword{return [USDF objectForKey:jkJEUserPasswordKey];}
+
+
+#pragma mark - 从系统相册获取图片 | 拍照
++ (void)PickImageWithTitle:(NSString*)title edit:(BOOL)edit pick:(void (^)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker))block{
+    [JEApp.window.rootViewController Alert:title msg:nil act:@[@"拍照".loc,@"从相册中选择".loc] destruc:nil _:^(NSString *act, NSInteger idx) {
+        _shared->_pickImgDone = block;
+        if (idx == 0) {
+            [_shared choosePhoto:UIImagePickerControllerSourceTypeCamera edit:edit];
+        }else if (idx == 1){
+            [_shared choosePhoto:UIImagePickerControllerSourceTypePhotoLibrary edit:edit];
+        }
+    }];
+}
+
++ (void)PickImageWithType:(UIImagePickerControllerSourceType)type edit:(BOOL)edit pick:(void (^)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker))block{
+    _shared->_pickImgDone = block;
+    [_shared choosePhoto:type edit:edit];
+}
+
+- (void)choosePhoto:(UIImagePickerControllerSourceType)choosetype edit:(BOOL)edit{
+    if(![UIImagePickerController isSourceTypeAvailable:choosetype]){
+        return;
+    }
+    if(choosetype == UIImagePickerControllerSourceTypeCamera){
+        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            return;
+        }
+    }
+    
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.navigationBar.translucent = YES;
+    picker.allowsEditing = edit;
+    picker.delegate = (id<UINavigationControllerDelegate,UIImagePickerControllerDelegate>)self;
+    picker.sourceType = choosetype;
+    [JEApp.window.rootViewController presentViewController:picker animated:YES completion:nil];
+    _picker = picker;
+}
+
+- (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *originalImage = ([info objectForKey:UIImagePickerControllerEditedImage] ? : [info objectForKey:UIImagePickerControllerOriginalImage] );
+    UIImage *fixImg = [originalImage je_limitToWH:800];
+    
+    if (_pickImgDone) {
+        _pickImgDone(originalImage,fixImg,picker);
+        _pickImgDone = nil;
+    }
+    
+    [picker dismissViewControllerAnimated:YES completion:^{ self->_picker = nil;}];
+    if (_pickImgEnd) { _pickImgEnd();}
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:^{self->_picker = nil; }];
+    if (_pickImgEnd) {_pickImgEnd(); }
+}
+
++ (void)pickImageEnd:(void (^)(void))block{
+    _shared->_pickImgEnd = block;
+}
+
+
+#pragma mark - 定位
++ (void)Location:(void (^)(id location,id placemark))done{
+    _shared->_location = done;
+    [_shared.locationManager startUpdatingLocation];
+}
+
+- (CLLocationManager *)locationManager {
+    if(_locationManager == nil) {
+        CLLocationManager *_ = [[CLLocationManager alloc] init];
+        _.delegate = (id<CLLocationManagerDelegate>)self;
+        _.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        [_ requestWhenInUseAuthorization];
+        _locationManager = _;
+    }
+    return _locationManager;
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    [manager stopUpdatingLocation];
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        if (error || [placemarks count] == 0) {  return ;}
+        if (_shared->_location) {
+            _shared->_location(locations.lastObject,placemarks);
+            _shared->_location = nil;
+        }
+    }];
+}
+
 
 @end

@@ -4,7 +4,7 @@
 #import "UILabel+JE.h"
 #import "JEKit.h"
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEStvUIStyle   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEStvUIStyle   🔷🔷🔷🔷🔷🔷🔷🔷
 
 @implementation JEStvUIStyle
 
@@ -33,7 +33,7 @@
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEStvIt   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEStvIt   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation JEStvIt
 
 JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAccessoryType acc, JEStvSelectBlock block){
@@ -95,7 +95,6 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
     return item;
 }
 
-/** 显示在中间的文本 */
 + (JEStvIt *)MiddleNoti:(NSString *)noti font:(UIFont *)font color:(UIColor *)color select:(JEStvSelectBlock)select{
     JEStvIt *item = [[JEStvIt alloc] init];
     item.cellAlpha = 1;

@@ -3,10 +3,9 @@
 #import <objc/runtime.h>
 #import "sys/utsname.h"
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   UIScreen   🔷 (JE)
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIScreen   🔷 (JE)
 @implementation UIScreen (JE)
 
-/** [@[@(<#iPhone4#>),@(<#iPhone5#>),@(<#iPhone6,7#>),@(<#iPhone6,7plus#>),@(<#iPhoneX#>)][[UIScreen ScreenType]] floatValue] */
 + (iPhoneScreenType)ScreenType{
     if (iPhone4_Screen) { return iPhone4;}
     else if (iPhone5_Screen){ return iPhone5;}
@@ -18,7 +17,6 @@
     else{ return iPhone6;}
 }
 
-/** safeArea 底部距离 */
 + (CGFloat)SafeAreaBottom{
     if (@available(iOS 11.0, *)) {
         return [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom;
@@ -26,7 +24,6 @@
     return 0.0;
 }
 
-/** 全部屏幕类型尺寸 */
 + (NSArray <NSString *>*)AllScreenDPI{
     NSMutableArray *arr = [NSMutableArray array];
     [arr addObject:NSStringFromCGSize(CGSizeMake(640, 960))];
@@ -61,7 +58,7 @@
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   NSArray   🔷 (Screen)
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSArray   🔷 (Screen)
 @implementation NSArray (Screen)
 
 - (CGFloat)adaptScreen{
@@ -77,13 +74,13 @@
 
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   NSLayoutConstraint   🔷 (adapt)
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSLayoutConstraint   🔷 (adapt)
 
 NS_INLINE  CGFloat _adaptSizeRate(){
     static CGFloat _rate = 0.0;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _rate = [UIScreen mainScreen].bounds.size.width / 375.0;
+        _rate = [UIScreen mainScreen].bounds.size.width/375.0;
     });
     return _rate;
 }

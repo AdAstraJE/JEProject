@@ -4,7 +4,6 @@
 
 @implementation UITableViewCell (JE)
 
-/** cell 对应的 indexpath */
 - (NSIndexPath *)indexPath{
     return [self.superTableView indexPathForCell:self];
 }

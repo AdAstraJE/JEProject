@@ -12,22 +12,23 @@
 #define BLELog__(fmt, ...)   (@"")
 #endif
 
-
-/** 指令优先度  priority */
+/// 指令优先度  priority
 typedef NS_ENUM(NSUInteger, JECmdPri) {
-    JECmdPriNow = 0,///< 立即写入
-    JECmdPriDefault = 1,///< 默认 上一个指令响应后写入
-    JECmdPriLow = 2,///< 空闲的时候写入
+    /// 立即写入
+    JECmdPriNow = 0,
+    /// 默认 上一个指令响应后写入
+    JECmdPriDefault = 1,
+    /// 空闲的时候写入
+    JECmdPriLow = 2,
 };
 
-/** 设备指令队列处理 (主要定义指令避免命令硬编码)  */
+/// 设备指令队列处理 (主要定义指令避免命令硬编码)
 @interface JEBLECommand : NSObject
 
-/** 既下列定义的指令 转了10进制 */
+/// 既下列定义的指令 转了10进制
 + (instancetype)Cmd;
 
-/* eg...  @property (nonatomic,copy) BDH_10 *_FF;///<   _开头定义的指令 ### 先16进制定义 实际值为10进制 */
-
+/// eg...  @property (nonatomic,copy) BDH_10 *_FF;///<   _开头定义的指令 ### 先16进制定义 实际值为10进制
 
 @property (nonatomic,copy) BDH_10 *cmd;///< 操作命令
 @property (nonatomic,copy) NSString  *crt;///< 特征UUID

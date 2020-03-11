@@ -14,14 +14,14 @@ typedef NS_ENUM(NSUInteger, JEOJPCType) {
     NSMutableString       *_Str_implementation;   //implementation Code
     NSString              *_Str_ModName;
     
-    NSMutableDictionary   <NSString *,NSArray *> *_Dic_haveReplacedKey;/**< 有需要替换的键值对 */
-    NSMutableDictionary   <NSString *,NSString *> *_Dic_ChildArrClass;/**< dic - dic */
+    NSMutableDictionary   <NSString *,NSArray *> *_Dic_haveReplacedKey;///< 有需要替换的键值对
+    NSMutableDictionary   <NSString *,NSString *> *_Dic_ChildArrClass;///< dic - dic
     
     NSString *_Str_arrayClass;
     NSString *_Str_customProperty;
 }
 
-/** @[interface,implementation] */
+/// @[interface,implementation]
 - (NSArray <NSMutableString *>*)JsonPropertyCreateWihtModelName:(NSString*)modName dic:(NSDictionary*)dict type:(JEOJPCType)type;
 
 @end
@@ -78,9 +78,8 @@ typedef NS_ENUM(NSUInteger, JEOJPCType) {
             Key = [Key capitalizedString];
             [_Dic_haveReplacedKey setValue:@[keyArr[idx],Key] forKey:Key];
         }
-        
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
         void (^createSubclassBlock)(NSDictionary *ChildDic,Boolean isArr) = ^(NSDictionary *ChildDic,Boolean isArr){
             NSString * ChildclassName = [NSString stringWithFormat:@"%@_%@",self->_Str_ModName,Key];
             [Str_propertys appendFormat:__property,isArr ? [NSString stringWithFormat:@"NSMutableArray  <%@ *>",ChildclassName] : ChildclassName,Key];
@@ -92,9 +91,9 @@ typedef NS_ENUM(NSUInteger, JEOJPCType) {
             [self->_Str_interface appendFormat:@"\n%@",[nextObj firstObject]];
             [self->_Str_implementation appendFormat:@"\n%@",[nextObj lastObject]];
         };
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
         
-        
+
         NSString *eachProperty;
         
         if([subObject isKindOfClass:[NSDictionary class]]){//-------------------------------------------  NSDictionary
@@ -175,7 +174,7 @@ typedef NS_ENUM(NSUInteger, JEOJPCType) {
     return [self je_propertyCode:modName type:JEOJPCTypeYYmodel];
 }
 
-/**  xcode @property (nonatomic, ----- *** */
+///  xcode @property (nonatomic, ----- ***
 - (NSString *)je_propertyCode:(NSString*)modName type:(JEOJPCType)type{
 #ifdef DEBUG
     NSArray <NSMutableString *> *int_imp = [[JEObjcJsonPropertyCreate alloc] JsonPropertyCreateWihtModelName:modName dic:self type:type];
@@ -190,7 +189,7 @@ typedef NS_ENUM(NSUInteger, JEOJPCType) {
     return nil;
 }
 
-/** 将NSDictionary转换成url 参数字符串 */
+/// 将NSDictionary转换成url 参数字符串
 - (NSString *)URLQueryString{
     NSMutableString *urlString =[NSMutableString string];
     for (id key in self) {

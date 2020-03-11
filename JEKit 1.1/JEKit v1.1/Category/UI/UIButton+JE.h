@@ -34,7 +34,7 @@
 /// 倒计时 总秒数 按钮文本后缀 结束时的回调
 - (void)je_countDowns:(NSInteger)timeLine suffix:(NSString *)suffix end:(void(^)(void))block;
 
-typedef void (^je_btnClickBlock)(__kindof UIButton *sender);
-- (__kindof UIButton *)click:(je_btnClickBlock)block;
+/// click block
+- (__kindof UIButton *)click:(void (^)(__kindof UIButton *sender))block;
 
 @end

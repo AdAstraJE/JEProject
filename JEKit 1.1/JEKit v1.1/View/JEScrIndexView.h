@@ -3,8 +3,10 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, JEScrIndexViewStyle) {
-    JEScrIndexViewStyleScale,/// 渐变
-    JEScrIndexViewStyleCover,/// 遮盖
+    /// 渐变
+    JEScrIndexViewStyleScale,
+    /// 遮盖
+    JEScrIndexViewStyleCover,
 };
 
 static NSInteger const jkDefaultScrIndexTitleViewH = 44;
@@ -33,16 +35,16 @@ typedef UIViewController *(^LazyLoadBlock)(NSInteger index);
 @property (nonatomic,copy) LazyLoadBlock lazyLoadBlock;
 
 
-/** 懒加载view */
+/// 懒加载view
 - (instancetype)initWithFrame:(CGRect)frame lazyLoadView:(LazyLoadBlock)block;
 
-/** 设置样式后 再设置标题 */
+/// 设置样式后 再设置标题
 - (void)loadTitles:(NSArray <NSString *> *)titles;
 
-/** 修改文字 */
+/// 修改文字
 - (void)changeTitleAt:(NSInteger)index title:(NSString*)title;
 
-/** 滑到指定位置 0 1 2 3 4 */
+/// 滑到指定位置 0 1 2 3 4 
 - (__kindof UIView *)sliderToIndex:(NSInteger)index;
 
 

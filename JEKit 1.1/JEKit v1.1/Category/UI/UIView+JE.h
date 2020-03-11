@@ -23,7 +23,8 @@ UIKIT_EXTERN  UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__
 /// layout
 + (void)Center:(CGRect)inRect img:(__kindof UIImageView *)imgV gap:(CGFloat)gap la:(__kindof UILabel *)la in:(__kindof UIView*)inView;
 
-- (__kindof UIView *)copyView;///< NSKeyedArchiver copy UIView
+/// NSKeyedArchiver copy UIView
+- (__kindof UIView *)copyView;
 
 @property (nonatomic,assign) CGFloat x;
 @property (nonatomic,assign) CGFloat y;
@@ -45,13 +46,19 @@ UIKIT_EXTERN  UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__
 - (void)addShdow;///< 默认的阴影效果
 - (__kindof UIView *)je_shadowRad:(CGFloat)rad edge:(CGFloat)edge clr:(UIColor *)clr;///< 全边框阴影效果
 
-- (void)removeWithClass:(Class)classV;///< remove对应class的view
-- (void)border:(UIColor *)color width:(CGFloat)width;///< 添加边框
-- (void)je_Debug:(UIColor *)color width:(CGFloat)width;///< Debug添加边框
+/// remove对应class的view
+- (void)removeWithClass:(Class)classV;
+/// 添加边框
+- (void)border:(UIColor *)color width:(CGFloat)width;
+/// Debug添加边框
+- (void)je_Debug:(UIColor *)color width:(CGFloat)width;
 
-- (__kindof UILabel *)labelWithTag:(NSInteger)tag;///< viewWithTag
-- (__kindof UIButton *)buttonWithTag:(NSInteger)tag;///< viewWithTag
-- (__kindof UIImageView *)ImageViewWithTag:(NSInteger)tag;///< viewWithTag
+/// viewWithTag
+- (__kindof UILabel *)labelWithTag:(NSInteger)tag;
+/// viewWithTag
+- (__kindof UIButton *)buttonWithTag:(NSInteger)tag;
+/// viewWithTag
+- (__kindof UIImageView *)ImageViewWithTag:(NSInteger)tag;
 
 - (__kindof UIView * (^)(NSInteger tag))tag_;///< self.tag =
 - (__kindof UIView * (^)(NSInteger rad))rad_;///< self.rad =
@@ -66,14 +73,15 @@ UIKIT_EXTERN  UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__
 - (__kindof UITableView*)superTableView;///< cell view 根据nextResponder 获得 当前的TableView
 - (__kindof UICollectionView *)superCollectionView;///< CollectionView
 - (__kindof UIViewController*)superVC;///< view 根据nextResponder 获得 所在的viewcontroler
+- (__kindof UIView *)find:(NSString *)className;///< 根据className 找view
 
 #pragma mark - 手势
-
-typedef void (^GestureActionBlock)(UIGestureRecognizer *ges);
-- (void)tapGesture:(GestureActionBlock)block;///< 单点击手势
-- (void)longPressGestrue:(GestureActionBlock)block;///< 长按手势
-- (void)rotateGesture:(GestureActionBlock)block;///< 旋转手势
-
+/// 单点击手势
+- (void)tapGesture:(void (^)(UIGestureRecognizer *ges))block;
+/// 长按手势
+- (void)longPressGestrue:(void (^)(UIGestureRecognizer *ges))block;
+/// 旋转手势
+- (void)rotateGesture:(void (^)(UIGestureRecognizer *ges))block;
 
 @end
 

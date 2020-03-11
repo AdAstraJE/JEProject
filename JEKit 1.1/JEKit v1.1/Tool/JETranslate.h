@@ -9,10 +9,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JETranslate   🔷 翻译
 @interface JETranslate : NSObject
 
-/** 翻译 */
+/// 翻译
 + (void)Translate:(NSString *)target;
 
-/** 翻译 */
+/// 翻译
 + (void)Translate:(NSString *)target to:(NSString *)to done:(nullable void(^)(JETranslateResult *result, NSError *error))done;
 
 @end

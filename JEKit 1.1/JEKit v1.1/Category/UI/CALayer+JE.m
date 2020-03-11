@@ -9,7 +9,6 @@
     return layer;
 }
 
-//画线
 + (CAShapeLayer *)je_drawLine:(CGPoint)points to:(CGPoint)pointe color:(UIColor*)color{
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -23,7 +22,6 @@
     return shapeLayer;
 }
 
-//画虚线
 + (CAShapeLayer *)je_drawDashPattern:(CGPoint)points to:(CGPoint)pointe color:(UIColor*)color arr:(NSArray<NSNumber *> *)arr{
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -40,7 +38,6 @@
     return shapeLayer;
 }
 
-//画框框线
 + (CAShapeLayer *)je_drawRect:(CGRect)rect Radius:(CGFloat)redius color:(UIColor*)color{
     CAShapeLayer *solidLine =  [CAShapeLayer layer];
     UIBezierPath *solidPath =  [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:redius];
@@ -51,7 +48,6 @@
     return solidLine;
 }
 
-//添加虚线
 - (void)je_addSquareDottedLine:(NSArray*)lineDashPattern Radius:(CGFloat)Radius{
     CAShapeLayer *border = [CAShapeLayer layer];
     border.strokeColor = [UIColor lightGrayColor].CGColor;
@@ -64,7 +60,6 @@
     [self addSublayer:border];
 }
 
-/** 原地旋转动画 */
 - (CABasicAnimation *)je_rotationWithDuration:(CGFloat)duration{
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     animation.toValue = [NSNumber numberWithFloat:M_PI * 2];
@@ -74,10 +69,6 @@
     return animation;
 }
 
-
-
-
-/** 颤抖效果 */
 - (CAAnimation *)je_Shake{
     CAKeyframeAnimation *shake = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
     shake.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeTranslation(-5.0f, 0.0f, 0.0f)], [NSValue valueWithCATransform3D:CATransform3DMakeTranslation(5.0f, 0.0f, 0.0f)]];
@@ -88,12 +79,10 @@
     return shake;
 }
 
-/** 渐显效果 */
 - (CATransition*)je_fade{
     return [self je_fade:0.4];
 }
 
-/** 渐显效果 效果时间 */
 - (CATransition*)je_fade:(CGFloat)time{
     CATransition *animation = [CATransition animation];
     [animation setDuration:time];
@@ -104,7 +93,6 @@
     return animation;
 }
 
-/** 缩放效果 */
 - (CAKeyframeAnimation *)je_transformscale{
     CAKeyframeAnimation *transformscale = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
     transformscale.values = @[@(0),@(0.5),@(1.08)];
@@ -114,7 +102,6 @@
     return transformscale;
 }
 
-/** 心跳效果 */
 - (CAKeyframeAnimation *)je_heartBeat{
     CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
     anim.values = [NSArray arrayWithObjects:[NSValue valueWithCATransform3D:self.transform],
@@ -129,7 +116,6 @@
     return anim;
 }
 
-/** 简3D动画吧 */
 - (CAAnimation *)je_rotationAnimation:(NSString*)direction duration:(NSTimeInterval)duration isReverse:(BOOL)isReverse repeatCount:(NSUInteger)repeatCount{
     NSString *key = @"reversAnim";
     if([self animationForKey:key]!=nil){
@@ -146,9 +132,7 @@
     reversAnim.repeatCount = repeatCount; //重复次数
     [self addAnimation:reversAnim forKey:key];
     
-    
     return reversAnim;
 }
-
 
 @end

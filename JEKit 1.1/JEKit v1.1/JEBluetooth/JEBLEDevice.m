@@ -36,8 +36,8 @@
     }
 }
 
-- (NSMutableArray <JEBLECommand *> *)allCmds{return _Arr_cmd;}///< 获取当前指令队列情况
-- (JEBLECommand *)currentCmd{ return _currentCmd;}///< 当前操作指令
+- (NSMutableArray <JEBLECommand *> *)allCmds{return _Arr_cmd;}
+- (JEBLECommand *)currentCmd{ return _currentCmd;}
 
 - (instancetype)init{
     self = [super init];
@@ -57,7 +57,6 @@
 }
 
 #pragma mark ---------------------------- 子类重新定义或调用的 ----------------------------
-/** 根据获取的advertisementData 解析出Mac地址 */
 - (NSString *)analysisMac{
     NSData *macData = [_adData objectForKey:@"kCBAdvDataManufacturerData"];
     NSInteger macBytes = 6;
@@ -69,12 +68,10 @@
     return @"";
 }
 
-/** JEBluetooth 的 scanPeripheral 筛选可显示出来的设备 默认有mac name可显 */
 - (BOOL)siftCanDisplayDevice{
     return _mac.length && _name.length;
 }
 
-/** 构建指令bytes，默认cmd放在第一位，其他情况子类处理。 */
 - (NSMutableArray <NSObject *> *)createCmd:(BDH_10 *)cmd data:(NSArray <NSObject *> *)data{
     NSMutableArray *bytes = [NSMutableArray array];
     if (cmd) { [bytes addObject:cmd];}
@@ -82,13 +79,10 @@
     return bytes;
 }
 
-/** 子类重写log详情 */
 - (NSString *)writeDebugInfoFrom:(NSArray <NSObject *> *)data{
     return nil;
 }
 
-
-/** 保存设备到设备列表 */
 - (void)saveDevice{
     NSMutableDictionary <NSString *,NSDictionary *>*list = [JEBLEDevice HistoryDeviceList];
     NSString *UUID = self.peripheral.identifier.UUIDString ? : _UUID;
@@ -108,17 +102,14 @@
 
 #pragma mark ---------------------------- 指令队列操作 ----------------------------
 
-/** 根据特征UUID读取值 block处理完置nil */
 - (void)read:(NSString *)UUID done:(BLE_readNotifyBlock)done{
     [self readNotify:UUID done:done notify:NO];
 }
 
-/** 根据特征UUID开启通知  记得要主动停止 stopNotify: */
 - (void)notify:(NSString *)UUID done:(BLE_readNotifyBlock)done{
     [self readNotify:UUID done:done notify:YES];
 }
 
-/**  停止通知 */
 - (void)stopNotify:(NSString *)UUID{
     [_Dic_notify removeObjectForKey:UUID];
     if (_Dic_crts[UUID]) { [_peripheral setNotifyValue:NO forCharacteristic:_Dic_crts[UUID]];}
@@ -167,7 +158,6 @@
 
 }
 
-/** 根据特征UUID --- 写入 */
 - (NSError *)write:(NSArray <NSObject *> *)arr crt:(NSString *)UUID done:(BLE_didWriteValueBlock)done{
     if ([self isSimulator]) { return nil;}
     NSError *error = [self checkCharacts:UUID];
@@ -204,26 +194,21 @@
 }
 
 
-
 #pragma mark ---------------------------- 指令队列操作 ----------------------------
 
-/** 单特征 队列添加指令bytes 避免硬编码 cmd也可不传 子类需配置 singleCmdUUID JECmdPriDefault*/
 - (void)cmd:(BDH_10 *)cmd data:(NSArray <NSObject *> *)data{
     [self cmd:cmd data:data pri:(JECmdPriDefault)];
 }
     
-/** 单特征 队列添加指令bytes 避免硬编码 cmd也可不传 子类需配置 singleCmdUUID */
 - (void)cmd:(BDH_10 *)cmd data:(NSArray <NSObject *> *)data pri:(JECmdPri)pri{
     NSAssert(_singleCmdUUID != nil, @"子类需配置 singleCmdUUID");
     [self cmd:cmd data:data pri:pri crt:_singleCmdUUID checkRepeats:NO];
 }
 
-/** 队列添加指令bytes 避免硬编码 cmd也可不传 子类需配置 singleCmdUUID 也可指定特征 */
 - (void)cmd:(BDH_10 *)cmd data:(NSArray <NSObject *> *)data pri:(JECmdPri)pri crt:(NSString *)crt{
     [self cmd:cmd data:data pri:pri crt:_singleCmdUUID checkRepeats:NO];
 }
 
-/** 队列添加指令bytes 避免硬编码 cmd也可不传 子类需配置 singleCmdUUID --- 也可指定特征 --- 简单的检测重复指令，例如某些可能重复写入的获取历史 */
 - (void)cmd:(BDH_10 *)cmd data:(NSArray <NSObject *> *)data pri:(JECmdPri)pri crt:(NSString *)crt checkRepeats:(BOOL)checkRepeats{
     if (!_didConnect) { return;}
     if (crt == nil) { crt = _singleCmdUUID;}
@@ -278,7 +263,7 @@
     }
 }
 
-/** 指令队列操作时 子类调用,不重写 (判断收到反馈的cmd,指令队列的可以写入下一个指令了) */
+
 - (void)receiveFeedbackCmd:(BDH_10 *)feedbackCmd{
     if (_currentCmd.cmd.integerValue == feedbackCmd.integerValue) {
         [self writeNextCmd];
@@ -287,7 +272,6 @@
     }
 }
 
-/** 指令队列的可以写入下一个指令了 因为可能存在拼接包的情况 该方法需要子类判断调用！ */
 - (void)writeNextCmd{
     @synchronized (self) {
         if (_timeoutTimer) {[_timeoutTimer invalidate];_timeoutTimer = nil; }
@@ -308,13 +292,11 @@
     }
 }
 
-/** 超时指令 */
 - (void)cmdTimeout{
     [JEBLEDevice JE_Debug_AddLog:BLELog__(@"🔴超时指令:%@",_currentCmd.cmd._10_to_16)];
     [self writeNextCmd];
 }
 
-/** 按照命令删除指令 传nil为全部删除！ */
 - (void)deleteCmd:(BDH_10 *)cmd{
     if (cmd == nil) {
         [_Arr_cmd removeAllObjects];
@@ -334,17 +316,14 @@
 
 #pragma mark ---------------------------- 被动接收 ----------------------------
 
-/** 链接了指定特征  */
 - (void)discoverCharacteristics:(CBCharacteristic *)crt{
     
 }
 
-/** 链接完了所有指定特征 = 判断连接成功  */
 - (void)deviceDidConnectedAllCRT{
     
 }
 
-/** super 蓝牙收到数据  notifiy=主动通知  */
 - (void)receiveData:(CBPeripheral *)peripheral crt:(CBCharacteristic *)crt notifiy:(BOOL)notifiy debug:(NSString *)debug{
     if (!crt.isNotifying && !notifiy) {
         //readValueForCharacteristic 读取到值就删除block
@@ -359,7 +338,6 @@
     }
 }
 
-/** 写入数据响应 */
 - (void)didWrite:(CBCharacteristic *)crt error:(NSError *)error{
     BLE_didWriteValueBlock didBlock = _Dic_didWrite[crt.UUID.UUIDString];
     !didBlock ? : didBlock(error);
@@ -369,13 +347,14 @@
     }
 }
 
-/** 断开响应 */
 - (void)didDisconnectWithError:(NSError *)error{
     
 }
 
+
+
+
 #pragma mark ---------------------------- 静态方法 ----------------------------
-/** JEBluetooth 里这个类型的设备 */
 + (instancetype)Device{
 #if TARGET_OS_SIMULATOR
     JEBLEDevice *test = [JEBluetooth Shared].simulatorDevice;
@@ -399,7 +378,6 @@
     return device;
 }
 
-/** 新连接设备 */
 + (instancetype)NewDevice:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
     __kindof JEBLEDevice *device = [[self alloc] init];
     device.peripheral = peripheral;
@@ -415,7 +393,6 @@
     return [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kDeviceKey]];
 }
 
-/** 连接过的历史设备   */
 + (NSMutableArray <__kindof JEBLEDevice *> *)HistoryDevices{
     NSMutableArray *Arr = [NSMutableArray array];
     
@@ -431,12 +408,10 @@
     return Arr;
 }
 
-/** 连接过的设备 key:UDID value:mac   */
 + (NSDictionary <NSString *,NSString *>*)ConnectedDeviceList{
     return [[NSUserDefaults standardUserDefaults] objectForKey:kConnectedDeviceKey];
 }
 
-/** 删除一个连接记录 */
 + (void)DeleteHistoryDeveiceWithUUID:(NSString *)UUID{
     if (UUID == nil) {return;}
     NSMutableDictionary <NSString *,NSDictionary *>*list = [JEBLEDevice HistoryDeviceList];
@@ -445,7 +420,6 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-/** 删除全部 */
 + (void)DeleteHistoryDeveices{
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kDeviceKey];
     [[NSUserDefaults standardUserDefaults] synchronize];

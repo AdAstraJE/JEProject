@@ -108,7 +108,7 @@
     return count;
 }
 
-/** 自己定义的没有数据时显示的 视图 */
+/// 自己定义的没有数据时显示的 视图 
 - (UIView*)customInfo:(NSString*)title image:(id)image{
     [self layoutIfNeeded];
     UIView *header;
@@ -134,7 +134,6 @@
     return ve;
 }
 
-/** 网络请求失败时显示的   */
 - (UIView*)networkingFailViewWithTarget:(id)target action:(SEL)action{
     [self layoutIfNeeded];
     

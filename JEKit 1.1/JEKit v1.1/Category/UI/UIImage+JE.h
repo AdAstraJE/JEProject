@@ -33,14 +33,12 @@
 /// 保存到相册
 - (void)je_savedToAlbum:(void(^)(void))completeBlock fail:(void(^)(void))failBlock;
 
-
-/// 水印方向
 typedef NS_ENUM(NSUInteger, ImageJEWaterMarkType) {
-    ImageJEWaterMarkTypeTopLeft = 0,///< 左上
-    ImageJEWaterMarkDTypeTopRight,///< 右上
-    ImageJEWaterMarkTypeBottomLeft,///< 左下
-    ImageJEWaterMarkTypeBottomRight,///< 右下
-    ImageJEWaterMarkTypeCenter,///< 居中
+    ImageJEWaterMarkTypeTopLeft = 0,
+    ImageJEWaterMarkDTypeTopRight,
+    ImageJEWaterMarkTypeBottomLeft,
+    ImageJEWaterMarkTypeBottomRight,
+    ImageJEWaterMarkTypeCenter,
 };
 
 /// 加水印文字
@@ -57,10 +55,15 @@ typedef NS_ENUM(NSUInteger, ImageJEWaterMarkType) {
 
 /// 渐变色类型
 typedef NS_ENUM(NSUInteger, ImageJEGradualType) {
-    ImageJEGradualType1 = 0,///< 上到下
-    ImageJEGradualType2 = 1,///< 左到右
-    ImageJEGradualType3 = 2,///< 左上到右下
-    ImageJEGradualType4 = 3,///< 右上到左下
+    /// 上到下
+    ImageJEGradualType1 = 0,
+    /// 左到右
+    ImageJEGradualType2 = 1,
+    /// 左上到右下
+    ImageJEGradualType3 = 2,
+    /// 左上到右下
+    ImageJEGradualType4 = 3,
+    
 };
 
 /// 渐变色图片 左到右

@@ -22,7 +22,6 @@
 
 @implementation JECircleProgressView
 
-/** 进度条 */
 - (instancetype)initWithFrame:(CGRect)frame stroke:(UIColor *)strokeColor fill:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth start:(CGFloat)startAngle reduce:(CGFloat)reduceAngle{
     return [self initWithFrame:frame stroke:strokeColor fill:fillColor lineWidth:lineWidth start:startAngle reduce:reduceAngle backLineWidth:lineWidth];
 }
@@ -52,7 +51,6 @@
     return self;
 }
 
-/** 固定显示起始点（图片）偏移角度&位置 */
 - (void)showStartDot:(UIImage *)image size:(CGSize)size degree:(CGFloat)degress offset:(CGPoint)offset{
     self.Img_start.frame = CGRectMake(-1, -1, size.width, size.height);
     _Img_start.image = image;
@@ -61,7 +59,6 @@
     [self updateDotPosition:YES];
 }
 
-/** 动画跟随显示结束点（图片） */
 - (void)showEndDot:(UIImage *)image size:(CGSize)size{
     self.Img_end.frame = CGRectMake(-1, -1, size.width, size.height);
     _Img_end.image = image;
@@ -187,12 +184,11 @@
     _lastProgress = _progress;
 }
 
-//刷新最新路径
+/// 刷新最新路径
 - (UIBezierPath *)getNewBezierPath {
     return [UIBezierPath bezierPathWithArcCenter:CGPointMake(_realWidth/2.0, _realWidth/2.0) radius:_radius startAngle:_startAngle endAngle:(2*M_PI-_reduceAngle+_startAngle) clockwise:YES];
 }
 
-/** 更新动态结束点的真实位置 */
 - (void)updateDotPosition:(BOOL)animation{
     CGFloat startDotAngle = (2*M_PI-_reduceAngle)*kCircleDegree(_startDotDegress) + _startAngle;
     

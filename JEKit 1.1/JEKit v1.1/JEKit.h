@@ -6,7 +6,6 @@
 //  Copyright © 2016年 JE. All rights reserved.
 //
 
-
 /*
  source 'https://github.com/CocoaPods/Specs.git'
  platform :ios, "10.0"
@@ -106,9 +105,6 @@
 #define kAPPLang       [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0]
 #define kAPPChina      ([[[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0] hasPrefix:@"zh-"])
 
-//https://itunes.apple.com/cn/app/id0000000000?mt=8
-#pragma mark - JEKit
-
 @interface JEKit : NSObject
 
 /// share
@@ -134,6 +130,7 @@
 #pragma mark - tableView
 @property (nonatomic,strong) UIColor *tvBgClr;///< tableView backgroundColor ### nil
 @property (nonatomic,strong) UIColor *tvSepClr;///< tableView separator 分割线颜色 ### nil
+@property (nonatomic,strong) UIColor *tvCellSelectBgClr;///< tableViewCell selectedBackgroundView ### 
 #pragma mark - JEStvUIStyle
 @property (nonatomic,strong) JEStvUIStyle *stc;///< 静态 tableView 样式
 #pragma mark - JEListManager
@@ -141,29 +138,8 @@
 @property (nonatomic,copy)   NSString *listMgr_pageParam;///< pageParam ### pageIndex, 网络字段
 @property (nonatomic,copy)   NSString *listMgr_rowsParam;///< rowsParam ### pageSize, 网络字段
 @property (nonatomic,assign) NSInteger listMgr_rowsNum;  ///< rowsNum   ### 15, 每页多少条
-#pragma mark -
 
 /// 延迟执行
 void delay (float time,void (^block)(void));
-
-#pragma mark - 从系统相册获取图片 | 拍照
-typedef void(^pickImgBlock)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker);
-typedef void(^pickImgEndBlock)(void);
-
-@property (nonatomic,strong) UIImagePickerController *picker;///< 调用系统相册中的picker
-
-/// 从系统相册获取图片 [@"拍照",@"从相册中选择"]
-+ (void)PickImageWithTitle:(NSString*)title edit:(BOOL)edit pick:(pickImgBlock)block;
-/// 从系统相册获取图片 直接使用相机或相册
-+ (void)PickImageWithType:(UIImagePickerControllerSourceType)type edit:(BOOL)edit pick:(pickImgBlock)block;
-/// 选择完图片回调
-+ (void)pickImageEnd:(pickImgEndBlock)block;
-
-
-#pragma mark - 定位
-typedef void(^jeLocationBlock)(id location,id placemark);
-
-/// 获取当前位置
-+ (void)Location:(jeLocationBlock)done;
 
 @end

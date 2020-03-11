@@ -1,11 +1,11 @@
 
 #import <Foundation/Foundation.h>
 
-
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSArray   🔷🔷🔷🔷🔷🔷🔷🔷
 @interface NSArray (JE)
 
-/** 按 字段 给数组排序 */
-- (NSArray*)je_sortByKey:(NSString*)key Asc:(BOOL)ascend;
+/// 按 字段 给数组排序
+- (NSArray*)je_sortByKey:(NSString*)key asc:(BOOL)ascend;
 
 @property (nonatomic,strong,readonly) NSNumber *sum;///< @[@(1),@(2),@"3"] 总和
 @property (nonatomic,strong,readonly) NSNumber *max;///< 最大值
@@ -18,8 +18,12 @@
 @end
 
 
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSMutableArray   🔷🔷🔷🔷🔷🔷🔷🔷
 @interface NSMutableArray(SafeAccess)
 
+/// if (obj != nil) {[self addObject:obj];}
 - (NSMutableArray * (^)(id obj))add;
 
 @end

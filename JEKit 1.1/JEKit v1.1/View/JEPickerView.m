@@ -10,7 +10,6 @@ static NSInteger const jkActionBarHeight = 48;///<
 }
 - (void)dealloc{jkDeallocLog;}
 
-/** 自定义的数组 */
 + (void)ShowCustomArr:(NSArray <NSString *>*)arr res:(JEPVCusArrBlock)block{
     [self ShowCustomArr:arr title:nil current:nil res:block];
 }
@@ -42,7 +41,6 @@ static NSInteger const jkActionBarHeight = 48;///<
 //    }];
 }
 
-/** 时间选择器 */
 + (void)ShowDatePicker:(JEPVDateBlock)date{
     [self ShowDatePicker:date current:[NSDate date] min:nil max:nil title:nil mode:UIDatePickerModeDate];
 }
@@ -67,7 +65,6 @@ static NSInteger const jkActionBarHeight = 48;///<
     _.datePicker.maximumDate = max;
 }
 
-/**< 地区选择 */
 + (void)ShowLocationPick:(JEPVLocationBlock)loca{
     [self ShowLocationPick:loca both:NO];
 }
@@ -105,7 +102,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 - (void)actionBarWithTitle:(NSString *)title{
     UIColor *btnColor = JEShare.themeClr ? : Clr_blue;
     UIView *_ = JEVe(JR(0, 0, kSW, jkActionBarHeight), UIColor.clearColor, self.Ve_content);
-    JEVe(JR(0, _.height, _.width, 0.5), UIColor.je_sepLine, _);
+    JEVe(JR(0, _.height, _.width, 0.5), UIColor.je_sep, _);
 
     [JEBtnSys(JR(15, 0, 60, _.height),@"取消".loc,@16,btnColor,self,@selector(dismiss),nil,0,_).touchs(0,0,0,20) sizeThatWidth];
     JEButton *ok = [JEBtnSys(CGRectZero,@"确定".loc,@16,btnColor,self,@selector(confirmBtnClick),nil,0,_).touchs(0,20,0,0) sizeThatWidth];
@@ -152,7 +149,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 @end
 
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   JEPickerView_City   🔷 区选择
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEPickerView_City   🔷 区选择
 @implementation JEPickerView_City{
     NSDictionary <NSString *,NSArray <NSDictionary <NSString *,NSArray <NSString *> *> *> *> *_plist;
     NSArray <NSString *> *_Arr_province,*_Arr_city,*_Arr_town;

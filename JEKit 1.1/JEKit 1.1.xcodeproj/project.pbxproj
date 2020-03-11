@@ -18,7 +18,6 @@
 		896BFBAF23557BBB00B64BBF /* DataBaseTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBA923557BBB00B64BBF /* DataBaseTestVC.m */; };
 		896BFBB023557BBB00B64BBF /* H3DetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBAB23557BBB00B64BBF /* H3DetailVC.m */; };
 		896BFBB123557BBB00B64BBF /* H3GameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBAC23557BBB00B64BBF /* H3GameModel.m */; };
-		896BFBB423557C1000B64BBF /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBB223557C1000B64BBF /* UIImage+animatedGIF.m */; };
 		89892B9D23536FCC00C84508 /* JEObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 89892B9C23536FCC00C84508 /* JEObject.m */; };
 		899F07372344D10A00BA89AD /* JEBLECommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06AE2344D10A00BA89AD /* JEBLECommand.m */; };
 		899F07382344D10A00BA89AD /* JEBLEDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06B02344D10A00BA89AD /* JEBLEDevice.m */; };
@@ -106,8 +105,6 @@
 		896BFBAC23557BBB00B64BBF /* H3GameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H3GameModel.m; sourceTree = "<group>"; };
 		896BFBAD23557BBB00B64BBF /* H3DetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H3DetailVC.h; sourceTree = "<group>"; };
 		896BFBAE23557BBB00B64BBF /* H3GameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H3GameModel.h; sourceTree = "<group>"; };
-		896BFBB223557C1000B64BBF /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
-		896BFBB323557C1000B64BBF /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
 		89892B9B23536FCC00C84508 /* JEObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JEObject.h; sourceTree = "<group>"; };
 		89892B9C23536FCC00C84508 /* JEObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JEObject.m; sourceTree = "<group>"; };
 		899F06AE2344D10A00BA89AD /* JEBLECommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JEBLECommand.m; sourceTree = "<group>"; };
@@ -128,7 +125,6 @@
 		899F06BF2344D10A00BA89AD /* UITableViewCell+JE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+JE.m"; sourceTree = "<group>"; };
 		899F06C02344D10A00BA89AD /* UILabel+JE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+JE.h"; sourceTree = "<group>"; };
 		899F06C12344D10A00BA89AD /* UIView+PressMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PressMenu.h"; sourceTree = "<group>"; };
-		899F06C22344D10A00BA89AD /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
 		899F06C32344D10A00BA89AD /* UIColor+JE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JE.m"; sourceTree = "<group>"; };
 		899F06C42344D10A00BA89AD /* UIScreen+JE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+JE.m"; sourceTree = "<group>"; };
 		899F06C52344D10A00BA89AD /* UIImageView+JE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+JE.m"; sourceTree = "<group>"; };
@@ -365,8 +361,6 @@
 				899F06C72344D10A00BA89AD /* UIScrollView+JE.m */,
 				899F06B92344D10A00BA89AD /* UIImage+JE.h */,
 				899F06C62344D10A00BA89AD /* UIImage+JE.m */,
-				896BFBB323557C1000B64BBF /* UIImage+animatedGIF.h */,
-				896BFBB223557C1000B64BBF /* UIImage+animatedGIF.m */,
 				899F06BA2344D10A00BA89AD /* UIImageView+JE.h */,
 				899F06C52344D10A00BA89AD /* UIImageView+JE.m */,
 				899F06BB2344D10A00BA89AD /* UIScreen+JE.h */,
@@ -383,7 +377,6 @@
 				899F06C82344D10A00BA89AD /* UILabel+JE.m */,
 				899F06C12344D10A00BA89AD /* UIView+PressMenu.h */,
 				899F06CD2344D10A00BA89AD /* UIView+PressMenu.m */,
-				899F06C22344D10A00BA89AD /* UIImage+animatedGIF.h */,
 				899F06CE2344D10A00BA89AD /* UIColor+JE.h */,
 				899F06C32344D10A00BA89AD /* UIColor+JE.m */,
 			);
@@ -485,9 +478,9 @@
 				899F06FC2344D10A00BA89AD /* JEPhotoGroupView.h */,
 				899F07192344D10A00BA89AD /* JEPhotoGroupView.m */,
 				899F06FB2344D10A00BA89AD /* JETextView.h */,
+				899F071A2344D10A00BA89AD /* JETextView.m */,
 				89DCD0A024178A47007E0B06 /* JEVisualEffectView.h */,
 				89DCD0A124178A47007E0B06 /* JEVisualEffectView.m */,
-				899F071A2344D10A00BA89AD /* JETextView.m */,
 				89BDC71D2351E755009583F2 /* JETableView.h */,
 				89BDC71E2351E755009583F2 /* JETableView.m */,
 				8911B98623F54C1100990031 /* JETableViewCell.h */,
@@ -759,7 +752,6 @@
 				899F076D2344D10A00BA89AD /* JEScrollView.m in Sources */,
 				899F07372344D10A00BA89AD /* JEBLECommand.m in Sources */,
 				899F07482344D10A00BA89AD /* NSObject+JE.m in Sources */,
-				896BFBB423557C1000B64BBF /* UIImage+animatedGIF.m in Sources */,
 				8954C08F237AB3A10047085A /* UIViewController+JEHUD.m in Sources */,
 				899F07672344D10A00BA89AD /* JEPutDownMenuView.m in Sources */,
 				899F075F2344D10A00BA89AD /* JERefreshFooter.m in Sources */,

@@ -29,11 +29,15 @@
 @property (nonatomic, copy,readonly) NSString *weekDesChiness; ///< 今天星期几来着？
 @property (nonatomic, readonly) BOOL IsLeapYear; ///< 是否是闰年
 @property (nonatomic, readonly) BOOL IsLeapMonth;///< 是否是29天的2月
-- (NSUInteger)weekOfDayInYear;///< 获取当天是当年的第几周
-- (NSDate *)oneHourLater;///< 获取一小时后的时间
-- (BOOL)isSameDay:(NSDate *)otherDate;///< 判断与某一天是否为同一天
-- (BOOL)isSameWeek:(NSDate *)otherDate;///< 判断与某一天是否为同一周
-- (BOOL)isSameMonth:(NSDate *)otherDate;///< 判断与某一天是否为同一月
+@property (nonatomic, readonly) NSUInteger weekOfDayInYear;///< 获取当天是当年的第几周
+@property (nonatomic, readonly) NSDate *oneHourLater;///< 获取一小时后的时间
+
+/// 判断与某一天是否为同一天
+- (BOOL)isSameDay:(NSDate *)otherDate;
+/// 判断与某一天是否为同一周
+- (BOOL)isSameWeek:(NSDate *)otherDate;
+/// 判断与某一天是否为同一月
+- (BOOL)isSameMonth:(NSDate *)otherDate;
 
 @property (nonatomic,copy,readonly) NSString *je_whatTimeAgo;///< 多久以前呢 ？ 1分钟内 X分钟前 X天前
 @property (nonatomic,copy,readonly) NSString *je_whatTimeBefore;///< 前段时间日期的描述 
