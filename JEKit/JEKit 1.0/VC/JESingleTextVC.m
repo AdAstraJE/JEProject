@@ -115,7 +115,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = _VcTitle;
+    self.je_title = _VcTitle;
     
     if (_UseTableSex) {
         [self SetupTableview];

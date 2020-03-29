@@ -100,7 +100,7 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
     
 }
 
-#pragma mark - StyleDark 黑暗模式
+#pragma mark - StyleDark 深色模式
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
     [super traitCollectionDidChange:previousTraitCollection];
     [self handelStyleDark];

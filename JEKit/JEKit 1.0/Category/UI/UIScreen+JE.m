@@ -40,6 +40,15 @@
 }
 
 
+/// 兼容8.0
++ (UIFont *)FontSize:(NSInteger)size weight:(CGFloat)weight{
+    if (@available(iOS 8.2, *)) {
+        return [UIFont systemFontOfSize:size weight:weight];
+    } else {
+        return [UIFont systemFontOfSize:size];
+    }
+}
+
 
 //[[UIScreen AllScreenDPI] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 //    CGSize size = CGSizeFromString(obj);

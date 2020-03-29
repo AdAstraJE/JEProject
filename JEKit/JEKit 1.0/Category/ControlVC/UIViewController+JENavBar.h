@@ -26,6 +26,8 @@
 @property (nonatomic,assign) BOOL disabel_je_NavBar;///< 不使用自定义Bar ###默认使用的
 @property (nonatomic,assign) BOOL ctrlBySelf;///< 用self VC控制以上属性
 
+@property (nonatomic,copy) NSString *je_title;///< 
+
 
 /** 使用自定义导航栏  */
 - (void)je_useCustomNavBar;

@@ -17,7 +17,7 @@ typedef void(^JEStvSwitchBlock)(JEStvIt *item,BOOL on);
 
 @property (nonatomic,strong) UIColor *backgroundColor;///<   ### JEShare.tvBgClr
 @property (nonatomic,assign) CGFloat sectionHeaderHeight;///< ### 12
-@property (nonatomic,assign) CGFloat sectionFooterHeight;///< ### 1
+@property (nonatomic,assign) CGFloat sectionFooterHeight;///< ### 12
 @property (nonatomic,assign) CGFloat cellHeight;///< ### 45
 @property (nonatomic,assign) CGFloat margin;///< 左右边距 ### 15
 @property (nonatomic,assign) CGFloat iconWH;///< 图标长宽 ### 22
@@ -54,12 +54,16 @@ UIKIT_EXTERN  JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITabl
 @property (nonatomic,copy) JEStvSelectBlock selectBlock;///< 点击cell的回调
 
 @property (nonatomic,assign) BOOL switchOn;///< switch状态
+/// switch状态
+- (void)setSwitchOn:(BOOL)switchOn animated:(BOOL)animated;
+
 @property (nonatomic,copy) JEStvSwitchBlock switchBlock;///< switch valueChange 的回调
 
 @property (nonatomic,assign) NSInteger tag;///< ### 0
 
 /// 各种默认构建方法
 + (JEStvIt *)Title:(NSString *)title select:(JEStvSelectBlock)select;
++ (JEStvIt *)Title:(NSString *)title desc:(NSString *)desc select:(JEStvSelectBlock)select;
 + (JEStvIt *)Title:(NSString *)title acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select;
 + (JEStvIt *)Title:(NSString *)title desc:(NSString *)desc acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select;
 + (JEStvIt *)Icon:(id)icon title:(NSString *)title desc:(NSString *)desc acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select;

@@ -26,6 +26,9 @@ static NSInteger const jkHeadFootLabelMargin = 15;///<
 
 - (CGFloat)adjustHeadFoot:(NSArray <NSString *> *)arr value:(NSInteger)value section:(NSInteger)section{
     if (section < arr.count) {
+        if (arr[section].length == 0) {
+            return 0;
+        }
         return [arr[section] sizeWithFont:font(13) maxSize:CGSizeMake(self.width - jkHeadFootLabelMargin*2, 0)].height + value;
     }
     return value;
@@ -54,6 +57,7 @@ static NSInteger const jkHeadFootLabelMargin = 15;///<
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section >= _Arr_headerTitle.count) {return self.sectionHeaderHeight;}
     if (_adjustHeaderHeight != 0 && _Arr_headerTitle[section].length != 0) {
         return [self adjustHeadFoot:_Arr_headerTitle value:_adjustHeaderHeight section:section] + jkHeadFootLabelMargin;
     }

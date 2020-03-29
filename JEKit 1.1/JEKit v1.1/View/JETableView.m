@@ -23,6 +23,13 @@
     return self;
 }
 
+- (void)didMoveToWindow{
+    [super didMoveToWindow];
+    if (self.style == UITableViewStylePlain && !self.tableFooterView) {
+        self.tableFooterView = [UIView new];
+    }
+}
+
 - (void)defaultConfigure{
     if(JEShare.tvBgClr){ self.backgroundColor = JEShare.tvBgClr;}
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;

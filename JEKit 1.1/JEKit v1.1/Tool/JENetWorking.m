@@ -132,18 +132,15 @@ static JENetWorking *_instance;
 
     /////////////////////////////////////////////////POST/////////////////////////////////////////////////////////////////////////////
     if (method == AFHttpMethodPOST) {
-        task = [_AFM POST:url parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        task = [_AFM POST:url parameters:param headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             [self handleNetworkSuccess:responseObject task:task param:param vc:relatingVC cache:cacheBlock done:doneBlock suc:sucBlock];
-            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [self handleNetworkFailure:task param:param vc:relatingVC error:error fail:failBlock];
         }];
-        
         ///////////////////////////////////////////////////GET///////////////////////////////////////////////////////////////////////////
     }else if (method == AFHttpMethodGET){
-        task = [_AFM GET:url parameters:param progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        task = [_AFM GET:url parameters:param headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             [self handleNetworkSuccess:responseObject task:task param:param vc:relatingVC cache:cacheBlock done:doneBlock suc:sucBlock];
-            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [self handleNetworkFailure:task param:param vc:relatingVC error:error fail:failBlock];
         }];
@@ -172,7 +169,7 @@ static JENetWorking *_instance;
     }
     
     UIViewController *relatingVC = vc ? : [UIApplication sharedApplication].keyWindow.rootViewController;
-    NSURLSessionTask *task = [_AFM POST:url parameters:[self fullParam:param] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    NSURLSessionTask *task = [_AFM POST:url parameters:[self fullParam:param] headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [datas enumerateObjectsUsingBlock:^(NSData * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [formData appendPartWithFileData:obj name:@"file" fileName:@"file"  mimeType:mimeType ? : @""];
         }];

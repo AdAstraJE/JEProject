@@ -27,6 +27,7 @@ static NSString * const kColumn_Date =    @"date";///< 父类 NSDate 字段名
 + (NSString *)PrimaryKey{ return @"ID";}
 + (NSArray <Class> *)PropertysFromSuper{  return nil;}
 + (NSArray <NSString *> *)IgnorePropertys{  return nil;}
++ (NSString *)OrderKey{return [self PrimaryKey];}
 
 #pragma mark -   YY 自定义处理 NSDate
 
@@ -391,11 +392,11 @@ static NSDateFormatter *staticDateFormatter;
 }
 
 + (instancetype)FirstModel{
-    return [self Select:(Format(@"order by %@ asc limit 1",([self PrimaryKey] ? : kColumn_id)))].firstObject;
+    return [self Select:(Format(@"order by %@ asc limit 1",([self OrderKey] ? : kColumn_id)))].firstObject;
 }
 
 + (instancetype)LastModel{
-    return [self Select:(Format(@"order by %@ desc limit 1",([self PrimaryKey] ? : kColumn_id)))].firstObject;
+    return [self Select:(Format(@"order by %@ desc limit 1",([self OrderKey] ? : kColumn_id)))].firstObject;
 }
 
 + (instancetype)Model:(NSString *)primaryKey{
@@ -403,11 +404,11 @@ static NSDateFormatter *staticDateFormatter;
 }
 
 + (void)AllModel:(JEDBSelectBlock)done desc:(BOOL)desc{
-    [self Select:(Format(@"order by %@ %@",([self PrimaryKey] ? : kColumn_id),desc ? @"desc" : @"asc")) done:done];
+    [self Select:(Format(@"order by %@ %@",([self OrderKey] ? : kColumn_id),desc ? @"desc" : @"asc")) done:done];
 }
 
 + (NSMutableArray <__kindof JEDBModel *> *)AllModelByDesc:(BOOL)desc{
-    return [self Select:(Format(@"order by %@ %@",([self PrimaryKey] ? : kColumn_id),desc ? @"desc" : @"asc"))];
+    return [self Select:(Format(@"order by %@ %@",([self OrderKey] ? : kColumn_id),desc ? @"desc" : @"asc"))];
 }
 
 + (void)SelectFrom:(NSDate *)begin to:(NSDate *)end desc:(BOOL)desc done:(JEDBSelectBlock)done{
@@ -416,7 +417,7 @@ static NSDateFormatter *staticDateFormatter;
 }
 
 + (void)SelectByPage:(NSInteger )page size:(NSInteger)size desc:(BOOL)desc done:(JEDBSelectBlock)done{
-    [self Select:(Format(@"order by %@ %@ limit %@*%@,%@",[self PrimaryKey],desc ? @"desc" : @"asc",@(page),@(size),@(size))) done:done];
+    [self Select:(Format(@"order by %@ %@ limit %@*%@,%@",[self OrderKey],desc ? @"desc" : @"asc",@(page),@(size),@(size))) done:done];
 }
 
 + (NSMutableArray <__kindof JEDBModel *> *)Select:(NSString *)suffix{
@@ -440,14 +441,18 @@ static NSDateFormatter *staticDateFormatter;
 }
 
 + (void)Delete:(NSArray <NSString *> *)ids{
+    [self Delete:ids done:nil];
+}
+
++ (void)Delete:(NSArray <NSString *> *)ids done:(JEDBResult)done{
     if (ids.count == 0) {return; }
     NSMutableString *range = [NSMutableString string];
     for (NSString *key in ids) {[range appendFormat:@"%@%@",range.length ? @"," : @"",key];}
-    [self DeleteQuery:(Format(@"where %@ in (%@)",[self PrimaryKey],range))];
+    [self DeleteQuery:(Format(@"where %@ in (%@)",[self PrimaryKey],range)) done:done];
 }
 
-+ (void)DeleteQuery:(NSString *)suffix{
-    [self.class ExecuteUpdate:@[(Format(@"delete from %@ %@",[self TableName],suffix ? : @""))] arguments:nil done:nil];
++ (void)DeleteQuery:(NSString *)suffix done:(JEDBResult)done{
+    [self.class ExecuteUpdate:@[(Format(@"delete from %@ %@",[self TableName],suffix ? : @""))] arguments:nil done:done];
 }
 
 - (void)dbDelete{
@@ -455,7 +460,7 @@ static NSDateFormatter *staticDateFormatter;
     if ([key isKindOfClass:[NSDate class]]) {
         key = Format(@"%lld",(long long)[(NSDate *)key timeIntervalSince1970]);
     }
-    [self.class DeleteQuery:(Format(@"where %@ = \"%@\"",[self.class PrimaryKey],key))];
+    [self.class DeleteQuery:(Format(@"where %@ = \"%@\"",[self.class PrimaryKey],key)) done:nil];
 }
 
 //----------------------------------------------------------------------------------------

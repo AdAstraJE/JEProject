@@ -24,26 +24,26 @@ static NSString * const jkJEUserDictionaryKey       = @"jkJEUserDictionaryKey";/
     void (^_location)(id location,id placemark);
 }
 
-static JEAppScheme *_shared;
+static JEAppScheme *_sharedSch;
 + (id)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _shared = [super allocWithZone:zone];
+        _sharedSch = [super allocWithZone:zone];
     });
     
-    return _shared;
+    return _sharedSch;
 }
 
 + (instancetype)Shared{ return [[self alloc] init];}
-- (instancetype)init{   return _shared;}
+- (instancetype)init{   return _sharedSch;}
 
 + (NSObject <JESchemeDelegate> *)User{
-    return _shared->_appUser;
+    return _sharedSch->_appUser;
 }
 
 + (void)SaveUser{
-    if (_shared->_appUser) {
-        [USDF setObject:[_shared->_appUser modelToJSONObject] forKey:jkJEUserDictionaryKey];
+    if (_sharedSch->_appUser) {
+        [USDF setObject:[_sharedSch->_appUser modelToJSONObject] forKey:jkJEUserDictionaryKey];
         [USDF synchronize];
     }
 }
@@ -58,7 +58,7 @@ static JEAppScheme *_shared;
 + (void)LoginAccount:(NSString *)account password:(NSString *)password user:(NSObject <JESchemeDelegate> *)user{
     if (user == nil ) { return; }
 
-    _shared->_appUser = user;
+    _sharedSch->_appUser = user;
 //    if (user.userId.length == 0) {return;}
     NSString *databaseName = user.userId;
     if ([user.class respondsToSelector:@selector(databaseName)]) {
@@ -89,19 +89,19 @@ static JEAppScheme *_shared;
     [USDF removeObjectForKey:jkJEUserPasswordKey];
     [USDF synchronize];
     
-    if ([_shared->_appUser.class respondsToSelector:@selector(WillLogout)]) {
-        [_shared->_appUser.class WillLogout];
+    if ([_sharedSch->_appUser.class respondsToSelector:@selector(WillLogout)]) {
+        [_sharedSch->_appUser.class WillLogout];
     }
     
     JEApp.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];
     [JEApp.window.layer je_fade];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
-    if ([_shared->_appUser.class respondsToSelector:@selector(DidLogout)]) {
-        [_shared->_appUser.class DidLogout];
+    if ([_sharedSch->_appUser.class respondsToSelector:@selector(DidLogout)]) {
+        [_sharedSch->_appUser.class DidLogout];
     }
     
-    _shared->_appUser = nil;
+    _sharedSch->_appUser = nil;
 }
 
 + (BOOL)isFirstCaseByVersion:(BOOL)version caseKey:(NSString*)caseKey{
@@ -147,18 +147,18 @@ static JEAppScheme *_shared;
 #pragma mark - 从系统相册获取图片 | 拍照
 + (void)PickImageWithTitle:(NSString*)title edit:(BOOL)edit pick:(void (^)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker))block{
     [JEApp.window.rootViewController Alert:title msg:nil act:@[@"拍照".loc,@"从相册中选择".loc] destruc:nil _:^(NSString *act, NSInteger idx) {
-        _shared->_pickImgDone = block;
+        [JEAppScheme Shared]->_pickImgDone = block;
         if (idx == 0) {
-            [_shared choosePhoto:UIImagePickerControllerSourceTypeCamera edit:edit];
+            [_sharedSch choosePhoto:UIImagePickerControllerSourceTypeCamera edit:edit];
         }else if (idx == 1){
-            [_shared choosePhoto:UIImagePickerControllerSourceTypePhotoLibrary edit:edit];
+            [_sharedSch choosePhoto:UIImagePickerControllerSourceTypePhotoLibrary edit:edit];
         }
     }];
 }
 
 + (void)PickImageWithType:(UIImagePickerControllerSourceType)type edit:(BOOL)edit pick:(void (^)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker))block{
-    _shared->_pickImgDone = block;
-    [_shared choosePhoto:type edit:edit];
+    [JEAppScheme Shared]->_pickImgDone = block;
+    [_sharedSch choosePhoto:type edit:edit];
 }
 
 - (void)choosePhoto:(UIImagePickerControllerSourceType)choosetype edit:(BOOL)edit{
@@ -199,14 +199,14 @@ static JEAppScheme *_shared;
 }
 
 + (void)pickImageEnd:(void (^)(void))block{
-    _shared->_pickImgEnd = block;
+    _sharedSch->_pickImgEnd = block;
 }
 
 
 #pragma mark - 定位
 + (void)Location:(void (^)(id location,id placemark))done{
-    _shared->_location = done;
-    [_shared.locationManager startUpdatingLocation];
+    _sharedSch->_location = done;
+    [_sharedSch.locationManager startUpdatingLocation];
 }
 
 - (CLLocationManager *)locationManager {
@@ -225,9 +225,9 @@ static JEAppScheme *_shared;
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder reverseGeocodeLocation:manager.location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         if (error || [placemarks count] == 0) {  return ;}
-        if (_shared->_location) {
-            _shared->_location(locations.lastObject,placemarks);
-            _shared->_location = nil;
+        if (_sharedSch->_location) {
+            _sharedSch->_location(locations.lastObject,placemarks);
+            _sharedSch->_location = nil;
         }
     }];
 }

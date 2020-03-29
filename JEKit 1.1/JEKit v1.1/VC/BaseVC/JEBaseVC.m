@@ -30,11 +30,21 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     if (self.Nav == nil) {
+        [self removeStaticTvBlock];
         [_staticTv removeFromSuperview];
         _staticTv = nil;
         [_liteTv removeFromSuperview];
         _liteTv = nil;
     }
+}
+
+- (void)removeStaticTvBlock{
+    [_staticTv.Arr_item enumerateObjectsUsingBlock:^(NSArray <JEStvIt *> * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj enumerateObjectsUsingBlock:^(JEStvIt * _Nonnull item, NSUInteger idx, BOOL * _Nonnull stop) {
+            item.selectBlock = nil;
+            item.switchBlock = nil;
+        }];
+    }];
 }
 
 - (void)viewDidLoad {
@@ -132,7 +142,7 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 
 - (JEStaticTableView *)staticTv{
     if (_staticTv == nil) {
-        JEStaticTableView *tv = [[JEStaticTableView alloc] initWithFrame:self.tvFrameFull];
+        JEStaticTableView *tv = [[JEStaticTableView alloc] initWithFrame:self.tvFrameFull style:(UITableViewStyleGrouped)];
         if (_navBar) {tv.contentInsetTop = _navBar.height - (self.presentingViewController ? 0 : ScreenStatusBarH);}
         [self.view insertSubview:tv atIndex:0];
         _staticTv = tv;
@@ -141,12 +151,11 @@ static CGFloat const JKNavItemTitleMargin = 16.0f;///<
 }
 
 - (JETableView *)defaultTv:(UITableViewStyle)style cell:(id)cellClass{
-    JETableView *tv = [[JETableView alloc]initWithFrame:self.tvFrameFull style:style];
+    JETableView *tv = [[JETableView alloc] initWithFrame:self.tvFrameFull style:style];
     tv.rowHeight = 45.0f;
     tv.delegate = (id<UITableViewDelegate>)self;
     tv.dataSource = (id<UITableViewDataSource>)self;
-    if (style == UITableViewStylePlain) {tv.tableFooterView = [UIView new];}
-    
+   
     if ([cellClass isKindOfClass:[NSArray class]]) {
         [cellClass enumerateObjectsUsingBlock:^(Class obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [tv registerClass:obj forCellReuseIdentifier:NSStringFromClass(obj)];

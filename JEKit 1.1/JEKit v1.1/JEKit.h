@@ -15,7 +15,7 @@
  
  pod 'YYKit'
  pod 'FMDB'
- pod 'AFNetworking'
+ pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking'
  pod 'MBProgressHUD'
  pod 'UITableView+FDTemplateLayoutCell'
  pod 'MJRefresh'
@@ -26,6 +26,11 @@
  
  end
 */
+
+//git config --global http.proxy socks5://127.0.0.1:1080
+//git config --global http.https://github.com.proxy socks5://127.0.0.1:1080
+//git config --global --unset http.proxy
+//git config --global --unset http.https://github.com.proxy
 
 //#if TARGET_OS_SIMULATOR
 //[[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection.bundle"] load];
@@ -124,7 +129,7 @@
 @property (nonatomic,assign)  BOOL customNavView;///< 自定义导航栏 ###  NO
 @property (nonatomic,strong)  UIColor *navBarClr;///< 导航栏背景颜色 ###  nil
 @property (nonatomic,strong)  UIImage *navBarImage;///< 导航栏背景图片 ### nil
-@property (nonatomic,strong)  UIColor *navBarLineClr;///< 导航栏底部线条颜色 ### kHexColorA(0xCCCCCC,0.6)
+@property (nonatomic,strong)  UIColor *navBarLineClr;///< 导航栏底部线条颜色 ### UIColor.je_sep
 @property (nonatomic,strong)  UIColor *navBarItemClr;///< 返回键 左右控制键 按钮颜色 ### Clr_blue
 @property (nonatomic,strong)  UIColor *navTitleClr;///< 标题颜色
 #pragma mark - tableView

@@ -7,10 +7,9 @@ target 'JEKit 1.1' do
 
 pod 'YYKit'
 pod 'FMDB'
-pod 'AFNetworking'
+ pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking'
 pod 'MBProgressHUD'
 pod 'UITableView+FDTemplateLayoutCell'
 pod 'MJRefresh'
-pod 'MobileVLCKit', '~>3.3.0'
 
 end

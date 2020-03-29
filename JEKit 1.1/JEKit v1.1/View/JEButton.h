@@ -31,6 +31,8 @@ UIKIT_EXTERN  JEButton * JEBtnSys(CGRect rect,NSString *title,id fnt,UIColor *cl
 @property (nonatomic,strong) UIActivityIndicatorView *Act_;///< UIActivityIndicatorView
 @property (nonatomic,assign) BOOL enableInLoading ;///< loading 时可点击,default NO
 
+
+
 /// 覆盖式的 进度中。
 - (void)coverLoading;
 

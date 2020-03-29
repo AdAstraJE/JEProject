@@ -56,7 +56,7 @@
     }
     
     if (_webView.title.length) {
-        self.title = _webView.title;
+        self.je_title = _webView.title;
     }
     
     _Ve_tool.hidden = (!_webView.canGoBack && !_webView.canGoForward);

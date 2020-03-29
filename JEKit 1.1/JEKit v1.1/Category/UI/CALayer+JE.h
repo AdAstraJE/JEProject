@@ -7,6 +7,9 @@
 /// LayerWithPath
 + (CAShapeLayer *)LayerWithPath:(CGPathRef)path;
 
+/// 文本阴影
+- (void)textShadow:(UIColor *)clr;
+
 /// 画线
 + (CAShapeLayer *)je_drawLine:(CGPoint)points to:(CGPoint)pointe color:(UIColor*)color;
 

@@ -33,13 +33,18 @@
 #define iPhoneXR_Screen            ((ScreenWidth == 896 || ScreenHeight == 896) && (([UIScreen mainScreen].scale) == 2))
 #define iPhoneXM_Screen            ((ScreenWidth == 896 || ScreenHeight == 896) && (([UIScreen mainScreen].scale) == 3))
 
-#define font(X)  ([UIFont systemFontOfSize:X])
-#define fontT(X) ([UIFont systemFontOfSize:X weight:UIFontWeightThin])
-#define fontL(X) ([UIFont systemFontOfSize:X weight:UIFontWeightLight])
-#define fontM(X) ([UIFont systemFontOfSize:X weight:UIFontWeightMedium])
-#define fontS(X) ([UIFont systemFontOfSize:X weight:UIFontWeightSemibold])
-#define fontB(X) ([UIFont systemFontOfSize:X weight:UIFontWeightBold])
-
+//#define font(X)  ([UIFont systemFontOfSize:X])
+//#define fontT(X) ([UIFont systemFontOfSize:X weight:UIFontWeightThin])
+//#define fontL(X) ([UIFont systemFontOfSize:X weight:UIFontWeightLight])
+//#define fontM(X) ([UIFont systemFontOfSize:X weight:UIFontWeightMedium])
+//#define fontS(X) ([UIFont systemFontOfSize:X weight:UIFontWeightSemibold])
+//#define fontB(X) ([UIFont systemFontOfSize:X weight:UIFontWeightBold])
+#define font(X)  ([UIScreen FontSize:X weight:0])
+#define fontT(X) ([UIScreen FontSize:X weight:-0.6])
+#define fontL(X) ([UIScreen FontSize:X weight:-0.4])
+#define fontM(X) ([UIScreen FontSize:X weight:0.23])
+#define fontS(X) ([UIScreen FontSize:X weight:0.3])
+#define fontB(X) ([UIScreen FontSize:X weight:0.4])
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷   UIScreen   🔷 (JE)
 @interface UIScreen (JE)
@@ -62,6 +67,9 @@ typedef NS_ENUM(NSUInteger, iPhoneScreenType) {
 
 /** 全部屏幕类型分辨率 */
 + (NSArray <NSString *>*)AllScreenDPI;
+
+/// 兼容8.0
++ (UIFont *)FontSize:(NSInteger)size weight:(CGFloat)weight;
 
 @end
 

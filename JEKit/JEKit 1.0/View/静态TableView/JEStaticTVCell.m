@@ -101,9 +101,13 @@
     }
     
     if (item.switchBlock) {
-        self.accessoryView = self.Swi;
+//        self.accessoryView = self.Swi;
+        self.Swi.hidden = NO;
+        _Swi.frame = JR(kSW - 51 - 15 - (item.showIndicator ? 24 : 0), (JEShare.stc.defaultCellHeight - 31)/2, 51, 31);
         _Swi.on = item.switchOn;
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.selectionStyle = item.showIndicator ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone;
+    }else{
+        _Swi.hidden = YES;
     }
 
 }

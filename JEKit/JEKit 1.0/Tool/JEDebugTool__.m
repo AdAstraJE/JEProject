@@ -145,7 +145,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = @"存进DB的历史";
+    self.je_title = @"存进DB的历史";
     
     NSDate *date = [NSDate date];
     self.liteTv = [JELiteTV F:self.tvFrame style:(UITableViewStyleGrouped) cellC:JETableViewCell1.class cellH:ScrnAdaptMax(50) cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, JEDebugToolTimeListModel *mod) {
@@ -191,14 +191,14 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
     //显示某个历史
     if (_historyDate) {
-        self.title = _historyDate.je_YYYYMMddHHmmss;
+        self.je_title = _historyDate.je_YYYYMMddHHmmss;
         [JEDebugToolModel Select:Format(@"where date = \"%@\"",self.historyDate.ts) done:^(NSMutableArray<JEDBModel *> *models) {
             self.Tv_list.Arr = models;
             [self.Tv_list reloadData];
         }];
     }
     else if(_detailMod){
-        self.title = @"详情";
+        self.je_title = @"详情";
         [self.Tv_list.Arr addObject:_detailMod];
         [self.Tv_list reloadData];
     }else{
@@ -275,7 +275,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         if (!obj.hidde) { [self->_Tv_list.Arr addObject:obj];}
     }];
     
-    self.title = Format(@"%@",@(_Tv_list.Arr.count));
+    self.je_title = Format(@"%@",@(_Tv_list.Arr.count));
 }
 
 #pragma mark - UITableView Delegate DataSource

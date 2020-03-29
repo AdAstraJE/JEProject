@@ -4,9 +4,8 @@
 @implementation UIColor (JE)
 
 #pragma mark - UIUserInterfaceStyleDark | UIUserInterfaceStyleLight  
-+ (UIColor *)je_wb{
-    return [UIColor Light:UIColor.whiteColor dark:UIColor.blackColor];
-}
++ (UIColor *)je_wb{return [UIColor Light:UIColor.whiteColor dark:UIColor.blackColor];}
++ (UIColor *)je_bw{return [UIColor Light:UIColor.blackColor dark:UIColor.whiteColor];}
 + (UIColor *)je_txt{
     if (@available(iOS 13.0, *)) {return UIColor.labelColor;} else {return UIColor.blackColor;}
 }
@@ -35,6 +34,9 @@
     return [UIColor Light:kRGBA(229, 229, 234, 1.0) dark:kRGBA(44, 44, 46, 1.0)];}
 + (UIColor *)gray6{
     return [UIColor Light:kRGBA(242, 242, 247, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
++ (UIColor *)cellBgC{
+return [UIColor Light:kRGBA(255, 255, 255, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
+
 
 + (UIColor *)Light:(UIColor *)light dark:(UIColor *)dark{
     if (@available(iOS 13.0, *)) {

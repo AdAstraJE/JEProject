@@ -8,7 +8,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 @implementation JEPickerView{
     NSArray <NSString *> *_Arr_custom;
 }
-- (void)dealloc{jkDeallocLog;}
+//- (void)dealloc{jkDeallocLog;}
 
 /** 自定义的数组 */
 + (void)ShowCustomArr:(NSArray <NSString *>*)arr res:(JEPVCusArrBlock)block{

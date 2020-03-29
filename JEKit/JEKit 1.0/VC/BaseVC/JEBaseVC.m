@@ -48,6 +48,11 @@
     }
 }
 
+- (void)setTitle:(NSString *)title{
+    [super setTitle:title];
+    self.je_title = title;
+}
+
 /** tableView默认Frame */
 - (CGRect)tvFrame{
     CGFloat tabBarHeight = 0.0f;

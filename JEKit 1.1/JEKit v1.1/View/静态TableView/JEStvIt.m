@@ -11,15 +11,16 @@
 + (JEStvUIStyle *)DefaultStyle{
     JEStvUIStyle *mod = [[JEStvUIStyle alloc] init];
     mod.backgroundColor = JEShare.tvBgClr;
-    mod.sectionHeaderHeight = 12.0f;
+//    mod.sectionHeaderHeight = 12.0f;
+//    mod.sectionFooterHeight = 12.0f;
+    mod.sectionHeaderHeight = 34.0f;
     mod.sectionFooterHeight = 1.0f;
 //    mod.cellHeight = MAX(45.0f, ScrnAdapt(45.0f));
     mod.cellHeight = 45.0f;
     mod.margin = 15;
-    mod.iconWH = 22;
-    mod.iconTitleMargin = 10;
-    mod.titleFont = font(14);
-//    mod.titleColor = Clr_txt;
+    mod.iconWH = mod.cellHeight*0.618;
+    mod.iconTitleMargin = 12;
+    mod.titleFont = font(15.8);
     mod.descFont = font(14);
     mod.descColor = Tgray1;
     mod.detailFont = font(11);
@@ -44,6 +45,10 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
 
 + (JEStvIt *)Title:(NSString *)title select:(JEStvSelectBlock)select{
     return [self Icon:nil title:title desc:nil acc:1 customCell:JEStaticTVCell.class Switch:nil on:NO height:JEShare.stc.cellHeight select:select];
+}
+
++ (JEStvIt *)Title:(NSString *)title desc:(NSString *)desc select:(JEStvSelectBlock)select{
+    return [self Icon:nil title:title desc:desc acc:1 customCell:JEStaticTVCell.class Switch:nil on:NO height:JEShare.stc.cellHeight select:select];
 }
 
 + (JEStvIt *)Title:(NSString *)title acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select{
@@ -114,6 +119,7 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
 - (void)setTitle:(NSString *)title{
     _title = title;
     _cell.La_title.text = title;
+    [_cell resetTitleDescFrame];
 }
 
 - (void)setDetail:(NSString *)detail{
@@ -129,6 +135,16 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
 - (void)setSwitchOn:(BOOL)switchOn{
     _switchOn = switchOn;
     _cell.Swi.on = switchOn;
+}
+
+- (void)setCellAlpha:(CGFloat)cellAlpha{
+    _cellAlpha = cellAlpha;
+    _cell.alpha = cellAlpha;
+}
+
+- (void)setSwitchOn:(BOOL)switchOn animated:(BOOL)animated{
+    _switchOn = switchOn;
+    [_cell.Swi setOn:switchOn animated:animated];
 }
 
 - (void)setAccessory:(UITableViewCellAccessoryType)accessory{

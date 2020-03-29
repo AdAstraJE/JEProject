@@ -47,7 +47,7 @@ JEButton * JEBtnSys(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SE
 
 - (UIImageView *)coverView {
     if(_coverView == nil) {
-        UIImageView *_ = [[UIImageView alloc] initWithFrame:self.bounds];
+        UIImageView *_ = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width/self.transform.a, self.height/self.transform.a)];
         _.userInteractionEnabled = YES;
         UIImage *image = [self backgroundImageForState:UIControlStateNormal];
 //        if (image == nil && ([self imageForState:(UIControlStateNormal)] == nil)) {
@@ -65,7 +65,7 @@ JEButton * JEBtnSys(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SE
     if (_Act_ == nil) {
         [self layoutIfNeeded];
         UIActivityIndicatorView *_ = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        _.y = (self.height - jkActWH)/2;
+        _.y = (self.height/self.transform.a - jkActWH)/2;
         _.color = _normalTitleColor = [self titleColorForState:UIControlStateNormal];
         _Act_ = _;
     }
@@ -96,7 +96,7 @@ JEButton * JEBtnSys(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SE
         [self.coverView addSubview:_Act_];
         _coverView.frame = self.bounds;
         _coverView.hidden = NO;
-        _Act_.origin = CGPointMake((self.width - jkActWH)/2, (self.height - jkActWH)/2);
+        _Act_.origin = CGPointMake((self.width/self.transform.a - jkActWH)/2, (self.height/self.transform.a - jkActWH)/2);
     }else{
         [self addSubview:_Act_];
         [self reloadActX];

@@ -235,7 +235,7 @@ static NSInteger const jkTextMargin = 8;///<
         return NO;
     }
     
-    if (_JEMaxCharactersLength && textField.text.textLength >= _JEMaxCharactersLength) {
+    if (_JEMaxCharactersLength && Format(@"%@%@",textField.text,string).textLength > _JEMaxCharactersLength) {
         return NO;
     }
 

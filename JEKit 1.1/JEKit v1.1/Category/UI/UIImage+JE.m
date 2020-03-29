@@ -1,16 +1,16 @@
 
 #import "UIImage+JE.h"
 #import <objc/runtime.h>
-#import <AssetsLibrary/AssetsLibrary.h>
-#import <QuartzCore/QuartzCore.h>
-#import <Accelerate/Accelerate.h>
 #import <Photos/Photos.h>
 
 @implementation UIImage (JE)
 
-+ (UIImage *)je_capture:(UIView *)view size:(CGSize)size{
++ (UIImage *)je_capture:(UIView *)view size:(CGSize)size update:(BOOL)update{
     UIGraphicsBeginImageContextWithOptions(size, view.opaque, [UIScreen mainScreen].scale);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    if (update) {
+        [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+    }
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return screenshot;
@@ -57,6 +57,24 @@
     return newImage;
 }
 
+- (UIImage *)imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode{
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0f);
+    [tintColor setFill];
+    CGRect bounds = CGRectMake(0, 0, self.size.width, self.size.height);
+    UIRectFill(bounds);
+    
+    [self drawInRect:bounds blendMode:blendMode alpha:1.0f];
+    
+    if (blendMode != kCGBlendModeDestinationIn) {
+        [self drawInRect:bounds blendMode:kCGBlendModeDestinationIn alpha:1.0f];
+    }
+    
+    UIImage *tintedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return tintedImage;
+}
+
 - (UIImage *)je_alpha:(CGFloat)alpha{
     UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -78,6 +96,12 @@
         UIImage *newImage = [UIImage imageWithCGImage:newImageRef scale:self.scale orientation:(UIImageOrientationUp)];
         CGImageRelease(newImageRef);
         return newImage;
+    };
+}
+
+- (UIImage * (^)(void))templateClr{
+    return ^id (void){
+        return [self imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)];
     };
 }
 
@@ -133,7 +157,7 @@
 
 #pragma mark -
 
-- (void)je_savedToAlbum:(NSString*)AlbumName success:(void(^)(void))completeBlock fail:(void(^)(void))failBlock{
+- (void)je_savedToAlbum:(NSString*)AlbumName success:(void(^)(void))completeBlock fail:(void(^)(NSError *error))failBlock{
     PHFetchResult *collectonResuts = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     __block BOOL isExisted = NO;
     [collectonResuts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -160,20 +184,20 @@
                 [collectonRequest addAssets:@[placeHolder]];
                 localIdentifier = placeHolder.localIdentifier;
             } completionHandler:^(BOOL suc, NSError *error) {
-                suc ? (!completeBlock ? : completeBlock()) : (!failBlock ? : failBlock());
+                suc ? (!completeBlock ? : completeBlock()) : (!failBlock ? : failBlock(error));
             }];
         }
     }];
 }
 
 /// 保存到相册
-- (void)je_savedToAlbum:(void(^)(void))completeBlock fail:(void(^)(void))failBlock{
+- (void)je_savedToAlbum:(void(^)(void))completeBlock fail:(void(^)(NSError *error))failBlock{
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
 //        ID = [PHAssetChangeRequest creationRequestForAssetFromImage:self].placeholderForCreatedAsset.localIdentifier;
         [PHAssetChangeRequest creationRequestForAssetFromImage:self];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (error) { !failBlock ? : failBlock();}else{!completeBlock ? : completeBlock();}
+            if (error) { !failBlock ? : failBlock(error);}else{!completeBlock ? : completeBlock();}
         });
     }];
 }
@@ -318,6 +342,17 @@
     CGSize waterImageSize = CGSizeMake(imgSize.width*waterImage.scale, imgSize.height *waterImage.scale);
     CGRect calRect = [self rectWithRect:rect size:waterImageSize type:type offset:offset];
     [waterImage drawInRect:calRect];
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+- (UIImage *)je_waterMark:(UIImage *)waterImage rect:(CGRect)rect{
+    UIGraphicsBeginImageContext(self.size);
+    
+    [self drawInRect:CGRectMake(0, 0, self.size.width, self.size.height) blendMode:kCGBlendModeNormal alpha:1];
+    [waterImage drawInRect:rect blendMode:kCGBlendModeNormal alpha:1];
     
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

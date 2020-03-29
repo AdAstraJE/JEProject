@@ -24,7 +24,7 @@
 }
 
 - (void)testBtnClick{
-    UIImage *img = [UIImage je_capture:self.view size:self.view.size];
+    UIImage *img = [UIImage je_capture:self.view size:self.view.size update:YES];
     img = [img je_limitToWH:100];
 //    img = img.clip(CGRectMake(0, 0, 375, 150));
     _Img.image = img;

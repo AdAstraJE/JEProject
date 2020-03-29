@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, JEPopType) {
 /// 隐藏 销毁 
 - (void)dismiss;
 
-/// 黑暗模式
+/// 深色模式
 - (void)handelStyleDark;
 
 @end

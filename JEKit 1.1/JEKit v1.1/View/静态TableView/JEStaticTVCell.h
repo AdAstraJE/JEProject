@@ -11,4 +11,6 @@
 @property (nonatomic,strong) UILabel *La_desc;///< 右边的描述
 @property (nonatomic,strong) UISwitch *Swi;///< 开关
 
+- (void)resetTitleDescFrame;
+
 @end

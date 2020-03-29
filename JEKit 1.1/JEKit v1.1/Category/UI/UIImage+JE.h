@@ -5,7 +5,7 @@
 @interface UIImage (JE)
 
 /// 截取view为mage
-+ (UIImage *)je_capture:(UIView *)view size:(CGSize)size;
++ (UIImage *)je_capture:(UIView *)view size:(CGSize)size update:(BOOL)update;
 /// 纯色图片 size
 + (UIImage *)je_clr:(UIColor *)color size:(CGSize)size;
 
@@ -14,6 +14,10 @@
 - (UIImage *)je_clr:(UIColor *)color;
 - (UIImage * (^)(CGFloat a))alpha;///< 图片变alpha
 - (UIImage * (^)(CGRect rect))clip;///< 裁剪
+- (UIImage * (^)(void))templateClr;///< imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)
+
+
+- (UIImage *)imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode;
 
 /// export AppIcon, if https://icon.wuruihong.com/ notworking
 - (void)exportIcon;
@@ -28,10 +32,10 @@
 - (UIImage *)je_sizeTo:(CGSize)size;
 
 /// 保存到指定相册名字
-- (void)je_savedToAlbum:(NSString*)AlbumName success:(void(^)(void))completeBlock fail:(void(^)(void))failBlock;
+- (void)je_savedToAlbum:(NSString*)AlbumName success:(void(^)(void))completeBlock fail:(void(^)(NSError *error))failBlock;
 
 /// 保存到相册
-- (void)je_savedToAlbum:(void(^)(void))completeBlock fail:(void(^)(void))failBlock;
+- (void)je_savedToAlbum:(void(^)(void))completeBlock fail:(void(^)(NSError *error))failBlock;
 
 typedef NS_ENUM(NSUInteger, ImageJEWaterMarkType) {
     ImageJEWaterMarkTypeTopLeft = 0,
@@ -46,6 +50,9 @@ typedef NS_ENUM(NSUInteger, ImageJEWaterMarkType) {
 
 /// 加水印图片
 - (UIImage *)je_waterMark:(UIImage *)waterImage size:(CGSize)size type:(ImageJEWaterMarkType)type offset:(CGPoint)offset;
+
+/// 加水印图片
+- (UIImage *)je_waterMark:(UIImage *)waterImage rect:(CGRect)rect;
 
 /// 调整方向
 - (UIImage *)fixOrientation;

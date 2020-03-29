@@ -19,6 +19,8 @@ typedef void (^JEDBResult)(BOOL success);///< 执行结果
 + (NSString *)PrimaryKey;///< 重新定义 主键Primary Key  ### 默认父类的ID
 + (NSArray <Class> *)PropertysFromSuper;///< 要加入的父类属性 （继承默认不会加上父类属性）
 + (NSArray <NSString *> *)IgnorePropertys;///< 要忽略的属性
++ (NSString *)OrderKey;///< 排序Key  默认 PrimaryKey
+
 
 #pragma mark -------------------------------------------建表、更新表----------------------------------------------
 
@@ -69,9 +71,10 @@ typedef void (^JEDBResult)(BOOL success);///< 执行结果
     
 /// 根据选定主键ID删除
 + (void)Delete:(NSArray <NSString *> *)ids;
++ (void)Delete:(NSArray <NSString *> *)ids done:(JEDBResult)done;
 
 /// DELETE FROM table (suffix - 传语句后缀就行)
-+ (void)DeleteQuery:(NSString *)suffix;
++ (void)DeleteQuery:(NSString *)suffix done:(JEDBResult)done;
 
 /// 删除这条数据 
 - (void)dbDelete;

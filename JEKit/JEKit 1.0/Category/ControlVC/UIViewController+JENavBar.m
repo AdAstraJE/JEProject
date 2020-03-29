@@ -49,20 +49,37 @@ static CGFloat const jkPresentingNavH = 58.0f;///<
 
 static const void *jeLa_TitleKey;
 
-- (void)setTitle:(NSString *)title{
+//- (void)setTitle:(NSString *)title{
+//    UILabel *la = objc_getAssociatedObject(self, &jeLa_TitleKey);
+//    la.text = title;
+//    if (la == nil) {
+//        CGFloat x = self.presentingViewController ? 14 : (ScreenStatusBarH + 6);
+//        UIColor *clr = self.controlVC.je_titleColor ? : self.controlVC.je_navBarItemColor;
+//        la = JELa(JR(ScreenWidth*0.1, x, ScreenWidth*0.8, 30),title,fontM(18.5),clr,(1),self.Ve_jeNavBar);
+//        la.adjustsFontSizeToFitWidth = YES;
+//        la.backgroundColor = [UIColor clearColor];
+//        self.La_title = la;
+//    }
+//}
+//
+//- (NSString *)title{
+//    return self.La_title.text;
+//}
+
+- (void)setJe_title:(NSString *)je_title{
     UILabel *la = objc_getAssociatedObject(self, &jeLa_TitleKey);
-    la.text = title;
+    la.text = je_title;
     if (la == nil) {
         CGFloat x = self.presentingViewController ? 14 : (ScreenStatusBarH + 6);
         UIColor *clr = self.controlVC.je_titleColor ? : self.controlVC.je_navBarItemColor;
-        la = JELa(JR(ScreenWidth*0.1, x, ScreenWidth*0.8, 30),title,fontM(18.5),clr,(1),self.Ve_jeNavBar);
+        la = JELa(JR(ScreenWidth*0.1, x, ScreenWidth*0.8, 30),je_title,fontM(18.5),clr,(1),self.Ve_jeNavBar);
         la.adjustsFontSizeToFitWidth = YES;
         la.backgroundColor = [UIColor clearColor];
         self.La_title = la;
     }
 }
 
-- (NSString *)title{
+- (NSString *)je_title{
     return self.La_title.text;
 }
 
@@ -99,6 +116,7 @@ static const void *jeLa_TitleKey;
             [self.Btn_back addTarget:self action:@selector(je_navPopBtnClick) forControlEvents:UIControlEventTouchUpInside];
         }
         self.Ve_jeNavBar = _;
+        [self setTitle:@""];
     }
 }
 

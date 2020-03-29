@@ -2,7 +2,7 @@
 #import "JEWKWebviewVC.h"
 #import <WebKit/WebKit.h>
 #import "JEKit.h"
-
+#import "JEVisualEffectView.h"
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEOpenInSafariActivity   🔷 在Safari中打开
 @interface JEOpenInSafariActivity : UIActivity
@@ -84,7 +84,6 @@
     self.title = self.title;
    
     [self setup_KWWebViewUI];
-
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -141,10 +140,13 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
     NSURL *url = navigationAction.request.URL;
     if ([url.scheme hasPrefix:@"itms-appss"] || [url.scheme isEqualToString:@"tel"] || [url.absoluteString containsString:@"ituns.apple.com"]) {
-        [[UIApplication sharedApplication] openURL:navigationAction.request.URL options:@{UIApplicationOpenURLOptionsSourceApplicationKey:@YES} completionHandler:nil];
+        [[UIApplication sharedApplication] openURL:url options:@{UIApplicationOpenURLOptionsSourceApplicationKey:@YES} completionHandler:nil];
         [self.Nav popViewControllerAnimated:NO];
     }
-
+    if (_HTMLString.length && url.absoluteString.isLink) {
+        [[UIApplication sharedApplication] openURL:url options:@{UIApplicationOpenURLOptionsSourceApplicationKey:@YES} completionHandler:nil];
+        decisionHandler(WKNavigationActionPolicyCancel);return;
+    }
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
@@ -156,10 +158,10 @@
     [self presentViewController:alert animated:YES completion:NULL];
 }
 
-#pragma mark - StyleDark 黑暗模式
+#pragma mark - StyleDark 深色模式
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
     [super traitCollectionDidChange:previousTraitCollection];
-    [self reloadWebViewColor];
+    if (_handelDarkModel) {[self reloadWebViewColor];}
 }
 
 - (void)reloadWebViewColor{
@@ -179,6 +181,7 @@
         
         [_webView evaluateJavaScript:[NSString stringWithFormat:@"document.body.style.backgroundColor=%@",backgroundColor] completionHandler:nil];
         [_webView evaluateJavaScript:[NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor=%@",labelColor] completionHandler:nil];
+        [_webView evaluateJavaScript:@"var link = window.document.getElementById('urlId'); link.style['text-decoration'] = 'none'; link.style.color = 'red';" completionHandler:nil];
     }
 }
 
@@ -186,7 +189,7 @@
 #pragma mark - UI 相关设置
 
 - (void)setup_KWWebViewUI{
-    [self rightNavBtn:(JEBundleImg(@"ic_navAction").clr(JEShare.navBarItemClr)) target:self act:@selector(webShareClick)];
+    JEButton *actionBtn = [self rightNavBtn:(JEBundleImg(@"ic_navAction").clr(JEShare.navBarItemClr)) target:self act:@selector(webShareClick)];
     
     NSURLRequest *request = (NSURLRequest *)_URL;
     if ([_URL isKindOfClass:[NSURL class]]) {
@@ -220,7 +223,6 @@
     }
     
     WKUserContentController *wkUController = [[WKUserContentController alloc] init];
-    
     [wkUController addUserScript:[[WKUserScript alloc] initWithSource:@"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta); var imgs = document.getElementsByTagName('img');for (var i in imgs){imgs[i].style.maxWidth='100%';imgs[i].style.height='auto';}" injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES]];
     
     WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
@@ -237,12 +239,14 @@
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
     
     _progressV = [[UIProgressView alloc]initWithFrame:CGRectMake(0, _webView.y, ScreenWidth, 2)].addTo(self.view);
-    _progressV.tintColor = Clr_blue.alpha_(0.5);
+    _progressV.tintColor = (JEShare.themeClr ? : Clr_blue).alpha_(0.8);
     
     if (_textResource) {
         [_webView loadData:_textResource.data MIMEType:@"text/plain" characterEncodingName:@"UTF-8" baseURL:[NSURL new]];
+        actionBtn.hidden = YES;
     }else{
         _HTMLString ? [_webView loadHTMLString:_HTMLString baseURL:nil] : [_webView loadRequest:request];
+        actionBtn.hidden = YES;
     }
     
     if (_handelDarkModel) {
@@ -256,9 +260,8 @@
     UIImage *leftArrow = JEBundleImg(@"ic_navBack").clr(Clr_blue);
     UIImage *rightArrow = [leftArrow je_rotate:180];
     
-    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
-    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect].addTo(self.view);
-    effectView.frame = CGRectMake(0, ScreenHeight - 44 - ScreenSafeArea, ScreenWidth, 44 + ScreenSafeArea);
+    UIVisualEffectView *effectView = [[JEVisualEffectView alloc] initWithFrame:JR(0, ScreenHeight - 44 - ScreenSafeArea, ScreenWidth, 44 + ScreenSafeArea)].addTo(self.view);
+    JEVe(JR(0, 0, kSW, 0.5), UIColor.je_sep, effectView.contentView);
     
     _Btn_back = JEBtn(JR(ScreenWidth/2 - 44 - 40,0,44,44),nil,@0,nil,_webView,@selector(goBack),leftArrow,0,effectView.contentView);
     [_Btn_back setImage:leftArrow.clr(Tgray2) forState:(UIControlStateDisabled)];

@@ -99,6 +99,14 @@ static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的�
     [self setTitle:text forState:UIControlStateNormal];
 }
 
+- (UIImage *)image{
+    return [self backgroundImageForState:(UIControlStateNormal)];
+}
+
+- (void)setImage:(UIImage *)image{
+    [self setBackgroundImage:image forState:(UIControlStateNormal)];
+}
+
 - (void)je_addBgImg:(UIColor *)color rad:(CGFloat)rad{
     UIImage *image;
     if ([color isKindOfClass:NSArray.class]) {

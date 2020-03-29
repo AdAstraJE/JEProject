@@ -9,6 +9,17 @@
     return layer;
 }
 
+/// 文本阴影
+- (void)textShadow:(UIColor *)clr{
+    self.shadowColor = clr.CGColor;
+//    self.shadowOffset = CGSizeMake(-0.5, -0.5);
+//    self.shadowOpacity = 1;
+//    self.shadowRadius = 1.5;
+    
+    self.shadowOffset = CGSizeMake(0.5, 0.5);
+    self.shadowOpacity = 0.6;
+}
+
 + (CAShapeLayer *)je_drawLine:(CGPoint)points to:(CGPoint)pointe color:(UIColor*)color{
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];

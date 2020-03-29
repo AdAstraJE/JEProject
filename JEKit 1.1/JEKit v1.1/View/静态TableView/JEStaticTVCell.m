@@ -16,7 +16,7 @@
 }
 
 - (UIImageView *)Img_icon{
-    if (_Img_icon == nil) { _Img_icon = [[UIImageView alloc] init].addTo(self.contentView);_Img_icon.contentMode = UIViewContentModeCenter;}
+    if (_Img_icon == nil) { _Img_icon = [[UIImageView alloc] init].addTo(self.contentView);_Img_icon.contentMode = UIViewContentModeScaleAspectFit;}
     return _Img_icon;
 }
 
@@ -73,6 +73,8 @@
         _La_title.frame = CGRectMake(_La_title.x, topBottomMargin, ScreenWidth - 40, viewH);
         _La_detail.frame = CGRectMake(_La_title.x, _La_title.bottom + viewH*0.1, ScreenWidth*0.7, viewH);
     }
+    self.separatorInset = UIEdgeInsetsMake(0, _La_title.x, 0, 0);
+    [self resetTitleDescFrame];
 }
 
 - (instancetype)je_loadCell:(JEStvIt *)item{
@@ -98,6 +100,13 @@
     }
     
     return self;
+}
+
+- (void)resetTitleDescFrame{
+    [_La_title sizeThatWidth];
+    CGFloat descMargin = self.accessoryType == 1 ? 4 : JEShare.stc.margin;
+    CGFloat w = self.contentView.width - _La_title.right - descMargin;
+    _La_desc.frame = JR(_La_title.right, _La_desc.y, w, _La_desc.height);
 }
 
 @end

@@ -86,8 +86,8 @@ const static CGFloat kAnimateDuration  = 0.25;///< 动画时间
     //    self.popType = JEPopTypeBottom;
     //    self.tapToDismiss = YES;
     
-    [self.Ve_content addSubview:[UILabel Frame:CGRectMake(0, 19, self.Ve_content.width, 22) text:@"Alert" font:([UIFont systemFontOfSize:17 weight:UIFontWeightSemibold]) color:kColorText33 align:NSTextAlignmentCenter]];;
-    [self.Ve_content addSubview:[UILabel Frame:CGRectMake(0, 42, self.Ve_content.width, 32) text:@"Here is a message where we can put absolutely anything we want." font:([UIFont systemFontOfSize:13 weight:UIFontWeightRegular]) color:kColorText33 align:NSTextAlignmentCenter]];;
+    [self.Ve_content addSubview:[UILabel Frame:CGRectMake(0, 19, self.Ve_content.width, 22) text:@"Alert" font:fontB(17) color:kColorText33 align:NSTextAlignmentCenter]];;
+    [self.Ve_content addSubview:[UILabel Frame:CGRectMake(0, 42, self.Ve_content.width, 32) text:@"Here is a message where we can put absolutely anything we want." font:fontB(13) color:kColorText33 align:NSTextAlignmentCenter]];;
     
     
     CGFloat btnHeight = 44;
