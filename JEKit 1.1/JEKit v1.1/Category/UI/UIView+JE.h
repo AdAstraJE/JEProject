@@ -2,6 +2,8 @@
 #import <UIKit/UIKit.h>
 #import "UIView+YYAdd.h"
 
+#define JR0 (CGRectZero)
+
 CG_INLINE CGRect
 JR(CGFloat x,CGFloat y,CGFloat width,CGFloat height){
     return CGRectMake(x, y, width, height);

@@ -378,5 +378,13 @@ static NSNumberFormatter *_DS_numFormatter;
     return (hours == 0 ? [NSString stringWithFormat:@"%.2d:%.2d",minutes,seconds] : [NSString stringWithFormat:@"%.2d:%.2d:%.2d",hours,minutes,seconds]);
 }
 
+- (NSString *)timeDesc_{
+    int time = self.intValue;
+    int seconds = time%60;
+    int minutes = (time/60)%60;
+    int hours = time/3600;
+    return (hours == 0 ? [NSString stringWithFormat:@"%d%@%d%@",minutes,@"分".loc,seconds,@"秒".loc] : [NSString stringWithFormat:@"%d%@%d%@%d%@",hours,@"时".loc,minutes,@"分".loc,seconds,@"秒".loc]);
+}
+
 @end
 

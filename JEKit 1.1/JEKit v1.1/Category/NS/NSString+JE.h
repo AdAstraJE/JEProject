@@ -66,5 +66,6 @@
 
 - (NSDate *)date;///<  1970 长时间戳对应的NSDate
 - (NSString *)timeDesc;///< eg. 01:28
+- (NSString *)timeDesc_;///< eg. 1分28秒
 
 @end

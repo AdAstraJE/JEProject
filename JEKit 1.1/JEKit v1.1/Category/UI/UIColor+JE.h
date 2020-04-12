@@ -40,6 +40,7 @@
 @property (class, nonatomic, readonly) UIColor *gray5;///< systemGray5Color  (229, 229, 234, 1.0) | (44, 44, 46, 1.0)
 @property (class, nonatomic, readonly) UIColor *gray6;///< systemGray6Color  (242, 242, 247, 1.0) | (28, 28, 30, 1.0)
 @property (class, nonatomic, readonly) UIColor *cellBgC;///< GroupedBackgroundColor  (255, 255, 255, 1.0) | (28, 28, 30, 1.0)
+@property (class, nonatomic, readonly) UIColor *groupTvBgC;///< systemGroupedBackgroundColor
 
 /// ligth dark
 + (UIColor *)Light:(UIColor *)light dark:(UIColor *)dark;

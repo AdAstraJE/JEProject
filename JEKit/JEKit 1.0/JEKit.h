@@ -18,7 +18,7 @@ target '<#projectName#>' do
  pod 'YYKit'
  pod 'FMDB'
  pod 'Masonry'
- pod 'AFNetworking'
+ pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking'
  pod 'MBProgressHUD'
  pod 'UITableView+FDTemplateLayoutCell'
  pod 'MJRefresh'

@@ -14,12 +14,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"tempVC".loc;
+    self.title = @"General".loc;
     
     [self setuptempVC_UI];
+    [self navBackBtn:@"Cancel"];
+    [self rightNavBtn:@"Done" target:self act:@selector(testBtnClick)];
+    
     
 #if TARGET_OS_SIMULATOR
-    JEBtn(JR(kSW - 50,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClick),Clr_orange,0,self.view);
+//    JEBtn(JR(kSW - 50,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClick),Clr_orange,0,self.view);
 #endif
 }
 
@@ -51,20 +54,26 @@
 
 - (void)setuptempVC_UI{
     //    #define MeiZi_Categorys         (@[@"All",@"DaXiong",@"QiaoTun",@"HeiSi",@"MeiTui",@"QingXin",@"ZaHui"])
-    
-    self.liteTv = [JELiteTV Frame:self.tvFrame style:(UITableViewStylePlain) cellC:UITableViewCell.class cellH:100 cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, NSDictionary *dic) {
+    self.liteTv = [self liteTv:UITableViewStylePlain cellC:UITableViewCell.class cellH:100 cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, NSDictionary *dic) {
         cell.textLabel.text = [dic str:@"title"];
-        cell.textLabel.numberOfLines = 0;
+               cell.textLabel.numberOfLines = 0;
+               
+               //         dic.str(@"thumb_url").url
+               //         dic.str(@"image_url").url
+               [cell.imageView setImageWithURL:[dic str:@"image_url" ].url placeholder:nil options:0 completion:^(UIImage * _Nullable image, NSURL * _Nonnull url, YYWebImageFromType from, YYWebImageStage stage, NSError * _Nullable error) {
+                   if (from == YYWebImageFromRemote || from == YYWebImageFromDiskCache){
+                       [tv reloadRowsAtIndexPaths:@[idx] withRowAnimation:(UITableViewRowAnimationNone)];
+                   }
+               }];
+               [cell.imageView tapToshowImg];
+    } select:^(UITableView * _Nonnull tv, NSIndexPath * _Nonnull idxP, id  _Nonnull obj) {
         
-        //         dic.str(@"thumb_url").url
-        //         dic.str(@"image_url").url
-        [cell.imageView setImageWithURL:[dic str:@"image_url" ].url placeholder:nil options:0 completion:^(UIImage * _Nullable image, NSURL * _Nonnull url, YYWebImageFromType from, YYWebImageStage stage, NSError * _Nullable error) {
-            if (from == YYWebImageFromRemote || from == YYWebImageFromDiskCache){
-                [tv reloadRowsAtIndexPaths:@[idx] withRowAnimation:(UITableViewRowAnimationNone)];
-            }
-        }];
-        [cell.imageView tapToshowImg];
-    } select:nil to:self.view];
+    }];
+    
+//    [self.liteTv je_Debug:nil width:4];
+//    self.liteTv = [JELiteTV Frame:self.tvFrameFull style:(UITableViewStylePlain) cellC:UITableViewCell.class cellH:100 cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, NSDictionary *dic) {
+//
+//    } select:nil to:self.view];
 
     [self.liteTv listManager:nil param:nil pages:YES mod:nil superVC:self caChe:nil method:(AFHttpMethodGET) resetAPI:^NSString *(NSInteger page) {
         return Format(@"%@/%@/page/%@",@"https://meizi.leanapp.cn/category",@"QingXin",@(page));

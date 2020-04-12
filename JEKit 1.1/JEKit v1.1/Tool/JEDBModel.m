@@ -428,6 +428,13 @@ static NSDateFormatter *staticDateFormatter;
     [self Query:Format(@"select * from %@ %@",[self TableName],suffix ? : @"") done:done];
 }
 
++ (NSMutableArray <__kindof JEDBModel *> *)SelectIn:(NSArray <NSString *> *)ids{
+    if (ids.count == 0) {return nil; }
+    NSMutableString *range = [NSMutableString string];
+    for (NSString *key in ids) {[range appendFormat:@"%@%@",range.length ? @"," : @"",key];}
+    return [self Select:(Format(@"where %@ in (%@)",[self PrimaryKey],range))];
+}
+
 #pragma mark -------------------------------------------删除----------------------------------------------
 
 + (void)DeleteAll:(JEDBResult)done{

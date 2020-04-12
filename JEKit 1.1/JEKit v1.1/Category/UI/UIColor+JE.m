@@ -36,6 +36,10 @@
     return [UIColor Light:kRGBA(242, 242, 247, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
 + (UIColor *)cellBgC{
 return [UIColor Light:kRGBA(255, 255, 255, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
++ (UIColor *)groupTvBgC{
+    if (@available(iOS 13.0, *)) {return UIColor.systemGroupedBackgroundColor;}
+    else {return UIColor.groupTableViewBackgroundColor;}
+}
 
 
 + (UIColor *)Light:(UIColor *)light dark:(UIColor *)dark{

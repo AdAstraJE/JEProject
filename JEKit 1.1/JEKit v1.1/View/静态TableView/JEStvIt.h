@@ -41,6 +41,7 @@ UIKIT_EXTERN  JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITabl
 @interface JEStvIt : NSObject
 
 @property (nonatomic,strong) UIImage *icon;///< icon 图标
+@property (nonatomic,assign) CGFloat iconWH;///<  ### 0
 @property (nonatomic,strong) NSString *title;///< title 左边文本
 @property (nonatomic,strong) NSString *detail;///< title下面的 detail
 @property (nonatomic,strong) NSString *desc;///< desc 右边文本
@@ -50,6 +51,7 @@ UIKIT_EXTERN  JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITabl
 
 @property (nonatomic,assign) NSInteger cellHeight;///< ### 
 @property (nonatomic,assign) CGFloat cellAlpha;///< cell的alpha ### 1
+@property (nonatomic,assign) BOOL disable;///<  ### YES 时不可点 alpha = 0.5
 @property (nonatomic,strong) __kindof JEStaticTVCell *cell;///< cell
 @property (nonatomic,copy) JEStvSelectBlock selectBlock;///< 点击cell的回调
 
@@ -64,9 +66,11 @@ UIKIT_EXTERN  JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITabl
 /// 各种默认构建方法
 + (JEStvIt *)Title:(NSString *)title select:(JEStvSelectBlock)select;
 + (JEStvIt *)Title:(NSString *)title desc:(NSString *)desc select:(JEStvSelectBlock)select;
++ (JEStvIt *)Title:(NSString *)title Switch:(JEStvSwitchBlock)Switch on:(BOOL)switchOn;
 + (JEStvIt *)Title:(NSString *)title acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select;
 + (JEStvIt *)Title:(NSString *)title desc:(NSString *)desc acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select;
 + (JEStvIt *)Icon:(id)icon title:(NSString *)title desc:(NSString *)desc acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select;
++ (JEStvIt *)Icon:(id)icon title:(NSString *)title select:(JEStvSelectBlock)select;
 + (JEStvIt *)CustomCell:(Class)customCell height:(CGFloat)height select:(JEStvSelectBlock)select;
 + (JEStvIt *)Icon:(id)icon title:(NSString *)title desc:(NSString *)desc acc:(UITableViewCellAccessoryType)acc Switch:(JEStvSwitchBlock)Switch on:(BOOL)switchOn select:(JEStvSelectBlock)select;
 + (JEStvIt *)CustomView:(UIView *)view height:(CGFloat)height select:(JEStvSelectBlock)select;

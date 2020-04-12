@@ -12,6 +12,7 @@
 #define ScreenNavBarH              (ScreenStatusBarH + kNavBarH44)
 #define ScreenTabBarH              (49.0)
 #define ScreenSafeArea             ([UIScreen SafeAreaBottom])
+#define ScreenSafeAreaTop          ([UIScreen SafeAreaTop])
 
 #define ScreenPerH(X)              ((X)*(ScreenHeight/667.0f))
 #define ScreenPerW(X)              ((X)*(ScreenWidth/375.0f))
@@ -52,6 +53,8 @@ typedef NS_ENUM(NSUInteger, iPhoneScreenType) {
 /// [@[@(<#iPhone4#>),@(<#iPhone5#>),@(<#iPhone6,7#>),@(<#iPhone6,7plus#>),@(<#iPhoneX#>),@(<#iPhoneXR#>),@(<#iPhoneXMax#>)][[UIScreen ScreenType]] floatValue]
 + (iPhoneScreenType)ScreenType;
 
+/// safeArea 顶部距离
++ (CGFloat)SafeAreaTop;
 /// safeArea 底部距离
 + (CGFloat)SafeAreaBottom;
 
@@ -68,7 +71,7 @@ typedef NS_ENUM(NSUInteger, iPhoneScreenType) {
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   NSArray   🔷 (Screen)
 @interface NSArray (Screen)
 
-/// @[@(iPhone4),@(iPhone5),@(iPhone6,7),@(iPhone6,7plus),@(iPhoneX)五种屏幕适配
+/// @[@(5),@(6,7,8),@(6,7,8plus),@(X),@(XR),@(Xplus)]6种屏幕适配
 @property (nonatomic,assign,readonly) CGFloat adaptScreen;
 
 @end

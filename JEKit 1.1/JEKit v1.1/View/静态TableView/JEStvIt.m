@@ -11,16 +11,14 @@
 + (JEStvUIStyle *)DefaultStyle{
     JEStvUIStyle *mod = [[JEStvUIStyle alloc] init];
     mod.backgroundColor = JEShare.tvBgClr;
-//    mod.sectionHeaderHeight = 12.0f;
-//    mod.sectionFooterHeight = 12.0f;
-    mod.sectionHeaderHeight = 34.0f;
+//    mod.cellHeight = MAX(48.0f, ScrnAdapt(45.0f));
+    mod.cellHeight = 48.0f;
+    mod.sectionHeaderHeight = mod.cellHeight*0.618;//34.0f;
     mod.sectionFooterHeight = 1.0f;
-//    mod.cellHeight = MAX(45.0f, ScrnAdapt(45.0f));
-    mod.cellHeight = 45.0f;
     mod.margin = 15;
     mod.iconWH = mod.cellHeight*0.618;
     mod.iconTitleMargin = 12;
-    mod.titleFont = font(15.8);
+    mod.titleFont = font(15);
     mod.descFont = font(14);
     mod.descColor = Tgray1;
     mod.detailFont = font(11);
@@ -51,6 +49,10 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
     return [self Icon:nil title:title desc:desc acc:1 customCell:JEStaticTVCell.class Switch:nil on:NO height:JEShare.stc.cellHeight select:select];
 }
 
++ (JEStvIt *)Title:(NSString *)title Switch:(JEStvSwitchBlock)Switch on:(BOOL)switchOn{
+    return [self Icon:nil title:title desc:nil acc:0 customCell:JEStaticTVCell.class Switch:Switch on:switchOn height:JEShare.stc.cellHeight select:nil];
+}
+
 + (JEStvIt *)Title:(NSString *)title acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select{
     return [self Icon:nil title:title desc:nil acc:acc customCell:JEStaticTVCell.class Switch:nil on:NO height:JEShare.stc.cellHeight select:select];
 }
@@ -61,6 +63,10 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
 
 + (JEStvIt *)Icon:(id)icon title:(NSString *)title desc:(NSString *)desc acc:(UITableViewCellAccessoryType)acc select:(JEStvSelectBlock)select{
     return [self Icon:icon title:title desc:desc acc:acc customCell:JEStaticTVCell.class Switch:nil on:NO height:JEShare.stc.cellHeight select:select];
+}
+
++ (JEStvIt *)Icon:(id)icon title:(NSString *)title select:(JEStvSelectBlock)select{
+    return [self Icon:icon title:title desc:nil acc:1 customCell:JEStaticTVCell.class Switch:nil on:NO height:JEShare.stc.cellHeight select:select];
 }
 
 + (JEStvIt *)CustomCell:(Class)customCell height:(CGFloat)height select:(JEStvSelectBlock)select{
@@ -140,6 +146,13 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
 - (void)setCellAlpha:(CGFloat)cellAlpha{
     _cellAlpha = cellAlpha;
     _cell.alpha = cellAlpha;
+}
+
+-(void)setDisable:(BOOL)disable{
+    _disable = disable;
+    _cell.userInteractionEnabled = !disable;
+    _cellAlpha = !_disable ? 1 : 0.5;
+    [_cell layoutSubviews];
 }
 
 - (void)setSwitchOn:(BOOL)switchOn animated:(BOOL)animated{

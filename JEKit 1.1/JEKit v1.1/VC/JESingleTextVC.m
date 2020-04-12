@@ -66,7 +66,7 @@
 
 - (JETextField *)Tf_{
     if (_Tf_ == nil) {
-        UIView *view  = [[UIView alloc]initWithFrame:CGRectMake(-1, TopSep, ScreenWidth+2, 45)];
+        UIView *view  = [[UIView alloc]initWithFrame:CGRectMake(-0, TopSep, ScreenWidth+2, 45)];
         view.layer.borderWidth = 1;
         view.layer.borderColor = (kHexColor(0xe5e5e5)).CGColor;
         view.backgroundColor = [UIColor whiteColor];

@@ -6,11 +6,16 @@
     __weak JEStvIt  *_item;
 }
 
+- (void)dealloc{jkDeallocLog}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (JEShare.stc.cellColor) {
         self.backgroundColor = self.contentView.backgroundColor = JEShare.stc.cellColor;
         self.selectedBackgroundView = JEVe(JR(0, 0, self.width, self.height), JEShare.stc.cellColor.abe(1,0.1), nil);
+    }
+    if (JEShare.themeClr) {
+        self.tintColor = JEShare.themeClr;
     }
     return self;
 }
@@ -54,13 +59,18 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    if (_item) {self.alpha = _item.cellAlpha;}
+    if (_item) {
+        self.alpha = _item.cellAlpha;
+        self.userInteractionEnabled = !_item.disable;
+        self.alpha = !_item.disable ? 1 : 0.5;
+    }
    
     CGFloat viewH = JEShare.stc.iconWH,margin = JEShare.stc.margin,descW = ScreenWidth*0.5,descMargin = self.accessoryType == 1 ? 4 : JEShare.stc.margin;
     if (viewH > self.height) {
         viewH = self.height/2;
     }
-    _Img_icon.frame = CGRectMake(margin, (self.height - viewH)/2, viewH, viewH);
+    CGFloat iconWH = (_item.iconWH == 0 ? JEShare.stc.iconWH : _item.iconWH);
+    _Img_icon.frame = CGRectMake(margin, (self.height - iconWH)/2, iconWH, iconWH);
     _La_title.frame = CGRectMake(_Img_icon.right + margin, (self.height - viewH)/2, ScreenWidth - 40, viewH);
     if (_item.desc.length) {
         _La_title.frame = CGRectMake(_Img_icon.right + margin, (self.height - viewH)/2, ScreenWidth*0.6, viewH);
@@ -71,10 +81,14 @@
         viewH = viewH*0.8;
         CGFloat topBottomMargin = (_item.cellHeight - viewH*2)/2;
         _La_title.frame = CGRectMake(_La_title.x, topBottomMargin, ScreenWidth - 40, viewH);
-        _La_detail.frame = CGRectMake(_La_title.x, _La_title.bottom + viewH*0.1, ScreenWidth*0.7, viewH);
+        _La_detail.frame = CGRectMake(_La_title.x, _La_title.bottom, ScreenWidth*0.7, viewH);
     }
     self.separatorInset = UIEdgeInsetsMake(0, _La_title.x, 0, 0);
     [self resetTitleDescFrame];
+    
+    if (_item.iconWH != 0) {
+        _Img_icon.x -= (JEShare.stc.margin - _item.iconWH)/4;
+    }
 }
 
 - (instancetype)je_loadCell:(JEStvIt *)item{
@@ -90,7 +104,8 @@
     
     if ([self isKindOfClass:JEStaticTVCell.class]) {
         self.accessoryType = item.accessory;
-        self.selectionStyle = (item.accessory == UITableViewCellAccessoryDisclosureIndicator ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone);
+//        self.selectionStyle = (item.accessory == UITableViewCellAccessoryDisclosureIndicator ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone);
+//        self.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
     
     if (item.switchBlock) {

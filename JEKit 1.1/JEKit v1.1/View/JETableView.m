@@ -36,6 +36,7 @@
     _headExpandEffect = NO;
     
     if (@available(iOS 11.0, *)) {
+        self.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         self.estimatedRowHeight = 0;
         self.estimatedSectionHeaderHeight = 0;
         self.estimatedSectionFooterHeight = 0;
@@ -45,7 +46,6 @@
     if (JEShare.tvBgClr) { self.backgroundColor = JEShare.tvBgClr; }
     if (JEShare.tvSepClr) { self.separatorColor = JEShare.tvSepClr; }
 }
-
 
 /// 手指点在按钮上 依然可以滑动
 - (BOOL)touchesShouldCancelInContentView:(UIView *)view {

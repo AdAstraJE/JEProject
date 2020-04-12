@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="-105" y="-98"/>
         </scene>
-        <!--Tab2VC-->
+        <!--1-->
         <scene sceneID="qQx-oO-VzM">
             <objects>
                 <viewController id="aC2-VV-Ygv" customClass="Tab_2VC" sceneMemberID="viewController">
@@ -32,9 +32,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPM-It-9Om">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPM-It-9Om">
                                 <rect key="frame" x="184" y="272" width="137" height="170"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <segue destination="uwW-GW-lse" kind="show" id="IQ5-Cx-ujB"/>
@@ -42,9 +41,15 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="2Cl-4I-SbF" firstAttribute="bottom" secondItem="uPM-It-9Om" secondAttribute="bottom" constant="371" id="0Wv-3d-ubK"/>
+                            <constraint firstItem="uPM-It-9Om" firstAttribute="leading" secondItem="2Cl-4I-SbF" secondAttribute="leading" constant="184" id="SJg-Rz-5ZH"/>
+                            <constraint firstItem="uPM-It-9Om" firstAttribute="top" secondItem="2Cl-4I-SbF" secondAttribute="top" constant="184" id="iuf-ro-scp"/>
+                            <constraint firstItem="2Cl-4I-SbF" firstAttribute="trailing" secondItem="uPM-It-9Om" secondAttribute="trailing" constant="93" id="kj2-08-MPb"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="2Cl-4I-SbF"/>
                     </view>
-                    <tabBarItem key="tabBarItem" id="kd2-Ev-bZz"/>
+                    <tabBarItem key="tabBarItem" title="1" id="kd2-Ev-bZz"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FlA-yB-kfa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -150,7 +155,7 @@
             </objects>
             <point key="canvasLocation" x="2461" y="226"/>
         </scene>
-        <!--Tab1VC-->
+        <!--2-->
         <scene sceneID="uBR-Xb-695">
             <objects>
                 <viewController id="Myu-eU-YGr" customClass="Tab_1VC" sceneMemberID="viewController">
@@ -160,7 +165,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="uAO-EW-Wtg"/>
                     </view>
-                    <tabBarItem key="tabBarItem" id="da4-pn-bkM"/>
+                    <tabBarItem key="tabBarItem" title="2" id="da4-pn-bkM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yzD-5Z-kd8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

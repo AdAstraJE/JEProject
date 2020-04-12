@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - navBar
 @property (nonatomic,assign) BOOL disableNavBar;///< 不使用自定义navBar ### NO
 @property (nonatomic,strong)  UIView *navBar;///< 自定义导航栏
+@property (nonatomic,strong)  UIView *navBarContent;///< 自定义导航栏 44/56
 @property (nonatomic,strong)  UIVisualEffectView *navBarEffect;///< 自定义导航栏EffectView
 @property (nonatomic,strong)  UIView *navBarline;///< 导航栏底部线条
 @property (nonatomic,strong)  UILabel *navTitleLable;///< 标题label
@@ -23,11 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 导航栏返回键点击事件 可重写控制返回
 - (void)navBackButtonClick;
 
-/// 设置返回键标题
-- (void)leftNavBtn:(id)item;
+/// 设置返回键标题 图片
+- (void)navBackBtn:(id)item;
 
-/// 导航栏做边按钮
-- (JEButton *)leftBtn:(id)item target:(id)target act:(SEL)selector;
+/// 导航栏左边按钮
+- (JEButton *)leftNavBtn:(id)item target:(id)target act:(SEL)selector;
 
 /// 导航栏右边按钮
 - (JEButton *)rightNavBtn:(id)item target:(id)target act:(SEL)selector;

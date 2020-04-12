@@ -18,19 +18,6 @@
 @implementation JETabbarController
 
 #pragma mark -
-- (BOOL)shouldAutorotate{
-    return [self.selectedViewController shouldAutorotate];
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    return [self.selectedViewController supportedInterfaceOrientations];
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return [self.selectedViewController preferredInterfaceOrientationForPresentation];
-}
-
-#pragma mark -
 - (instancetype)initWithVCs:(NSArray <UIViewController *>*)VCs titles:(NSArray <NSString *> *)titles imgs:(NSArray <NSArray <UIImage*> *> *)imgs{
     self = [super init];
     self.delegate = self;
@@ -54,7 +41,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = JEShare.VCBgClr;
-
 }
 
 - (void)hiddenTabbar:(NSArray <NSNumber *> *)indexArr{

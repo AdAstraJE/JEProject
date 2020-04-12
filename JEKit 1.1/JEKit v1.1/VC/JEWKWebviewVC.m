@@ -58,6 +58,11 @@
 
 @implementation JEWKWebviewVC
 
+- (void)dealloc{
+    jkDeallocLog
+    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+}
+
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:YES];
     if (self.Nav == nil && _tempFileSharePath) {
@@ -84,6 +89,7 @@
     self.title = self.title;
    
     [self setup_KWWebViewUI];
+//    [_webView je_Debug:nil width:5];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -189,7 +195,7 @@
 #pragma mark - UI 相关设置
 
 - (void)setup_KWWebViewUI{
-    JEButton *actionBtn = [self rightNavBtn:(JEBundleImg(@"ic_navAction").clr(JEShare.navBarItemClr)) target:self act:@selector(webShareClick)];
+   [self rightNavBtn:(JEBundleImg(@"ic_navAction").clr(JEShare.navBarItemClr)) target:self act:@selector(webShareClick:)];
     
     NSURLRequest *request = (NSURLRequest *)_URL;
     if ([_URL isKindOfClass:[NSURL class]]) {
@@ -215,7 +221,7 @@
         self.navBackButton.x += 5.5;
     }
     
-    if ([request isKindOfClass:NSURLRequest.class] && [@[@"md",@"txt",@"json",@"plist",@"h",@"m"] containsObject:[request.URL.absoluteString pathExtension].lowercaseString]) {
+    if ([request isKindOfClass:NSURLRequest.class] && ([@[@"md",@"txt",@"json",@"plist",@"h",@"m"] containsObject:[request.URL.absoluteString pathExtension].lowercaseString] || [[request.URL.absoluteString lastPathComponent] hasPrefix:@"."])) {
         NSStringEncoding *useEncodeing = nil;
         _textResource = [NSString stringWithContentsOfFile:request.URL.path usedEncoding:useEncodeing error:nil];
         if (!_textResource){_textResource = [NSString stringWithContentsOfFile:request.URL.absoluteString encoding:0x80000632 error:nil];}
@@ -234,6 +240,7 @@
     _webView.scrollView.scrollIndicatorInsets = _webView.scrollView.contentInset;
     _webVHeight = _webView.height;
     
+    
     _webView.UIDelegate = self;
     _webView.navigationDelegate = self;
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:NULL];
@@ -243,10 +250,8 @@
     
     if (_textResource) {
         [_webView loadData:_textResource.data MIMEType:@"text/plain" characterEncodingName:@"UTF-8" baseURL:[NSURL new]];
-        actionBtn.hidden = YES;
     }else{
         _HTMLString ? [_webView loadHTMLString:_HTMLString baseURL:nil] : [_webView loadRequest:request];
-        actionBtn.hidden = YES;
     }
     
     if (_handelDarkModel) {
@@ -273,7 +278,7 @@
     _Ve_tool.hidden = YES;
 }
 
-- (void)webShareClick{
+- (void)webShareClick:(JEButton *)sender{
     NSMutableArray *items = [[NSMutableArray alloc] initWithObjects:_webView.URL.absoluteString,_webView.URL,nil];
     if (_webView == nil) {
         if ([_URL isKindOfClass:[NSData class]] && _textResource.length){
@@ -288,6 +293,9 @@
     }
     
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:(_netLink ? @[[[JEOpenInSafariActivity alloc] init]] : nil)];
+    if ([activityViewController respondsToSelector:@selector(popoverPresentationController)]) {
+        activityViewController.popoverPresentationController.sourceView = sender;
+    }
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 

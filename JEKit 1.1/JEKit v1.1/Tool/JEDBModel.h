@@ -59,7 +59,10 @@ typedef void (^JEDBResult)(BOOL success);///< 执行结果
 
 /// SELECT * FROM table (suffix - 传语句后缀)
 + (void)Select:(NSString *)suffix done:(JEDBSelectBlock)done;
+/// SELECT * FROM table
 + (NSMutableArray <__kindof JEDBModel *> *)Select:(NSString *)suffix;
+/// SELECT * FROM table where %@ in (%@)
++ (NSMutableArray <__kindof JEDBModel *> *)SelectIn:(NSArray <NSString *> *)ids;
 
 #pragma mark -------------------------------------------删除----------------------------------------------
 

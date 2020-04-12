@@ -99,14 +99,6 @@ static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的�
     [self setTitle:text forState:UIControlStateNormal];
 }
 
-- (UIImage *)image{
-    return [self backgroundImageForState:(UIControlStateNormal)];
-}
-
-- (void)setImage:(UIImage *)image{
-    [self setBackgroundImage:image forState:(UIControlStateNormal)];
-}
-
 - (void)je_addBgImg:(UIColor *)color rad:(CGFloat)rad{
     UIImage *image;
     if ([color isKindOfClass:NSArray.class]) {
@@ -128,8 +120,8 @@ static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的�
 
 - (void)je_resetTitleClr:(UIColor *)clr{
     [self setTitleColor:clr forState:UIControlStateNormal];
-    [self setTitleColor:clr.alpha_(jkAlpha_disable) forState:UIControlStateDisabled];
-    [self setTitleColor:clr.alpha_(jkAlpha_simple) forState:UIControlStateHighlighted];
+    [self setTitleColor:clr.alpha_(clr.alpha*jkAlpha_disable) forState:UIControlStateDisabled];
+    [self setTitleColor:clr.alpha_(clr.alpha*jkAlpha_simple) forState:UIControlStateHighlighted];
 }
 
 - (void)je_resetImg:(UIImage *)img{

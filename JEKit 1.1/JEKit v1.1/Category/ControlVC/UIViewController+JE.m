@@ -3,6 +3,10 @@
 #import <objc/runtime.h>
 #import "JEKit.h"
 
+@implementation JEAlertController
+@end
+
+
 
 @implementation UIViewController (JEVC)
 
@@ -70,7 +74,10 @@
     
     if ([self isKindOfClass:UITabBarController.class]) {
         for (UIViewController *vc in ((UITabBarController *)self).viewControllers) {
-            if ([vc isKindOfClass:UINavigationController.class]) { return [vc findVC:classStr];}
+            if ([vc isKindOfClass:UINavigationController.class]) {
+                UIViewController *find = [vc findVC:classStr];
+                if (find) { return find;}
+            }
             if ([vc isKindOfClass:NSClassFromString(classStr)]) { return vc;}
         }
     }
@@ -125,7 +132,8 @@
 }
 
 - (void)ShowAlert:(NSString*)title msg:(NSString*)msg style:(UIAlertControllerStyle)style actions:(NSArray <NSString *> *)actions block:(void(^)(NSString *act,NSInteger idx))block destructive:(NSArray <NSString *> *)destructive cancel:(NSString *)cancel cancelBlock:(void (^)(void))cancelBlock{
-    __block UIAlertController *alert = [UIAlertController alertControllerWithTitle:title  message:msg preferredStyle:style];
+
+    __block JEAlertController *alert = [JEAlertController alertControllerWithTitle:title  message:msg preferredStyle:style];
     
     void (^removeAlert)(void) = ^(void){
         [alert removeFromParentViewController];

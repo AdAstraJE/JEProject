@@ -124,8 +124,6 @@
         return [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"今天", nil),self.je_HHmm_apM];
     }else if (gap == -1 && chinaDes){
         return [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"昨天", nil),self.je_HHmm_apM];
-    }else if (gap == -2 && chinaDes){
-        return [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"前天", nil),self.je_HHmm_apM];
     }else{
         return [NSDateFormatter localizedStringFromDate:self dateStyle:(NSDateFormatterMediumStyle) timeStyle:NSDateFormatterNoStyle];
     }

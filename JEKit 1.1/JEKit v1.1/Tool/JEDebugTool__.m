@@ -183,7 +183,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
     [super viewDidLoad];
     _toDBlogNumber = 0;
     _Arr_orgin = [NSMutableArray array];
-    [self rightNavBtn:@"更多" target:self act:@selector(actionHandle)];//❖
+    [self rightNavBtn:@"更多" target:self act:@selector(actionHandle:)];//❖
 
     //显示某个历史
     if (_historyDate) {
@@ -307,7 +307,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 }
 
 
-- (void)actionHandle{
+- (void)actionHandle:(JEButton *)sender{
     NSString *cleanAll = @"LOG : 清空显示";
     NSString *shareTxt = @"LOG : 📱本机分享";
     NSString *sendEmail = @"LOG : ✉️发送Email";
@@ -343,6 +343,9 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
             [JEApp.window.rootViewController hideHud];
             
             UIActivityViewController *act = [[UIActivityViewController alloc] initWithActivityItems:@[[NSURL fileURLWithPath:filePath]] applicationActivities:nil];
+            if ([act respondsToSelector:@selector(popoverPresentationController)]) {
+                act.popoverPresentationController.sourceView = sender;
+            }
             [JEApp.window.rootViewController presentViewController:act animated:YES completion:nil];
         }
         else if ([str isEqualToString:sendEmail]){

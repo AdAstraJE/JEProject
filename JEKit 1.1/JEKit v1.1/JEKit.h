@@ -43,6 +43,7 @@
 //------------------------------------------------------------------------------------
 #import "UIViewController+JEHUD.h"
 #import "UIViewController+JE.h"
+#import "UIView+JEAutoLayout.h"
 #import "UITableViewCell+JE.h"
 #import "UIScrollView+JE.h"
 #import "NSDictionary+JE.h"
@@ -106,9 +107,12 @@
 #define kAPPName       ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"])
 #define kAPPVersions   ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"])
 #define kAPPVersion    ([kAPPVersions stringByReplacingOccurrencesOfString:@"." withString:@""])
+#define kAPPBundleId   ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"])
 
 #define kAPPLang       [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0]
 #define kAPPChina      ([[[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0] hasPrefix:@"zh-"])
+
+#define iPad           ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
 @interface JEKit : NSObject
 

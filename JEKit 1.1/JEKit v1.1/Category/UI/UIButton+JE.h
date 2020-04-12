@@ -12,7 +12,6 @@
 /// 设置 backgroundImage 颜色
 @property (nonatomic,strong) IBInspectable UIColor *bcImg;
 @property (nonatomic,strong) NSString *text;///< [self setTitle:text forState:UIControlStateNormal]
-@property (nonatomic,strong) UIImage *image;///< [self setBackgroundImage:image forState:(UIControlStateNormal)]
 
 /// 添加纯色背景图
 - (void)je_addBgImg:(UIColor *)color rad:(CGFloat)rad;

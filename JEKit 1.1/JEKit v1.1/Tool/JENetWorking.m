@@ -167,6 +167,7 @@ static JENetWorking *_instance;
     if (![url hasPrefix:@"http"]) {
         url = [_baseUrl stringByAppendingString:url ? : @""];
     }
+
     
     UIViewController *relatingVC = vc ? : [UIApplication sharedApplication].keyWindow.rootViewController;
     NSURLSessionTask *task = [_AFM POST:url parameters:[self fullParam:param] headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {

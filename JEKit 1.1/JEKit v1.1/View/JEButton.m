@@ -16,6 +16,19 @@ static NSInteger const jkActTitleLeftMargin = 8;///<
     UIColor *_normalTitleColor;///< 记录loading前按钮文字颜色
 }
 
+- (instancetype)sizeThatWidth{
+    CGRect old = self.frame;
+    old.size.width = [self sizeThatFits:CGSizeZero].width + _imageTitleSpace;
+    self.frame = old;
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    self.exclusiveTouch = YES;
+    return self;
+}
+
 JEButton * JEBtn(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SEL action,id img,CGFloat rad,__kindof UIView *addTo){
     JEButton *_ = [JEButton Frame:rect title:title font:fnt color:clr rad:rad tar:target sel:action img:img];
     if ([addTo isKindOfClass:UIVisualEffectView.class]) {

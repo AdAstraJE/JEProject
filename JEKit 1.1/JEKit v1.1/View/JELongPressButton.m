@@ -39,7 +39,7 @@ static CGFloat const jkAngleFix = 90.0;///< 减90度开始
 
 - (void)touchDown{
     CGFloat delay = 0.1;
-    _frontLayer.strokeEnd += delay;
+    NSLog(@"%f",_frontLayer.strokeEnd += delay);
     if (_frontLayer.strokeEnd >= (1 - jkAngleFix/360.0)) {
         [self touchCancel];
         !_longPressEndBlock ? : _longPressEndBlock();

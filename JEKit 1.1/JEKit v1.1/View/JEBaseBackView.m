@@ -21,7 +21,8 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
     self = [super initWithFrame:frame];
     self.tintColor = Clr_blue;
     self.alpha = 0;
-    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.2) dark:kRGBA(0, 0, 0, 0.48)];
+//    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.2) dark:kRGBA(0, 0, 0, 0.48)];
+    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.382) dark:kRGBA(0, 0, 0, 0.618)];
     
     _backView =  JEVe(self.bounds, nil, self);//隐藏的点击背景
     _Ve_content = JEVe(JR(kViewMargin, (ScreenHeight - height)/2, ScreenWidth - kViewMargin*2, height), [UIColor Light:kRGBA(255, 255, 255, 0.6) dark:kRGBA(62, 62, 62, 0.8)], self);

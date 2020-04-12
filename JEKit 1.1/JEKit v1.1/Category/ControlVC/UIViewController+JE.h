@@ -1,6 +1,12 @@
 
 #import <UIKit/UIKit.h>
 
+@interface JEAlertController : UIAlertController
+@end
+
+
+
+
 @interface UIViewController (JEVC)
 
 #define SBId_Main(VcIdentifier) (@[@"Main",VcIdentifier])

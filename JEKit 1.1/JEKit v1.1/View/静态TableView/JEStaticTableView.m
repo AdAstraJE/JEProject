@@ -24,12 +24,22 @@ static NSInteger const jkHeadFootLabelMargin = 15;///<
     [self reloadData];
 }
 
+- (void)setArr_headerTitle:(NSArray<NSString *> *)Arr_headerTitle{
+    _Arr_headerTitle = Arr_headerTitle;
+    if(_adjustHeaderHeight == 0){_adjustHeaderHeight = 14;}
+}
+
+- (void)setArr_footerTitle:(NSArray<NSString *> *)Arr_footerTitle{
+    _Arr_footerTitle = Arr_footerTitle;
+    if(_adjustFooterHeight == 0){_adjustFooterHeight = 14;}
+}
+
 - (CGFloat)adjustHeadFoot:(NSArray <NSString *> *)arr value:(NSInteger)value section:(NSInteger)section{
     if (section < arr.count) {
         if (arr[section].length == 0) {
             return 0;
         }
-        return [arr[section] sizeWithFont:font(13) maxSize:CGSizeMake(self.width - jkHeadFootLabelMargin*2, 0)].height + value;
+        return [arr[section] sizeWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote] maxSize:CGSizeMake(self.width - jkHeadFootLabelMargin*2, 0)].height + value;
     }
     return value;
 }

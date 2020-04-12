@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,7 @@
 		896BFBAF23557BBB00B64BBF /* DataBaseTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBA923557BBB00B64BBF /* DataBaseTestVC.m */; };
 		896BFBB023557BBB00B64BBF /* H3DetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBAB23557BBB00B64BBF /* H3DetailVC.m */; };
 		896BFBB123557BBB00B64BBF /* H3GameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 896BFBAC23557BBB00B64BBF /* H3GameModel.m */; };
+		89796FAB2442BCC500F68AEB /* UIView+JEAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 89796FA62442BCC400F68AEB /* UIView+JEAutoLayout.m */; };
 		89892B9D23536FCC00C84508 /* JEObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 89892B9C23536FCC00C84508 /* JEObject.m */; };
 		899F07372344D10A00BA89AD /* JEBLECommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06AE2344D10A00BA89AD /* JEBLECommand.m */; };
 		899F07382344D10A00BA89AD /* JEBLEDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 899F06B02344D10A00BA89AD /* JEBLEDevice.m */; };
@@ -105,6 +106,8 @@
 		896BFBAC23557BBB00B64BBF /* H3GameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = H3GameModel.m; sourceTree = "<group>"; };
 		896BFBAD23557BBB00B64BBF /* H3DetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H3DetailVC.h; sourceTree = "<group>"; };
 		896BFBAE23557BBB00B64BBF /* H3GameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = H3GameModel.h; sourceTree = "<group>"; };
+		89796FA62442BCC400F68AEB /* UIView+JEAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JEAutoLayout.m"; sourceTree = "<group>"; };
+		89796FAA2442BCC500F68AEB /* UIView+JEAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+JEAutoLayout.h"; sourceTree = "<group>"; };
 		89892B9B23536FCC00C84508 /* JEObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JEObject.h; sourceTree = "<group>"; };
 		89892B9C23536FCC00C84508 /* JEObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JEObject.m; sourceTree = "<group>"; };
 		899F06AE2344D10A00BA89AD /* JEBLECommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JEBLECommand.m; sourceTree = "<group>"; };
@@ -313,6 +316,15 @@
 			path = H3Detail;
 			sourceTree = "<group>";
 		};
+		89796FA52442BCC400F68AEB /* JEFrameAutoLayout */ = {
+			isa = PBXGroup;
+			children = (
+				89796FAA2442BCC500F68AEB /* UIView+JEAutoLayout.h */,
+				89796FA62442BCC400F68AEB /* UIView+JEAutoLayout.m */,
+			);
+			path = JEFrameAutoLayout;
+			sourceTree = "<group>";
+		};
 		899F06AC2344D10A00BA89AD /* JEKit v1.1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,6 +359,7 @@
 		899F06B62344D10A00BA89AD /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				89796FA52442BCC400F68AEB /* JEFrameAutoLayout */,
 				899F06B72344D10A00BA89AD /* UI */,
 				899F06D02344D10A00BA89AD /* NS */,
 				899F06DD2344D10A00BA89AD /* ControlVC */,
@@ -721,6 +734,7 @@
 				899F075D2344D10A00BA89AD /* JEStvIt.m in Sources */,
 				8911B98723F54C1200990031 /* JETableViewCell.m in Sources */,
 				899F07442344D10A00BA89AD /* UIView+JE.m in Sources */,
+				89796FAB2442BCC500F68AEB /* UIView+JEAutoLayout.m in Sources */,
 				899F074C2344D10A00BA89AD /* NSDate+JE.m in Sources */,
 				899F075C2344D10A00BA89AD /* JEStaticTableView.m in Sources */,
 				899F073B2344D10A00BA89AD /* UIButton+JE.m in Sources */,
@@ -908,7 +922,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.runChina.JEKit-1-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -927,7 +941,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.runChina.JEKit-1-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

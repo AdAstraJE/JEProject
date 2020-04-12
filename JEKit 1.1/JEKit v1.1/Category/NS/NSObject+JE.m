@@ -53,7 +53,15 @@
     for(int i=0;i<outCount;i++){
         objc_property_t prop = props[i];
         NSString *propName = [[NSString alloc]initWithCString:property_getName(prop) encoding:NSUTF8StringEncoding];
-        id propValue = [self valueForKey:propName];
+        id propValue;
+        @try {
+            propValue = [self valueForKey:propName];
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
+        
         if(propValue){
             [dict setObject:propValue forKey:propName];
         }

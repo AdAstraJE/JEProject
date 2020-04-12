@@ -24,7 +24,7 @@
      self.delegate = (id<UITextViewDelegate>)self;
     _placeHolderTextColor = [UIColor lightGrayColor];
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.scrollIndicatorInsets = UIEdgeInsetsMake(10.0f, 0.0f, 10.0f, 8.0f);
+//    self.scrollIndicatorInsets = UIEdgeInsetsMake(10.0f, 0.0f, 10.0f, 8.0f);
     self.contentInset = UIEdgeInsetsZero;
     self.scrollEnabled = YES;
     self.scrollsToTop = YES;

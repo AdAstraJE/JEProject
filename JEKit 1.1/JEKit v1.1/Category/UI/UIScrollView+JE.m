@@ -73,6 +73,7 @@
 
 - (void)staticStopLoading{
     if (![self isKindOfClass:UITableView.class]) { return;}
+    if (!self.ActView.isAnimating) {return;}
     
     [self.ActView stopAnimating];
     ((UITableView*)self).backgroundView = nil;

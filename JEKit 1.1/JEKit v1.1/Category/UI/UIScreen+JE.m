@@ -17,11 +17,15 @@
     else{ return iPhone6;}
 }
 
++ (CGFloat)SafeAreaTop{
+    if (@available(iOS 11.0, *)) {
+        return [[UIApplication sharedApplication] delegate].window.safeAreaInsets.top;
+    }return 0.0;
+}
 + (CGFloat)SafeAreaBottom{
     if (@available(iOS 11.0, *)) {
         return [[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom;
-    }
-    return 0.0;
+    }return 0.0;
 }
 
 + (NSArray <NSString *>*)AllScreenDPI{
@@ -62,7 +66,8 @@
 @implementation NSArray (Screen)
 
 - (CGFloat)adaptScreen{
-    NSInteger index = [UIScreen ScreenType];
+    NSInteger index = [UIScreen ScreenType] - 1;
+    if (index < 0) { index = 0;}
     if (index >= self.count) {
         return [self.lastObject floatValue];
     }
