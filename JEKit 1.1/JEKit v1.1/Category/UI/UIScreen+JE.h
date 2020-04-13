@@ -1,13 +1,13 @@
 
 #import <UIKit/UIKit.h>
 
-#define ScreenHeight               ([UIScreen mainScreen].bounds.size.height)
-#define ScreenWidth                ([UIScreen mainScreen].bounds.size.width)
 #define kSW                        ([UIScreen mainScreen].bounds.size.width)
 #define kSH                        ([UIScreen mainScreen].bounds.size.height)
 #define kSWMid(X)                  ((ScreenWidth - (X))/2)
 #define kNavBarH44                 (44.0)
 
+#define ScreenHeight               ([UIScreen mainScreen].bounds.size.height)
+#define ScreenWidth                ([UIScreen mainScreen].bounds.size.width)
 #define ScreenStatusBarH           ([[UIApplication sharedApplication] statusBarFrame].size.height)
 #define ScreenNavBarH              (ScreenStatusBarH + kNavBarH44)
 #define ScreenTabBarH              (49.0)

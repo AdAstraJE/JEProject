@@ -54,6 +54,8 @@ UIKIT_EXTERN  UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__
 - (void)border:(UIColor *)color width:(CGFloat)width;
 /// Debug添加边框
 - (void)je_Debug:(UIColor *)color width:(CGFloat)width;
+/// SubView Debug添加边框
+- (void)je_DebugSubView;
 
 /// viewWithTag
 - (__kindof UILabel *)labelWithTag:(NSInteger)tag;

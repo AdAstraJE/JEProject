@@ -42,6 +42,7 @@ typedef SDAutoLayoutModel * _Nonnull (^MarginToView)(id  viewOrViewsArray, CGFlo
 typedef SDAutoLayoutModel * _Nonnull (^Margin)(CGFloat value);
 typedef SDAutoLayoutModel * _Nonnull (^MarginEqualToView)(UIView *toView);
 typedef SDAutoLayoutModel * _Nonnull (^WidthHeight)(CGFloat value);
+typedef SDAutoLayoutModel * _Nonnull (^WH)(CGFloat width,CGFloat height);
 typedef SDAutoLayoutModel * _Nonnull (^WidthHeightEqualToView)(UIView *toView, CGFloat ratioValue);
 typedef SDAutoLayoutModel * _Nonnull (^AutoHeightWidth)(CGFloat ratioValue);
 typedef SDAutoLayoutModel * _Nonnull (^SameWidthHeight)(void);
@@ -60,15 +61,16 @@ typedef void (^SpaceToSuperView)(UIEdgeInsets insets);
 @property (nonatomic, copy, readonly) MarginToView  top_;///< 顶部到其参照view之间的间距，“(View 或者 view数组, CGFloat)”
 @property (nonatomic, copy, readonly) MarginToView  bottom_;///< 底部到其参照view之间的间距，“(View, CGFloat)”
 
-@property (nonatomic, copy, readonly) Margin  left;///< superview left_
-@property (nonatomic, copy, readonly) Margin  right;///< superview right_
-@property (nonatomic, copy, readonly) Margin  top;///< superview top_
-@property (nonatomic, copy, readonly) Margin  bottom;///< superview bottom_
+@property (nonatomic, copy, readonly) Margin  left;///< 默认superview left_
+@property (nonatomic, copy, readonly) Margin  right;///< 默认superview right_
+@property (nonatomic, copy, readonly) Margin  top;///< 默认superview top_
+@property (nonatomic, copy, readonly) Margin  bottom;///< 默认superview bottom_
 
 @property (nonatomic, copy, readonly) Margin  x;///< x值，“(CGFloat)”
 @property (nonatomic, copy, readonly) Margin  y;///< y值，“(CGFloat)”
 @property (nonatomic, copy, readonly) WidthHeight  width;///< 宽度值，“(CGFloat)”
 @property (nonatomic, copy, readonly) WidthHeight  height;///< 高度值，“(CGFloat)”
+@property (nonatomic, copy, readonly) WH  WH;///< width height，“(CGFloat)”
 @property (nonatomic, copy, readonly) Margin  centerXIs;///< centerX值，“(CGFloat)”
 @property (nonatomic, copy, readonly) Margin  centerYIs;///< centerY值，“(CGFloat)”
 
@@ -79,19 +81,19 @@ typedef void (^SpaceToSuperView)(UIEdgeInsets insets);
 
 @property (nonatomic, copy, readonly) MarginEqualToView  leftEqualToView;///< 左间距与参照view相同，“(View)”
 @property (nonatomic, copy, readonly) MarginEqualToView  rightEqualToView;///< 右间距与参照view相同，“(View)”
-@property (nonatomic, copy, readonly) MarginEqualToView  topEqualToView;///< 顶部间距与参照view相同，“(View)”
-@property (nonatomic, copy, readonly) MarginEqualToView  bottomEqualToView;///< 底部间距与参照view相同，“(View)”
+@property (nonatomic, copy, readonly) LeadTralling lead;///< leftEqualToView 参照view&偏移量
+@property (nonatomic, copy, readonly) LeadTralling trall;///< rightEqualToView 参照view&偏移量
+@property (nonatomic, copy, readonly) MarginEqualToView  topTo;///< 顶部间距与参照view相同，“(View)”
+@property (nonatomic, copy, readonly) MarginEqualToView  bottomTo;///< 底部间距与参照view相同，“(View)”
 @property (nonatomic, copy, readonly) MarginEqualToView  centerXTo;///< centerX与参照view相同，“(View)”
 @property (nonatomic, copy, readonly) MarginEqualToView  centerYTo;///< centerY与参照view相同，“(View)”
 @property (nonatomic, copy, readonly) Offset  offset;///< 设置偏移量，“(CGFloat value)，MarginEqualToView 的方法可以设置offset”
-@property (nonatomic, copy, readonly) LeadTralling leading;///< 参照view&偏移量
-@property (nonatomic, copy, readonly) LeadTralling tralling;///< 参照view&偏移量
 
 @property (nonatomic, copy, readonly) InCenter inCenterX;///< centerXTo 父视图
 @property (nonatomic, copy, readonly) InCenter inCenterY;///< centerXTo 父视图
 
-@property (nonatomic, copy, readonly) WidthHeightEqualToView  widthRatioToView;///< 宽度是参照view宽度的多少倍，“(View, CGFloat)”
-@property (nonatomic, copy, readonly) WidthHeightEqualToView  heightRatioToView;///< 高度是参照view高度的多少倍，“(View, CGFloat)”
+@property (nonatomic, copy, readonly) WidthHeightEqualToView  wRate;///< 宽度是参照view宽度的多少倍，“(View, CGFloat)”
+@property (nonatomic, copy, readonly) WidthHeightEqualToView  hRate;///< 高度是参照view高度的多少倍，“(View, CGFloat)”
 @property (nonatomic, copy, readonly) SameWidthHeight  widthEqualToHeight;///< 设置一个view的宽度和它的高度相同，空“()”
 @property (nonatomic, copy, readonly) SameWidthHeight  heightEqualToWidth;///< 设置一个view的高度和它的宽度相同，空“()”
 @property (nonatomic, copy, readonly) AutoHeightWidth  autoHeightRatio;///< 自适应高度，传入高宽比值，label可以传0实现文字高度自适应

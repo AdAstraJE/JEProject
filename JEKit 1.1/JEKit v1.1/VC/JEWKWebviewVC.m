@@ -233,13 +233,12 @@
     
     WKWebViewConfiguration *wkWebConfig = [[WKWebViewConfiguration alloc] init];
     wkWebConfig.userContentController = wkUController;
-    // 默认是不能通过JS自动打开窗口的，必须通过用户交互才能打开
+    // 默认是不能通过JS自动打开窗口的，必须通过用户交互才能z打开
     wkWebConfig.preferences.javaScriptCanOpenWindowsAutomatically = YES;
     
-    _webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, ScreenNavBarH, ScreenWidth, ScreenHeight - ScreenNavBarH) configuration:wkWebConfig].addTo(self.view);
+    _webView = [[WKWebView alloc]initWithFrame:CGRectMake(0, ScreenNavBarH, ScreenWidth, ScreenHeight - ScreenNavBarH) configuration:wkWebConfig].addTo(self.view).jo.top(ScreenNavBarH).left(0).right(0).bottom(0).me;
     _webView.scrollView.scrollIndicatorInsets = _webView.scrollView.contentInset;
     _webVHeight = _webView.height;
-    
     
     _webView.UIDelegate = self;
     _webView.navigationDelegate = self;

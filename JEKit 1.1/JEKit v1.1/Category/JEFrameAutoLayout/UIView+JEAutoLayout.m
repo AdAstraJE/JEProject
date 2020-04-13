@@ -86,12 +86,12 @@ Class cellContVClass(){
 @synthesize bottom_ = _bottom_;
 @synthesize width = _width;
 @synthesize height = _height;
-@synthesize widthRatioToView = _widthRatioToView;
-@synthesize heightRatioToView = _heightRatioToView;
+@synthesize wRate = _wRate;
+@synthesize hRate = _hRate;
 @synthesize leftEqualToView = _leftEqualToView;
 @synthesize rightEqualToView = _rightEqualToView;
-@synthesize topEqualToView = _topEqualToView;
-@synthesize bottomEqualToView = _bottomEqualToView;
+@synthesize topTo = _topTo;
+@synthesize bottomTo = _bottomTo;
 @synthesize centerXTo = _centerXTo;
 @synthesize centerYTo = _centerYTo;
 @synthesize x = _x;
@@ -108,7 +108,6 @@ Class cellContVClass(){
 @synthesize widthEqualToHeight = _widthEqualToHeight;
 @synthesize heightEqualToWidth = _heightEqualToWidth;
 @synthesize offset = _offset;
-
 
 - (MarginToView)left_{
     if (!_left_) {_left_ = [self marginToViewblockWithKey:__Name(_leftItem)];}
@@ -193,30 +192,39 @@ Class cellContVClass(){
     return _height;
 }
 
-- (WidthHeightEqualToView)widthRatioToView{
-    if (!_widthRatioToView) {
+- (WH)WH{
+    __weak typeof(self) weakSelf = self;
+    return ^(CGFloat w,CGFloat h) {
+        weakSelf.width(w);
+        weakSelf.height(h);
+        return weakSelf;
+    };
+}
+
+- (WidthHeightEqualToView)wRate{
+    if (!_wRate) {
         __weak typeof(self) weakSelf = self;
-        _widthRatioToView = ^(UIView *view, CGFloat value) {
+        _wRate = ^(UIView *view, CGFloat value) {
             weakSelf.ratio_width = [SDAutoLayoutModelItem new];
             weakSelf.ratio_width.value = @(value);
             weakSelf.ratio_width.refView = view;
             return weakSelf;
         };
     }
-    return _widthRatioToView;
+    return _wRate;
 }
 
-- (WidthHeightEqualToView)heightRatioToView{
-    if (!_heightRatioToView) {
+- (WidthHeightEqualToView)hRate{
+    if (!_hRate) {
         __weak typeof(self) weakSelf = self;
-        _heightRatioToView = ^(UIView *view, CGFloat value) {
+        _hRate = ^(UIView *view, CGFloat value) {
             weakSelf.ratio_height = [SDAutoLayoutModelItem new];
             weakSelf.ratio_height.refView = view;
             weakSelf.ratio_height.value = @(value);
             return weakSelf;
         };
     }
-    return _heightRatioToView;
+    return _hRate;
 }
 
 - (WidthHeight)maxWidthIs{
@@ -280,14 +288,14 @@ Class cellContVClass(){
     return _rightEqualToView;
 }
 
-- (MarginEqualToView)topEqualToView{
-    if (!_topEqualToView) {_topEqualToView = [self marginEqualToViewBlockWithKey:__Name(_equalTop)];}
-    return _topEqualToView;
+- (MarginEqualToView)topTo{
+    if (!_topTo) {_topTo = [self marginEqualToViewBlockWithKey:__Name(_equalTop)];}
+    return _topTo;
 }
 
-- (MarginEqualToView)bottomEqualToView{
-    if (!_bottomEqualToView) {_bottomEqualToView = [self marginEqualToViewBlockWithKey:__Name(_equalBottom)];}
-    return _bottomEqualToView;
+- (MarginEqualToView)bottomTo{
+    if (!_bottomTo) {_bottomTo = [self marginEqualToViewBlockWithKey:__Name(_equalBottom)];}
+    return _bottomTo;
 }
 
 - (MarginEqualToView)centerXTo{
@@ -316,7 +324,7 @@ Class cellContVClass(){
     return _centerYTo;
 }
 
-- (LeadTralling)leading{
+- (LeadTralling)lead{
     __weak typeof(self) weakSelf = self;
     return ^(UIView *view, CGFloat value) {
         weakSelf.leftEqualToView(view);weakSelf.offset(value);
@@ -324,7 +332,7 @@ Class cellContVClass(){
     };
 }
 
-- (LeadTralling)tralling{
+- (LeadTralling)trall{
     __weak typeof(self) weakSelf = self;
     return ^(UIView *view, CGFloat value) {
         weakSelf.rightEqualToView(view);weakSelf.offset(-value);
@@ -1076,7 +1084,7 @@ Class cellContVClass(){
                 } else {
                     view.sd_layout
                     .left_(referencedView, horizontalMargin)
-                    .topEqualToView(referencedView)
+                    .topTo(referencedView)
                     .width(w);
                 }
                 referencedView = view;
@@ -1209,7 +1217,7 @@ Class cellContVClass(){
     
     [self layoutRightWithView:view model:model];
     
-    if (view.autoHeightRatioValue && view.width_sd > 0 && (model.bottomEqualToView || model.bottom_)) { // 底部布局前提设置
+    if (view.autoHeightRatioValue && view.width_sd > 0 && (model.bottomTo || model.bottom_)) { // 底部布局前提设置
         [self layoutAutoHeightWidthView:view model:model];
         view.fixedHeight = @(view.height_sd);
     }

@@ -158,6 +158,15 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
 #endif
 }
 
+- (void)je_DebugSubView{
+#ifdef DEBUG
+    for (UIView *view in self.subviews) {
+        [view je_DebugSubView];
+        [view je_Debug:nil width:1];
+    }
+#endif
+}
+
 ///添加边框
 - (void)border:(UIColor *)color width:(CGFloat)width;{
     if (color != nil) {
