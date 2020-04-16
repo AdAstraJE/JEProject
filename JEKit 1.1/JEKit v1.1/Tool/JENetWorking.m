@@ -326,42 +326,30 @@ static JENetWorking *_instance;
 
 /// 该VC所有进行中的请求id 
 - (NSMutableArray <NSNumber *> *)Arr_taskId{
-    NSMutableArray *Arrobj = objc_getAssociatedObject(self, _cmd);
-    if (Arrobj == nil) {
-        self.Arr_taskId = [[NSMutableArray alloc]init];
-        Arrobj = self.Arr_taskId;
+    NSMutableArray *taskId = objc_getAssociatedObject(self, _cmd);
+    if (taskId == nil) {
+        taskId = [[NSMutableArray alloc]init];
+        objc_setAssociatedObject(self, _cmd, taskId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    return Arrobj;
-}
-
-- (void)setArr_taskId:(NSMutableArray <NSNumber *> *)Arr_taskId{
-    objc_setAssociatedObject(self, @selector(Arr_taskId), Arr_taskId, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return taskId;
 }
 
 - (NSMutableDictionary <NSString *,NSDictionary <NSString *,id> *> *)Dic_jeCache{
-    NSMutableDictionary *Dicobj = objc_getAssociatedObject(self, _cmd);
-    if (Dicobj == nil) {
-        self.Dic_jeCache = [[NSMutableDictionary alloc]init];
-        Dicobj = self.Dic_jeCache;
+    NSMutableDictionary *obj = objc_getAssociatedObject(self, _cmd);
+    if (obj == nil) {
+        obj = [[NSMutableDictionary alloc]init];
+        objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    return Dicobj;
-}
-
-- (void)setDic_jeCache:(NSMutableDictionary <NSString *,NSDictionary <NSString *,id> *> *)Dic_jeCache{
-    objc_setAssociatedObject(self, @selector(Dic_jeCache), Dic_jeCache, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return obj;
 }
 
 - (NSMutableDictionary<NSString *,NSNumber *> *)Dic_jeCacheType{
-    NSMutableDictionary *Dicobj = objc_getAssociatedObject(self, _cmd);
-    if (Dicobj == nil) {
-        self.Dic_jeCacheType = [[NSMutableDictionary alloc]init];
-        Dicobj = self.Dic_jeCacheType;
+    NSMutableDictionary *obj = objc_getAssociatedObject(self, _cmd);
+    if (obj == nil) {
+        obj = [[NSMutableDictionary alloc]init];
+        objc_setAssociatedObject(self, _cmd, obj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    return Dicobj;
-}
-
-- (void)setDic_jeCacheType:(NSMutableDictionary<NSString *,NSNumber *> *)Dic_jeCacheType{
-    objc_setAssociatedObject(self, @selector(Dic_jeCacheType), Dic_jeCacheType, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return obj;
 }
 
 + (void)load{

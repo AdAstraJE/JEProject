@@ -19,10 +19,10 @@
 
 #pragma mark -
 - (void)lookArm{
-    JELiteTV *_ = [JELiteTV Frame:self.tvFrame style:(UITableViewStylePlain) cellC:UITableViewCell.class cellH:50 cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, H3ArmModel *obj) {
+    JELiteTV *_ = [self liteTv:(UITableViewStylePlain) cellC:UITableViewCell.class cellH:50 cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, H3ArmModel *obj) {
         cell.textLabel.text = obj.name;
         
-    } select:nil to:self.view];
+    } select:nil];
     
     [H3ArmModel AllModel:^(NSMutableArray<JEDBModel *> *models) {
         _.Arr = models;
@@ -33,10 +33,10 @@
 
 #pragma mark -
 - (void)lookHero{
-    JELiteTV *_ = [JELiteTV Frame:self.tvFrame style:UITableViewStyleGrouped cellC:UITableViewCell.class cellH:50 cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, H3HeroModel *obj) {
+    JELiteTV *_ = [self liteTv:UITableViewStyleGrouped cellC:UITableViewCell.class cellH:50 cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, H3HeroModel *obj) {
         cell.textLabel.text = Format(@"%@ - %@",obj.arms[idx.row].name,@(obj.arms[idx.row].number));
         
-    } select:nil to:self.view];
+    } select:nil];
     
     [H3HeroModel AllModel:^(NSMutableArray <JEDBModel *> *models) {
         _.Arr = models;

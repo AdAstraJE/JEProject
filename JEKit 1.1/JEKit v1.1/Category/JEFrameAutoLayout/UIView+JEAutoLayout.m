@@ -1,944 +1,529 @@
 
+//   JEAutoLayout 魔改简化版 -- 源自SDAutoLayout （2020.4.10）  from https://github.com/gsdios/SDAutoLayout
+
 #import "UIView+JEAutoLayout.h"
 #import <objc/runtime.h>
+#import "UIView+JE.h"
 
 #define __Name(...)    (__VA_ARGS__ ? @#__VA_ARGS__ : @#__VA_ARGS__)
 
-Class cellContVClass(){
-    static UITableViewCell *tempCell;
+@interface NSObject (JELOSwizzling)
+
+@end
+
+@implementation NSObject (JELOSwizzling)
+
++ (BOOL)jo_swizzleInstanceMethod:(SEL)originalSel with:(SEL)newSel {
+    Method originalMethod = class_getInstanceMethod(self, originalSel);
+    Method newMethod = class_getInstanceMethod(self, newSel);
+    if (!originalMethod || !newMethod) return NO;
     
-    if (!tempCell) {
-        tempCell = [UITableViewCell new];
-    }
-    return [tempCell.contentView class];
+    class_addMethod(self,originalSel,class_getMethodImplementation(self, originalSel),method_getTypeEncoding(originalMethod));
+    class_addMethod(self,newSel,class_getMethodImplementation(self, newSel),method_getTypeEncoding(newMethod));
+    
+    method_exchangeImplementations(class_getInstanceMethod(self, originalSel),class_getInstanceMethod(self, newSel));
+    return YES;
 }
-
-@interface NSObject (SDALSwizzling)
-
-+ (void)sdal_exchengeMethods:(NSArray<NSString *> *)selectorStingArr prefix:(NSString *)prefix;
 
 @end
 
-@implementation NSObject (SDALSwizzling)
 
-+ (void)sdal_exchengeMethods:(NSArray<NSString *> *)selectorStingArr prefix:(NSString *)prefix {
-    if (!prefix) {
-        prefix = @"sd_";
-    }
-    [selectorStingArr enumerateObjectsUsingBlock:^(NSString *selString, NSUInteger idx, BOOL *stop) {
-        NSString *mySelString = [prefix stringByAppendingString:selString];
-        Method originalMethod = class_getInstanceMethod(self, NSSelectorFromString(selString));
-        Method myMethod = class_getInstanceMethod(self, NSSelectorFromString(mySelString));
-        
-        const char *types = method_getTypeEncoding(originalMethod);
-        if (class_addMethod(self, NSSelectorFromString(selString), method_getImplementation(myMethod), types)) {
-            class_replaceMethod(self, NSSelectorFromString(mySelString), method_getImplementation(originalMethod), types);
-        } else {
-            method_exchangeImplementations(originalMethod, myMethod);
+@interface UIView (JELOChangeFrame)
+
+@property (nonatomic) CGFloat width_jo;
+@property (nonatomic) CGFloat height_jo;
+
+@end
+
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JELayoutModItem   🔷🔷🔷🔷🔷🔷🔷🔷
+@implementation JELayoutItem
+
+@end
+
+
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JELayoutMod ()   🔷🔷🔷🔷🔷🔷🔷🔷
+@interface JELayoutMod ()
+
+@property (nonatomic, strong) JELayoutItem *it_width;///< item_width
+@property (nonatomic, strong) JELayoutItem *it_height;
+@property (nonatomic, strong) JELayoutItem *it_left;
+@property (nonatomic, strong) JELayoutItem *it_top;
+@property (nonatomic, strong) JELayoutItem *it_right;
+@property (nonatomic, strong) JELayoutItem *it_bottom;
+@property (nonatomic, strong) NSNumber *it_centerX;
+@property (nonatomic, strong) NSNumber *it_centerY;
+
+@property (nonatomic, strong) NSNumber *it_maxWidth;
+@property (nonatomic, strong) NSNumber *it_maxHeight;
+@property (nonatomic, strong) NSNumber *it_minWidth;
+@property (nonatomic, strong) NSNumber *it_minHeight;
+
+@property (nonatomic, strong) JELayoutItem *it_w_rate;
+@property (nonatomic, strong) JELayoutItem *it_h_rate;
+@property (nonatomic, strong) NSNumber *it_w_rateBy_h;
+@property (nonatomic, strong) NSNumber *it_h_rateBy_w;
+
+
+@property (nonatomic, strong) JELayoutItem *it_sameLeft;
+@property (nonatomic, strong) JELayoutItem *it_sameRight;
+@property (nonatomic, strong) JELayoutItem *it_sameTop;
+@property (nonatomic, strong) JELayoutItem *it_sameBottom;
+@property (nonatomic, strong) JELayoutItem *it_sameCenterX;
+@property (nonatomic, strong) JELayoutItem *it_sameCenterY;
+@property (nonatomic, strong) JELayoutItem *it_lastItem;
+
+@property (nonatomic, strong) NSNumber *it_autoWidth;
+@property (nonatomic, strong) NSNumber *it_autoHeight;
+
+@property (nonatomic, assign) BOOL it_widthEqualHeight;
+@property (nonatomic, assign) BOOL it_heightEqualWidth;
+
+
+@end
+
+
+@implementation JELayoutMod
+
+- (JOViewValue)left_  { return [self marginToView:__Name(_it_left)];}
+- (JOViewValue)right_ { return [self marginToView:__Name(_it_right)];}
+- (JOViewValue)top_   { return [self marginToView:__Name(_it_top)];}
+- (JOViewValue)bottom_{ return [self marginToView:__Name(_it_bottom)];}
+- (JOViewValue)marginToView:(NSString *)key{
+    return ^(UIView *toView, CGFloat value) {
+        JELayoutItem *item = [self valueForKey:key];
+        if (item == nil) {
+            item = [[JELayoutItem alloc] init];
+            [self setValue:item forKey:key];
         }
-    }];
-}
-
-@end
-
-@interface SDAutoLayoutModel ()
-
-@property (nonatomic, strong) SDAutoLayoutModelItem *widthItem;
-@property (nonatomic, strong) SDAutoLayoutModelItem *heightItem;
-@property (nonatomic, strong) SDAutoLayoutModelItem *leftItem;
-@property (nonatomic, strong) SDAutoLayoutModelItem *topItem;
-@property (nonatomic, strong) SDAutoLayoutModelItem *rightItem;
-@property (nonatomic, strong) SDAutoLayoutModelItem *bottomItem;
-@property (nonatomic, strong) NSNumber *centerX;
-@property (nonatomic, strong) NSNumber *centerY;
-
-@property (nonatomic, strong) NSNumber *maxWidth;
-@property (nonatomic, strong) NSNumber *maxHeight;
-@property (nonatomic, strong) NSNumber *minWidth;
-@property (nonatomic, strong) NSNumber *minHeight;
-
-@property (nonatomic, strong) SDAutoLayoutModelItem *ratio_width;
-@property (nonatomic, strong) SDAutoLayoutModelItem *ratio_height;
-@property (nonatomic, strong) SDAutoLayoutModelItem *ratio_left;
-@property (nonatomic, strong) SDAutoLayoutModelItem *ratio_top;
-@property (nonatomic, strong) SDAutoLayoutModelItem *ratio_right;
-@property (nonatomic, strong) SDAutoLayoutModelItem *ratio_bottom;
-
-@property (nonatomic, strong) SDAutoLayoutModelItem *equalLeft;
-@property (nonatomic, strong) SDAutoLayoutModelItem *equalRight;
-@property (nonatomic, strong) SDAutoLayoutModelItem *equalTop;
-@property (nonatomic, strong) SDAutoLayoutModelItem *equalBottom;
-@property (nonatomic, strong) SDAutoLayoutModelItem *equalCenterX;
-@property (nonatomic, strong) SDAutoLayoutModelItem *equalCenterY;
-
-@property (nonatomic, strong) SDAutoLayoutModelItem *widthEqualHeight;
-@property (nonatomic, strong) SDAutoLayoutModelItem *heightEqualWidth;
-
-@property (nonatomic, strong) SDAutoLayoutModelItem *lastModelItem;
-
-@end
-
-@implementation SDAutoLayoutModel
-
-@synthesize left_ = _left_;
-@synthesize right_ = _right_;
-@synthesize top_ = _top_;
-@synthesize bottom_ = _bottom_;
-@synthesize width = _width;
-@synthesize height = _height;
-@synthesize wRate = _wRate;
-@synthesize hRate = _hRate;
-@synthesize leftEqualToView = _leftEqualToView;
-@synthesize rightEqualToView = _rightEqualToView;
-@synthesize topTo = _topTo;
-@synthesize bottomTo = _bottomTo;
-@synthesize centerXTo = _centerXTo;
-@synthesize centerYTo = _centerYTo;
-@synthesize x = _x;
-@synthesize y = _y;
-@synthesize centerXIs = _centerXIs;
-@synthesize centerYIs = _centerYIs;
-@synthesize autoHeightRatio = _autoHeightRatio;
-@synthesize autoWidthRatio = _autoWidthRatio;
-@synthesize spaceToSuperView = _spaceToSuperView;
-@synthesize maxWidthIs = _maxWidthIs;
-@synthesize maxHeightIs = _maxHeightIs;
-@synthesize minWidthIs = _minWidthIs;
-@synthesize minHeightIs = _minHeightIs;
-@synthesize widthEqualToHeight = _widthEqualToHeight;
-@synthesize heightEqualToWidth = _heightEqualToWidth;
-@synthesize offset = _offset;
-
-- (MarginToView)left_{
-    if (!_left_) {_left_ = [self marginToViewblockWithKey:__Name(_leftItem)];}
-    return _left_;
-}
-
-- (MarginToView)right_{
-    if (!_right_) {_right_ = [self marginToViewblockWithKey:__Name(_rightItem)];}
-    return _right_;
-}
-
-- (MarginToView)top_{
-    if (!_top_) {_top_ = [self marginToViewblockWithKey:__Name(_topItem)];}
-    return _top_;
-}
-
-- (MarginToView)bottom_{
-    if (!_bottom_) {_bottom_ = [self marginToViewblockWithKey:__Name(_bottomItem)];}
-    return _bottom_;
-}
-
-- (Margin)left{
-    __weak typeof(self) weakSelf = self;
-    return ^(CGFloat value) {UIView *superView = weakSelf.me.superview;return weakSelf.left_(superView,value);};
-}
-
-- (Margin)right{
-    __weak typeof(self) weakSelf = self;
-    return ^(CGFloat value) {UIView *superView = weakSelf.me.superview;return weakSelf.right_(superView,value);};
-}
-
-- (Margin)top{
-    __weak typeof(self) weakSelf = self;
-    return ^(CGFloat value) {UIView *superView = weakSelf.me.superview;return weakSelf.top_(superView,value);};
-}
-
-- (Margin)bottom{
-    __weak typeof(self) weakSelf = self;
-    return ^(CGFloat value) {UIView *superView = weakSelf.me.superview;return weakSelf.bottom_(superView,value);};
-}
-
-- (MarginToView)marginToViewblockWithKey:(NSString *)key{
-    __weak typeof(self) weakSelf = self;
-    return ^(id viewOrViewsArray, CGFloat value) {
-        SDAutoLayoutModelItem *item = [SDAutoLayoutModelItem new];
-        item.value = @(value);
-        if ([viewOrViewsArray isKindOfClass:[UIView class]]) {
-            item.refView = viewOrViewsArray;
-        } else if ([viewOrViewsArray isKindOfClass:[NSArray class]]) {
-            item.refViewsArray = [viewOrViewsArray copy];
-        }
-        [weakSelf setValue:item forKey:key];
-        return weakSelf;
+        item.value = value;
+        item.toView = toView;
+        return self;
     };
 }
 
-- (WidthHeight)width{
-    if (!_width) {
-        __weak typeof(self) weakSelf = self;
-        _width = ^(CGFloat value) {
-            weakSelf.me.fixedWidth = @(value);
-            SDAutoLayoutModelItem *widthItem = [SDAutoLayoutModelItem new];
-            widthItem.value = @(value);
-            weakSelf.widthItem = widthItem;
-            return weakSelf;
-        };
-    }
-    return _width;
-}
+- (JOValue)left         { return ^(CGFloat v) {return self.left_(self.me.superview,v);};}
+- (JOValue)right        { return ^(CGFloat v) {return self.right_(self.me.superview,v);};}
+- (JOValue)top          { return ^(CGFloat v) {return self.top_(self.me.superview,v);};}
+- (JOValue)bottom       { return ^(CGFloat v) {return self.bottom_(self.me.superview,v);};}
+- (JOValue)lr           { return ^(CGFloat v) {return self.left(v).right(v);};}
+- (JOValue)tb           { return ^(CGFloat v) {return self.top(v).bottom(v);};}
+- (JOValue)tb_l         { return ^(CGFloat v) {return self.tb(0).left(v);};}
+- (JOValue)tb_r         { return ^(CGFloat v) {return self.tb(0).right(v);};}
+- (JOEndValue)lrt0_h    { return ^(CGFloat v) {return self.lr(0).top(0).h(v).me;};}
+- (JOEndValue)lrb0_h    { return ^(CGFloat v) {return self.lr(0).bottom(0).h(v).me;};}
+- (JOEndValue)insets    { return ^(CGFloat v) {return self.top(v).left(v).bottom(v).right(v).me;};}
+- (JO4Value)inset       { return ^(CGFloat t, CGFloat l, CGFloat b, CGFloat r) {return self.top(t).left(l).bottom(b).right(r).me;};}
 
-- (WidthHeight)height{
-    if (!_height) {
-        __weak typeof(self) weakSelf = self;
-        _height = ^(CGFloat value) {
-            weakSelf.me.fixedHeight = @(value);
-            SDAutoLayoutModelItem *heightItem = [SDAutoLayoutModelItem new];
-            heightItem.value = @(value);
-            weakSelf.heightItem = heightItem;
-            return weakSelf;
-        };
-    }
-    return _height;
-}
 
-- (WH)WH{
-    __weak typeof(self) weakSelf = self;
-    return ^(CGFloat w,CGFloat h) {
-        weakSelf.width(w);
-        weakSelf.height(h);
-        return weakSelf;
+- (JOValue)x            { return ^(CGFloat v) {self->_me.x = v;return self;};}
+- (JOValue)y            { return ^(CGFloat v) {self->_me.y  = v;return self;};}
+
+- (JOValue)w{
+    return ^(CGFloat v) {
+        self->_me.fixedWidth = @(v);
+        if (self->_it_width == nil) {self->_it_width = [[JELayoutItem alloc] init];}
+        self->_it_width.value = v;
+        return self;
     };
 }
 
-- (WidthHeightEqualToView)wRate{
-    if (!_wRate) {
-        __weak typeof(self) weakSelf = self;
-        _wRate = ^(UIView *view, CGFloat value) {
-            weakSelf.ratio_width = [SDAutoLayoutModelItem new];
-            weakSelf.ratio_width.value = @(value);
-            weakSelf.ratio_width.refView = view;
-            return weakSelf;
-        };
-    }
-    return _wRate;
-}
-
-- (WidthHeightEqualToView)hRate{
-    if (!_hRate) {
-        __weak typeof(self) weakSelf = self;
-        _hRate = ^(UIView *view, CGFloat value) {
-            weakSelf.ratio_height = [SDAutoLayoutModelItem new];
-            weakSelf.ratio_height.refView = view;
-            weakSelf.ratio_height.value = @(value);
-            return weakSelf;
-        };
-    }
-    return _hRate;
-}
-
-- (WidthHeight)maxWidthIs{
-    if (!_maxWidthIs) {
-        _maxWidthIs = [self limitingWidthHeightWithKey:@"maxWidth"];
-    }
-    return _maxWidthIs;
-}
-
-- (WidthHeight)maxHeightIs{
-    if (!_maxHeightIs) {
-        _maxHeightIs = [self limitingWidthHeightWithKey:@"maxHeight"];
-    }
-    return _maxHeightIs;
-}
-
-- (WidthHeight)minWidthIs{
-    if (!_minWidthIs) {
-        _minWidthIs = [self limitingWidthHeightWithKey:@"minWidth"];
-    }
-    return _minWidthIs;
-}
-
-- (WidthHeight)minHeightIs{
-    if (!_minHeightIs) {
-        _minHeightIs = [self limitingWidthHeightWithKey:@"minHeight"];
-    }
-    return _minHeightIs;
-}
-
-
-- (WidthHeight)limitingWidthHeightWithKey:(NSString *)key{
-    __weak typeof(self) weakSelf = self;
-    return ^(CGFloat value) {
-        [weakSelf setValue:@(value) forKey:key];
-        return weakSelf;
+- (JOValue)h{
+    return  ^(CGFloat v) {
+        self->_me.fixedHeight = @(v);
+        if (self->_it_height == nil) {self->_it_height = [[JELayoutItem alloc] init];}
+        self->_it_height.value = v;
+        return self;
     };
 }
 
-- (MarginEqualToView)marginEqualToViewBlockWithKey:(NSString *)key{
-    __weak typeof(self) weakSelf = self;
+- (JO2Value)wh          { return ^(CGFloat w,CGFloat h) {return self.w(w).h(h);};}
+
+- (JOViewValue)w_rate{
+    return ^(UIView *view, CGFloat value) {
+        if (self->_it_w_rate == nil) {self->_it_w_rate = [[JELayoutItem alloc] init];}
+        self->_it_w_rate.value = value;
+        self->_it_w_rate.toView = view;
+        return self;
+    };
+}
+
+- (JOViewValue)h_rate{
+    return ^(UIView *view, CGFloat value) {
+        if (self->_it_h_rate == nil) {self->_it_h_rate = [[JELayoutItem alloc] init];}
+        self->_it_h_rate.toView = view;
+        self->_it_h_rate.value = value;
+        return self;
+    };
+}
+
+- (JOSet)w_lock_h{
+    return ^() {
+        self->_it_heightEqualWidth = YES;
+        self->_me.width_jo = self->_me.width_jo;
+        return self;
+    };
+}
+
+- (JOSet)h_lock_w{
+    return ^() {
+        self->_it_widthEqualHeight = YES;
+        self->_me.height_jo = self->_me.height_jo;
+        return self;
+    };
+}
+
+- (JOValue)h_rateBy_w   { return ^(CGFloat v) {self->_it_h_rateBy_w = @(v);return self;};}
+- (JOValue)w_rateBy_h   { return ^(CGFloat v) {self->_it_w_rateBy_h = @(v);return self;};}
+- (JOValue)maxW         { return ^(CGFloat v) {self->_it_maxWidth = @(v);return self;};}
+- (JOValue)maxH         { return ^(CGFloat v) {self->_it_maxHeight = @(v);return self;};}
+- (JOValue)minW         { return ^(CGFloat v) {self->_it_minWidth = @(v);return self;};}
+- (JOValue)minH         { return ^(CGFloat v) {self->_it_minHeight = @(v);return self;};}
+- (JOValue)centerXIs    { return ^(CGFloat v) {self->_it_centerX = @(v);return self;};}
+- (JOValue)centerYIs    { return ^(CGFloat v) {self->_it_centerY = @(v);return self;};}
+
+
+- (JOView)leftSameTo    { return [self marginSameToView:__Name(_it_sameLeft)];}
+- (JOView)rightSameTo   { return [self marginSameToView:__Name(_it_sameRight)];}
+- (JOView)topSameTo     { return [self marginSameToView:__Name(_it_sameTop)];}
+- (JOView)bottomSameTo  { return [self marginSameToView:__Name(_it_sameBottom)];}
+- (JOView)centerXSameTo { return [self marginSameToView:__Name(_it_sameCenterX)];}
+- (JOView)centerYSameTo { return [self marginSameToView:__Name(_it_sameCenterY)];}
+- (JOView)marginSameToView:(NSString *)key{
     return ^(UIView *view) {
-        SDAutoLayoutModelItem *item = [SDAutoLayoutModelItem new];
-        item.refView = view;
-        [weakSelf setValue:item forKey:key];
-        weakSelf.lastModelItem = item;
-        if ([view isKindOfClass:cellContVClass()] && ([key containsString:@"equalCenterY"] || [key containsString:@"equalBottom"])) {
-            view.shouldReadjustFrameBeforeStoreCache = YES;
+        JELayoutItem *item = [self valueForKey:key];
+        if (item == nil) {
+            item = [[JELayoutItem alloc] init];
+            [self setValue:item forKey:key];
         }
-        return weakSelf;
-    };
-}
-
-- (MarginEqualToView)leftEqualToView{
-    if (!_leftEqualToView) {_leftEqualToView = [self marginEqualToViewBlockWithKey:__Name(_equalLeft)];}
-    return _leftEqualToView;
-}
-
-- (MarginEqualToView)rightEqualToView{
-    if (!_rightEqualToView) {_rightEqualToView = [self marginEqualToViewBlockWithKey:__Name(_equalRight)];}
-    return _rightEqualToView;
-}
-
-- (MarginEqualToView)topTo{
-    if (!_topTo) {_topTo = [self marginEqualToViewBlockWithKey:__Name(_equalTop)];}
-    return _topTo;
-}
-
-- (MarginEqualToView)bottomTo{
-    if (!_bottomTo) {_bottomTo = [self marginEqualToViewBlockWithKey:__Name(_equalBottom)];}
-    return _bottomTo;
-}
-
-- (MarginEqualToView)centerXTo{
-    if (!_centerXTo) {_centerXTo = [self marginEqualToViewBlockWithKey:__Name(_equalCenterX)];}
-    return _centerXTo;
-}
-
-- (InCenter)inCenterX{
-    __weak typeof(self) weakSelf = self;
-    return ^() {
-        self.centerXTo(weakSelf.me.superview);
+        item.toView = view;
+        self->_it_lastItem = item;
         return self;
     };
 }
 
-- (InCenter)inCenterY{
-    __weak typeof(self) weakSelf = self;
-    return ^() {
-        self.centerYTo(weakSelf.me.superview);
-        return self;
-    };
-}
+- (JELayoutMod *(^)(CGFloat))offset{ return ^(CGFloat offset) {self->_it_lastItem.offset = offset;return self;};}
 
-- (MarginEqualToView)centerYTo{
-    if (!_centerYTo) {_centerYTo = [self marginEqualToViewBlockWithKey:__Name(_equalCenterY)];}
-    return _centerYTo;
-}
+- (JOViewValue)lead     { return ^(UIView *view, CGFloat value) {return self.leftSameTo(view).offset(value);};}
+- (JOViewValue)trall    { return ^(UIView *view, CGFloat value) {return self.rightSameTo(view).offset(-value);};}
+- (JOSet)inCenterX      { return ^() {return self.centerXSameTo(self.me.superview);};}
+- (JOSet)inCenterY      { return ^() {return self.centerYSameTo(self.me.superview);};}
 
-- (LeadTralling)lead{
-    __weak typeof(self) weakSelf = self;
-    return ^(UIView *view, CGFloat value) {
-        weakSelf.leftEqualToView(view);weakSelf.offset(value);
-        return weakSelf;
-    };
-}
-
-- (LeadTralling)trall{
-    __weak typeof(self) weakSelf = self;
-    return ^(UIView *view, CGFloat value) {
-        weakSelf.rightEqualToView(view);weakSelf.offset(-value);
-        return weakSelf;
-    };
-}
-
-- (Margin)marginBlockWithKey:(NSString *)key{
-    __weak typeof(self) weakSelf = self;
-    
-    return ^(CGFloat value) {
-        
-        if ([key isEqualToString:@"x"]) {
-            weakSelf.me.left_sd = value;
-        } else if ([key isEqualToString:@"y"]) {
-            weakSelf.me.top_sd = value;
-        } else if ([key isEqualToString:@"centerX"]) {
-            weakSelf.centerX = @(value);
-        } else if ([key isEqualToString:@"centerY"]) {
-            weakSelf.centerY = @(value);
-        }
-        
-        return weakSelf;
-    };
-}
-
-- (Margin)x{
-    if (!_x) {_x = [self marginBlockWithKey:@"x"];}
-    return _x;
-}
-
-- (Margin)y
-{
-    if (!_y) {
-        _y = [self marginBlockWithKey:@"y"];
-    }
-    return _y;
-}
-
-- (Margin)centerXIs
-{
-    if (!_centerXIs) {
-        _centerXIs = [self marginBlockWithKey:@"centerX"];
-    }
-    return _centerXIs;
-}
-
-- (Margin)centerYIs
-{
-    if (!_centerYIs) {
-        _centerYIs = [self marginBlockWithKey:@"centerY"];
-    }
-    return _centerYIs;
-}
-
-- (AutoHeightWidth)autoHeightRatio
-{
-    __weak typeof(self) weakSelf = self;
-    
-    if (!_autoHeightRatio) {
-        _autoHeightRatio = ^(CGFloat ratioaValue) {
-            weakSelf.me.autoHeightRatioValue = @(ratioaValue);
-            return weakSelf;
-        };
-    }
-    return _autoHeightRatio;
-}
-
-- (AutoHeightWidth)autoWidthRatio
-{
-    __weak typeof(self) weakSelf = self;
-    
-    if (!_autoWidthRatio) {
-        _autoWidthRatio = ^(CGFloat ratioaValue) {
-            weakSelf.me.autoWidthRatioValue = @(ratioaValue);
-            return weakSelf;
-        };
-    }
-    return _autoWidthRatio;
-}
-
-- (SpaceToSuperView)spaceToSuperView
-{
-    __weak typeof(self) weakSelf = self;
-    
-    if (!_spaceToSuperView) {
-        _spaceToSuperView = ^(UIEdgeInsets insets) {
-            UIView *superView = weakSelf.me.superview;
-            if (superView) {
-                weakSelf.me.sd_layout
-                .left_(superView, insets.left)
-                .top_(superView, insets.top)
-                .right_(superView, insets.right)
-                .bottom_(superView, insets.bottom);
-            }
-        };
-    }
-    return _spaceToSuperView;
-}
-
-- (SameWidthHeight)widthEqualToHeight{
-    __weak typeof(self) weakSelf = self;
-    
-    if (!_widthEqualToHeight) {
-        _widthEqualToHeight = ^() {
-            weakSelf.widthEqualHeight = [SDAutoLayoutModelItem new];
-            weakSelf.lastModelItem = weakSelf.widthEqualHeight;
-            // 主动触发一次赋值操作
-            weakSelf.me.height_sd = weakSelf.me.height_sd;
-            return weakSelf;
-        };
-    }
-    return _widthEqualToHeight;
-}
-
-- (SameWidthHeight)heightEqualToWidth{
-    __weak typeof(self) weakSelf = self;
-    
-    if (!_heightEqualToWidth) {
-        _heightEqualToWidth = ^() {
-            weakSelf.heightEqualWidth = [SDAutoLayoutModelItem new];
-            weakSelf.lastModelItem = weakSelf.heightEqualWidth;
-            // 主动触发一次赋值操作
-            weakSelf.me.width_sd = weakSelf.me.width_sd;
-            return weakSelf;
-        };
-    }
-    return _heightEqualToWidth;
-}
-
-- (SDAutoLayoutModel *(^)(CGFloat))offset
-{
-    __weak typeof(self) weakSelf = self;
-    if (!_offset) {
-        _offset = ^(CGFloat offset) {
-            weakSelf.lastModelItem.offset = offset;
-            return weakSelf;
-        };
-    }
-    return _offset;
-}
-
-- (__kindof UIView * _Nonnull (^)(CGFloat, CGFloat, CGFloat, CGFloat))inset{
-    __weak typeof(self) weakSelf = self;
-    return ^(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right) {
-        self.spaceToSuperView(UIEdgeInsetsMake(top, left, bottom, right));
-        return weakSelf.me;
-    };
-}
-
-- (__kindof UIView *)bounds{
-    self.spaceToSuperView(UIEdgeInsetsMake(0, 0, 0, 0));
-    return _me;
-}
+- (JOValue)autoW        { return ^(CGFloat v) {self->_it_autoWidth = @(v);return self;};}
+- (JOValue)autoH        { return ^(CGFloat v) {self->_it_autoHeight = @(v);return self;};}
 
 @end
 
 
-@implementation UIView (SDAutoHeightWidth)
 
-- (SDUIViewCategoryManager *)sd_categoryManager
-{
-    SDUIViewCategoryManager *manager = objc_getAssociatedObject(self, _cmd);
-    if (!manager) {
-        objc_setAssociatedObject(self, _cmd, [SDUIViewCategoryManager new], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIView (JELOAutoHeightWidth)   🔷🔷🔷🔷🔷🔷🔷🔷
+@implementation UIView (JELOAutoHeightWidth)
+
+- (JELayoutTool *)jo_tool{
+    JELayoutTool *manager = objc_getAssociatedObject(self, _cmd);
+    if (!manager) {manager = [[JELayoutTool alloc] init];
+        objc_setAssociatedObject(self, _cmd, manager, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    return objc_getAssociatedObject(self, _cmd);
+    return manager;
 }
 
-- (void)setupAutoHeightWithBottomView:(UIView *)bottomView bottomMargin:(CGFloat)bottomMargin
-{
+- (void)setupAutoHeightWithBottomView:(UIView *)bottomView bottomMargin:(CGFloat)bottomMargin{
     if (!bottomView) return;
-    
     [self setupAutoHeightWithBottomViewsArray:@[bottomView] bottomMargin:bottomMargin];
 }
 
-- (void)setupAutoWidthWithRightView:(UIView *)rightView rightMargin:(CGFloat)rightMargin
-{
+- (void)setupAutoWidthWithRightView:(UIView *)rightView rightMargin:(CGFloat)rightMargin{
     if (!rightView) return;
-    
-    self.sd_rightViewsArray = @[rightView];
-    self.sd_rightViewRightMargin = rightMargin;
+    self.jo_rightViews = @[rightView];
+    self.jo_rightViewRightMargin = rightMargin;
 }
 
-- (void)setupAutoHeightWithBottomViewsArray:(NSArray *)bottomViewsArray bottomMargin:(CGFloat)bottomMargin
-{
+- (void)setupAutoHeightWithBottomViewsArray:(NSArray *)bottomViewsArray bottomMargin:(CGFloat)bottomMargin{
     if (!bottomViewsArray) return;
-    
-    // 清空之前的view
-    [self.sd_bottomViewsArray removeAllObjects];
-    [self.sd_bottomViewsArray addObjectsFromArray:bottomViewsArray];
-    self.sd_bottomViewBottomMargin = bottomMargin;
+    [self.jo_bottomViews removeAllObjects];
+    [self.jo_bottomViews addObjectsFromArray:bottomViewsArray];
+    self.jo_bottomViewBottomMargin = bottomMargin;
 }
 
-- (void)clearAutoHeigtSettings
-{
-    [self.sd_bottomViewsArray removeAllObjects];
-}
-
-- (void)clearAutoWidthSettings
-{
-    self.sd_rightViewsArray = nil;
-}
-
-- (void)updateLayout
-{
+- (void)updateLayout{
     [self.superview layoutSubviews];
 }
 
-- (void)updateLayoutWithCellContentView:(UIView *)cellContentView
-{
-    if (cellContentView.sd_indexPath) {
-        [cellContentView sd_clearSubviewsAutoLayoutFrameCaches];
-    }
-    [self updateLayout];
-}
-
-- (CGFloat)autoHeight
-{
-    return [objc_getAssociatedObject(self, _cmd) floatValue];
-}
-
-- (void)setAutoHeight:(CGFloat)autoHeight
-{
-    objc_setAssociatedObject(self, @selector(autoHeight), @(autoHeight), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSMutableArray *)sd_bottomViewsArray
-{
+- (NSMutableArray *)jo_bottomViews{
     NSMutableArray *array = objc_getAssociatedObject(self, _cmd);
     if (!array) {
-        objc_setAssociatedObject(self, _cmd, [NSMutableArray new], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(self, _cmd, [[NSMutableArray alloc] init], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (NSArray *)sd_rightViewsArray
-{
-    return [[self sd_categoryManager] rightViewsArray];
+- (NSArray *)jo_rightViews{
+    return [[self jo_tool] rightViewsArray];
 }
 
-- (void)setSd_rightViewsArray:(NSArray *)sd_rightViewsArray
-{
-    [[self sd_categoryManager] setRightViewsArray:sd_rightViewsArray];
+- (void)setJo_rightViews:(NSArray *)jo_rightViews{
+    [[self jo_tool] setRightViewsArray:jo_rightViews];
 }
 
-- (CGFloat)sd_bottomViewBottomMargin
-{
+- (CGFloat)jo_bottomViewBottomMargin{
     return [objc_getAssociatedObject(self, _cmd) floatValue];
 }
 
-- (void)setSd_bottomViewBottomMargin:(CGFloat)sd_bottomViewBottomMargin
-{
-    objc_setAssociatedObject(self, @selector(sd_bottomViewBottomMargin), @(sd_bottomViewBottomMargin), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setJo_bottomViewBottomMargin:(CGFloat)jo_bottomViewBottomMargin{
+    objc_setAssociatedObject(self, @selector(jo_bottomViewBottomMargin), @(jo_bottomViewBottomMargin), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)setSd_rightViewRightMargin:(CGFloat)sd_rightViewRightMargin
-{
-    [[self sd_categoryManager] setRightViewRightMargin:sd_rightViewRightMargin];
+- (void)setJo_rightViewRightMargin:(CGFloat)jo_rightViewRightMargin{
+    [[self jo_tool] setRightViewRightMargin:jo_rightViewRightMargin];
 }
 
-- (CGFloat)sd_rightViewRightMargin
-{
-    return [[self sd_categoryManager] rightViewRightMargin];
+- (CGFloat)jo_rightViewRightMargin{
+    return [[self jo_tool] rightViewRightMargin];
 }
 
 @end
 
-@implementation UIView (SDLayoutExtention)
 
-- (void (^)(CGRect))didFinishAutoLayoutBlock
-{
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIView (JELayoutExtention)   🔷🔷🔷🔷🔷🔷🔷🔷
+@implementation UIView (JELOExtention)
+
+- (void (^)(CGRect))didFinishAutoLayoutBlock{
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)setDidFinishAutoLayoutBlock:(void (^)(CGRect))didFinishAutoLayoutBlock
-{
+- (void)setDidFinishAutoLayoutBlock:(void (^)(CGRect))didFinishAutoLayoutBlock{
     objc_setAssociatedObject(self, @selector(didFinishAutoLayoutBlock), didFinishAutoLayoutBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (NSNumber *)sd_cornerRadius
-{
+- (NSNumber *)fixedWidth{
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)setSd_cornerRadius:(NSNumber *)sd_cornerRadius
-{
-    objc_setAssociatedObject(self, @selector(sd_cornerRadius), sd_cornerRadius, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setFixedWidth:(NSNumber *)fixedWidth{
+    if (fixedWidth != nil) {
+        self.width_jo = [fixedWidth floatValue];
+    }
+    objc_setAssociatedObject(self, @selector(fixedWidth), fixedWidth, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-
-- (NSNumber *)sd_cornerRadiusFromWidthRatio
-{
+- (NSNumber *)fixedHeight{
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)setSd_cornerRadiusFromWidthRatio:(NSNumber *)sd_cornerRadiusFromWidthRatio
-{
-    objc_setAssociatedObject(self, @selector(sd_cornerRadiusFromWidthRatio), sd_cornerRadiusFromWidthRatio, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setFixedHeight:(NSNumber *)fixedHeight{
+    if (fixedHeight != nil) {
+        self.height_jo = [fixedHeight floatValue];
+    }
+    objc_setAssociatedObject(self, @selector(fixedHeight), fixedHeight, OBJC_ASSOCIATION_RETAIN);
 }
 
 
-- (NSNumber *)sd_cornerRadiusFromHeightRatio
-{
+- (NSNumber *)jo_rad{
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)setSd_cornerRadiusFromHeightRatio:(NSNumber *)sd_cornerRadiusFromHeightRatio
-{
-    objc_setAssociatedObject(self, @selector(sd_cornerRadiusFromHeightRatio), sd_cornerRadiusFromHeightRatio, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setJo_rad:(NSNumber *)jo_cornerRadius{
+    objc_setAssociatedObject(self, @selector(jo_rad), jo_cornerRadius, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSArray *)sd_equalWidthSubviews
-{
+- (NSNumber *)jo_radWRate{
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)setSd_equalWidthSubviews:(NSArray *)sd_equalWidthSubviews
-{
-    objc_setAssociatedObject(self, @selector(sd_equalWidthSubviews), sd_equalWidthSubviews, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setJo_radWRate:(NSNumber *)jo_cornerRadiusFromWidthRatio{
+    objc_setAssociatedObject(self, @selector(jo_radWRate), jo_cornerRadiusFromWidthRatio, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)sd_addSubviews:(NSArray *)subviews
-{
-    [subviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-        if ([view isKindOfClass:[UIView class]]) {
-            [self addSubview:view];
-        }
-    }];
+- (NSNumber *)jo_radHRate{
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setJo_radHRate:(NSNumber *)jo_cornerRadiusFromHeightRatio{
+    objc_setAssociatedObject(self, @selector(jo_radHRate), jo_cornerRadiusFromHeightRatio, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)jo_equalWidthSubviews{
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setJo_equalWidthSubviews:(NSArray *)jo_equalWidthSubviews{
+    objc_setAssociatedObject(self, @selector(jo_equalWidthSubviews), jo_equalWidthSubviews, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
 
-@implementation UIView (SDAutoFlowItems)
 
-- (void)setupAutoWidthFlowItems:(NSArray *)viewsArray withPerRowItemsCount:(NSInteger)perRowItemsCount verticalMargin:(CGFloat)verticalMargin horizontalMargin:(CGFloat)horizontalMagin verticalEdgeInset:(CGFloat)vInset horizontalEdgeInset:(CGFloat)hInset
-{
-    self.sd_categoryManager.flowItems = viewsArray;
-    self.sd_categoryManager.perRowItemsCount = perRowItemsCount;
-    self.sd_categoryManager.verticalMargin = verticalMargin;
-    self.sd_categoryManager.horizontalMargin = horizontalMagin;
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIView (SDAutoFlowItems)   🔷🔷🔷🔷🔷🔷🔷🔷
+@implementation UIView (JELOFlowItems)
+
+- (void)setupAutoWidthFlowItems:(NSArray *)viewsArray withPerRowItemsCount:(NSInteger)perRowItemsCount verticalMargin:(CGFloat)verticalMargin horizontalMargin:(CGFloat)horizontalMagin verticalEdgeInset:(CGFloat)vInset horizontalEdgeInset:(CGFloat)hInset{
+    self.jo_tool.flowItems = viewsArray;
+    self.jo_tool.perRowItemsCount = perRowItemsCount;
+    self.jo_tool.verticalMargin = verticalMargin;
+    self.jo_tool.horizontalMargin = horizontalMagin;
     self.verticalEdgeInset = vInset;
     self.horizontalEdgeInset = hInset;
     
-    self.sd_categoryManager.lastWidth = 0;
+    self.jo_tool.lastWidth = 0;
     
     if (viewsArray.count) {
         [self setupAutoHeightWithBottomView:viewsArray.lastObject bottomMargin:vInset];
     } else {
-        [self clearAutoHeigtSettings];
+        [self.jo_bottomViews removeAllObjects];
     }
 }
 
-- (void)clearAutoWidthFlowItemsSettings
-{
+- (void)clearAutoWidthFlowItemsSettings{
     [self setupAutoWidthFlowItems:nil withPerRowItemsCount:0 verticalMargin:0 horizontalMargin:0 verticalEdgeInset:0 horizontalEdgeInset:0];
 }
 
-- (void)setupAutoMarginFlowItems:(NSArray *)viewsArray withPerRowItemsCount:(NSInteger)perRowItemsCount itemWidth:(CGFloat)itemWidth verticalMargin:(CGFloat)verticalMargin verticalEdgeInset:(CGFloat)vInset horizontalEdgeInset:(CGFloat)hInset
-{
-    self.sd_categoryManager.shouldShowAsAutoMarginViews = YES;
-    self.sd_categoryManager.flowItemWidth = itemWidth;
+- (void)setupAutoMarginFlowItems:(NSArray *)viewsArray withPerRowItemsCount:(NSInteger)perRowItemsCount itemWidth:(CGFloat)itemWidth verticalMargin:(CGFloat)verticalMargin verticalEdgeInset:(CGFloat)vInset horizontalEdgeInset:(CGFloat)hInset{
+    self.jo_tool.shouldShowAsAutoMarginViews = YES;
+    self.jo_tool.flowItemWidth = itemWidth;
     [self setupAutoWidthFlowItems:viewsArray withPerRowItemsCount:perRowItemsCount verticalMargin:verticalMargin horizontalMargin:0 verticalEdgeInset:vInset horizontalEdgeInset:hInset];
 }
 
-- (void)clearAutoMarginFlowItemsSettings
-{
+- (void)clearAutoMarginFlowItemsSettings{
     [self setupAutoMarginFlowItems:nil withPerRowItemsCount:0 itemWidth:0 verticalMargin:0 verticalEdgeInset:0 horizontalEdgeInset:0];
 }
 
-- (void)setHorizontalEdgeInset:(CGFloat)horizontalEdgeInset
-{
-    self.sd_categoryManager.horizontalEdgeInset = horizontalEdgeInset;
+- (void)setHorizontalEdgeInset:(CGFloat)horizontalEdgeInset{
+    self.jo_tool.horizontalEdgeInset = horizontalEdgeInset;
 }
 
-- (CGFloat)horizontalEdgeInset
-{
-    return self.sd_categoryManager.horizontalEdgeInset;
+- (CGFloat)horizontalEdgeInset{
+    return self.jo_tool.horizontalEdgeInset;
 }
 
-- (void)setVerticalEdgeInset:(CGFloat)verticalEdgeInset
-{
-    self.sd_categoryManager.verticalEdgeInset = verticalEdgeInset;
+- (void)setVerticalEdgeInset:(CGFloat)verticalEdgeInset{
+    self.jo_tool.verticalEdgeInset = verticalEdgeInset;
 }
 
-- (CGFloat)verticalEdgeInset
-{
-    return self.sd_categoryManager.verticalEdgeInset;
+- (CGFloat)verticalEdgeInset{
+    return self.jo_tool.verticalEdgeInset;
 }
 
 @end
 
-@implementation UIScrollView (SDAutoContentSize)
 
-- (void)setupAutoContentSizeWithBottomView:(UIView *)bottomView bottomMargin:(CGFloat)bottomMargin
-{
+
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIScrollView (JELOAutoContentSize)   🔷🔷🔷🔷🔷🔷🔷🔷
+@implementation UIScrollView (JELOAutoContentSize)
+
+- (void)setupAutoContentSizeWithBottomView:(UIView *)bottomView bottomMargin:(CGFloat)bottomMargin{
     [self setupAutoHeightWithBottomView:bottomView bottomMargin:bottomMargin];
 }
 
-- (void)setupAutoContentSizeWithRightView:(UIView *)rightView rightMargin:(CGFloat)rightMargin
-{
+- (void)setupAutoContentSizeWithRightView:(UIView *)rightView rightMargin:(CGFloat)rightMargin{
     if (!rightView) return;
     
-    self.sd_rightViewsArray = @[rightView];
-    self.sd_rightViewRightMargin = rightMargin;
+    self.jo_rightViews = @[rightView];
+    self.jo_rightViewRightMargin = rightMargin;
 }
 
 @end
 
-@implementation UILabel (SDLabelAutoResize)
 
-+ (void)load
-{
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UILabel (JELOLabel)   🔷🔷🔷🔷🔷🔷🔷🔷
+
+@interface UILabel (JELOLabel)
+
+@end
+
+@implementation UILabel (JELOLabel)
+
++ (void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [self sdal_exchengeMethods:@[@"setText:"] prefix:nil];
+        [self jo_swizzleInstanceMethod:@selector(setText:) with:@selector(jelo_setText:)];
     });
 }
 
-- (void)sd_setText:(NSString *)text
-{
+- (void)jelo_setText:(NSString *)text{
     // 如果程序崩溃在这行代码说明是你的label在执行“setText”方法时出了问题而不是在此自动布局库内部出现了问题，请检查你的“setText”方法
-    [self sd_setText:text];
-    
-    
-    if (self.sd_maxWidth) {
-        [self sizeToFit];
-    } else if (self.autoHeightRatioValue) {
-        self.size_sd = CGSizeZero;
-    }
-}
-
-- (BOOL)isAttributedContent
-{
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-
-- (void)setIsAttributedContent:(BOOL)isAttributedContent
-{
-    objc_setAssociatedObject(self, @selector(isAttributedContent), @(isAttributedContent), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (void)setSingleLineAutoResizeWithMaxWidth:(CGFloat)maxWidth
-{
-    self.sd_maxWidth = @(maxWidth);
-}
-
-- (void)setMaxNumberOfLinesToShow:(NSInteger)lineCount
-{
-    NSAssert(self.ownLayoutModel, @"请在布局完成之后再做此步设置！");
-    if (lineCount > 0) {
-        if (self.isAttributedContent) {
-            NSDictionary *attrs = [self.attributedText attributesAtIndex:0 effectiveRange:nil];
-            NSMutableParagraphStyle *paragraphStyle = attrs[NSParagraphStyleAttributeName];
-            self.sd_layout.maxHeightIs((self.font.lineHeight) * lineCount + paragraphStyle.lineSpacing * (lineCount - 1) + 0.1);
-        } else {
-            self.sd_layout.maxHeightIs(self.font.lineHeight * lineCount + 0.1);
-        }
-    } else {
-        self.sd_layout.maxHeightIs(MAXFLOAT);
-    }
+    [self jelo_setText:text];
+    [self updateLayout];
+//    if (self.ownLayoutModel.it_autoWidth != nil) {
+//        [self sizeToFit];
+//    } else if (self.ownLayoutModel.it_h_rateBy_w != nil) {
+//        self.size = CGSizeZero;
+//    }
 }
 
 @end
 
 
 
-@implementation SDAutoLayoutModelItem
 
-- (instancetype)init
-{
-    if (self = [super init]) {
-        _offset = 0;
-    }
-    return self;
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIButton (JELOButton)   🔷🔷🔷🔷🔷🔷🔷🔷
+
+@interface UIButton (JELOButton)
+
+@end
+
+@implementation UIButton (JELOButton)
+
++ (void)load{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self jo_swizzleInstanceMethod:@selector(setTitle:forState:) with:@selector(jelo_setTitle:forState:)];
+    });
+}
+
+- (void)jelo_setTitle:(NSString *)title forState:(UIControlState)state{
+    [self jelo_setTitle:title forState:state];
+    [self updateLayout];
 }
 
 @end
 
-
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIView (JEAutoLayout)   🔷🔷🔷🔷🔷🔷🔷🔷
 @implementation UIView (JEAutoLayout)
 
-+ (void)load
-{
++ (void)load{
     if (self == [UIView class]) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            [self sdal_exchengeMethods:@[@"layoutSubviews"] prefix:nil];
+            [self jo_swizzleInstanceMethod:@selector(layoutSubviews) with:@selector(jelo_layoutSubviews)];
         });
     }
 }
 
 #pragma mark - properties
 
-- (NSMutableArray *)autoLayoutModelsArray
-{
+- (NSMutableArray *)autoLayoutModelsArray{
     if (!objc_getAssociatedObject(self, _cmd)) {
         objc_setAssociatedObject(self, _cmd, [NSMutableArray array], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (NSNumber *)fixedWidth
-{
+- (JELayoutMod *)ownLayoutModel{
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)setFixedWidth:(NSNumber *)fixedWidth
-{
-    if (fixedWidth) {
-        self.width_sd = [fixedWidth floatValue];
-    }
-    objc_setAssociatedObject(self, @selector(fixedWidth), fixedWidth, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSNumber *)fixedHeight
-{
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)setFixedHeight:(NSNumber *)fixedHeight
-{
-    if (fixedHeight) {
-        self.height_sd = [fixedHeight floatValue];
-    }
-    objc_setAssociatedObject(self, @selector(fixedHeight), fixedHeight, OBJC_ASSOCIATION_RETAIN);
-}
-
-- (NSNumber *)autoHeightRatioValue
-{
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)setAutoHeightRatioValue:(NSNumber *)autoHeightRatioValue
-{
-    objc_setAssociatedObject(self, @selector(autoHeightRatioValue), autoHeightRatioValue, OBJC_ASSOCIATION_RETAIN);
-}
-
-- (NSNumber *)autoWidthRatioValue
-{
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)setAutoWidthRatioValue:(NSNumber *)autoWidthRatioValue
-{
-    objc_setAssociatedObject(self, @selector(autoWidthRatioValue), autoWidthRatioValue, OBJC_ASSOCIATION_RETAIN);
-}
-
-- (NSNumber *)sd_maxWidth
-{
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)setSd_maxWidth:(NSNumber *)sd_maxWidth
-{
-    objc_setAssociatedObject(self, @selector(sd_maxWidth), sd_maxWidth, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (void)useCellFrameCacheWithIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableview
-{
-    self.sd_indexPath = indexPath;
-    self.sd_tableView = tableview;
-}
-
-- (UITableView *)sd_tableView
-{
-    return self.sd_categoryManager.sd_tableView;
-}
-
-- (void)setSd_tableView:(UITableView *)sd_tableView
-{
-    if ([self isKindOfClass:[UITableViewCell class]]) {
-        [(UITableViewCell *)self contentView].sd_tableView = sd_tableView;
-    }
-    self.sd_categoryManager.sd_tableView = sd_tableView;
-}
-
-- (NSIndexPath *)sd_indexPath
-{
-    return self.sd_categoryManager.sd_indexPath;
-}
-
-- (void)setSd_indexPath:(NSIndexPath *)sd_indexPath
-{
-    if ([self isKindOfClass:[UITableViewCell class]]) {
-        [(UITableViewCell *)self contentView].sd_indexPath = sd_indexPath;
-    }
-    self.sd_categoryManager.sd_indexPath = sd_indexPath;
-}
-
-- (SDAutoLayoutModel *)ownLayoutModel
-{
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)setOwnLayoutModel:(SDAutoLayoutModel *)ownLayoutModel
-{
+- (void)setOwnLayoutModel:(JELayoutMod *)ownLayoutModel{
     objc_setAssociatedObject(self, @selector(ownLayoutModel), ownLayoutModel, OBJC_ASSOCIATION_RETAIN);
 }
 
-- (SDAutoLayoutModel *)jo{return self.sd_layout;}
-- (SDAutoLayoutModel *)sd_layout{
+- (JELayoutMod *)jo{
     NSAssert(self.superview, @">>>>>>>>>在加入父view之后才可以做自动布局设置");
-    SDAutoLayoutModel *model = [self ownLayoutModel];
+    JELayoutMod *model = [self ownLayoutModel];
     if (!model) {
-        model = [SDAutoLayoutModel new];
+        model = [[JELayoutMod alloc] init];
         model.me = self;
         [self setOwnLayoutModel:model];
         [self.superview.autoLayoutModelsArray addObject:model];
@@ -947,18 +532,11 @@ Class cellContVClass(){
     return model;
 }
 
-- (SDAutoLayoutModel *)sd_resetLayout
-{
-    /*
-     * 方案待定
-     [self sd_clearAutoLayoutSettings];
-     return [self sd_layout];
-     */
-    
-    SDAutoLayoutModel *model = [self ownLayoutModel];
-    SDAutoLayoutModel *newModel = [SDAutoLayoutModel new];
+- (JELayoutMod *)jo_resetLayout{
+    JELayoutMod *model = [self ownLayoutModel];
+    JELayoutMod *newModel = [[JELayoutMod alloc] init];
     newModel.me = self;
-    [self sd_clearViewFrameCache];
+    [self jo_clearViewFrameCache];
     NSInteger index = 0;
     if (model) {
         index = [self.superview.autoLayoutModelsArray indexOfObject:model];
@@ -967,132 +545,119 @@ Class cellContVClass(){
         [self.superview.autoLayoutModelsArray addObject:newModel];
     }
     [self setOwnLayoutModel:newModel];
-    [self sd_clearExtraAutoLayoutItems];
+    [self jo_clearExtraAutoLayoutItems];
     return newModel;
 }
 
-- (SDAutoLayoutModel *)sd_resetNewLayout
-{
-    [self sd_clearAutoLayoutSettings];
-    [self sd_clearExtraAutoLayoutItems];
-    return [self sd_layout];
+- (JELayoutMod *)jo_resetNewLayout{
+    [self jo_clearAutoLayoutSettings];
+    [self jo_clearExtraAutoLayoutItems];
+    return [self jo];
 }
 
-- (BOOL)sd_isClosingAutoLayout
-{
-    return self.sd_categoryManager.sd_isClosingAutoLayout;
+- (BOOL)jo_closeAutoLayout{
+    return self.jo_tool.jo_closeAutoLayout;
 }
 
-- (void)setSd_closeAutoLayout:(BOOL)sd_closeAutoLayout
-{
-    self.sd_categoryManager.sd_closeAutoLayout = sd_closeAutoLayout;
+- (void)setJo_closeAutoLayout:(BOOL)jo_closeAutoLayout{
+    self.jo_tool.jo_closeAutoLayout = jo_closeAutoLayout;
 }
 
-- (void)removeFromSuperviewAndClearAutoLayoutSettings
-{
-    [self sd_clearAutoLayoutSettings];
+- (void)removeFromSuperviewAndClearAutoLayoutSettings{
+    [self jo_clearAutoLayoutSettings];
     [self removeFromSuperview];
 }
 
-- (void)sd_clearAutoLayoutSettings
-{
-    SDAutoLayoutModel *model = [self ownLayoutModel];
+- (void)jo_clearAutoLayoutSettings{
+    JELayoutMod *model = [self ownLayoutModel];
     if (model) {
         [self.superview.autoLayoutModelsArray removeObject:model];
         [self setOwnLayoutModel:nil];
     }
-    [self sd_clearExtraAutoLayoutItems];
+    [self jo_clearExtraAutoLayoutItems];
 }
 
-- (void)sd_clearExtraAutoLayoutItems
-{
-    if (self.autoHeightRatioValue) {
-        self.autoHeightRatioValue = nil;
+- (void)jo_clearExtraAutoLayoutItems{
+    if (self.ownLayoutModel.it_h_rateBy_w != nil) {
+        self.ownLayoutModel.it_h_rateBy_w = nil;
     }
     self.fixedHeight = nil;
     self.fixedWidth = nil;
 }
 
-- (void)sd_clearViewFrameCache
-{
+- (void)jo_clearViewFrameCache{
     self.frame = CGRectZero;
 }
 
-- (void)sd_clearSubviewsAutoLayoutFrameCaches
-{
+- (void)jo_clearSubviewsAutoLayoutFrameCaches{
     if (self.autoLayoutModelsArray.count == 0) return;
     
-    [self.autoLayoutModelsArray enumerateObjectsUsingBlock:^(SDAutoLayoutModel *model, NSUInteger idx, BOOL *stop) {
+    [self.autoLayoutModelsArray enumerateObjectsUsingBlock:^(JELayoutMod *model, NSUInteger idx, BOOL *stop) {
         model.me.frame = CGRectZero;
     }];
 }
 
-- (void)sd_layoutSubviews
-{
+- (void)jelo_layoutSubviews{
     // 如果程序崩溃在这行代码说明是你的view在执行“layoutSubvies”方法时出了问题而不是在此自动布局库内部出现了问题，请检查你的“layoutSubvies”方法
-    [self sd_layoutSubviews];
+    [self jelo_layoutSubviews];
     
-    [self sd_layoutSubviewsHandle];
+    [self jo_layoutSubviewsHandle];
 }
 
-- (void)sd_layoutSubviewsHandle{
-
-    if (self.sd_equalWidthSubviews.count) {
+- (void)jo_layoutSubviewsHandle{
+    if (self.jo_equalWidthSubviews.count) {
         __block CGFloat totalMargin = 0;
-        [self.sd_equalWidthSubviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-            SDAutoLayoutModel *model = view.sd_layout;
-            CGFloat left = model.leftItem ? [model.leftItem.value floatValue] : model.me.left_sd;
-            totalMargin += (left + [model.rightItem.value floatValue]);
+        [self.jo_equalWidthSubviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            JELayoutMod *model = view.jo;
+            CGFloat left = model.it_left ? model.it_left.value : model.me.x;
+            totalMargin += (left + model.it_right.value);
         }];
-        CGFloat averageWidth = (self.width_sd - totalMargin) / self.sd_equalWidthSubviews.count;
-        [self.sd_equalWidthSubviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
-            view.width_sd = averageWidth;
+        CGFloat averageWidth = (self.width_jo - totalMargin) / self.jo_equalWidthSubviews.count;
+        [self.jo_equalWidthSubviews enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            view.width_jo = averageWidth;
             view.fixedWidth = @(averageWidth);
         }];
     }
     
-    if (self.sd_categoryManager.flowItems.count && (self.sd_categoryManager.lastWidth != self.width_sd)) {
+    if (self.jo_tool.flowItems.count && (self.jo_tool.lastWidth != self.width_jo)) {
         
-        self.sd_categoryManager.lastWidth = self.width_sd;
+        self.jo_tool.lastWidth = self.width_jo;
         
-        NSInteger perRowItemsCount = self.sd_categoryManager.perRowItemsCount;
+        NSInteger perRowItemsCount = self.jo_tool.perRowItemsCount;
         CGFloat horizontalMargin = 0;
         CGFloat w = 0;
-        if (self.sd_categoryManager.shouldShowAsAutoMarginViews) {
-            w = self.sd_categoryManager.flowItemWidth;
-            long itemsCount = self.sd_categoryManager.perRowItemsCount;
+        if (self.jo_tool.shouldShowAsAutoMarginViews) {
+            w = self.jo_tool.flowItemWidth;
+            long itemsCount = self.jo_tool.perRowItemsCount;
             if (itemsCount > 1) {
-                horizontalMargin = (self.width_sd - (self.horizontalEdgeInset * 2) - itemsCount * w) / (itemsCount - 1);
+                horizontalMargin = (self.width_jo - (self.horizontalEdgeInset * 2) - itemsCount * w) / (itemsCount - 1);
             }
         } else {
-            horizontalMargin = self.sd_categoryManager.horizontalMargin;
-            w = (self.width_sd - (self.horizontalEdgeInset * 2) - (perRowItemsCount - 1) * horizontalMargin) / perRowItemsCount;
+            horizontalMargin = self.jo_tool.horizontalMargin;
+            w = (self.width_jo - (self.horizontalEdgeInset * 2) - (perRowItemsCount - 1) * horizontalMargin) / perRowItemsCount;
         }
-        CGFloat verticalMargin = self.sd_categoryManager.verticalMargin;
+        CGFloat verticalMargin = self.jo_tool.verticalMargin;
         
         __block UIView *referencedView = self;
-        [self.sd_categoryManager.flowItems enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+        [self.jo_tool.flowItems enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
             if (idx < perRowItemsCount) {
                 if (idx == 0) {
-                    /* 保留
-                    BOOL shouldShowAsAutoMarginViews = self.sd_categoryManager.shouldShowAsAutoMarginViews;
-                     */
-                    view.sd_layout
+                    view.jo
                     .left_(referencedView, self.horizontalEdgeInset)
                     .top_(referencedView, self.verticalEdgeInset)
-                    .width(w);
+                    .w(w);
                 } else {
-                    view.sd_layout
+                    view.jo
                     .left_(referencedView, horizontalMargin)
-                    .topTo(referencedView)
-                    .width(w);
+                    .topSameTo(referencedView)
+                    .w(w);
                 }
                 referencedView = view;
             } else {
-                referencedView = self.sd_categoryManager.flowItems[idx - perRowItemsCount];
-                view.sd_layout
-                .leftEqualToView(referencedView)
-                .width(w)
+                referencedView = self.jo_tool.flowItems[idx - perRowItemsCount];
+                view.jo
+                .leftSameTo(referencedView)
+                .w(w)
                 .top_(referencedView, verticalMargin);
             }
         }];
@@ -1102,7 +667,7 @@ Class cellContVClass(){
         
         NSMutableArray *caches = nil;
         
-        [self.autoLayoutModelsArray enumerateObjectsUsingBlock:^(SDAutoLayoutModel *model, NSUInteger idx, BOOL *stop) {
+        [self.autoLayoutModelsArray enumerateObjectsUsingBlock:^(JELayoutMod *model, NSUInteger idx, BOOL *stop) {
             if (idx < caches.count) {
                 CGRect originalFrame = model.me.frame;
                 CGRect newFrame = [[caches objectAtIndex:idx] CGRectValue];
@@ -1112,36 +677,36 @@ Class cellContVClass(){
                     model.me.frame = newFrame;
                 }
                 [self setupCornerRadiusWithView:model.me model:model];
-                model.me.sd_categoryManager.hasSetFrameWithCache = YES;
+                model.me.jo_tool.hasSetFrameWithCache = YES;
             } else {
-                if (model.me.sd_categoryManager.hasSetFrameWithCache) {
-                    model.me.sd_categoryManager.hasSetFrameWithCache = NO;
+                if (model.me.jo_tool.hasSetFrameWithCache) {
+                    model.me.jo_tool.hasSetFrameWithCache = NO;
                 }
-                [self sd_resizeWithModel:model];
+                [self jo_resizeWithModel:model];
             }
         }];
     }
     
-    if (![self isKindOfClass:[UITableViewCell class]] && (self.sd_bottomViewsArray.count || self.sd_rightViewsArray.count)) {
-        if (self.sd_categoryManager.hasSetFrameWithCache) {
-            self.sd_categoryManager.hasSetFrameWithCache = NO;
+    if (![self isKindOfClass:[UITableViewCell class]] && (self.jo_bottomViews.count || self.jo_rightViews.count)) {
+        if (self.jo_tool.hasSetFrameWithCache) {
+            self.jo_tool.hasSetFrameWithCache = NO;
             return;
         }
         CGFloat contentHeight = 0;
         CGFloat contentWidth = 0;
-        if (self.sd_bottomViewsArray) {
+        if (self.jo_bottomViews) {
             CGFloat height = 0;
-            for (UIView *view in self.sd_bottomViewsArray) {
-                height = MAX(height, view.bottom_sd);
+            for (UIView *view in self.jo_bottomViews) {
+                height = MAX(height, view.bottom);
             }
-            contentHeight = height + self.sd_bottomViewBottomMargin;
+            contentHeight = height + self.jo_bottomViewBottomMargin;
         }
-        if (self.sd_rightViewsArray) {
+        if (self.jo_rightViews) {
             CGFloat width = 0;
-            for (UIView *view in self.sd_rightViewsArray) {
-                width = MAX(width, view.right_sd);
+            for (UIView *view in self.jo_rightViews) {
+                width = MAX(width, view.right);
             }
-            contentWidth = width + self.sd_rightViewRightMargin;
+            contentWidth = width + self.jo_rightViewRightMargin;
         }
         if ([self isKindOfClass:[UIScrollView class]]) {
             UIScrollView *scrollView = (UIScrollView *)self;
@@ -1153,28 +718,28 @@ Class cellContVClass(){
                 contentSize.width = contentWidth;
             }
             if (contentSize.width <= 0) {
-                contentSize.width = scrollView.width_sd;
+                contentSize.width = scrollView.width_jo;
             }
             if (!CGSizeEqualToSize(contentSize, scrollView.contentSize)) {
                 scrollView.contentSize = contentSize;
             }
         } else {
-            if (self.sd_bottomViewsArray.count && (floorf(contentHeight) != floorf(self.height_sd))) {
-                self.height_sd = contentHeight;
-                self.fixedHeight = @(self.height_sd);
+            if (self.jo_bottomViews.count && (floorf(contentHeight) != floorf(self.height_jo))) {
+                self.height_jo = contentHeight;
+                self.fixedHeight = @(self.height_jo);
             }
             
-            if (self.sd_rightViewsArray.count && (floorf(contentWidth) != floorf(self.width_sd))) {
-                self.width_sd = contentWidth;
-                self.fixedWidth = @(self.width_sd);
+            if (self.jo_rightViews.count && (floorf(contentWidth) != floorf(self.width_jo))) {
+                self.width_jo = contentWidth;
+                self.fixedWidth = @(self.width_jo);
             }
         }
         
-        SDAutoLayoutModel *model = self.ownLayoutModel;
+        JELayoutMod *model = self.ownLayoutModel;
         
-        if (![self isKindOfClass:[UIScrollView class]] && self.sd_rightViewsArray.count && (model.rightItem || model.equalRight || model.centerX || model.equalCenterX)) {
-            self.fixedWidth = @(self.width_sd);
-            if (model.rightItem || model.equalRight) {
+        if (![self isKindOfClass:[UIScrollView class]] && self.jo_rightViews.count && (model.it_right || model.it_sameRight || model.it_centerX || model.it_sameCenterX)) {
+            self.fixedWidth = @(self.width_jo);
+            if (model.it_right || model.it_sameRight) {
                 [self layoutRightWithView:self model:model];
             } else {
                 [self layoutLeftWithView:self model:model];
@@ -1182,9 +747,9 @@ Class cellContVClass(){
             self.fixedWidth = nil;
         }
         
-        if (![self isKindOfClass:[UIScrollView class]] && self.sd_bottomViewsArray.count && (model.bottomItem || model.equalBottom || model.centerY || model.equalCenterY)) {
-            self.fixedHeight = @(self.height_sd);
-            if (model.bottomItem || model.equalBottom) {
+        if (![self isKindOfClass:[UIScrollView class]] && self.jo_bottomViews.count && (model.it_bottom || model.it_sameBottom || model.it_centerY || model.it_sameCenterY)) {
+            self.fixedHeight = @(self.height_jo);
+            if (model.it_bottom || model.it_sameBottom) {
                 [self layoutBottomWithView:self model:model];
             } else {
                 [self layoutTopWithView:self model:model];
@@ -1198,15 +763,14 @@ Class cellContVClass(){
     }
 }
 
-- (void)sd_resizeWithModel:(SDAutoLayoutModel *)model
-{
+- (void)jo_resizeWithModel:(JELayoutMod *)model{
     UIView *view = model.me;
     
-    if (!view || view.sd_isClosingAutoLayout) return;
+    if (!view || view.jo_closeAutoLayout) return;
     
-    if (view.sd_maxWidth && (model.right_ || model.rightEqualToView)) { // 靠右布局前提设置
+    if (model.it_autoWidth != nil && (model.right_ || model.rightSameTo)) { // 靠右布局前提设置
         [self layoutAutoWidthWidthView:view model:model];
-        view.fixedWidth = @(view.width_sd);
+        view.fixedWidth = @(view.width_jo);
     }
     
     [self layoutWidthWithView:view model:model];
@@ -1217,13 +781,13 @@ Class cellContVClass(){
     
     [self layoutRightWithView:view model:model];
     
-    if (view.autoHeightRatioValue && view.width_sd > 0 && (model.bottomTo || model.bottom_)) { // 底部布局前提设置
+    if (model.it_h_rateBy_w && view.width_jo > 0 && (model.bottomSameTo || model.bottom_)) { // 底部布局前提设置
         [self layoutAutoHeightWidthView:view model:model];
-        view.fixedHeight = @(view.height_sd);
+        view.fixedHeight = @(view.height_jo);
     }
     
-    if (view.autoWidthRatioValue) {
-        view.fixedWidth = @(view.height_sd * [view.autoWidthRatioValue floatValue]);
+    if (model.it_w_rateBy_h != nil) {
+        view.fixedWidth = @(view.height_jo * model.it_w_rateBy_h.floatValue);
     }
     
     
@@ -1231,301 +795,246 @@ Class cellContVClass(){
     
     [self layoutBottomWithView:view model:model];
     
-    if ((model.centerX || model.equalCenterX) && !view.fixedWidth) {
+    if ((model.it_centerX || model.it_sameCenterX) && view.fixedWidth == nil) {
         [self layoutLeftWithView:view model:model];
     }
     
-    if ((model.centerY || model.equalCenterY) && !view.fixedHeight) {
+    if ((model.it_centerY || model.it_sameCenterY) && view.fixedHeight == nil) {
         [self layoutTopWithView:view model:model];
     }
     
-    if (view.sd_maxWidth) {
+    if (model.it_autoWidth != nil) {
         [self layoutAutoWidthWidthView:view model:model];
     }
     
-    if (model.maxWidth && [model.maxWidth floatValue] < view.width_sd) {
-        view.width_sd = [model.maxWidth floatValue];
+    if (model.it_maxWidth && [model.it_maxWidth floatValue] < view.width_jo) {
+        view.width_jo = [model.it_maxWidth floatValue];
     }
     
-    if (model.minWidth && [model.minWidth floatValue] > view.width_sd) {
-        view.width_sd = [model.minWidth floatValue];
+    if (model.it_minWidth && [model.it_minWidth floatValue] > view.width_jo) {
+        view.width_jo = [model.it_minWidth floatValue];
     }
     
-    if (view.autoHeightRatioValue && view.width_sd > 0) {
+    if ((model.it_h_rateBy_w && view.width_jo > 0) || (model.it_autoHeight != nil)) {
         [self layoutAutoHeightWidthView:view model:model];
     }
     
-    if (model.maxHeight && [model.maxHeight floatValue] < view.height_sd) {
-        view.height_sd = [model.maxHeight floatValue];
+    if (model.it_maxHeight && [model.it_maxHeight floatValue] < view.height_jo) {
+        view.height_jo = [model.it_maxHeight floatValue];
     }
     
-    if (model.minHeight && [model.minHeight floatValue] > view.height_sd) {
-        view.height_sd = [model.minHeight floatValue];
+    if (model.it_minHeight && [model.it_minHeight floatValue] > view.height_jo) {
+        view.height_jo = [model.it_minHeight floatValue];
     }
     
-    if (model.widthEqualHeight) {
-        view.width_sd = view.height_sd;
+    if (model.it_widthEqualHeight) {
+        view.width_jo = view.height_jo;
     }
     
-    if (model.heightEqualWidth) {
-        view.height_sd = view.width_sd;
+    if (model.it_heightEqualWidth) {
+        view.height_jo = view.width_jo;
     }
     
     if (view.didFinishAutoLayoutBlock) {
         view.didFinishAutoLayoutBlock(view.frame);
     }
     
-    if (view.sd_bottomViewsArray.count || view.sd_rightViewsArray.count) {
+    if (view.jo_bottomViews.count || view.jo_rightViews.count) {
         [view layoutSubviews];
     }
     
     [self setupCornerRadiusWithView:view model:model];
 }
 
-- (void)layoutAutoHeightWidthView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
-    if ([view.autoHeightRatioValue floatValue] > 0) {
-        view.height_sd = view.width_sd * [view.autoHeightRatioValue floatValue];
-    } else {
-        if ([view isKindOfClass:[UILabel class]]) {
-            UILabel *label = (UILabel *)view;
-            label.numberOfLines = 0;
-            if (label.text.length) {
-                if (!label.isAttributedContent) {
-                    CGRect rect = [label.text boundingRectWithSize:CGSizeMake(label.width_sd, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : label.font} context:nil];
-                    label.height_sd = rect.size.height + 0.1;
-                } else {
-                    [label sizeToFit];
-                    if (label.sd_maxWidth && label.width_sd > [label.sd_maxWidth floatValue]) {
-                        label.width_sd = [label.sd_maxWidth floatValue];
-                    }
-                }
-            } else {
-                label.height_sd = 0;
-            }
-        } else {
-            view.height_sd = 0;
-        }
+- (void)layoutAutoHeightWidthView:(UIView *)view model:(JELayoutMod *)model{
+    if (model.it_h_rateBy_w.floatValue > 0) {
+        view.height_jo = view.width_jo * model.it_h_rateBy_w.floatValue;
+        return;
     }
-}
-
-- (void)layoutAutoWidthWidthView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
+    
     if ([view isKindOfClass:[UILabel class]]) {
         UILabel *label = (UILabel *)view;
-        CGFloat width = [view.sd_maxWidth floatValue] > 0 ? [view.sd_maxWidth floatValue] : MAXFLOAT;
-        label.numberOfLines = 1;
-        if (label.text.length) {
-            if (!label.isAttributedContent) {
-                CGRect rect = [label.text boundingRectWithSize:CGSizeMake(MAXFLOAT, label.height_sd) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : label.font} context:nil];
-                if (rect.size.width > width) {
-                    rect.size.width = width;
-                }
-                label.width_sd = rect.size.width + 0.1;
-            } else{
-                [label sizeToFit];
-                if (label.width_sd > width) {
-                    label.width_sd = width;
-                }
+        CGSize size = [label sizeThatFits:CGSizeMake(label.width, model.it_maxHeight.floatValue)];
+        label.height_jo = size.height + model.it_autoHeight.floatValue;
+    } else {
+        view.height_jo = 0;
+    }
+   
+}
+
+- (void)layoutAutoWidthWidthView:(UIView *)view model:(JELayoutMod *)model{
+    if ([view isKindOfClass:UILabel.class] || [view isKindOfClass:UIButton.class]) {
+        CGSize size = [view sizeThatFits:CGSizeMake(model.it_maxWidth.floatValue, view.height)];
+        view.width_jo = size.width + model.it_autoWidth.floatValue;
+    }
+}
+
+- (void)layoutWidthWithView:(UIView *)view model:(JELayoutMod *)model{
+    if (model.it_width) {
+        view.width_jo = model.it_width.value;
+        view.fixedWidth = @(view.width_jo);
+    } else if (model.it_w_rate) {
+        view.width_jo = model.it_w_rate.toView.width_jo * model.it_w_rate.value;
+        view.fixedWidth = @(view.width_jo);
+    }
+}
+
+- (void)layoutHeightWithView:(UIView *)view model:(JELayoutMod *)model{
+    if (model.it_height) {
+        view.height_jo = model.it_height.value;
+        view.fixedHeight = @(view.height_jo);
+    } else if (model.it_h_rate) {
+        view.height_jo = model.it_h_rate.value * model.it_h_rate.toView.height_jo;
+        view.fixedHeight = @(view.height_jo);
+    }
+}
+
+- (void)layoutLeftWithView:(UIView *)view model:(JELayoutMod *)model{
+    if (model.it_left) {
+        if (view.superview == model.it_left.toView) {
+            if (view.fixedWidth == nil) { // view.autoLeft && view.autoRight
+                view.width_jo = view.right - model.it_left.value;
             }
+            view.x = model.it_left.value;
         } else {
-            label.size_sd = CGSizeZero;
-        }
-    }
-}
-
-- (void)layoutWidthWithView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
-    if (model.widthItem) {
-        view.width_sd = [model.widthItem.value floatValue];
-        view.fixedWidth = @(view.width_sd);
-    } else if (model.ratio_width) {
-        view.width_sd = model.ratio_width.refView.width_sd * [model.ratio_width.value floatValue];
-        view.fixedWidth = @(view.width_sd);
-    }
-}
-
-- (void)layoutHeightWithView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
-    if (model.heightItem) {
-        view.height_sd = [model.heightItem.value floatValue];
-        view.fixedHeight = @(view.height_sd);
-    } else if (model.ratio_height) {
-        view.height_sd = [model.ratio_height.value floatValue] * model.ratio_height.refView.height_sd;
-        view.fixedHeight = @(view.height_sd);
-    }
-}
-
-- (void)layoutLeftWithView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
-    if (model.leftItem) {
-        if (view.superview == model.leftItem.refView) {
-            if (!view.fixedWidth) { // view.autoLeft && view.autoRight
-                view.width_sd = view.right_sd - [model.leftItem.value floatValue];
+            if (view.fixedWidth == nil) { // view.autoLeft && view.autoRight
+                view.width_jo = view.right - model.it_left.toView.right - model.it_left.value;
             }
-            view.left_sd = [model.leftItem.value floatValue];
-        } else {
-            if (model.leftItem.refViewsArray.count) {
-                CGFloat lastRefRight = 0;
-                for (UIView *ref in model.leftItem.refViewsArray) {
-                    if ([ref isKindOfClass:[UIView class]] && ref.right_sd > lastRefRight) {
-                        model.leftItem.refView = ref;
-                        lastRefRight = ref.right_sd;
-                    }
-                }
-            }
-            if (!view.fixedWidth) { // view.autoLeft && view.autoRight
-                view.width_sd = view.right_sd - model.leftItem.refView.right_sd - [model.leftItem.value floatValue];
-            }
-            view.left_sd = model.leftItem.refView.right_sd + [model.leftItem.value floatValue];
+            view.x = model.it_left.toView.right + model.it_left.value;
         }
         
-    } else if (model.equalLeft) {
-        if (!view.fixedWidth) {
+    } else if (model.it_sameLeft) {
+        if (view.fixedWidth == nil) {
             if (model.me == view.superview) {
-                view.width_sd = view.right_sd - (0 + model.equalLeft.offset);
+                view.width_jo = view.right - (0 + model.it_sameLeft.offset);
             } else {
-                view.width_sd = view.right_sd  - (model.equalLeft.refView.left_sd + model.equalLeft.offset);
+                view.width_jo = view.right  - (model.it_sameLeft.toView.x + model.it_sameLeft.offset);
             }
         }
-        if (view.superview == model.equalLeft.refView) {
-            view.left_sd = 0 + model.equalLeft.offset;
+        if (view.superview == model.it_sameLeft.toView) {
+            view.x = 0 + model.it_sameLeft.offset;
         } else {
-            view.left_sd = model.equalLeft.refView.left_sd + model.equalLeft.offset;
+            view.x = model.it_sameLeft.toView.x + model.it_sameLeft.offset;
         }
-    } else if (model.equalCenterX) {
-        if (view.superview == model.equalCenterX.refView) {
-            view.centerX_sd = model.equalCenterX.refView.width_sd * 0.5 + model.equalCenterX.offset;
+    } else if (model.it_sameCenterX) {
+        if (view.superview == model.it_sameCenterX.toView) {
+            view.centerX = model.it_sameCenterX.toView.width_jo * 0.5 + model.it_sameCenterX.offset;
         } else {
-            view.centerX_sd = model.equalCenterX.refView.centerX_sd + model.equalCenterX.offset;
+            view.centerX = model.it_sameCenterX.toView.centerX + model.it_sameCenterX.offset;
         }
-    } else if (model.centerX) {
-        view.centerX_sd = [model.centerX floatValue];
+    } else if (model.it_centerX != nil) {
+        view.centerX = [model.it_centerX floatValue];
     }
 }
 
-- (void)layoutRightWithView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
-    if (model.rightItem) {
-        if (view.superview == model.rightItem.refView) {
-            if (!view.fixedWidth) { // view.autoLeft && view.autoRight
-                view.width_sd = model.rightItem.refView.width_sd - view.left_sd - [model.rightItem.value floatValue];
+- (void)layoutRightWithView:(UIView *)view model:(JELayoutMod *)model{
+    if (model.it_right) {
+        if (view.superview == model.it_right.toView) {
+            if (view.fixedWidth == nil) { // view.autoLeft && view.autoRight
+                view.width_jo = model.it_right.toView.width_jo - view.x - model.it_right.value;
             }
-            view.right_sd = model.rightItem.refView.width_sd - [model.rightItem.value floatValue];
+            view.right = model.it_right.toView.width_jo - model.it_right.value;
         } else {
-            if (!view.fixedWidth) { // view.autoLeft && view.autoRight
-                view.width_sd =  model.rightItem.refView.left_sd - view.left_sd - [model.rightItem.value floatValue];
+            if (view.fixedWidth == nil) { // view.autoLeft && view.autoRight
+                view.width_jo =  model.it_right.toView.x - view.x - model.it_right.value;
             }
-            view.right_sd = model.rightItem.refView.left_sd - [model.rightItem.value floatValue];
+            view.right = model.it_right.toView.x - model.it_right.value;
         }
-    } else if (model.equalRight) {
-        if (!view.fixedWidth) {
-            if (model.equalRight.refView == view.superview) {
-                view.width_sd = model.equalRight.refView.width_sd - view.left_sd + model.equalRight.offset;
+    } else if (model.it_sameRight) {
+        if (view.fixedWidth == nil) {
+            if (model.it_sameRight.toView == view.superview) {
+                view.width_jo = model.it_sameRight.toView.width_jo - view.x + model.it_sameRight.offset;
             } else {
-                view.width_sd = model.equalRight.refView.right_sd - view.left_sd + model.equalRight.offset;
+                view.width_jo = model.it_sameRight.toView.right - view.x + model.it_sameRight.offset;
             }
         }
         
-        view.right_sd = model.equalRight.refView.right_sd + model.equalRight.offset;
-        if (view.superview == model.equalRight.refView) {
-            view.right_sd = model.equalRight.refView.width_sd + model.equalRight.offset;
+        view.right = model.it_sameRight.toView.right + model.it_sameRight.offset;
+        if (view.superview == model.it_sameRight.toView) {
+            view.right = model.it_sameRight.toView.width_jo + model.it_sameRight.offset;
         }
-        
     }
 }
 
-- (void)layoutTopWithView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
-    if (model.topItem) {
-        if (view.superview == model.topItem.refView) {
-            if (!view.fixedHeight) { // view.autoTop && view.autoBottom && view.bottom
-                view.height_sd = view.bottom_sd - [model.topItem.value floatValue];
+- (void)layoutTopWithView:(UIView *)view model:(JELayoutMod *)model{
+    if (model.it_top) {
+        if (view.superview == model.it_top.toView) {
+            if (view.fixedHeight == nil) { // view.autoTop && view.autoBottom && view.bottom
+                view.height_jo = view.bottom - model.it_top.value;
             }
-            view.top_sd = [model.topItem.value floatValue];
+            view.y = model.it_top.value;
         } else {
-            if (model.topItem.refViewsArray.count) {
-                CGFloat lastRefBottom = 0;
-                for (UIView *ref in model.topItem.refViewsArray) {
-                    if ([ref isKindOfClass:[UIView class]] && ref.bottom_sd > lastRefBottom) {
-                        model.topItem.refView = ref;
-                        lastRefBottom = ref.bottom_sd;
-                    }
-                }
+            if (view.fixedHeight == nil) { // view.autoTop && view.autoBottom && view.bottom
+                view.height_jo = view.bottom - model.it_top.toView.bottom - model.it_top.value;
             }
-            if (!view.fixedHeight) { // view.autoTop && view.autoBottom && view.bottom
-                view.height_sd = view.bottom_sd - model.topItem.refView.bottom_sd - [model.topItem.value floatValue];
-            }
-            view.top_sd = model.topItem.refView.bottom_sd + [model.topItem.value floatValue];
+            view.y = model.it_top.toView.bottom + model.it_top.value;
         }
-    } else if (model.equalTop) {
-        if (view.superview == model.equalTop.refView) {
-            if (!view.fixedHeight) {
-                view.height_sd = view.bottom_sd - model.equalTop.offset;
+    } else if (model.it_sameTop) {
+        if (view.superview == model.it_sameTop.toView) {
+            if (view.fixedHeight == nil) {
+                view.height_jo = view.bottom - model.it_sameTop.offset;
             }
-            view.top_sd = 0 + model.equalTop.offset;
+            view.y = 0 + model.it_sameTop.offset;
         } else {
-            if (!view.fixedHeight) {
-                view.height_sd = view.bottom_sd - (model.equalTop.refView.top_sd + model.equalTop.offset);
+            if (view.fixedHeight == nil) {
+                view.height_jo = view.bottom - (model.it_sameTop.toView.y + model.it_sameTop.offset);
             }
-            view.top_sd = model.equalTop.refView.top_sd + model.equalTop.offset;
+            view.y = model.it_sameTop.toView.y + model.it_sameTop.offset;
         }
-    } else if (model.equalCenterY) {
-        if (view.superview == model.equalCenterY.refView) {
-            view.centerY_sd = model.equalCenterY.refView.height_sd * 0.5 + model.equalCenterY.offset;
+    } else if (model.it_sameCenterY) {
+        if (view.superview == model.it_sameCenterY.toView) {
+            view.centerY = model.it_sameCenterY.toView.height_jo * 0.5 + model.it_sameCenterY.offset;
         } else {
-            view.centerY_sd = model.equalCenterY.refView.centerY_sd + model.equalCenterY.offset;
+            view.centerY = model.it_sameCenterY.toView.centerY + model.it_sameCenterY.offset;
         }
-    } else if (model.centerY) {
-        view.centerY_sd = [model.centerY floatValue];
+    } else if (model.it_centerY != nil) {
+        view.centerY = [model.it_centerY floatValue];
     }
 }
 
-- (void)layoutBottomWithView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
-    if (model.bottomItem) {
-        if (view.superview == model.bottomItem.refView) {
-            if (!view.fixedHeight) {
-                view.height_sd = view.superview.height_sd - view.top_sd - [model.bottomItem.value floatValue];
+- (void)layoutBottomWithView:(UIView *)view model:(JELayoutMod *)model{
+    if (model.it_bottom) {
+        if (view.superview == model.it_bottom.toView) {
+            if (view.fixedHeight == nil) {
+                view.height_jo = view.superview.height_jo - view.y - model.it_bottom.value;
             }
-            view.bottom_sd = model.bottomItem.refView.height_sd - [model.bottomItem.value floatValue];
+            view.bottom = model.it_bottom.toView.height_jo - model.it_bottom.value;
         } else {
-            if (!view.fixedHeight) {
-                view.height_sd = model.bottomItem.refView.top_sd - view.top_sd - [model.bottomItem.value floatValue];
+            if (view.fixedHeight == nil) {
+                view.height_jo = model.it_bottom.toView.y - view.y - model.it_bottom.value;
             }
-            view.bottom_sd = model.bottomItem.refView.top_sd - [model.bottomItem.value floatValue];
+            view.bottom = model.it_bottom.toView.y - model.it_bottom.value;
         }
         
-    } else if (model.equalBottom) {
-        if (view.superview == model.equalBottom.refView) {
-            if (!view.fixedHeight) {
-                view.height_sd = view.superview.height_sd - view.top_sd + model.equalBottom.offset;
+    } else if (model.it_sameBottom) {
+        if (view.superview == model.it_sameBottom.toView) {
+            if (view.fixedHeight == nil) {
+                view.height_jo = view.superview.height_jo - view.y + model.it_sameBottom.offset;
             }
-            view.bottom_sd = model.equalBottom.refView.height_sd + model.equalBottom.offset;
+            view.bottom = model.it_sameBottom.toView.height_jo + model.it_sameBottom.offset;
         } else {
-            if (!view.fixedHeight) {
-                view.height_sd = model.equalBottom.refView.bottom_sd - view.top_sd + model.equalBottom.offset;
+            if (view.fixedHeight == nil) {
+                view.height_jo = model.it_sameBottom.toView.bottom - view.y + model.it_sameBottom.offset;
             }
-            view.bottom_sd = model.equalBottom.refView.bottom_sd + model.equalBottom.offset;
+            view.bottom = model.it_sameBottom.toView.bottom + model.it_sameBottom.offset;
         }
     }
-    if (model.widthEqualHeight && !view.fixedHeight) {
+    if (model.it_widthEqualHeight && view.fixedHeight == nil) {
         [self layoutRightWithView:view model:model];
     }
 }
 
 
-- (void)setupCornerRadiusWithView:(UIView *)view model:(SDAutoLayoutModel *)model
-{
+- (void)setupCornerRadiusWithView:(UIView *)view model:(JELayoutMod *)model{
     CGFloat cornerRadius = view.layer.cornerRadius;
     CGFloat newCornerRadius = 0;
     
-    if (view.sd_cornerRadius && (cornerRadius != [view.sd_cornerRadius floatValue])) {
-        newCornerRadius = [view.sd_cornerRadius floatValue];
-    } else if (view.sd_cornerRadiusFromWidthRatio && (cornerRadius != [view.sd_cornerRadiusFromWidthRatio floatValue] * view.width_sd)) {
-        newCornerRadius = view.width_sd * [view.sd_cornerRadiusFromWidthRatio floatValue];
-    } else if (view.sd_cornerRadiusFromHeightRatio && (cornerRadius != view.height_sd * [view.sd_cornerRadiusFromHeightRatio floatValue])) {
-        newCornerRadius = view.height_sd * [view.sd_cornerRadiusFromHeightRatio floatValue];
+    if (view.jo_rad && (cornerRadius != [view.jo_rad floatValue])) {
+        newCornerRadius = [view.jo_rad floatValue];
+    } else if (view.jo_radWRate && (cornerRadius != [view.jo_radWRate floatValue] * view.width_jo)) {
+        newCornerRadius = view.width_jo * [view.jo_radWRate floatValue];
+    } else if (view.jo_radHRate && (cornerRadius != view.height_jo * [view.jo_radHRate floatValue])) {
+        newCornerRadius = view.height_jo * [view.jo_radHRate floatValue];
     }
     
     if (newCornerRadius > 0) {
@@ -1534,164 +1043,47 @@ Class cellContVClass(){
     }
 }
 
-- (void)addAutoLayoutModel:(SDAutoLayoutModel *)model
-{
-    [self.autoLayoutModelsArray addObject:model];
+@end
+
+
+
+
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIView (JELOChangeFrame)   🔷🔷🔷🔷🔷🔷🔷🔷
+@implementation UIView (JELOChangeFrame)
+
+- (CGFloat)width_jo {return self.frame.size.width;}
+
+- (void)setWidth_jo:(CGFloat)width_jo {
+    if (self.ownLayoutModel.it_widthEqualHeight) {if (width_jo != self.height_jo) return;}
+    
+    CGRect frame = self.frame;
+    frame.size.width = width_jo;
+    self.frame = frame;
+    if (self.ownLayoutModel.it_heightEqualWidth) {
+        self.height_jo = width_jo;
+    }
+}
+
+- (CGFloat)height_jo {return self.frame.size.height;}
+
+- (void)setHeight_jo:(CGFloat)height_jo {
+    if (self.ownLayoutModel.it_heightEqualWidth) {if (height_jo != self.width_jo) return;}
+    
+    CGRect frame = self.frame;
+    frame.size.height = height_jo;
+    self.frame = frame;
+    if (self.ownLayoutModel.it_widthEqualHeight) {
+        self.width_jo = height_jo;
+    }
 }
 
 @end
 
-@implementation UIButton (SDAutoLayoutButton)
-
-+ (void)load
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self sdal_exchengeMethods:@[@"layoutSubviews"] prefix:@"sd_button_"];
-    });
-}
-
-- (void)sd_button_layoutSubviews
-{
-    // 如果程序崩溃在这行代码说明是你的view在执行“layoutSubvies”方法时出了问题而不是在此自动布局库内部出现了问题，请检查你的“layoutSubvies”方法
-    [self sd_button_layoutSubviews];
-    
-    [self sd_layoutSubviewsHandle];
-    
-}
-
-@end
 
 
-@implementation UIView (SDChangeFrame)
 
-- (BOOL)shouldReadjustFrameBeforeStoreCache
-{
-    return self.sd_categoryManager.shouldReadjustFrameBeforeStoreCache;
-}
-
-- (void)setShouldReadjustFrameBeforeStoreCache:(BOOL)shouldReadjustFrameBeforeStoreCache
-{
-    self.sd_categoryManager.shouldReadjustFrameBeforeStoreCache = shouldReadjustFrameBeforeStoreCache;
-}
-
-- (CGFloat)left_sd {
-    return self.frame.origin.x;
-}
-
-- (void)setLeft_sd:(CGFloat)x_sd {
-    CGRect frame = self.frame;
-    frame.origin.x = x_sd;
-    self.frame = frame;
-}
-
-- (CGFloat)top_sd {
-    return self.frame.origin.y;
-}
-
-- (void)setTop_sd:(CGFloat)y_sd {
-    CGRect frame = self.frame;
-    frame.origin.y = y_sd;
-    self.frame = frame;
-}
-
-- (CGFloat)right_sd {
-    return self.frame.origin.x + self.frame.size.width;
-}
-
-- (void)setRight_sd:(CGFloat)right_sd {
-    CGRect frame = self.frame;
-    frame.origin.x = right_sd - frame.size.width;
-    self.frame = frame;
-}
-
-- (CGFloat)bottom_sd {
-    return self.frame.origin.y + self.frame.size.height;
-}
-
-- (void)setBottom_sd:(CGFloat)bottom_sd {
-    CGRect frame = self.frame;
-    frame.origin.y = bottom_sd - frame.size.height;
-    self.frame = frame;
-}
-
-- (CGFloat)centerX_sd
-{
-    return self.left_sd + self.width_sd * 0.5;
-}
-
-- (void)setCenterX_sd:(CGFloat)centerX_sd
-{
-    self.left_sd = centerX_sd - self.width_sd * 0.5;
-}
-
-- (CGFloat)centerY_sd
-{
-    return self.top_sd + self.height_sd * 0.5;
-}
-
-- (void)setCenterY_sd:(CGFloat)centerY_sd
-{
-    self.top_sd = centerY_sd - self.height_sd * 0.5;
-}
-
-- (CGFloat)width_sd {
-    return self.frame.size.width;
-}
-
-- (void)setWidth_sd:(CGFloat)width_sd {
-    if (self.ownLayoutModel.widthEqualHeight) {
-        if (width_sd != self.height_sd) return;
-    }
-    CGRect frame = self.frame;
-    frame.size.width = width_sd;
-    self.frame = frame;
-    if (self.ownLayoutModel.heightEqualWidth) {
-        self.height_sd = width_sd;
-    }
-}
-
-- (CGFloat)height_sd {
-    return self.frame.size.height;
-}
-
-- (void)setHeight_sd:(CGFloat)height_sd {
-    if (self.ownLayoutModel.heightEqualWidth) {
-        if (height_sd != self.width_sd) return;
-    }
-    
-    CGRect frame = self.frame;
-    frame.size.height = height_sd;
-    self.frame = frame;
-    
-    if (self.ownLayoutModel.widthEqualHeight) {
-        self.width_sd = height_sd;
-    }
-}
-
-- (CGPoint)origin_sd {
-    return self.frame.origin;
-}
-
-- (void)setOrigin_sd:(CGPoint)origin_sd {
-    CGRect frame = self.frame;
-    frame.origin = origin_sd;
-    self.frame = frame;
-}
-
-- (CGSize)size_sd {
-    return self.frame.size;
-}
-
-- (void)setSize_sd:(CGSize)size_sd {
-    CGRect frame = self.frame;
-    frame.size = size_sd;
-    self.frame = frame;
-}
-
-@end
-
-@implementation SDUIViewCategoryManager
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JELayoutTool   🔷🔷🔷🔷🔷🔷🔷🔷
+@implementation JELayoutTool
 
 @end
 

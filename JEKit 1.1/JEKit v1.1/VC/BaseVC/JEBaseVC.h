@@ -18,14 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong)  UILabel *navTitleLable;///< 标题label
 @property (nonatomic,strong)  JEButton *navBackButton;///< 返回按钮
 
-/// navBar navBarEffect navBarline frame
-- (void)resetNavBarHeight:(CGFloat)h;
-
 /// 导航栏返回键点击事件 可重写控制返回
 - (void)navBackButtonClick;
 
-/// 设置返回键标题 图片
-- (void)navBackBtn:(id)item;
+/// 重设返回键标题/图片
+- (void)resetNavBackBtn:(id)item;
 
 /// 导航栏左边按钮
 - (JEButton *)leftNavBtn:(id)item target:(id)target act:(SEL)selector;
@@ -35,8 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark -
-@property (nonatomic,assign,readonly) CGRect tvFrameFull;///< tableView默认Frame
-@property (nonatomic,assign,readonly) CGRect tvFrame;///< 
 @property (nonatomic,strong) JETableView *tableView;///< 默认的tableView
 @property (nonatomic,strong) JELiteTV *__nullable liteTv;///< 默认的tableView
 @property (nonatomic,strong) JEStaticTableView *__nullable staticTv;///< 静态 tableView 

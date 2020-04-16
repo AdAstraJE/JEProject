@@ -1,9 +1,8 @@
 
 #import "UIView+JE.h"
-#import "UIImageView+JE.h"
 #import <objc/runtime.h>
 
-#define SetFrame(...)   CGRect frame = self.frame; (__VA_ARGS__); self.frame = frame
+#define SetFrame(...)   {CGRect frame = self.frame; (__VA_ARGS__); self.frame = frame;}
 
 @implementation UIView (JE)
 
@@ -160,9 +159,11 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
 
 - (void)je_DebugSubView{
 #ifdef DEBUG
+    [self je_Debug:nil width:1];
     for (UIView *view in self.subviews) {
         [view je_DebugSubView];
-        [view je_Debug:nil width:1];
+        CGFloat w = MAX(1, self.superview.layer.borderWidth);
+        [view je_Debug:nil width:w + 1];
     }
 #endif
 }

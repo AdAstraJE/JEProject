@@ -146,7 +146,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
     self.title = @"存进DB的历史";
     
     NSDate *date = [NSDate date];
-    self.liteTv = [JELiteTV Frame:self.tvFrame style:(UITableViewStyleGrouped) cellC:JETableViewCell1.class cellH:ScrnAdaptMax(50) cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, JEDebugToolTimeListModel *mod) {
+    self.liteTv = [JELiteTV Frame:JR(0, self.navBar.height, kSW, kSH - self.navBar.height) style:(UITableViewStyleGrouped) cellC:JETableViewCell1.class cellH:ScrnAdaptMax(50) cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, JEDebugToolTimeListModel *mod) {
         cell.textLabel.text = [mod.date isSameDay:date] ? mod.date.je_HHmmss : mod.date.je_YYYYMMddHHmmss;
         cell.detailTextLabel.text = @(mod.number).stringValue;
         if (idx.row == 0 && ([JEDebugTool__ Shared].beginDate.ts.integerValue - mod.date.ts.integerValue == 0)) {

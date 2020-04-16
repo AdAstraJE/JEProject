@@ -19,7 +19,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 }
 
 + (void)ShowCustomArr:(NSArray <NSString *>*)arr title:(NSString *)title current:(id)current res:(JEPVCusArrBlock)block{
-    JEPickerView *_ = [[JEPickerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)].addTo(JEApp.window).jo.bounds;
+    JEPickerView *_ = [[JEPickerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)].addTo(JEApp.window).jo.insets(0);
     _->_Arr_custom = arr;
     _.cusArrBlock = block;
     [_ pickV];
@@ -54,10 +54,10 @@ static NSInteger const jkActionBarHeight = 48;///<
 }
 
 + (void)ShowDatePicker:(JEPVDateBlock)date current:(NSDate*)current min:(NSDate*)min max:(NSDate*)max title:(NSString *)title mode:(UIDatePickerMode)mode{
-    JEPickerView *_ = [[JEPickerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)].addTo(JEApp.window).jo.bounds;
+    JEPickerView *_ = [[JEPickerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)].addTo(JEApp.window).jo.insets(0);
     [_ actionBarWithTitle:title];
     _.dateBlock = date;
-    _.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0 ,jkActionBarHeight, ScreenWidth, jkPickViewHeight)].addTo(_.Ve_content).jo.left(0).right(0).height(jkPickViewHeight).top(jkActionBarHeight).me;
+    _.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0 ,jkActionBarHeight, ScreenWidth, jkPickViewHeight)].addTo(_.Ve_content).jo.lr(0).h(jkPickViewHeight).top(jkActionBarHeight).me;
     _.datePicker.backgroundColor = UIColor.clearColor;
     _.datePicker.datePickerMode = mode;
     [_.datePicker setDate:(current ? : [NSDate date]) animated:NO];
@@ -74,7 +74,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 }
 
 + (void)ShowLocationPick:(JEPVLocationBlock)loca both:(BOOL)both currentCity:(NSString *)currentCity{
-    JEPickerView_City *_ = [[JEPickerView_City alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) loca:loca both:both currentCity:currentCity].addTo(JEApp.window).jo.bounds;
+    JEPickerView_City *_ = [[JEPickerView_City alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) loca:loca both:both currentCity:currentCity].addTo(JEApp.window).jo.insets(0);
     [_ pickV];
     [_ actionBarWithTitle:nil];
 }
@@ -92,7 +92,7 @@ static NSInteger const jkActionBarHeight = 48;///<
 
 - (UIPickerView *)pickV{
     if (!_pickV) {
-        _pickV = [[UIPickerView alloc]initWithFrame:JR0].addTo(self.Ve_content).jo.left(0).right(0).height(jkPickViewHeight).top(jkActionBarHeight).me;
+        _pickV = [[UIPickerView alloc]initWithFrame:JR0].addTo(self.Ve_content).jo.lr(0).h(jkPickViewHeight).top(jkActionBarHeight).me;
         _pickV.backgroundColor = UIColor.clearColor;
         _pickV.delegate = self;
         _pickV.dataSource = self;
@@ -102,13 +102,14 @@ static NSInteger const jkActionBarHeight = 48;///<
 - (void)actionBarWithTitle:(NSString *)title{
     UIColor *btnColor = JEShare.themeClr ? : Clr_blue;
     UIView *_ = JEVe(JR0, UIColor.clearColor, self.Ve_content).
-    jo.left(0).right(0).top(0).height(jkActionBarHeight).me;
-    JEVe(JR0, UIColor.je_sep, _).jo.left(0).right(0).bottom(0).height(0.5);
+    jo.lr(0).top(0).h(jkActionBarHeight).me;
+    JEVe(JR0, UIColor.je_sep, _).jo.lr(0).bottom(0).h(0.5);
 
     JEButton *left = JEBtnSys(JR0,@"取消".loc,@16,btnColor,self,@selector(dismiss),nil,0,_).touchs(0,0,0,20).jo.left(15).top(0).bottom(0).me;
-    left.jo.width([left sizeThatWidth].width);
+    left.jo.w([left sizeThatWidth].width);
+    
     JEButton *right = JEBtnSys(JR0,@"确定".loc,@16,btnColor,self,@selector(confirmBtnClick),nil,0,_).touchs(0,20,0,0) .jo.right(15).top(0).bottom(0).me;
-    right.jo.width([left sizeThatWidth].width);
+    right.jo.w([right sizeThatWidth].width);
     
     JELab(JR(9, 0, ScreenWidth - 9, _.height),title,@14.5,nil,(NSTextAlignmentCenter),_).jo.left_(left,8).right_(right, 8).top(0).bottom(0);
 }

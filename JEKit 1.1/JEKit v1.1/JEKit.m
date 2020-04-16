@@ -21,7 +21,7 @@ static JEKit *_shared;
 - (void)defaultTheme{
     _HUDClr = [UIColor Light:kRGBA(0, 0, 0,0.9) dark:kRGBA(255, 255, 255,0.1)];
     
-    _navBarLineClr = UIColor.je_sep;
+    _navBarLineClr = UIColor.gray3;
     _navBarItemClr = Clr_blue;
     _navTitleClr = UIColor.je_txt;
 

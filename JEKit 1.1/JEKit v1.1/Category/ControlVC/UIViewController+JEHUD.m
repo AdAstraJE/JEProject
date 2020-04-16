@@ -31,7 +31,7 @@ static CGFloat const jkHudAnimatedMarkTypeDuration = 0.8;///< 仅MarkType默认�
         self.HUDView = hudview;
     }
     [self.view bringSubviewToFront:hudview];
-    return objc_getAssociatedObject(self, _cmd);
+    return hudview;
 }
 
 - (void)setHUDView:(UIView *)HUDView{objc_setAssociatedObject(self, @selector(HUDView), HUDView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);}

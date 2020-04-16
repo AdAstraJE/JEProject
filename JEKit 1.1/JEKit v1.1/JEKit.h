@@ -133,7 +133,7 @@
 @property (nonatomic,assign)  BOOL customNavView;///< 自定义导航栏 ###  NO
 @property (nonatomic,strong)  UIColor *navBarClr;///< 导航栏背景颜色 ###  nil
 @property (nonatomic,strong)  UIImage *navBarImage;///< 导航栏背景图片 ### nil
-@property (nonatomic,strong)  UIColor *navBarLineClr;///< 导航栏底部线条颜色 ### UIColor.je_sep
+@property (nonatomic,strong)  UIColor *navBarLineClr;///< 导航栏底部线条颜色 ### UIColor.gray3
 @property (nonatomic,strong)  UIColor *navBarItemClr;///< 返回键 左右控制键 按钮颜色 ### Clr_blue
 @property (nonatomic,strong)  UIColor *navTitleClr;///< 标题颜色
 #pragma mark - tableView

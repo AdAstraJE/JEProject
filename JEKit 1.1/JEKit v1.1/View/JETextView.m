@@ -57,7 +57,7 @@
 
 - (UILabel *)La_placeHolder {
     if(_La_placeHolder == nil) {
-        _La_placeHolder = JELab(JR0,nil,self.font,Tgray2,(0),self).jo.left(8).top(6).right(24).height(20).me;
+        _La_placeHolder = JELab(JR0,nil,self.font,Tgray2,(0),self).jo.left(8).top(6).right(24).h(20).me;
     }
     return _La_placeHolder;
 }

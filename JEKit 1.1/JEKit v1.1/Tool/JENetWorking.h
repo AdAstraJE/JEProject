@@ -97,12 +97,12 @@ typedef NSInteger (^JENetHandleDoneCodeBlock)(NSDictionary *obj);
 @property (nonatomic,assign) BOOL noAutoHUD;///< 异常 不自动弹出HUD 
 
 /// 该VC所有进行中的请求id
-@property (nonatomic,strong) NSMutableArray <NSNumber *> *Arr_taskId;
+@property (nonatomic,strong,readonly) NSMutableArray <NSNumber *> *Arr_taskId;
 
 
-/// VC所缓存的
-@property (nonatomic,strong) NSMutableDictionary <NSString *,NSDictionary <NSString *,id> *> *Dic_jeCache;
-@property (nonatomic,strong) NSMutableDictionary <NSString *,NSNumber *> *Dic_jeCacheType;
+/// VC所缓存的 根据URL
+@property (nonatomic,strong,readonly) NSMutableDictionary <NSString *,NSDictionary <NSString *,id> *> *Dic_jeCache;
+@property (nonatomic,strong,readonly) NSMutableDictionary <NSString *,NSNumber *> *Dic_jeCacheType;
 
 
 - (NSURLSessionTask *)POST:(NSString*)URL param:(NSDictionary*)param cache:(JENetCacheBlock)cacheBlock done:(JENetDoneBlock)doneBlock suc:(JENetSucBlock)sucBlock fail:(JENetFailBlock)failBlock;

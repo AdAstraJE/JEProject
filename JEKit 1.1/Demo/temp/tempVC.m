@@ -8,43 +8,71 @@
 #import "JETranslate.h"
 #import "JEWKWebviewVC.h"
 
+@interface UIImageViewTest : UIImageView
+
+@end
+
+@implementation UIImageViewTest
+
+- (void)dealloc{
+    jkDeallocLog
+}
+
+- (void)setFrame:(CGRect)frame{
+    [super setFrame:frame];
+//    JIE1
+}
+
+@end
+
+
+
 @implementation tempVC{
-    UIImageView *_Img;
+    UIImageViewTest *_Img;
+    UILabel *_La_;
+    JEButton *_Btn1_;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"General".loc;
     
-    [self setuptempVC_UI];
-    [self navBackBtn:@"Cancel"];
-    [self rightNavBtn:@"Done" target:self act:@selector(testBtnClick)];
+//    [self setuptempVC_UI];
+//    delay(1, ^{
+         [self resetNavBackBtn:@"Cancel"];
+//        [self rightNavBtn:@"Done" target:self act:@selector(testBtnClick)];
+//    });
+   
+    _Btn1_ = [self rightNavBtn:@"Done" target:self act:@selector(testBtnClick)];
     
+    _La_ = JELab(JR0,@"12111111111111111111113",@12,nil,(0),self.view).jo.top(100).left(0).w(100).autoH(8).me;
+//    _La_ = JELab(JR0,@"12111111111111111111113",@12,nil,(0),self.view).jo.top(100).left(0).h(20).autoW(0).maxW(kSW).me;
+    [_La_ je_DebugSubView];
     
+//    JELab(JR(<#CGFloat x#>,<#CGFloat y#>,<#CGFloat width#>,<#CGFloat height#>),<#@""#>,@<#  #>,nil,(<#NSTextAlignment align#>),<#self.view#>);
+    _Img = [[UIImageViewTest alloc] initWithFrame:JR0].addTo(self.view).jo.w(40).w_lock_h().top_(_La_,5).centerXSameTo(_La_).me;
+    [_Img je_DebugSubView];
+    
+    [self.navBar je_DebugSubView];
+
 #if TARGET_OS_SIMULATOR
 //    JEBtn(JR(kSW - 50,ScreenStatusBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClick),Clr_orange,0,self.view);
 #endif
 }
 
 - (void)testBtnClick{
-    UIImage *img = [UIImage je_capture:self.view size:self.view.size update:YES];
-    img = [img je_limitToWH:100];
-//    img = img.clip(CGRectMake(0, 0, 375, 150));
-    _Img.image = img;
+    [_Btn1_ setTitle:[NSString RandomStr:arc4random_uniform(5)] forState:(UIControlStateNormal)];
+   
+    _La_.text = [NSString RandomStr:arc4random_uniform(200)];
+
+//    for (int i = 0; i < 10000; i++) {
+//    _Img.jo.inCenterY().left(arc4random_uniform(100)).wh(arc4random_uniform(100), arc4random_uniform(100)).minW(20);
+//    }
     
-    JIE1;
-//    [_La_step showAnimateNumber:@(arc4random_uniform(10000))];
-//    [JEPutDownMenuView ShowIn:self.view point:CGPointMake(15, ScreenNavBarH + 200) list:@[@"1",@"2"] select:^(NSString *str, NSInteger index) {
-//
-//    } upward:NO arrowX:0.2];
-    
-//    YYImageCache *cache = [YYWebImageManager sharedManager].cache;
-//    [cache.memoryCache removeAllObjects];
-//    [cache.diskCache removeAllObjects];
-//    [JETranslate Translate:@"我很饿"];
-//    [JETranslate Translate:@"我很饿" to:@"en" done:^(JETranslateResult * _Nonnull result, NSError * _Nonnull error) {
-//
-//    }];
+//    NSLog(@"⏰ %f",[[NSDate date] timeIntervalSinceDate:begin]);
+//    JELayoutMod *mod = _Img.jo;
+//    16.8 0.08
+//    JELog(@"%@",mod);
 }
 
 
