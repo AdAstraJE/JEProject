@@ -39,8 +39,7 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
 - (void)setPopType:(JEPopType)popType{
     _popType = popType;
     if (_popType == JEPopTypeBottom) {
-        [_Ve_content jo_clearAutoLayoutSettings];
-        _Ve_content.jo.y(kSH).h(_Ve_content.height + ScreenSafeArea).left(0).right(0);
+        _Ve_content.jo_reset.y(kSH).h(_Ve_content.height + ScreenSafeArea).left(0).right(0);
     }else{
         _Ve_content.jo.y((kSH - _Ve_content.height)/2);
     }
