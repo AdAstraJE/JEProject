@@ -358,7 +358,7 @@ static NSArray <NSString *> *jkRandomArr;///<
     
     NSString *JELang = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"JELang" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
     NSMutableArray <NSString *> *TranslateArr = [JELang componentsSeparatedByString:@"\n"].mutableCopy;
-//    TranslateArr = [JELang componentsSeparatedByString:@"\r"].mutableCopy;//换行可能是\r 打开这个注释
+    TranslateArr = [JELang componentsSeparatedByString:@"\r"].mutableCopy;//换行可能是\r 打开这个注释
     
     if (TranslateArr.lastObject.length == 0) {
         [TranslateArr removeLastObject];

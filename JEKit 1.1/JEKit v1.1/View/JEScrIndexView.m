@@ -3,12 +3,11 @@
 #import "JEKit.h"
 
 @interface JEScrIndexView ()<UIScrollViewDelegate>{
-    NSMutableArray <JEButton *> *_Arr_btns;///< 按钮
     NSMutableArray <JEButton *> *_Arr_titleSeeBtns;///< 视觉差标题Label
     NSInteger _currentIndex;
-    NSArray <NSNumber *> *_Arr_selectClrRGB;
-    NSArray <NSNumber *> *_Arr_normalClrRGB;
-    NSArray <NSNumber *> *_Arr_gapClrRGB;
+    NSArray <NSNumber *> *_Arr_selectClrRGBA;
+    NSArray <NSNumber *> *_Arr_normalClrRGBA;
+    NSArray <NSNumber *> *_Arr_gapClrRGBA;
     CGFloat _startContentOffsetX;
 }
 
@@ -35,12 +34,12 @@
     _Arr_vc = [NSMutableArray array];
     
     _titleFont = [UIFont systemFontOfSize:15];
-    self.tintColor = (kHexColor(0x4DA6F0));
-    self.normalTitleClr = (kHexColor(0x333333));
+    self.tintColor = UIColor.systemBlueColor;
+    self.normalTitleClr = UIColor.gray1;
     _scale = 0.28;
     
     _titleViewHeight = jkDefaultScrIndexTitleViewH;
-    _sliderBoardPer = 0.6;
+    _sliderBoardPer = 0.618;
     _btnWidth = 0;
     _marginPer = 0.0;
     _advances = @[@(1)];
@@ -48,18 +47,34 @@
     return self;
 }
 
+#pragma mark - StyleDark 深色模式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self setTintColor:self.tintColor];
+    [self setNormalTitleClr:_normalTitleClr];
+    [self resetGapClrRGBA];
+}
+
 - (void)setTintColor:(UIColor *)tintColor{
     super.tintColor = tintColor;
     CGFloat r = 0, g = 0, b = 0, a = 0;
     [self.tintColor getRed:&r green:&g blue:&b alpha:&a];
-    _Arr_selectClrRGB = @[@(r),@(g),@(b)];
+    _Arr_selectClrRGBA = @[@(r),@(g),@(b),@(a)];
 }
 
 - (void)setNormalTitleClr:(UIColor *)normalTitleClr{
     _normalTitleClr = normalTitleClr;
     CGFloat r = 0, g = 0, b = 0, a = 0;
     [_normalTitleClr getRed:&r green:&g blue:&b alpha:&a];
-    _Arr_normalClrRGB = @[@(r),@(g),@(b)];
+    _Arr_normalClrRGBA = @[@(r),@(g),@(b),@(a)];
+}
+
+- (void)resetGapClrRGBA{
+    _Arr_gapClrRGBA = @[@(_Arr_selectClrRGBA[0].floatValue - _Arr_normalClrRGBA[0].floatValue),
+                        @(_Arr_selectClrRGBA[1].floatValue - _Arr_normalClrRGBA[1].floatValue),
+                        @(_Arr_selectClrRGBA[2].floatValue - _Arr_normalClrRGBA[2].floatValue),
+                        @(_Arr_selectClrRGBA[3].floatValue - _Arr_normalClrRGBA[3].floatValue),
+    ];
 }
 
 /// 设置样式后 再设置标题
@@ -68,9 +83,7 @@
         [_Arr_view addObject:obj];
     }
     
-    _Arr_gapClrRGB = @[@(_Arr_selectClrRGB[0].floatValue - _Arr_normalClrRGB[0].floatValue),
-                       @(_Arr_selectClrRGB[1].floatValue - _Arr_normalClrRGB[1].floatValue),
-                       @(_Arr_selectClrRGB[2].floatValue - _Arr_normalClrRGB[2].floatValue)];
+    [self resetGapClrRGBA];
 
     //文本的
     _Scr_title = [[UIScrollView alloc]initWithFrame:CGRectMake(self.width*_marginPer,0,self.width*(1 -_marginPer*2),_titleViewHeight)].addTo(self);
@@ -181,16 +194,17 @@
         effect.transform = CGAffineTransformMakeScale(1 + (1 - change)*_scale,1 + (1 - change)*_scale);
         
         UIColor *tintClr = [UIColor
-                            colorWithRed:((_Arr_selectClrRGB[0].floatValue - _Arr_gapClrRGB[0].floatValue*change))
-                            green:((_Arr_selectClrRGB[1].floatValue - _Arr_gapClrRGB[1].floatValue*change))
-                            blue:((_Arr_selectClrRGB[2].floatValue - _Arr_gapClrRGB[2].floatValue*change)) alpha:1];
+                            colorWithRed:((_Arr_selectClrRGBA[0].floatValue - _Arr_gapClrRGBA[0].floatValue*change))
+                            green:((_Arr_selectClrRGBA[1].floatValue - _Arr_gapClrRGBA[1].floatValue*change))
+                            blue:((_Arr_selectClrRGBA[2].floatValue - _Arr_gapClrRGBA[2].floatValue*change)) alpha:((_Arr_selectClrRGBA[3].floatValue - _Arr_gapClrRGBA[3].floatValue*change))];
         
         [effect setTitleColor:tintClr forState:(UIControlStateNormal)];
         
         UIColor *norClr = [UIColor
-                           colorWithRed:((_Arr_selectClrRGB[0].floatValue - _Arr_gapClrRGB[0].floatValue*(1 - change)))
-                           green:((_Arr_selectClrRGB[1].floatValue - _Arr_gapClrRGB[1].floatValue*(1 - change)))
-                           blue:((_Arr_selectClrRGB[2].floatValue - _Arr_gapClrRGB[2].floatValue*(1 - change))) alpha:1];
+                           colorWithRed:((_Arr_selectClrRGBA[0].floatValue - _Arr_gapClrRGBA[0].floatValue*(1 - change)))
+                           green:((_Arr_selectClrRGBA[1].floatValue - _Arr_gapClrRGBA[1].floatValue*(1 - change)))
+                           blue:((_Arr_selectClrRGBA[2].floatValue - _Arr_gapClrRGBA[2].floatValue*(1 - change)))
+                           alpha:((_Arr_selectClrRGBA[3].floatValue - _Arr_gapClrRGBA[3].floatValue*(1 - change)))];
         [current setTitleColor:norClr forState:(UIControlStateNormal)];
     }
 }
@@ -210,10 +224,10 @@
 //滑块的按钮点击
 - (void)boardBtnClick:(JEButton*)sender{
     _currentIndex = [_Arr_btns indexOfObject:sender];
-    NSInteger index = 0;
+    !_indexChangeBlock ? : _indexChangeBlock(_currentIndex);
+    
     for (int i = 0; i < _Arr_btns.count; i++) {//重置按钮状态
         JEButton *_ = _Arr_btns[i];
-        if (sender == _) { index = i;}
         _.userInteractionEnabled = YES;
         _.transform = CGAffineTransformIdentity;
         [_ setTitleColor:_normalTitleClr forState:UIControlStateNormal];
@@ -224,16 +238,16 @@
         [sender setTitleColor:self.tintColor forState:UIControlStateNormal];
     }
 
-    [self getViewFromIndex:index];
+    [self getViewFromIndex:_currentIndex];
     
     if (_advances) {
         [_advances enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [self getViewFromIndex:index + obj.integerValue];
+            [self getViewFromIndex:_currentIndex + obj.integerValue];
         }];
     }
     
-    [_Scr_scroll_ scrollRectToVisible:CGRectMake((index)*_Scr_scroll_.frame.size.width,0, _Scr_scroll_.frame.size.width, _Scr_scroll_.frame.size.height) animated:NO];
-    [self adjustScrTitleXWithIndex:index animated:YES];
+    [_Scr_scroll_ scrollRectToVisible:CGRectMake((_currentIndex)*_Scr_scroll_.frame.size.width,0, _Scr_scroll_.frame.size.width, _Scr_scroll_.frame.size.height) animated:NO];
+    [self adjustScrTitleXWithIndex:_currentIndex animated:YES];
     
 }
 

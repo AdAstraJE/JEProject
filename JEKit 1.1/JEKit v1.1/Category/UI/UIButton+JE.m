@@ -41,7 +41,9 @@ static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的�
     
     if ([img isKindOfClass:UIColor.class]) {
         [_ je_addBgImg:(UIColor *)img rad:rad];
-        [_ setTitleColor:((UIColor *)img).alpha_(jkAlpha_bg) forState:UIControlStateHighlighted];
+        if (clr) {
+            [_ setTitleColor:clr.alpha_(jkAlpha_bg) forState:UIControlStateHighlighted];
+        }
     }
     else if ([img isKindOfClass:NSArray.class]){
         image = [UIImage je_gradualColors:img size:frame.size type:ImageJEGradualType2];
@@ -77,13 +79,17 @@ static CGFloat const jkAlpha_disable = 0.5;///< 跟系统自动处理图片的�
     
     
     if (rad != 0) { _.rad = rad;}
-    UIImage *image;
-    if ([img isKindOfClass:NSString.class]){image = [UIImage imageNamed:img];}
-    if ([img isKindOfClass:UIImage.class]) {image = img;}
-    if (image) {
-        [_ setImage:image forState:(UIControlStateNormal)];
+    if ([img isKindOfClass:UIColor.class]) {
+        [_ setBackgroundImage:UIImage.clr(img) forState:UIControlStateNormal];
+    }else{
+        UIImage *image;
+        if ([img isKindOfClass:NSString.class]){image = [UIImage imageNamed:img];}
+        if ([img isKindOfClass:UIImage.class]) {image = img;}
+        if (image) {
+            [_ setImage:image forState:(UIControlStateNormal)];
+        }
     }
-    
+
     return _;
 }
 

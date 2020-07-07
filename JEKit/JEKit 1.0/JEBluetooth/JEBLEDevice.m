@@ -169,7 +169,9 @@
 
 /** 根据特征UUID --- 写入 */
 - (NSError *)write:(NSArray <NSObject *> *)arr crt:(NSString *)UUID done:(BLE_didWriteValueBlock)done{
-    if ([self isSimulator]) { return nil;}
+    if ([self isSimulator]) {
+//        return nil;
+    }
     NSError *error = [self checkCharacts:UUID];
     CBCharacteristic *crt = UUID ? _Dic_crts[UUID] : nil;
     if (!error && !(crt.properties & CBCharacteristicPropertyWrite) && !(crt.properties & CBCharacteristicPropertyWriteWithoutResponse)) {
@@ -177,6 +179,9 @@
     }
     if (!error && (crt.properties & CBCharacteristicPropertyWriteWithoutResponse) && done) {
         error = [NSError errorWithDomain:[NSString stringWithFormat:@"🔴 无响应-block无效!：%@",crt] code:0 userInfo:nil];
+    }
+    if ([self isSimulator]) {
+        error = nil;
     }
     if (error) {
         !done ? : done(error);

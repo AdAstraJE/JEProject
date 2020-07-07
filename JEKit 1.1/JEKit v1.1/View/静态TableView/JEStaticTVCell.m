@@ -65,15 +65,15 @@
         self.alpha = !_item.disable ? 1 : 0.5;
     }
    
-    CGFloat viewH = JEShare.stc.iconWH,margin = JEShare.stc.margin,descW = ScreenWidth*0.5,descMargin = self.accessoryType == 1 ? 4 : JEShare.stc.margin;
+    CGFloat viewH = JEShare.stc.iconWH,margin = JEShare.stc.margin,descW = ScreenWidth*0.5,descMargin = (self.accessoryType == UITableViewCellAccessoryDisclosureIndicator ? 8 : JEShare.stc.margin);
     if (viewH > self.height) {
         viewH = self.height/2;
     }
     CGFloat iconWH = (_item.iconWH == 0 ? JEShare.stc.iconWH : _item.iconWH);
     _Img_icon.frame = CGRectMake(margin, (self.height - iconWH)/2, iconWH, iconWH);
-    _La_title.frame = CGRectMake(_Img_icon.right + margin, (self.height - viewH)/2, ScreenWidth - 40, viewH);
+    _La_title.frame = CGRectMake(_Img_icon.right + (_Img_icon ? JEShare.stc.iconTitleMargin : margin), (self.height - viewH)/2, ScreenWidth - 40, viewH);
     if (_item.desc.length) {
-        _La_title.frame = CGRectMake(_Img_icon.right + margin, (self.height - viewH)/2, ScreenWidth*0.6, viewH);
+        _La_title.frame = CGRectMake(_La_title.x, (self.height - viewH)/2, ScreenWidth*0.6, viewH);
     }
     _La_desc.frame = CGRectMake(self.contentView.width - descW - descMargin, (self.height - viewH)/2, descW, viewH);
     _item.middleView.origin = CGPointMake((self.width - _item.middleView.width)/2, (self.height - _item.middleView.height)/2);
@@ -119,7 +119,7 @@
 
 - (void)resetTitleDescFrame{
     [_La_title sizeThatWidth];
-    CGFloat descMargin = self.accessoryType == 1 ? 4 : JEShare.stc.margin;
+    CGFloat descMargin = self.accessoryType == 1 ? 8 : JEShare.stc.margin;
     CGFloat w = self.contentView.width - _La_title.right - descMargin;
     _La_desc.frame = JR(_La_title.right, _La_desc.y, w, _La_desc.height);
 }

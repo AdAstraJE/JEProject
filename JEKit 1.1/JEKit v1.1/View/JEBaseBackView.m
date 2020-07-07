@@ -21,7 +21,8 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
     self = [super initWithFrame:frame];
     self.tintColor = Clr_blue;
     self.alpha = 0;
-    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.382) dark:kRGBA(0, 0, 0, 0.618)];
+//    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.382) dark:kRGBA(0, 0, 0, 0.618)];
+    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.2) dark:kRGBA(0, 0, 0, 0.618)];
     
     _backView =  JEVe(self.bounds, nil, self).jo.insets(0);//隐藏的点击背景
     CGFloat w = MIN(kSW, kSH)*0.89;
@@ -64,7 +65,7 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
     _Btn_confirm.jo.right(0).bottom(0).w_rate(_, 0.5).h(btnH);
     [_Btn_confirm setTitleColor:self.tintColor forState:(UIControlStateHighlighted)];
     
-    _lineH = JEVe(JR0, UIColor.je_sep, _).jo.left(0).bottom(btnH+0.5).right(0).h(0.5).me;
+    _lineH = JEVe(JR0, UIColor.je_sep, _).jo.left(0).bottom(btnH).right(0).h(0.5).me;
     _lineV = JEVe(JR0, UIColor.je_sep, _).jo.inCenterX().bottom(0).wh(0.6,btnH).me;
     
     [self handelStyleDark];
@@ -110,7 +111,7 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
     BOOL dark = NO;
     if (@available(iOS 13.0, *)) {dark = (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);}
     
-    UIColor *clr = (dark ? kRGB(62, 62, 62) : kRGB(222, 222, 222));
+    UIColor *clr = (dark ? kRGB(62, 62, 62) : kRGB(212, 212, 212));
     UIImage *image = UIImage.clr(clr);
     [_Btn_cancel setBackgroundImage:image forState:UIControlStateHighlighted];
     [_Btn_confirm setBackgroundImage:image forState:UIControlStateHighlighted]; 

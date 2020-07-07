@@ -8,13 +8,12 @@
 
 /*
  
+ source 'https://github.com/CocoaPods/Specs.git'
+ platform :ios, "10.0"
+ inhibit_all_warnings!
  
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, "9.0"
-inhibit_all_warnings!
+ target '<#projectName#>' do
  
-target '<#projectName#>' do
-
  pod 'YYKit'
  pod 'FMDB'
  pod 'Masonry'
@@ -31,24 +30,31 @@ target '<#projectName#>' do
  pod 'ShareSDK3'
  pod 'ShareSDK3/ShareSDKPlatforms/QQ'
  pod 'ShareSDK3/ShareSDKPlatforms/WeChat'
-
-end
+ 
+ end
  
  
-*/
+ 
+ pod install
+ pod outdated
+ pod update  --
+ InfoPlist
+ Localizable
+ 
+ https://itunes.apple.com/cn/app/id0000000000?mt=8
 
-//pod install
-//pod outdated
-//pod update  要更新库的名字
+ #if TARGET_OS_SIMULATOR
+ [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection.bundle"] load];
+ #endif
+ 
+ OS_ACTIVITY_MODE = disable
+ 
+ defaults read -g com.apple.mouse.scaling
+ defaults write -g com.apple.mouse.scaling 9
+ 
+ */
 
-//InfoPlist
-//Localizable
 
-//#if TARGET_OS_SIMULATOR
-//[[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection.bundle"] load];
-//#endif
-
-//OS_ACTIVITY_MODE = disable
 
 
 #import <Foundation/Foundation.h>
@@ -83,9 +89,6 @@ end
 //------------------------------------------------------------------------------------
 #import "JEBaseTVC.h"
 #import "JEBaseVC.h"
-
-
-
 //------------------------------------------------------------------------------------
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "NSObject+YYModel.h"
@@ -101,7 +104,7 @@ end
 #ifdef DEBUG
 #define JELog(fmt, ...)     fprintf(stderr,"%s\n",[[NSString stringWithFormat:@"" fmt, ##__VA_ARGS__] UTF8String]);
 #define JELogs(fmt, ...)    fprintf(stderr,"%s  %d \n %s\n",__func__, __LINE__,[[NSString stringWithFormat:@"" fmt, ##__VA_ARGS__] UTF8String]);
-#define JELog___(fmt, ...) (({NSString *_ = [NSString stringWithFormat:@"" fmt, ##__VA_ARGS__];fprintf(stderr,"%s\n",[_ UTF8String]); _;}))
+#define JELog___(fmt, ...)  (({NSString *_ = [NSString stringWithFormat:@"" fmt, ##__VA_ARGS__];fprintf(stderr,"%s\n",[_ UTF8String]); _;}))
 #else
 #define JELog(...)
 #define JELogs(...)
@@ -125,9 +128,7 @@ end
 #define kAPPLang       [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0]
 #define kAPPChina      ([[[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0] hasPrefix:@"zh-"])
 
-//https://itunes.apple.com/cn/app/id0000000000?mt=8
-//#if TARGET_OS_SIMULATOR
-//#endif
+
 
 #pragma mark - JEKit
 
@@ -186,8 +187,6 @@ typedef void(^jeLocationBlock)(id location,NSDictionary *address);
 
 /** 获取当前位置 */
 + (void)Location:(jeLocationBlock)done;
-
-
 
 
 @end

@@ -299,6 +299,15 @@ JEButton * JEBtnSys(CGRect rect,NSString *title,id fnt,UIColor *clr,id target,SE
     self.titleEdgeInsets = UIEdgeInsetsMake(titleInsetsTop, titleInsetsLeft, titleInsetsBottom, titleInsetsRight);
 }
 
+#pragma mark - StyleDark 深色模式
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
+    [super traitCollectionDidChange:previousTraitCollection];
+    if (self.buttonType == UIButtonTypeCustom) {
+        UIColor *clr = [self titleColorForState:(UIControlStateNormal)];
+        [self setTitleColor:clr.alpha_(clr.alpha*0.3) forState:UIControlStateHighlighted];
+    }
+}
+
 @end
 
 

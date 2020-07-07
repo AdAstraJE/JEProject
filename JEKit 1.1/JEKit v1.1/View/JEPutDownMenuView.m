@@ -20,10 +20,11 @@ static CGFloat jkRadius = 3;///< 倒角
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self.contentView.backgroundColor = UIColor.cellBgC;
     self.textLabel.font = font(14);
     self.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     UIView *_ = [[UIView alloc]initWithFrame:self.bounds];
-    _.backgroundColor = kCellSelectColor;
+    _.backgroundColor = JEShare.tvCellSelectBgClr;
     self.selectedBackgroundView = _;
     return self;
 }
@@ -49,9 +50,7 @@ static CGFloat jkRadius = 3;///< 倒角
 
 @implementation JEPutDownMenuView
 
-- (void)dealloc{
-    jkDeallocLog
-}
+//- (void)dealloc{jkDeallocLog}
 
 + (void)ShowIn:(UIView *)view point:(CGPoint)point list:(NSArray <NSString *> *)list select:(void (^)(NSString *str,NSInteger index))block{
     [self ShowIn:view point:point list:list select:block upward:NO arrowX:0.5];
@@ -89,7 +88,7 @@ static CGFloat jkRadius = 3;///< 倒角
     [_backView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HideView)]];
     
     [self addSubview:_Tv =({
-        UITableView  *table = [[UITableView alloc] initWithFrame:CGRectMake(jkLineW,(_upward ? 0 : _arrowSize.height), self.width - jkLineW*2,0)];
+        UITableView  *table = [[UITableView alloc] initWithFrame:CGRectMake(jkLineW,(_upward ? 0 : _arrowSize.height), self.width - jkLineW*3,0)];
         table.delegate = (id<UITableViewDelegate>)self;
         table.dataSource = (id<UITableViewDataSource>)self;
         table.layer.masksToBounds = YES;
@@ -120,7 +119,7 @@ static CGFloat jkRadius = 3;///< 倒角
     [UIView animateWithDuration:jkAnimateDuration animations:^{
         self.transform = CGAffineTransformMakeScale(1, 1);
         self.frame = CGRectMake(self.x, self.y - (self->_upward ? height : 0), self.width, height);
-        self->_Tv.frame = CGRectMake(self->_Tv.x,self->_Tv.y, self->_Tv.width,(height - self->_arrowSize.height*1.5));
+        self->_Tv.frame = CGRectMake(self->_Tv.x,self->_Tv.y, self->_Tv.width,(height - self->_arrowSize.height*1.5 - jkLineW));
     }];
 }
 
@@ -192,7 +191,7 @@ static CGFloat jkRadius = 3;///< 倒角
     self.width = OldFrame.size.width;
     [path setLineWidth:jkLineW];
     [kCellSelectColor setStroke]; //设置边框颜色
-    [[UIColor whiteColor] setFill];
+    [UIColor.cellBgC setFill];
     [path stroke];
     [path fill];
 }

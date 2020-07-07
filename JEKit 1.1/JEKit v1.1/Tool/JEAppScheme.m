@@ -8,11 +8,11 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Photos/Photos.h>
 
-static NSString * const jkJEDefaultNotiTips         = @"jkJEDefaultNotiTips";///< 区分出现过的情况
-static NSString * const jkJEUserClassKey            = @"jkJEUserClassKey";///< 模型class
-static NSString * const jkJEUserAccountKey          = @"jkJEUserAccountKey";///< 账号
-static NSString * const jkJEUserPasswordKey         = @"jkJEUserPasswordKey";///< 密码
-static NSString * const jkJEUserDictionaryKey       = @"jkJEUserDictionaryKey";///< 用户Dic
+static NSString * const jkJEDefaultNotiTips         = @"jkJEDefaultNotiTips";   ///< 区分出现过的情况
+static NSString * const jkJEUserClassKey            = @"jkJEUserClassKey";      ///< 模型class
+static NSString * const jkJEUserAccountKey          = @"jkJEUserAccountKey";    ///< 账号
+static NSString * const jkJEUserPasswordKey         = @"jkJEUserPasswordKey";   ///< 密码
+static NSString * const jkJEUserDictionaryKey       = @"jkJEUserDictionaryKey"; ///< 用户info
 
 @implementation JEAppScheme{
     NSObject <JESchemeDelegate> *_appUser;
@@ -146,14 +146,15 @@ static JEAppScheme *_sharedSch;
 
 #pragma mark - 从系统相册获取图片 | 拍照
 + (void)PickImageWithTitle:(NSString*)title edit:(BOOL)edit pick:(void (^)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker))block{
-    [JEApp.window.rootViewController Alert:title msg:nil act:@[@"拍照".loc,@"从相册中选择".loc] destruc:nil _:^(NSString *act, NSInteger idx) {
+    
+    [JEApp.window.rootViewController ActionSheet:title msg:nil act:@[@"拍照".loc,@"从相册中选择".loc] destruc:nil _:^(NSString *act, NSInteger idx) {
         [JEAppScheme Shared]->_pickImgDone = block;
         if (idx == 0) {
             [_sharedSch choosePhoto:UIImagePickerControllerSourceTypeCamera edit:edit];
         }else if (idx == 1){
             [_sharedSch choosePhoto:UIImagePickerControllerSourceTypePhotoLibrary edit:edit];
         }
-    }];
+    } cancel:@"取消" _:nil];
 }
 
 + (void)PickImageWithType:(UIImagePickerControllerSourceType)type edit:(BOOL)edit pick:(void (^)(UIImage *original,UIImage *fixedImg,UIImagePickerController *picker))block{

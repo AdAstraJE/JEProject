@@ -1,5 +1,5 @@
 
-//   JEAutoLayout 魔改简化版 -- 源自SDAutoLayout （2020.4.10）  from https://github.com/gsdios/SDAutoLayout
+//   JEAutoLayout 魔改简化版 -- 源自SDAutoLayout , （2020.4.10）  from https://github.com/gsdios/SDAutoLayout
 
 #import <UIKit/UIKit.h>
 @class JELayoutModel;
@@ -57,7 +57,7 @@ typedef __kindof UIView * _Nonnull (^JO4Value)(CGFloat top, CGFloat left, CGFloa
 @property(nonatomic,strong,readonly) JOEndValue   insets ;///< top left bottom right 相同值
 @property(nonatomic,strong,readonly) JO4Value     inset  ;///< top left bottom right
 
-
+// 相当于AutoLayout的 固定，相对，比，值等
 @property(nonatomic,strong,readonly) JOValue      x          ;///< frame.origin.x     固定值 (float)
 @property(nonatomic,strong,readonly) JOValue      y          ;///< frame.origin.y     固定值 (float)
 @property(nonatomic,strong,readonly) JOValue      w          ;///< frame.size.width   固定值 (float)

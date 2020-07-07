@@ -42,7 +42,7 @@
         self.estimatedSectionFooterHeight = 0;
     }
     
-    self.delaysContentTouches = NO;
+//    self.delaysContentTouches = NO;
     if (JEShare.tvBgClr) { self.backgroundColor = JEShare.tvBgClr; }
     if (JEShare.tvSepClr) { self.separatorColor = JEShare.tvSepClr; }
 }

@@ -13,6 +13,8 @@
 @property (nonatomic,strong) id URL;///< URL
 @property (nonatomic,copy)  NSString  *HTMLString;
 @property (nonatomic,assign) BOOL handelDarkModel;///< 简单处理黑色模式 ### NO
+@property (nonatomic,assign) BOOL disableShareAction;
+
 
 @end
 
@@ -24,3 +26,8 @@
 //    [[NSURLCache sharedURLCache] setDiskCapacity:0];
 //    [[NSURLCache sharedURLCache] setMemoryCapacity:0];
 //    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+
+//#import <SafariServices/SafariServices.h>
+//SFSafariViewController *safariVC = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:@"https://www.baidu.com"] entersReaderIfAvailable:YES];
+//safariVC.delegate = self;
+//[self presentViewController:safariVC animated:YES completion:nil];

@@ -112,7 +112,7 @@
     _Btn_back.enabled = _webView.canGoBack;
     _Btn_forward.enabled = _webView.canGoForward;
     _webView.height = _webVHeight - (_Ve_tool.hidden ? 0 : _Ve_tool.height);
-    
+    _webView.scrollView.contentInsetBottom = (_Ve_tool.hidden ? 0 : _Ve_tool.height);
 }
 
 #pragma mark - WKUIDelegate,WKNavigationDelegate
@@ -195,8 +195,10 @@
 #pragma mark - UI 相关设置
 
 - (void)setup_KWWebViewUI{
-   [self rightNavBtn:(JEBundleImg(@"ic_navAction").clr(JEShare.navBarItemClr)) target:self act:@selector(webShareClick:)];
-    
+    if (!_disableShareAction) {
+        [self rightNavBtn:(JEBundleImg(@"ic_navAction").clr(JEShare.navBarItemClr)) target:self act:@selector(webShareClick:)];
+    }
+   
     NSURLRequest *request = (NSURLRequest *)_URL;
     if ([_URL isKindOfClass:[NSURL class]]) {
         request = [NSURLRequest requestWithURL:(NSURL *)_URL];

@@ -38,6 +38,7 @@ typedef void (^BLE_deviceBlock)(__kindof JEBLEDevice *device);/**< 设备回调 
 @property(nonatomic,strong)  __kindof JEBLECommand  *commandModel;///< 操作指令模型
 @property (nonatomic,assign) BLEHighLowType highLowType;///< 高底位 ### 默认高
 @property (nonatomic,assign) BOOL errorBlock;///< 蓝牙读，通知处理出错时也回调block ### 默认NO
+@property (nonatomic,assign) BOOL disableConnect;///< 禁止所有connect操作
 
 @property (nonatomic,strong) NSMutableArray <NSString *> *Arr_errorDisconnectUUID;///< 异常断开连接的设备的UUID
 

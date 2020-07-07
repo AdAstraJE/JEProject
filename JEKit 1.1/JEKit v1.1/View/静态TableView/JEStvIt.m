@@ -86,8 +86,8 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
 + (JEStvIt *)Icon:(id)icon title:(NSString *)title desc:(NSString *)desc acc:(UITableViewCellAccessoryType)acc customCell:(Class)customCell Switch:(JEStvSwitchBlock)Switch on:(BOOL)switchOn height:(CGFloat)height select:(JEStvSelectBlock)select{
     JEStvIt *item = [[JEStvIt alloc] init];
     
-    if ([icon isKindOfClass:[NSString class]]){ item.icon = [UIImage imageNamed:(NSString *)icon];
-    }else if ([icon isKindOfClass:[UIImage class]]){ item.icon = icon;}
+    if ([icon isKindOfClass:[NSString class]]){ item.icon = [UIImage imageNamed:(NSString *)icon].templateClr();
+    }else if ([icon isKindOfClass:[UIImage class]]){ item.icon = ((UIImage *)icon).templateClr();}
     
     item.title = title;
     item.desc = desc;

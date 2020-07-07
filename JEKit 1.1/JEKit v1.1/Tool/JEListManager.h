@@ -24,7 +24,7 @@ typedef void (^listMgrSucBlock)(id result,NSInteger page,UITableView *table);
 /// 走自定数据源筛选
 @property (nonatomic,copy) NSArray * (^siftDataSoure)(id result);
 
-/// 处理完成回调 设置了 defaultHandleListArr 默认不 reloadData
+/// 处理完成回调 设置了 defaultHandleListArr 不 reloadData
 @property (nonatomic,copy) void (^handleEnd)(UITableView *table);
 
 

@@ -48,6 +48,17 @@
    return [NSString stringWithFormat:@"%.2d:%.2d",self.intValue/60,self.intValue%60];
 }
 
+- (NSString *)escapedXcode{
+    NSMutableString *string = self.mutableCopy;
+    for (int i = 0; i < string.length; i++) {
+        NSString *this = [string substringWithRange:NSMakeRange(i, 1)];
+        if ([this isEqualToString:@"\""]) {
+            [string insertString:@"\\" atIndex:i];i++;
+        }
+    }
+    return Format(@"@\"%@\"",string);
+}
+
 - (NSData*)data{
     return  [self dataUsingEncoding:NSUTF8StringEncoding];
 }
@@ -187,23 +198,32 @@ static NSNumberFormatter *_DS_numFormatter;
 
 + (NSString *)RandomStr:(NSInteger)N{
 #ifdef DEBUG
-    if (N == 0) {  N = 1;}
-    NSString *sourceString = @"一二三四五六七八九十";
     NSMutableString *result = [[NSMutableString alloc] init];
-    for (int i = 0; i < N; i++){
-        [result appendString:[sourceString substringWithRange:NSMakeRange(rand() % [sourceString length], 1)]];
+    NSString *base = [[self RandomDesc:nil] substringFromIndex:3];
+    while (result.length < N) {
+        [result appendString:base];
     }
+    if (result.length > N) {return [result substringToIndex:N];}
+//    if (N == 0) {  N = 1;}
+//    NSString *sourceString = @"一二三四五六七八九十";
+//    NSMutableString *result = [[NSMutableString alloc] init];
+//    for (int i = 0; i < N; i++){
+//        [result appendString:[sourceString substringWithRange:NSMakeRange(rand() % [sourceString length], 1)]];
+//    }
     return result;
 #endif
     return nil;
 }
 
 + (NSString *)RandomUserName{
-#ifdef DEBUG
-    NSArray *arr = @[@"保尔柯察金",@"安达利尔",@"迪亚波罗",@"墨菲斯托",@"泰瑞尔",@"丹妮莉丝",@"罗德-哈特",@"凯琳",@"耿纳",@"山德鲁",@"骑士",@"牧师",@"巡逻兵",@"德鲁伊",@"炼金术士",@"术士",@"异教徒",@"驯兽师",@"女巫",@"元素使",@"色不异空",@"空不异色",@"色即是空",@"空即是色",@"受想行识",@"亦复如是",@"不生不灭",@"不垢不净",@"不增不减",@"苦集灭道",@"心无挂碍"];
-    return arr[arc4random_uniform((int)arr.count)];
-#endif
-    return @"";
+    return [[self RandomDesc:nil] substringToIndex:2];
+//#ifdef DEBUG
+//    NSArray *arr = @[@"保尔柯察金",@"安达利尔",@"迪亚波罗",@"墨菲斯托",@"泰瑞尔",@"丹妮莉丝",@"罗德-哈特",@"凯琳",@"耿纳",@"山德鲁",@"骑士",@"牧师",@"巡逻兵",@"德鲁伊",@"炼金术士",@"术士",@"异教徒",@"驯兽师",@"女巫",@"元素使",@"色不异空",@"空不异色",@"色即是空",@"空即是色",@"受想行识",@"亦复如是",@"不生不灭",@"不垢不净",@"不增不减",@"苦集灭道",@"心无挂碍"];
+//    return arr[arc4random_uniform((int)arr.count)];
+//
+//
+//#endif
+//    return @"";
 }
 
 + (NSString *)RandomIconUrl{

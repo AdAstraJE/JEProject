@@ -362,15 +362,14 @@ static JENetWorking *_instance;
 /// 该页面离开导航栏栈了 取消还在进行网络请求 
 - (void)jeNetWork_viewDidDisappear:(BOOL)animated{
     [self jeNetWork_viewDidDisappear:animated];
-    if (self.Nav == nil) {
-        @synchronized (self) {
-            [[JENetWorking Shared].Arr_task enumerateObjectsUsingBlock:^(NSURLSessionTask  *_Nonnull task, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([self.Arr_taskId containsObject:@(task.taskIdentifier)]) {
-                    [task cancel];
-                    [[JENetWorking Shared].Arr_task removeObject:task];
-                }
-            }];
-        }
+    if (!_instance || self.Nav) {return;}
+    @synchronized (self) {
+        [[JENetWorking Shared].Arr_task enumerateObjectsUsingBlock:^(NSURLSessionTask  *_Nonnull task, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([self.Arr_taskId containsObject:@(task.taskIdentifier)]) {
+                [task cancel];
+                [[JENetWorking Shared].Arr_task removeObject:task];
+            }
+        }];
     }
 }
 

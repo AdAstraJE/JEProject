@@ -22,20 +22,13 @@
 //    if (@available(iOS 13.0, *)) {return UIColor.separatorColor;} else {return kRGBA(60, 60, 67, 0.3);}
     return [UIColor Light:[UIColor colorWithWhite:0 alpha:0.12] dark:[UIColor colorWithWhite:1 alpha:0.2]];
 }
-+ (UIColor *)gray1{
-    return [UIColor Light:kRGBA(142, 142, 147, 1.0) dark:kRGBA(142, 142, 147, 1.0)];}
-+ (UIColor *)gray2{
-    return [UIColor Light:kRGBA(174, 174, 178, 1.0) dark:kRGBA(99, 99, 102, 1.0)];}
-+ (UIColor *)gray3{
-    return [UIColor Light:kRGBA(199, 199, 204, 1.0) dark:kRGBA(72, 72, 74, 1.0)];}
-+ (UIColor *)gray4{
-    return [UIColor Light:kRGBA(209, 209, 214, 1.0) dark:kRGBA(58, 58, 60, 1.0)];}
-+ (UIColor *)gray5{
-    return [UIColor Light:kRGBA(229, 229, 234, 1.0) dark:kRGBA(44, 44, 46, 1.0)];}
-+ (UIColor *)gray6{
-    return [UIColor Light:kRGBA(242, 242, 247, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
-+ (UIColor *)cellBgC{
-return [UIColor Light:kRGBA(255, 255, 255, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
++ (UIColor *)gray1{ return [UIColor Light:kRGBA(142, 142, 147, 1.0) dark:kRGBA(142, 142, 147, 1.0)];}
++ (UIColor *)gray2{ return [UIColor Light:kRGBA(174, 174, 178, 1.0) dark:kRGBA(99, 99, 102, 1.0)];}
++ (UIColor *)gray3{ return [UIColor Light:kRGBA(199, 199, 204, 1.0) dark:kRGBA(72, 72, 74, 1.0)];}
++ (UIColor *)gray4{ return [UIColor Light:kRGBA(209, 209, 214, 1.0) dark:kRGBA(58, 58, 60, 1.0)];}
++ (UIColor *)gray5{ return [UIColor Light:kRGBA(229, 229, 234, 1.0) dark:kRGBA(44, 44, 46, 1.0)];}
++ (UIColor *)gray6{ return [UIColor Light:kRGBA(242, 242, 247, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
++ (UIColor *)cellBgC{ return [UIColor Light:kRGBA(255, 255, 255, 1.0) dark:kRGBA(28, 28, 30, 1.0)];}
 + (UIColor *)groupTvBgC{
     if (@available(iOS 13.0, *)) {return UIColor.systemGroupedBackgroundColor;}
     else {return UIColor.groupTableViewBackgroundColor;}

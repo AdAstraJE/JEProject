@@ -25,14 +25,14 @@ __kindof UILabel * JELa_(NSString *txt,id fnt,UIColor *clr){
 }
 
 + (instancetype)Frame:(CGRect)frame text:(NSString*)text font:(id)font color:(UIColor*)color align:(NSTextAlignment)ment{
-    UILabel *La = [[self alloc] initWithFrame:frame];
-    [La setText:text font:font];
+    UILabel *la = [[self alloc] initWithFrame:frame];
+    [la setText:text font:font];
     if (color) {
-        La.textColor = color;
+        la.textColor = color;
     }
-    La.textAlignment = ment;
-    La.numberOfLines = 0;
-    return La;
+    la.textAlignment = ment;
+    la.numberOfLines = 0;
+    return la;
 }
 
 - (void)setText:(NSString *)text font:(id)font{

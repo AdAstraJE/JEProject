@@ -169,6 +169,8 @@ static JEBluetooth *_instance;
 
 #pragma mark 持有&尝试连接
 - (void)connectDevice:(JEBLEDevice *)device{
+    if (_disableConnect) {return;}
+    
     [JEBLEDevice JE_Debug_AddLog:BLELog__(@"持有&尝试连接设备 %@",[self debug:device.peripheral device:device])];
     
     if (device.peripheral == nil) {

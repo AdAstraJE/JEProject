@@ -4,7 +4,7 @@
 #import "JETextField.h"
 #import "JEBaseVC.h"
 
-typedef void(^ResultStringBlock)(NSString *Res);
+typedef void(^ResultStringBlock)(NSString *res);
 
 @interface JESingleTextVC : JEBaseVC
 

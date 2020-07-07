@@ -5,8 +5,6 @@
 
 static CGFloat const jkPresentingNavH = 56.0f;///<
 static CGFloat const jkNavItemTitleMargin = 16.0f;///<
-static CGFloat const jkNavItemFontSize = 17.0f;///<
-
 
 @implementation JEBaseVC
 
@@ -79,12 +77,12 @@ static CGFloat const jkNavItemFontSize = 17.0f;///<
     
     CGFloat contentH = (!self.navigationController && self.modalPresentationStyle == UIModalPresentationPageSheet) ? height : kNavBarH44;
     _navBarContent = JEVe(JR0, nil,_navBar).jo.lrb0_h(contentH);
-    _navTitleLable = JELab(JR0,self.title,fontS(jkNavItemFontSize),JEShare.navTitleClr,(1),_navBarContent).adjust().jo.lr(70).tb(0).me;
+    _navTitleLable = JELab(JR0,self.title,fontS(17.0),JEShare.navTitleClr,(1),_navBarContent).adjust().jo.lr(70).tb(0).me;
 
     if (self.Nav.viewControllers.count > 1) {
         _navBackButton = [self leftNavBtn:JEBundleImg(@"ic_navBack") target:self act:@selector(navBackButtonClick)]
         .style(JEBtnStyleLeft,4.5).touchs(0,8,0,40)
-        .jo.left(8).w(13).me;
+        .jo.left(11).w(13).me;
     }
 
     [self viewDidLayoutSubviews];
@@ -104,14 +102,14 @@ static CGFloat const jkNavItemFontSize = 17.0f;///<
 }
 
 - (JEButton *)rightNavBtn:(id)item target:(id)target act:(SEL)selector{
-    UIFont *font = (!self.navigationController && self.modalPresentationStyle == UIModalPresentationPageSheet) ? fontS(jkNavItemFontSize) : font(jkNavItemFontSize);
+    UIFont *font = (!self.navigationController && self.modalPresentationStyle == UIModalPresentationPageSheet) ? fontS(JEShare.navBarItemFontSize) : font(JEShare.navBarItemFontSize);
     JEButton *_ = [self navBarButton:item target:target act:selector font:font].touchs(0,jkNavItemTitleMargin,0,jkNavItemTitleMargin)
     .jo.tb_r(jkNavItemTitleMargin).autoW(0).me;
     return _;
 }
 
 - (JEButton *)leftNavBtn:(id)item target:(id)target act:(SEL)selector{
-    JEButton *_ = [self navBarButton:item target:target act:selector font:font(jkNavItemFontSize)].touchs(0,jkNavItemTitleMargin,0,jkNavItemTitleMargin)
+    JEButton *_ = [self navBarButton:item target:target act:selector font:font(JEShare.navBarItemFontSize)].touchs(0,jkNavItemTitleMargin,0,jkNavItemTitleMargin)
     .jo.tb_l(jkNavItemTitleMargin).autoW(0).me;
     return _;
 }

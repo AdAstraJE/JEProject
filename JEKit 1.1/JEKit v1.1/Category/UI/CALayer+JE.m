@@ -65,7 +65,7 @@
     border.fillColor = nil;
     border.path = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:Radius].CGPath;
     border.frame = self.bounds;
-    border.lineWidth = 1.f;
+    border.lineWidth = 0.6f;
     border.lineCap = kCALineCapSquare;
     border.lineDashPattern = lineDashPattern;
     [self addSublayer:border];

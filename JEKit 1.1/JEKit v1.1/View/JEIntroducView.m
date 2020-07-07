@@ -94,7 +94,7 @@
 
     if (tintColor) {
         [self addSubview:_Page = ({
-            UIPageControl *_ = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.height *0.92 - ScreenSafeArea, self.width, 40)];
+            UIPageControl *_ = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.height - ScreenSafeArea - 40, self.width, 40)];
             _.numberOfPages = _Arr_images.count;
             _.pageIndicatorTintColor = [UIColor lightGrayColor];
             _.currentPageIndicatorTintColor = tintColor;
@@ -187,8 +187,8 @@
 
 - (UIButton *)Btn_finish{
     if (_Btn_finish == nil) {
-        CGFloat width = self.width *0.618,height = 40,offset = 12;
-        _Btn_finish = JEBtn(JR((self.width - width)/2, _Page.y - height - offset, width, height),@"立即体验".loc,fontM(16),[UIColor whiteColor],self,@selector(dismiss),_tintColor,height/2,self);
+        CGFloat width = self.width *0.618,height = 40;
+        _Btn_finish = JEBtn(JR((self.width - width)/2, _Page.y - height - 13, width, height),@"立即体验".loc,fontM(16),[UIColor whiteColor],self,@selector(dismiss),_tintColor,height/2,self);
         _Btn_finish.alpha = 0;
     }
     return _Btn_finish;

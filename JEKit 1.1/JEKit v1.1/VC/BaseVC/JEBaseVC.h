@@ -43,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (JELiteTV *)liteTv:(UITableViewStyle)style cellC:(nullable Class)cellClass cellH:(CGFloat)cellHeight
                 cell:(nullable void (^)(__kindof UITableViewCell *cell,UITableView *tv,NSIndexPath *idxP,id obj))cell select:(nullable void (^)(UITableView *tv,NSIndexPath *idxP,id obj))select;
 
+
+
 @end
 
 NS_ASSUME_NONNULL_END

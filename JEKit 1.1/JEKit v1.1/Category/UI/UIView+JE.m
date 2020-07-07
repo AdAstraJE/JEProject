@@ -115,8 +115,18 @@ UIVisualEffectView * JEEFVe(CGRect rect,UIBlurEffectStyle style,__kindof UIView 
     [path addLineToPoint:CGPointMake(self.width, self.height)];
     [path closePath];
     layer.path = path.CGPath;
-    //    layer.frame = self.bounds;
-    //    layer.path = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corner cornerRadii:CGSizeMake(rad, rad)].CGPath;
+    self.layer.mask = layer;
+    return self;
+}
+
+- (__kindof UIView *)je_triangle_{
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0, 0)];
+    [path addLineToPoint:CGPointMake(self.width, 0)];
+    [path addLineToPoint:CGPointMake(self.width/2, self.height)];
+    [path closePath];
+    layer.path = path.CGPath;
     self.layer.mask = layer;
     return self;
 }

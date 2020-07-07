@@ -31,6 +31,9 @@
 ///  VC class showViewController
 + (void)ShowVC;
 
+/// presentViewController
++ (void)PresentVC:(UIModalPresentationStyle)style;
+
 /// showViewController  (顺便调 sendInfo:  传参)
 + (instancetype)ShowVC:(id)info;
 

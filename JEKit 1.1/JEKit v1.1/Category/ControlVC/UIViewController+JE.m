@@ -78,7 +78,7 @@
                 UIViewController *find = [vc findVC:classStr];
                 if (find) { return find;}
             }
-            if ([vc isKindOfClass:NSClassFromString(classStr)]) { return vc;}
+            if ([vc.className isEqualToString:classStr]) { return vc;}
         }
     }
     
@@ -89,17 +89,23 @@
     
     for (UIViewController *vc in [navigation.viewControllers reverseObjectEnumerator]) {
         if ([vc isKindOfClass:UITabBarController.class]) { return [vc findVC:classStr]; }
-        if ([vc isKindOfClass:NSClassFromString(classStr)]) { return vc;}
+        if ([vc.className isEqualToString:classStr]) { return vc;}
     }
     return nil;
 }
 
 + (void)ShowVC{
-    [JEApp.window.rootViewController showViewController:[self VC] sender:nil];
+    [JEApp.window.rootViewController showViewController:self.VC sender:nil];
+}
+
++ (void)PresentVC:(UIModalPresentationStyle)style{
+    UIViewController *vc = self.VC;
+    vc.modalPresentationStyle = style;
+    [JEApp.window.rootViewController presentViewController:vc animated:YES completion:nil];
 }
 
 + (instancetype)ShowVC:(id)info{
-    UIViewController *vc = [[self VC] sendInfo:info];
+    UIViewController *vc = [self.VC sendInfo:info];
     [JEApp.window.rootViewController showViewController:vc sender:nil];
     return vc;
 }

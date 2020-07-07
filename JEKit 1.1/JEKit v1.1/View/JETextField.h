@@ -8,7 +8,7 @@
 @property (nonatomic,assign)  BOOL isTelePhone;///< 认为是电话号码(11位) 按电话号码的限制输入 
 @property (nonatomic,assign)  NSUInteger divisions;///< 每隔X 分割一个空格
 @property (nonatomic,assign)  BOOL numberOnly;///< 纯数字形式的输入
-@property (nonatomic,assign)  BOOL floatOnly;///< 数字形式的输入 可以有小数点 点后最多JENumber_dotLimit位数
+@property (nonatomic,assign)  BOOL floatOnly;///< 数字形式的输入 可以有小数点 点后最多floatDotLimit位数
 @property (nonatomic,assign)  NSUInteger floatDotLimit;///< 点后最多X位数 ### 2
 @property (nonatomic,assign)  BOOL ASCIIOnly;///< 必须是 ASCII字符
 @property (nonatomic,assign)  BOOL AZ09Only;///< 必须是 字母和数字

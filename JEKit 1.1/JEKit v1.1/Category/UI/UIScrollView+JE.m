@@ -54,6 +54,7 @@
     UIActivityIndicatorView *act = objc_getAssociatedObject(self, _cmd);
     if (act == nil) {
         [self setActView:(act = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray])];
+        act.color = UIColor.gray1;
     }
     return act;
 }

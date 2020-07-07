@@ -8,7 +8,6 @@ static NSInteger const jkActionBarHeight = 48;///<
 @implementation JEPickerView{
     NSArray <NSString *> *_Arr_custom;
 }
-- (void)dealloc{jkDeallocLog;}
 
 + (void)ShowCustomArr:(NSArray <NSString *>*)arr res:(JEPVCusArrBlock)block{
     [self ShowCustomArr:arr title:nil current:nil res:block];
@@ -103,15 +102,21 @@ static NSInteger const jkActionBarHeight = 48;///<
     UIColor *btnColor = JEShare.themeClr ? : Clr_blue;
     UIView *_ = JEVe(JR0, UIColor.clearColor, self.Ve_content).
     jo.lr(0).top(0).h(jkActionBarHeight).me;
+//    JEEFVe(JR0, UIBlurEffectStyleRegular, _).jo.insets(0);
     JEVe(JR0, UIColor.je_sep, _).jo.lr(0).bottom(0).h(0.5);
 
     JEButton *left = JEBtnSys(JR0,@"取消".loc,@16,btnColor,self,@selector(dismiss),nil,0,_).touchs(0,0,0,20).jo.left(15).top(0).bottom(0).me;
     left.jo.w([left sizeThatWidth].width);
     
-    JEButton *right = JEBtnSys(JR0,@"确定".loc,@16,btnColor,self,@selector(confirmBtnClick),nil,0,_).touchs(0,20,0,0) .jo.right(15).top(0).bottom(0).me;
+    JEButton *right = JEBtnSys(JR0,@"确定".loc,fontM(16),btnColor,self,@selector(confirmBtnClick),nil,0,_).touchs(0,20,0,0) .jo.right(15).top(0).bottom(0).me;
     right.jo.w([right sizeThatWidth].width);
     
-    JELab(JR(9, 0, ScreenWidth - 9, _.height),title,@14.5,nil,(NSTextAlignmentCenter),_).jo.left_(left,8).right_(right, 8).top(0).bottom(0);
+    JELab(JR(9, 0, ScreenWidth - 9, _.height),title,@14.5,Tgray1,(NSTextAlignmentCenter),_).jo.left_(left,8).right_(right, 8).top(0).bottom(0);
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    [self.Ve_content je_corner:(UIRectCornerTopLeft | UIRectCornerTopRight) rad:12];
 }
 
 - (void)confirmBtnClick{

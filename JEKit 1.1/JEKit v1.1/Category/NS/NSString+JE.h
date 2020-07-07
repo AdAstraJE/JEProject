@@ -20,6 +20,7 @@
 - (NSURL *)fileUrl;             ///< [NSURL fileURLWithPath:self]
 - (NSString *)date;             ///< 1970 长时间戳对应的NSDate
 - (NSString *)HH_MM;            ///< min -> HH:MM
+- (NSString *)escapedXcode;     ///< -> 转义
 - (NSData *)data;               ///< -> data
 - (NSString *)base64;           ///< -> base64String
 - (NSString *)decodeBase64;     ///< 解 base64str 为 string 解不了就返回原始的数值

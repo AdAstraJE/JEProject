@@ -11,8 +11,8 @@
 #define ScreenStatusBarH           ([[UIApplication sharedApplication] statusBarFrame].size.height)
 #define ScreenNavBarH              (ScreenStatusBarH + kNavBarH44)
 #define ScreenTabBarH              (49.0)
-#define ScreenSafeArea             ([UIScreen SafeAreaBottom])
-#define ScreenSafeAreaTop          ([UIScreen SafeAreaTop])
+#define ScreenSafeArea             ([UIScreen SafeAreaBottom])// 34
+#define ScreenSafeAreaTop          ([UIScreen SafeAreaTop])// 44
 
 #define ScreenPerH(X)              ((X)*(ScreenHeight/667.0f))
 #define ScreenPerW(X)              ((X)*(ScreenWidth/375.0f))

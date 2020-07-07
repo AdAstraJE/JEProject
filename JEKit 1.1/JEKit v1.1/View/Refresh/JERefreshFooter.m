@@ -32,7 +32,7 @@
 
 - (void)placeSubviews{
     [super placeSubviews];
-    self.loadingView.center = CGPointMake(ScreenWidth/2, self.stateLabel.mj_textWith * 0.5 + self.labelLeftInset);
+    self.loadingView.center = CGPointMake(ScreenWidth/2, self.stateLabel.mj_textWidth * 0.5 + self.labelLeftInset);
 }
 
 - (void)setState:(MJRefreshState)state{

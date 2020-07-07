@@ -119,8 +119,9 @@ static CGFloat const jkHudAnimatedMarkTypeDuration = 0.8;///< 仅MarkType默认�
     }
     HUD.delegate = (id<MBProgressHUDDelegate>)self;
     HUD.offset = CGPointMake(HUD.offset.x, HUD.offset.y - ScreenNavBarH);
-    HUD.contentColor = [UIColor whiteColor];
+    HUD.contentColor = UIColor.je_wb;
     if (JEShare.HUDClr) {
+        HUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
         HUD.bezelView.color = JEShare.HUDClr;
     }
     return HUD;
