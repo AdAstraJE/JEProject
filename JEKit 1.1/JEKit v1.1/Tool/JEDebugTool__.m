@@ -10,8 +10,10 @@ static NSInteger const jkCellDescribeMaxLength = 1208;///< cell最多显示长�
 static NSString * const jkDebugToolModel     = @"jkDebugToolModel";///< 具体历史tableName
 static NSString * const jkDebugToolTimeList  = @"jkDebugToolTimeList";///< 历史列表tableName
 
-static NSString * const jkSeparatedStr = @"  ————  ";///< 分割用
+static NSString * const jkSeparatedStr = @"  ———  ";///< 分割用
 static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
+
+static NSString * const jkDebugToolCloseForeverKey = @"jkDebugToolCloseForeverKey";
 
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolModel   🔷 显示模型
@@ -51,7 +53,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     UIFont *font1 = [reuseIdentifier isEqualToString:jkDetailIdentifier] ? font(20) : font(16);
-    UIFont *font2 = [reuseIdentifier isEqualToString:jkDetailIdentifier] ? font(15) : font(12);
+    UIFont *font2 = [reuseIdentifier isEqualToString:jkDetailIdentifier] ? font(16) : font(12);
     _La_index = JELab(JR(jkLabelMargin, 8, ScreenWidth - jkLabelMargin*2, 20),nil,font1,kHexColor(0xDC3023),(1),self.contentView).adjust();
     _La_API = JELab(JR(_La_index.x, _La_index.bottom + jkLabelMargin, _La_index.width, 0),nil,font2,kHexColor(0xE29C45),(0),self.contentView);
     _La_param = JELab(JR(_La_index.x, _La_API.bottom, _La_API.width, 0),nil,font2,kHexColor(0x0C8918),(0),self.contentView);
@@ -61,19 +63,17 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 - (UITextView *)TextView{
     if (_TextView == nil) {
-        _TextView = [[UITextView alloc] initWithFrame:CGRectMake(jkLabelMargin, 0, ScreenWidth - jkLabelMargin*2, 0)].addTo(self.contentView);
+        _TextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)].addTo(self.contentView);
+        _TextView.font = _La_API.font;
         _TextView.dataDetectorTypes = UIDataDetectorTypeAll;
         _TextView.editable = NO;
+        _TextView.scrollEnabled = NO;
     }
     return _TextView;
 }
 
 -(UILabel *)La_rep{
-    if (_La_rep == nil) {
-        _La_rep = JELab(JR(jkLabelMargin/2, 0, 30, 30),nil,fontM(15),Clr_red,(1),self.contentView);
-        [_La_rep border:Clr_red width:1];
-        _La_rep.adjustsFontSizeToFitWidth = YES;[_La_rep beRound];
-    }
+    if (_La_rep == nil) { _La_rep = JELab(JR(jkLabelMargin, 3, 100, 24),nil,font(14),Clr_red,(0),self.contentView);}
     return _La_rep;
 }
 
@@ -85,7 +85,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         _La_index.text = _La_API.text = _La_param.text = nil;
         _La_index.height = _La_API.height = _La_param.height = 0;
     }else{
-        _La_index.text = Format(@"%@%@[%@]",mod.indexTime,jkSeparatedStr,@(indexPath.row));
+        _La_index.text = Format(@"%@%@[%@]",mod.indexTime,jkSeparatedStr,@(indexPath.row + 1));
         _La_index.height = 20;
         _La_API.text = (detail ? mod.API : [self limitLength:mod.API]);
         _La_param.text = (detail ? mod.param : [self limitLength:mod.param]);
@@ -100,6 +100,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         self.TextView.y = (simple ? (mod.repeate == 0 ? 0 : 30) : _La_param.bottom);
         _TextView.height = MAX(200, ScreenHeight - ScreenNavBarH - ScreenSafeArea - (_TextView.y) - _La_des.height);
         _TextView.text = simple ? mod.simple : mod.des;
+        _TextView.height = [_TextView sizeThatFits:CGSizeMake(_TextView.width, NSIntegerMax)].height;
         (simple ? (_La_des.height = _TextView.height) : (_La_des.y = _TextView.bottom));
     }else{
         if (simple) {
@@ -114,7 +115,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
     if (mod.repeate == 0) {
         _La_rep.hidden = YES;
     }else{
-        self.La_rep.text = Format(@"X%d",(int)mod.repeate + 1);
+        self.La_rep.text = Format(@"x%d",(int)mod.repeate + 1);
         _La_rep.hidden = NO;
         if (simple) { _La_des.y += _La_rep.height;}
     }
@@ -143,7 +144,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = @"存进DB的历史";
+    self.title = @"历史";
     
     NSDate *date = [NSDate date];
     self.liteTv = [JELiteTV Frame:JR(0, self.navBar.height, kSW, kSH - self.navBar.height) style:(UITableViewStyleGrouped) cellC:JETableViewCell1.class cellH:ScrnAdaptMax(50) cell:^(__kindof UITableViewCell *cell, UITableView *tv, NSIndexPath *idx, JEDebugToolTimeListModel *mod) {
@@ -151,11 +152,11 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         cell.detailTextLabel.text = @(mod.number).stringValue;
         if (idx.row == 0 && ([JEDebugTool__ Shared].beginDate.ts.integerValue - mod.date.ts.integerValue == 0)) {
             cell.textLabel.text = mod.date.je_HHmmss;
-            cell.detailTextLabel.text = @"主页LOG".loc;
+            cell.detailTextLabel.text = @"当前主页LOG".loc;
         }
     } select:^(UITableView *tv, NSIndexPath *idx, JEDebugToolTimeListModel *mod) {
         if (idx.row == 0 && ([JEDebugTool__ Shared].beginDate.ts.integerValue - mod.date.ts.integerValue == 0)) {
-            [self.Nav popViewControllerAnimated:YES];return;
+            [self.Nav popToRootViewControllerAnimated:YES];return;
         }
         JEDebugMainVC *vc = [JEDebugMainVC VC];
         vc.historyDate = mod.date;
@@ -172,6 +173,46 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 
 
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   @implementation JEDebugSettingVC   🔷 设置
+@interface JEDebugSettingVC : JEBaseVC
+
+@end
+
+@implementation JEDebugSettingVC
+
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    self.title = @"设置";
+    
+    JEStvIt *item_history = [JEStvIt Title:@"存进本地数据库的历史Log" acc:1 select:^(JEStvIt *item) {
+        [self.navigationController pushViewController:[JEDebugTimeListVC VC] animated:YES];
+    }];
+    
+    JEStvIt *item_close = [JEStvIt Title:@"本次关闭Debug工具" acc:0 select:^(JEStvIt *item) {
+        [[JEDebugTool__ Shared].Btn_touch removeFromSuperview];
+        [[JEDebugTool__ Shared].nav.view removeFromSuperview];[JEDebugTool__ Shared].nav = nil;
+    }];
+    item_close.cell.La_title.textColor = Clr_blue;
+    
+    JEStvIt *item_closeForever = [JEStvIt Title:@"永久关闭Debug工具" acc:0 select:^(JEStvIt *item) {
+        [[JEDebugTool__ Shared].Btn_touch removeFromSuperview];
+        [[JEDebugTool__ Shared].nav.view removeFromSuperview];[JEDebugTool__ Shared].nav = nil;
+        [USDF setBool:YES forKey:jkDebugToolCloseForeverKey];
+        [USDF synchronize];
+    }];
+    item_closeForever.cell.La_title.textColor = Clr_red;
+    
+    self.staticTv.Arr_item = @[@[item_history],@[item_close],@[item_closeForever]];
+    self.staticTv.Arr_footerTitle = @[@" ",@"或抓稳手机，摇一摇以显示/隐藏Debug工具。",@"永久关闭后只有重装才显示。"];
+    
+    [self.staticTv reloadData];
+}
+
+@end
+
+
+
+
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   @implementation JEDebugMainVC   🔷 数据显示VC
 
 @implementation JEDebugMainVC{
@@ -183,8 +224,8 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
     [super viewDidLoad];
     _toDBlogNumber = 0;
     _Arr_orgin = [NSMutableArray array];
-    [self rightNavBtn:@"更多" target:self act:@selector(actionHandle:)];//❖
-
+    [self rightNavBtn:JEBundleImg(@"ic_navMore") target:self act:@selector(actionHandle:)];//❖
+    
     //显示某个历史
     if (_historyDate) {
         self.title = _historyDate.je_YYYYMMddHHmmss;
@@ -198,7 +239,10 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         [self.Tv_list.Arr addObject:_detailMod];
         [self.Tv_list reloadData];
     }else{
-        [JEBtnSys(JR(10, ScreenStatusBarH, -1, 44),@"历史",@18,Clr_blue,self,@selector(historyBtnClick),nil,0,self.view).touchs(ScreenStatusBarH,3,20,20) sizeThatWidth];
+        JEButton *btn = [JEBtnSys(JR(10, ScreenStatusBarH - 2, -1, 44),@"⚙︎",font(30),JEShare.navBarItemClr,nil,nil,nil,0,self.view).touchs(ScreenStatusBarH,3,20,20) sizeThatWidth];
+        [btn click:^(__kindof UIButton *sender) {
+            [self.navigationController pushViewController:[JEDebugSettingVC VC] animated:YES];
+        }];
     }
 }
 
@@ -209,18 +253,16 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         [_ registerClass:[JEDebugToolCell class] forCellReuseIdentifier:identifier];
         _.delegate = self;_.tableFooterView = [UIView new];
         _.dataSource = self;_.backgroundColor = self.view.backgroundColor;
+        _.contentInsetBottom = ScreenNavBarH;
         _Tv_list = _;
     }
     return _Tv_list;
 }
 
-- (void)historyBtnClick{
-    [self.navigationController pushViewController:[JEDebugTimeListVC VC] animated:YES];
-}
-
 - (void)addLogWithTitle:(NSString *)title noti:(id)noti detail:(id)detail simple:(id)simple toDB:(BOOL)toDB{
     JEDebugToolModel *mod = [[JEDebugToolModel alloc]init];
     mod.date = [JEDebugTool__ Shared].beginDate;
+//    mod.indexTime = [NSString stringWithFormat:@"%@",[NSDate date].je_YYYYMMddHHmmss];
     mod.indexTime = [NSString stringWithFormat:@"%@",[NSDate date].je_YYYYMMddHHmmss];
     mod.API = title;
     mod.param = [NSString StringFrom:noti];
@@ -271,7 +313,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
         if (!obj.hidde) { [self->_Tv_list.Arr addObject:obj];}
     }];
     
-    self.title = Format(@"%@",@(_Tv_list.Arr.count));
+    self.title = Format(@"[%@]",@(_Tv_list.Arr.count));
 }
 
 #pragma mark - UITableView Delegate DataSource
@@ -308,22 +350,24 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
 
 
 - (void)actionHandle:(JEButton *)sender{
-    NSString *cleanAll = @"LOG : 清空显示";
-    NSString *shareTxt = @"LOG : 📱本机分享";
-    NSString *sendEmail = @"LOG : ✉️发送Email";
-    NSString *copy = @"复制";
-    NSString *die = @"模拟重装APP";
-    
+//    NSString *cleanAll = @"💭清空log";
+    NSString *shareTxt = @"📱共享log";
+    NSString *sendEmail = @"✉️发送log";
+    NSString *copy = @"📄复制log";
+//    NSString *die = @"模拟重装APP";
+    NSString *die = @"";
+    NSString *cleanAll = @"";
+
     NSMutableArray <NSString *> *list = @[shareTxt].mutableCopy;
-    if (!_historyDate) {[list insertObject:cleanAll atIndex:0];}
+    if (cleanAll.length && !_historyDate) {[list insertObject:cleanAll atIndex:0];}
     
     id mail = [[NSClassFromString(@"SKPSMTPMessage") alloc] init];
     
     NSDictionary *secret = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"JESecret" ofType:@"plist"]];
     if (mail && secret) {[list addObject:sendEmail];}
     
-    if (!_historyDate) {[list addObject:die];}
-    if (_detailMod) { list = @[copy,shareTxt].mutableCopy;}
+    if (die.length && !_historyDate) {[list addObject:die];}
+    if (_detailMod) { list = @[shareTxt,copy].mutableCopy;}
     
     [JEPutDownMenuView ShowIn:JEApp.window point:CGPointMake(ScreenWidth, ScreenNavBarH) list:list select:^(NSString *str, NSInteger index) {
         if ([str isEqualToString:cleanAll]){
@@ -346,18 +390,23 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
             if ([act respondsToSelector:@selector(popoverPresentationController)]) {
                 act.popoverPresentationController.sourceView = sender;
             }
-            [JEApp.window.rootViewController presentViewController:act animated:YES completion:nil];
+            [JEApp.window.rootViewController presentViewController:act animated:YES completion:^{
+                
+            }];
         }
         else if ([str isEqualToString:sendEmail]){
             [[JEDebugTool__ Shared] closeOpen];
-            [self Alert:@"发送LOG至开发者邮箱？" msg:nil act:@[@"发送"] destruc:nil _:^(NSString *act, NSInteger index) {
+//            NSDictionary *secret = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"JESecret" ofType:@"plist"]];
+//            NSString *email = secret[@"SKPSMTP_toEmail"] ?: @"";
+            NSString *email = @"";
+            [self Alert:Format(@"发送log至开发者邮箱？\n%@",email) msg:nil act:@[@"发送"] destruc:nil _:^(NSString *act, NSInteger index) {
                 [self sendLogToEmail];
             }];
         }
         else if ([str isEqualToString:die]){
             [[JEDebugTool__ Shared] closeOpen];
             
-            [self Alert:@"Sure ?" msg:@"清除所有本地缓存数据并关闭APP" act:@[@"Sure"] destruc:@[@"Sure"] _:^(NSString *act, NSInteger index) {
+            [self Alert:@"🔥🔥🔥" msg:@"清除所有本地缓存数据\n并关闭APP" act:@[@"🔥🔥🔥"] destruc:@[@"🔥🔥🔥"] _:^(NSString *act, NSInteger index) {
                 NSDictionary *dic = [USDF dictionaryRepresentation];
                 for (id  key in dic) { [USDF removeObjectForKey:key];}
                 [USDF synchronize];
@@ -371,7 +420,7 @@ static NSString * const jkDetailIdentifier = @"jkDetailIdentifier";
                     [fileManager removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:filename] error:NULL];
                 }
                 
-                [JEApp.window.rootViewController showHUDLabelText:@"🔥..."];
+                [JEApp.window.rootViewController showHUDLabelText:@"🔥🔥🔥..."];
                 delay(2, ^{
                     exit(0);
                 });
@@ -506,11 +555,14 @@ static JEDebugTool__* _sharedManager;
         if (_disableTool) {return;}
         
         _sharedManager = [super allocWithZone:zone];
-        _sharedManager.beginDate = [NSDate date];
-        [JEDebugToolModel CreateTable];
-        [JEDebugToolModel UpdateTable];
-        [JEDebugToolTimeListModel CreateTable];
-        [_sharedManager loadDebugView];
+        
+        if (![USDF boolForKey:jkDebugToolCloseForeverKey]) {
+            _sharedManager.beginDate = [NSDate date];
+            [JEDebugToolModel CreateTable];
+            [JEDebugToolModel UpdateTable];
+            [JEDebugToolTimeListModel CreateTable];
+            [_sharedManager loadDebugView];
+        }
         //        [[FLEXManager sharedManager] showExplorer];
     });
 #endif
@@ -532,10 +584,10 @@ static JEDebugTool__* _sharedManager;
 + (void)DisableTool{_disableTool = YES;}
 
 - (void)loadDebugView{
-    _Btn_touch = JEBtn(JR(ScreenWidth - 50, 240,50, 50),@"on",@20,nil,self,@selector(closeOpen),Clr_red,12,nil);
+    _Btn_touch = JEBtn(JR(ScreenWidth - 44, 240,44, 44),@"Debug",@11,UIColor.whiteColor,self,@selector(closeOpen),Clr_blue.alpha_(0.7),8,nil);
+    
     [_Btn_touch addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)]];
     self.nav = [[JEBaseNavtion alloc] initWithRootViewController:[[JEDebugMainVC alloc] init]];
-    JEShare.navBarItemClr = Clr_blue;
     JEShare.navTitleClr = nil;
     self.nav.view.hidden = YES;
     
@@ -584,7 +636,7 @@ static JEDebugTool__* _sharedManager;
 
 - (void)closeOpen{
     _Btn_touch.selected = !_Btn_touch.selected;
-    [_Btn_touch setTitle:_Btn_touch.selected ? @"off" : @"on" forState:UIControlStateNormal];
+//    [_Btn_touch setTitle:_Btn_touch.selected ? @"off" : @"on" forState:UIControlStateNormal];
     _nav.view.hidden = !_Btn_touch.selected;
     JEDebugMainVC *vc = _nav.viewControllers.firstObject;
     if (!_nav.view.hidden && vc.Tv_list.Arr.count) {

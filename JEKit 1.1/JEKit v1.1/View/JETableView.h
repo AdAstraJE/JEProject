@@ -14,6 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// 跟随滑动拉伸效果传入 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 
+/// scrollViewDidScroll回调
+@property (nonatomic,copy) void (^didScrollBlock)(JETableView *tbv);
+
+/// scrollViewWillBeginDragging回调
+@property (nonatomic,copy) void (^willBeginDraggingBlock)(JETableView *tbv);
 
 @end
 

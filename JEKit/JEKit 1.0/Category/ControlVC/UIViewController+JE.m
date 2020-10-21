@@ -119,6 +119,7 @@ static CGFloat const jkHudAnimatedDuration = 1.8;///< HUD默认显示时间
     HUD.offset = CGPointMake(HUD.offset.x, HUD.offset.y - ScreenNavBarH);
     HUD.contentColor = [UIColor whiteColor];
     if (JEShare.HUDColor) {
+        HUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
         HUD.bezelView.color = JEShare.HUDColor;
     }
 //    HUD.bezelView.layer.cornerRadius = 6.5;
@@ -191,15 +192,15 @@ static CGFloat const jkHudAnimatedDuration = 1.8;///< HUD默认显示时间
             [cell setLayoutMargins:UIEdgeInsetsZero];
         }
     }else{
-        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-            [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
-        }
-        if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
-            [cell setPreservesSuperviewLayoutMargins:NO];
-        }
-        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-            [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
-        }
+//        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+//            [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
+//        }
+//        if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+//            [cell setPreservesSuperviewLayoutMargins:NO];
+//        }
+//        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+//            [cell setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
+//        }
     }
 }
 

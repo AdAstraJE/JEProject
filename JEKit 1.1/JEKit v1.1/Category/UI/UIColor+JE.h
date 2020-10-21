@@ -25,22 +25,22 @@
 
 #pragma mark - UIUserInterfaceStyleLight | UIUserInterfaceStyleDark
 
-@property (class, nonatomic, readonly) UIColor *je_wb;///< 纯白 | 纯黑
-@property (class, nonatomic, readonly) UIColor *je_bw;///< 纯黑 | 纯白
-@property (class, nonatomic, readonly) UIColor *je_txt;  ///< labelColor
-@property (class, nonatomic, readonly) UIColor *je_Tgray1;///< secondaryLabelColor (60,60,67,0.6) | (235,235,245,0.6)
-@property (class, nonatomic, readonly) UIColor *je_Tgray2;///< tertiaryLabelColor  (60,60,67,0.3) | (235,235,245,0.3)
-@property (class, nonatomic, readonly) UIColor *je_Tgray3;///< quaternaryLabelColor (60,60,67,0.18) | (235,235,245,0.16)
-@property (class, nonatomic, readonly) UIColor *je_sep;///< 分割线 UIColor.separatorColor
++ (UIColor *)je_wb;///< 纯白 | 纯黑
++ (UIColor *)je_bw;///< 纯黑 | 纯白
++ (UIColor *)je_txt;  ///< labelColor
++ (UIColor *)je_Tgray1;///< secondaryLabelColor (60,60,67,0.6) | (235,235,245,0.6)
++ (UIColor *)je_Tgray2;///< tertiaryLabelColor  (60,60,67,0.3) | (235,235,245,0.3)
++ (UIColor *)je_Tgray3;///< quaternaryLabelColor (60,60,67,0.18) | (235,235,245,0.16)
++ (UIColor *)je_sep;///< 分割线 UIColor.separatorColor
 
-@property (class, nonatomic, readonly) UIColor *gray1;///< systemGrayColor   (142, 142, 147, 1.0) | (142, 142, 147, 1.0)
-@property (class, nonatomic, readonly) UIColor *gray2;///< systemGray2Color  (174, 174, 178, 1.0) | (99, 99, 102, 1.0)
-@property (class, nonatomic, readonly) UIColor *gray3;///< systemGray3Color  (199, 199, 204, 1.0) | (72, 72, 74, 1.0)
-@property (class, nonatomic, readonly) UIColor *gray4;///< systemGray4Color  (209, 209, 214, 1.0) | (58, 58, 60, 1.0)
-@property (class, nonatomic, readonly) UIColor *gray5;///< systemGray5Color  (229, 229, 234, 1.0) | (44, 44, 46, 1.0)
-@property (class, nonatomic, readonly) UIColor *gray6;///< systemGray6Color  (242, 242, 247, 1.0) | (28, 28, 30, 1.0)
-@property (class, nonatomic, readonly) UIColor *cellBgC;///< GroupedBackgroundColor  (255, 255, 255, 1.0) | (28, 28, 30, 1.0)
-@property (class, nonatomic, readonly) UIColor *groupTvBgC;///< systemGroupedBackgroundColor
++ (UIColor *)gray1;///< systemGrayColor   (142, 142, 147, 1.0) | (142, 142, 147, 1.0)
++ (UIColor *)gray2;///< systemGray2Color  (174, 174, 178, 1.0) | (99, 99, 102, 1.0)
++ (UIColor *)gray3;///< systemGray3Color  (199, 199, 204, 1.0) | (72, 72, 74, 1.0)
++ (UIColor *)gray4;///< systemGray4Color  (209, 209, 214, 1.0) | (58, 58, 60, 1.0)
++ (UIColor *)gray5;///< systemGray5Color  (229, 229, 234, 1.0) | (44, 44, 46, 1.0)
++ (UIColor *)gray6;///< systemGray6Color  (242, 242, 247, 1.0) | (28, 28, 30, 1.0)
++ (UIColor *)cellBgC;///< GroupedBackgroundColor  (255, 255, 255, 1.0) | (28, 28, 30, 1.0)
++ (UIColor *)groupTvBgC;///< systemGroupedBackgroundColor
 
 /// ligth dark
 + (UIColor *)Light:(UIColor *)light dark:(UIColor *)dark;

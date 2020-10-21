@@ -3,8 +3,6 @@
 #import "JEKit.h"
 //#import <objc/runtime.h>
 
-static NSInteger const jkTextMargin = 8;///<
-
 @interface JETextField ()
 
 @property (nonatomic,strong) UIView *Ve_alpha;///< 编辑的时候不允许点击 覆盖个透明的view
@@ -49,11 +47,11 @@ static NSInteger const jkTextMargin = 8;///<
 }
 
 - (CGRect)editingRectForBounds:(CGRect)bounds{
-    return CGRectInset(bounds , jkTextMargin , 0 );
+    return CGRectInset(bounds , jkTfTextMargin , 0 );
 }
 
 - (CGRect)textRectForBounds:(CGRect)bounds{
-    return CGRectInset(bounds , jkTextMargin , 0 );
+    return CGRectInset(bounds , jkTfTextMargin , 0 );
 }
 
 
@@ -117,7 +115,7 @@ static NSInteger const jkTextMargin = 8;///<
 
 - (void)addRightPlaceHolder:(NSString *)placeHolder{
     if (_La_rightPlaceHolder == nil) {
-        _La_rightPlaceHolder= JELab(JR(0, 0, self.width - jkTextMargin, self.height),placeHolder,self.font,[UIColor lightGrayColor],(2),self);
+        _La_rightPlaceHolder= JELab(JR(0, 0, self.width - jkTfTextMargin, self.height),placeHolder,self.font,[UIColor lightGrayColor],(2),self);
     }
 }
 
@@ -257,6 +255,7 @@ static NSInteger const jkTextMargin = 8;///<
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
+    !_didBeginBlock ? : _didBeginBlock(textField);
     if (_disabelWhenEditing) {
         [self.superview bringSubviewToFront:self.Ve_alpha];
         _Ve_alpha.hidden = NO;

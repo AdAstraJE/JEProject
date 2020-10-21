@@ -1,6 +1,8 @@
 
 #import <UIKit/UIKit.h>
 
+static NSInteger const jkTfTextMargin = 8;///<
+
 @interface JETextField : UITextField
 
 @property (nonatomic,assign) CGRect moreTouchMargin;///< 给予更多的边界 点击范围 按照UIEdgeInsets 用
@@ -28,7 +30,8 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField;
 - (void)textFieldDidEndEditing:(UITextField *)textField;
 
-@property (nonatomic,copy) void (^didChangeBlock)(UITextField *textField);
-@property (nonatomic,copy) void (^didEndBlock)(UITextField *textField);
+@property (nonatomic,copy) void (^didBeginBlock)(__kindof UITextField *textField);
+@property (nonatomic,copy) void (^didChangeBlock)(__kindof UITextField *textField);
+@property (nonatomic,copy) void (^didEndBlock)(__kindof UITextField *textField);
 
 @end

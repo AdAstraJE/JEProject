@@ -38,7 +38,7 @@ static JEAppScheme *_sharedSch;
 - (instancetype)init{   return _sharedSch;}
 
 + (NSObject <JESchemeDelegate> *)User{
-    return _sharedSch->_appUser;
+    return [JEAppScheme Shared]->_appUser;
 }
 
 + (void)SaveUser{

@@ -8,7 +8,7 @@ static const NSString *kPressMenuSelectorPrefix = @"easePressMenuClicked_";
 static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKey;
 
 #pragma mark M
-- (void)je_addPressMenuTitles:(NSArray <NSString *> *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
+- (void)je_addPressMenuTitles:(NSArray <NSString *> *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title,UIView *view))block{
     self.menuClickedBlock = block;
     self.menuTitles = menuTitles;
     if (self.pressGR == nil) {
@@ -17,7 +17,7 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKe
     [self addGestureRecognizer:self.pressGR];
 }
 
-- (void)je_showMenuTitles:(NSArray <NSString *> *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
+- (void)je_showMenuTitles:(NSArray <NSString *> *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title,UIView *view))block{
     self.menuClickedBlock = block;
     self.menuTitles = menuTitles;
     [self p_showMenu];
@@ -55,10 +55,10 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKe
     return objc_getAssociatedObject(self, &PressMenuTitlesKey);
 }
 
-- (void)setMenuClickedBlock:(void (^)(NSInteger, NSString *))menuClickedBlock{
+- (void)setMenuClickedBlock:(void (^)(NSInteger, NSString *,UIView *))menuClickedBlock{
     objc_setAssociatedObject(self, &PressMenuBlockKey, menuClickedBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
-- (void (^)(NSInteger, NSString *))menuClickedBlock{
+- (void (^)(NSInteger, NSString *,UIView *))menuClickedBlock{
     return objc_getAssociatedObject(self, &PressMenuBlockKey);
 }
 
@@ -132,7 +132,7 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKe
     if (index >=0 && index < self.menuTitles.count) {
         NSString *title = [self.menuTitles objectAtIndex:index];
         if (self.menuClickedBlock) {
-            self.menuClickedBlock(index, title);
+            self.menuClickedBlock(index, title,self);
         }
     }
 }

@@ -6,7 +6,7 @@
 //NSMutableArray *items = [NSMutableArray array];
 //
 //[_mod.imgList enumerateObjectsUsingBlock:^(M1_kdp_VC_Mod_commentList * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//    YYPhotoGroupItem *item = [YYPhotoGroupItem new];
+//    JEPhotoGroupItem *item = [JEPhotoGroupItem new];
 //    item.thumbView = ((UIImageView*)[self viewWithTag:idx + 1]);
 //    item.largeImageURL = obj.img.url;
 //    [items addObject:item];

@@ -110,13 +110,30 @@ static NSNumberFormatter *_DS_numFormatter;
     
     [filter setValue:[self dataUsingEncoding:NSUTF8StringEncoding] forKey:@"inputMessage"];
     
-    CIImage *outputImage = [filter outputImage];
+    CIImage *ciImage = [filter outputImage];
     CIContext *context1 = [CIContext contextWithOptions:nil];
-    CGImageRef cgImage = [context1 createCGImage:outputImage fromRect:[outputImage extent]];
+    CGImageRef cgImage = [context1 createCGImage:ciImage fromRect:[ciImage extent]];
     
-    UIImage *image = [UIImage imageWithCGImage:cgImage scale:1 orientation:UIImageOrientationUp];
-
+//    UIImage *image = [UIImage imageWithCGImage:cgImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    CGFloat size = ([UIScreen mainScreen].bounds.size.width);
+    CGRect extent = ciImage.extent;
+    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
+    size_t with = scale * CGRectGetWidth(extent);
+    size_t height = scale * CGRectGetHeight(extent);
+    
+    UIGraphicsBeginImageContext(CGSizeMake(with, height));
+    CGContextRef bitmapContextRef = UIGraphicsGetCurrentContext();
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef bitmapImage = [context createCGImage:ciImage fromRect:extent];
+    CGContextSetInterpolationQuality(bitmapContextRef, kCGInterpolationNone);
+    CGContextScaleCTM(bitmapContextRef, scale, scale);
+    CGContextDrawImage(bitmapContextRef, extent, bitmapImage);
+    UIImage *image =  UIGraphicsGetImageFromCurrentImageContext();
+    CGImageRelease(bitmapImage);
     CGImageRelease(cgImage);
+    UIGraphicsEndImageContext();
+    
     return image;
 }
 

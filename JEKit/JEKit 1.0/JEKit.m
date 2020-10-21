@@ -72,6 +72,7 @@ static JEKit* _sharedManager;
 
 /** 默认UI */
 - (void)defaultTheme{
+    _HUDColor = (kRGBA(22, 22, 22,0.9));
     _titleColor = (kHexColor(0x333333));
     _VCBackgroundColor = (kRGB(244, 245, 246));
     _tableSeparatorColor = (kHexColor(0xEFEFEF));

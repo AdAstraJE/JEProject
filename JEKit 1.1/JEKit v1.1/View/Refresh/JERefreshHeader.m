@@ -8,7 +8,7 @@
     CAShapeLayer *shapeLayer;
 }
 @property (weak, nonatomic, readonly) UIImageView *arrowView;
-@property (weak, nonatomic) UIActivityIndicatorView *loadingView;
+
 @end
 
 @implementation JERefreshHeader

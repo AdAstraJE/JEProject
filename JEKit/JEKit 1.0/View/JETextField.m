@@ -11,6 +11,14 @@
 
 @implementation JETextField
 
+- (instancetype)initWithFrame:(CGRect)frame font:(UIFont *)font clr:(UIColor *)clr placeholder:(NSString *)placeholder{
+    self = [super initWithFrame:frame];
+    self.font = font;
+    self.textColor = clr;
+    self.placeholder = placeholder;
+    return self;
+}
+
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

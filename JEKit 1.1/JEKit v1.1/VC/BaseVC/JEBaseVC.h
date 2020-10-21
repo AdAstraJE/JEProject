@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark -
+@property (nonatomic,strong) UIActivityIndicatorView *act;///< UIActivityIndicatorView
 @property (nonatomic,strong) JETableView *tableView;///< 默认的tableView
 @property (nonatomic,strong) JELiteTV *__nullable liteTv;///< 默认的tableView
 @property (nonatomic,strong) JEStaticTableView *__nullable staticTv;///< 静态 tableView 

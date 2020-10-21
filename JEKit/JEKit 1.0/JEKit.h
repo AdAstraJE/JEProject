@@ -141,7 +141,7 @@
 + (BOOL)IsSimulator;
 
 //---------------------------------------------------------------------------------------------------------------------------------
-@property (nonatomic,strong) UIColor *HUDColor;///<  HUD颜色 ### nil
+@property (nonatomic,strong) UIColor *HUDColor;///<  HUD颜色 ### (kRGBA(22, 22, 22,0.9))
 @property (nonatomic,strong) UIColor *titleColor;///<  文本颜色 ### 0x333333
 @property (nonatomic,strong) UIColor *themeColor;///<  某些JE控件label button 文字颜色 ### nil
 @property (nonatomic,strong) UIColor *VCBackgroundColor;///< VC backgroundColor ### (kRGB(244, 245, 246))

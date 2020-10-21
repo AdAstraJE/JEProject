@@ -4,8 +4,7 @@
 
 /// 数据持久化。。。
 @interface JEDBModel : NSObject
-//todo
-//模型的模型
+
 
 typedef void (^JEDBSelectBlock)(NSMutableArray <JEDBModel *> * models);///< 查询结果
 typedef void (^JEDBResult)(BOOL success);///< 执行结果

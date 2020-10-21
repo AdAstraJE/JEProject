@@ -156,7 +156,7 @@ static NSString * const kColumn_Date =    @"date";///< 父类 NSDate 字段名
 
 /** REPLACE 同步一组  (事务操作) */
 + (void)dbSave:(NSArray <JEDBModel *> *)arr done:(JEDBResult)done{
-    if (arr.count == 0) { return;}
+    if (arr.count == 0) { !done ?: done(YES);return;}
     NSMutableArray <NSString *> *SQLs = [NSMutableArray array];
     NSMutableArray <id> *Arguments = [NSMutableArray array];
     for (JEDBModel *eachMod in arr) {

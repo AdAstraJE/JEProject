@@ -21,6 +21,7 @@
 /// 自带的数组count 为0时 显示的  图片-文本 信息  image = imageName | UIImage
 - (NSInteger)emptyeInfo:(NSString*)title image:(id)image;
 - (NSInteger)emptyeInfo:(NSString*)title image:(id)image count:(NSInteger)count;
+- (NSInteger)emptyeCustomView:(UIView *)view;
 
 /// 网络请求失败时显示的
 - (UIView*)networkingFailViewWithTarget:(id)target action:(SEL)action;

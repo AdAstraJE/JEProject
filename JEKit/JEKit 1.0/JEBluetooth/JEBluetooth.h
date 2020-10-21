@@ -43,6 +43,8 @@ typedef void (^BLE_deviceBlock)(__kindof JEBLEDevice *device);/**< 设备回调 
 @property (nonatomic,strong) NSMutableArray <NSString *> *Arr_errorDisconnectUUID;///< 异常断开连接的设备的UUID
 
 
+- (void)resetCentral;
+
 /** 尝试连接 以前连接过的设备 */
 - (void)reconnectHistoryPeripheral;
 

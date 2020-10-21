@@ -26,6 +26,8 @@ static NSInteger const jkActionBarHeight = 48;///<
     [_ pickV];
     [_.pickV reloadAllComponents];
     [_ actionBarWithTitle:title];
+    [_ layoutIfNeeded];
+    _.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
    
     if (current) {
         if ([current isKindOfClass:[NSString class]]) {
@@ -64,6 +66,7 @@ static NSInteger const jkActionBarHeight = 48;///<
     [_.datePicker setDate:(current ? : [NSDate date]) animated:NO];
     _.datePicker.minimumDate = min;
     _.datePicker.maximumDate = max;
+    
 }
 
 /**< 地区选择 */
@@ -96,6 +99,8 @@ static NSInteger const jkActionBarHeight = 48;///<
         _pickV = [[UIPickerView alloc]initWithFrame:CGRectMake(0, jkActionBarHeight, ScreenWidth, jkPickViewHeight)].addTo(self.Ve_content);
         _pickV.delegate = self;
         _pickV.dataSource = self;
+        [_pickV layoutIfNeeded];
+        _pickV.frame = CGRectMake(0, jkActionBarHeight, ScreenWidth, jkPickViewHeight);
     }return _pickV;
 }
 
@@ -114,6 +119,9 @@ static NSInteger const jkActionBarHeight = 48;///<
 }
 
 - (void)confirmBtnClick{
+    if (_pickV && ([_pickV selectedRowInComponent:0] >= _Arr_custom.count || [_pickV selectedRowInComponent:0] == -1)) {
+        return;
+    }
     !_cusArrBlock ? : _cusArrBlock([_pickV selectedRowInComponent:0],_Arr_custom[[_pickV selectedRowInComponent:0]]);
     !_dateBlock ? : _dateBlock(_datePicker.date);
     [self dismiss];

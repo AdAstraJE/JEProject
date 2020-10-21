@@ -236,6 +236,7 @@ static JENetWorking *_instance;
 //        NSAssert(_block_sucHandle != nil, @"先设置 请求完成后的验证处理 setHandleInfoSucBlock");
         NSDictionary *result = _block_sucHandle ? _block_sucHandle(netRes,vc) : netRes;
         if (result == nil) {
+            if (_debug_enableLog) { [JEDebugTool__ LogTitle:Format(@"❌%@",task.currentRequest.URL.absoluteString) noti:param detail:netRes];}
             return;
         }
         

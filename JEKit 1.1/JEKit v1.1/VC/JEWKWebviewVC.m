@@ -1,6 +1,5 @@
 
 #import "JEWKWebviewVC.h"
-#import <WebKit/WebKit.h>
 #import "JEKit.h"
 #import "JEVisualEffectView.h"
 
@@ -44,7 +43,7 @@
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEWKWebviewVC   🔷🔷🔷🔷🔷🔷🔷🔷
 
 @interface JEWKWebviewVC ()<WKUIDelegate,WKNavigationDelegate>{
-    WKWebView *_webView;
+    
     CGFloat _webVHeight;
     UIProgressView *_progressV;
     UIView *_Ve_tool;
@@ -164,6 +163,8 @@
     [self presentViewController:alert animated:YES completion:NULL];
 }
 
+
+
 #pragma mark - StyleDark 深色模式
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
     [super traitCollectionDidChange:previousTraitCollection];
@@ -195,7 +196,7 @@
 #pragma mark - UI 相关设置
 
 - (void)setup_KWWebViewUI{
-    if (!_disableShareAction) {
+    if (!self.disableShareAction) {
         [self rightNavBtn:(JEBundleImg(@"ic_navAction").clr(JEShare.navBarItemClr)) target:self act:@selector(webShareClick:)];
     }
    

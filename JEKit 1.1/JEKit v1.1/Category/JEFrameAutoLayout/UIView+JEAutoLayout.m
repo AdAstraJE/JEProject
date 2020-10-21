@@ -278,8 +278,11 @@
 - (void)jelo_setText:(NSString *)text{
     // 如果程序崩溃 检查你的“setText”方法
     [self jelo_setText:text];
-    [self updateLayout];
+    if (self.superview && self.jo_layoutMod) {
+        [self updateLayout];
+    }
 }
+
 @end
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   UIButton (JELOButton)   🔷🔷🔷🔷🔷🔷🔷🔷

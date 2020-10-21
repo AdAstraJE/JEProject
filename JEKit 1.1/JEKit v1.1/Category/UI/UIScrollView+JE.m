@@ -64,7 +64,12 @@
 }
 
 - (void)staticLoading{
-    if (![self isKindOfClass:UITableView.class]) { return;}
+    if (![self isKindOfClass:UITableView.class]) {
+        [self addSubview:self.ActView];
+        self.ActView.jo_reset.insets(0);
+        [self.ActView startAnimating];
+        return;
+    }
     
 //    [self layoutIfNeeded];
     [self.ActView startAnimating];
@@ -73,7 +78,10 @@
 }
 
 - (void)staticStopLoading{
-    if (![self isKindOfClass:UITableView.class]) { return;}
+    if (![self isKindOfClass:UITableView.class]) {
+        [self.ActView stopAnimating];
+        return;
+    }
     if (!self.ActView.isAnimating) {return;}
     
     [self.ActView stopAnimating];
@@ -90,7 +98,7 @@
 - (NSInteger)emptyeInfo:(NSString*)title image:(id)image count:(NSInteger)count{
     if (count != 0) {
         ((UITableView*)self).backgroundView = nil;//有数据了 这个view 置空
-        [(JERefreshFooter*)self.mj_footer setTitle:@"——————————   END   ——————————".loc forState:MJRefreshStateNoMoreData];
+        [(JERefreshFooter*)self.mj_footer setTitle:@"—————————— • ——————————".loc forState:MJRefreshStateNoMoreData];
         return count;
     }
     
@@ -107,6 +115,20 @@
     ((UITableView*)self).backgroundView = [self customInfo:title image:image];
     [(JERefreshFooter*)self.mj_footer setTitle:@"" forState:MJRefreshStateNoMoreData];
     
+    return count;
+}
+
+- (NSInteger)emptyeCustomView:(UIView *)view{
+    NSInteger count = self.Arr.count;
+    if (((UITableView*)self).backgroundView != nil) {//有自己定义的view或已经存在
+        [(JERefreshFooter*)self.mj_footer setTitle:@"" forState:MJRefreshStateNoMoreData];
+        return count;
+    }
+    if (count == 0) {
+        ((UITableView*)self).backgroundView = view;
+    }else{
+        ((UITableView*)self).backgroundView = nil;
+    }
     return count;
 }
 

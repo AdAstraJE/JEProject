@@ -13,7 +13,7 @@
     mod.backgroundColor = JEShare.tvBgClr;
 //    mod.cellHeight = MAX(48.0f, ScrnAdapt(45.0f));
     mod.cellHeight = 48.0f;
-    mod.sectionHeaderHeight = mod.cellHeight*0.618;//34.0f;
+    mod.sectionHeaderHeight = mod.cellHeight*0.618;
     mod.sectionFooterHeight = 1.0f;
     mod.margin = 15;
     mod.iconWH = mod.cellHeight*0.618;
@@ -119,22 +119,26 @@ JEStvIt *JEStvIt_(id icon, NSString *title, NSString *desc, UITableViewCellAcces
 
 - (void)setIcon:(UIImage *)icon{
     _icon = icon;
+    if (![_cell.class isKindOfClass:JEStaticTVCell.class]) {return;}
     _cell.Img_icon.image = icon;
 }
 
 - (void)setTitle:(NSString *)title{
     _title = title;
+    if (![_cell isKindOfClass:JEStaticTVCell.class]) {return;}
     _cell.La_title.text = title;
     [_cell resetTitleDescFrame];
 }
 
 - (void)setDetail:(NSString *)detail{
     _detail = detail;
+    if (![_cell isKindOfClass:JEStaticTVCell.class]) {return;}
     _cell.La_detail.text = detail;
 }
 
 - (void)setDesc:(NSString *)desc{
     _desc = desc;
+    if (![_cell isKindOfClass:JEStaticTVCell.class]) {return;}
     _cell.La_desc.text = desc;
 }
 

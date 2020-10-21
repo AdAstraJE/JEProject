@@ -52,11 +52,10 @@ static CGFloat const jkNavItemTitleMargin = 16.0f;///<
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = JEShare.VCBgClr ? : [UIColor Light:UIColor.whiteColor dark:UIColor.blackColor];
     
-    if (!_disableNavBar && JEShare.customNavView) { [self createNavBar];}
+    if (!_disableNavBar) { [self createNavBar];}
 }
 
 - (void)setTitle:(NSString *)title{
-    [super setTitle:title];
     _navTitleLable.text = title;
 }
 
@@ -122,9 +121,17 @@ static CGFloat const jkNavItemTitleMargin = 16.0f;///<
 
 #pragma mark - 默认创建方法
 
+-(UIActivityIndicatorView *)act{
+    if (_act == nil) {
+        _act = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray].addTo(self.view);
+        _act.center = self.view.center;
+    }
+    return _act;
+}
+
 - (JEStaticTableView *)staticTv{
     if (_staticTv == nil) {
-        JEStaticTableView *tv = [[JEStaticTableView alloc] initWithFrame:JR0 style:(UITableViewStyleGrouped)];
+        JEStaticTableView *tv = [[JEStaticTableView alloc] initWithFrame:JR(0, 0, kSW, kSH) style:(UITableViewStyleGrouped)];
         if (_navBar) {tv.contentInsetTop = _navBar.height;}
         [self.view insertSubview:tv atIndex:0];
         tv.jo.inset(0, 0, 0, 0);
@@ -134,7 +141,7 @@ static CGFloat const jkNavItemTitleMargin = 16.0f;///<
 }
 
 - (JETableView *)defaultTv:(UITableViewStyle)style cell:(id)cellClass{
-    JETableView *tv = [[JETableView alloc] initWithFrame:JR0 style:style];
+    JETableView *tv = [[JETableView alloc] initWithFrame:JR(0, 0, kSW, kSH) style:style];
     tv.rowHeight = 45.0f;
     tv.delegate = (id<UITableViewDelegate>)self;
     tv.dataSource = (id<UITableViewDataSource>)self;
@@ -160,7 +167,7 @@ static CGFloat const jkNavItemTitleMargin = 16.0f;///<
 
 - (JELiteTV *)liteTv:(UITableViewStyle)style cellC:(nullable Class)cellClass cellH:(CGFloat)cellHeight
                cell:(nullable void (^)(__kindof UITableViewCell *cell,UITableView *tv,NSIndexPath *idxP,id obj))cell select:(nullable void (^)(UITableView *tv,NSIndexPath *idxP,id obj))select{
-    JELiteTV *tv = [[JELiteTV alloc] initWithFrame:JR0 style:style cellC:cellClass cellH:cellHeight];
+    JELiteTV *tv = [[JELiteTV alloc] initWithFrame:JR(0, 0, kSW, kSH) style:style cellC:cellClass cellH:cellHeight];
     tv.cell = cell;
     tv.select = select;
     if (_navBar) {

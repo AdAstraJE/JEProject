@@ -273,6 +273,7 @@ static JENetWorking *_instance;
 #pragma mark - ❌ 失败处理
 
 - (void)handleNetworkFailure:(NSURLSessionDataTask *)task param:(NSDictionary*)param vc:(UIViewController*)vc error:(NSError *)error fail:(JENetFailBlock)failBlock{
+    BOOL currentTask = [vc.Arr_taskId.lastObject isEqualToNumber:@(task.taskIdentifier)];
     [self handleTask:task param:param vc:vc error:error];
     if (failBlock) { failBlock(task,error);return;}//有自己的处理方式 返回了
     
@@ -282,8 +283,7 @@ static JENetWorking *_instance;
         if (!vc.noAutoHUD) {
             if (_errorAlertDate == nil || [[NSDate date] timeIntervalSinceDate:_errorAlertDate] > 1) {
                 HUDMarkType type = (_status == AFNetworkReachabilityStatusReachableViaWWAN) ? HUDMarkTypefailure : HUDMarkTypeNetError;
-                
-                if (![vc isKindOfClass:[UINavigationController class]]) {
+                if ((vc.HUD && !vc.HUD.hidden && currentTask) || ![vc isKindOfClass:[UINavigationController class]]) {
                     ([(vc ? : ([UIApplication sharedApplication].keyWindow.rootViewController))showHUD:@"网络连接失败".loc type:type]);
                 }
             }else{

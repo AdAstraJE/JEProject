@@ -86,6 +86,9 @@ static CGFloat const jkWhiteAbeAlpha = 0.96;///< 白色透明度差值百分比
     [self setBackgroundImage:normal forState:UIControlStateNormal];
     
     if (bcColor) {
+        if (bcColor == UIColor.clearColor) {
+            return;
+        }
         UIImage *hImage = [UIImage je_ColoreImage:[bcColor je_Abe:((bcColor == [UIColor whiteColor]) ? jkWhiteAbeAlpha : jkAbeAlpha) Alpha:jkAbeAlpha] size:self.size];
         UIImage *highlighted = [hImage addCorner:rad corners:(UIRectCornerAllCorners) borderWidth:width borderColor:[color je_Abe:1 Alpha:jkAbeAlpha] borderLineJoin:(kCGLineJoinRound)];
         [self setBackgroundImage:highlighted forState:UIControlStateHighlighted];

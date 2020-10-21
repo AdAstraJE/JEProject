@@ -73,6 +73,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    !_didScrollBlock ? : _didScrollBlock(self);
     if (_headExpandEffect && _Img_expand) {
         CGFloat y = scrollView.contentOffset.y + self.contentInset.top;
         CGRect orginRect = CGRectMake(0, 0, ScreenWidth, _expandOrginHeight);
@@ -82,6 +83,10 @@
             _Img_expand.frame = orginRect;
         }
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    !_willBeginDraggingBlock ? : _willBeginDraggingBlock(self);
 }
 
 @end

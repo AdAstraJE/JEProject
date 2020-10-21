@@ -33,7 +33,6 @@ static CGFloat const jkTimerDuration = 0.02;///<
     }
     
     self.text = @(_process).stringValue;
-    
 }
 
 @end

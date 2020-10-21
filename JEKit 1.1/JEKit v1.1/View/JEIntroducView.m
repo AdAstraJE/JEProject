@@ -45,22 +45,24 @@
     UIColor *_tintColor,*_descColor;
     NSArray <NSString *> *_Arr_title,*_Arr_desc;
     UIImageView *_Img_back,*_Img_front;///< 有文本描述 用另一种体现方式
+    void (^_done)(void);
 }
+
 
 - (void)dealloc{jkDeallocLog}
 
 + (instancetype)Introduc:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor{
-    return [self Introduc:images tint:tintColor titleDesc:nil descColor:UIColor.je_txt];
+    return [self Introduc:images tint:tintColor titleDesc:nil descColor:UIColor.je_txt done:nil];
 }
 
-+ (instancetype)Introduc:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor titleDesc:(NSArray <NSArray <NSString *> *> *)titleDesc descColor:(UIColor *)descColor{
-    JEIntroducView *view = [[self alloc] initWithFrame:CGRectMake(0,0, ScreenWidth,ScreenHeight) images:images tint:tintColor titleDesc:titleDesc descColor:descColor];
++ (instancetype)Introduc:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor titleDesc:(NSArray <NSArray <NSString *> *> *)titleDesc descColor:(UIColor *)descColor done:(void (^)(void))done{
+    JEIntroducView *view = [[self alloc] initWithFrame:CGRectMake(0,0, ScreenWidth,ScreenHeight) images:images tint:tintColor titleDesc:titleDesc descColor:descColor done:done];
     [JEApp.window addSubview:view];
     [JEApp.window.layer je_fade];
     return view;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame images:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor titleDesc:(NSArray <NSArray <NSString *> *> *)titleDesc descColor:(UIColor *)descColor{
+- (instancetype)initWithFrame:(CGRect)frame images:(NSArray <UIImage *> *)images tint:(UIColor *)tintColor titleDesc:(NSArray <NSArray <NSString *> *> *)titleDesc descColor:(UIColor *)descColor done:(void (^)(void))done{
     self = [super initWithFrame:frame];
     self.backgroundColor = [UIColor whiteColor];
     _Arr_images = images;
@@ -69,6 +71,7 @@
     _Arr_title = titleDesc.firstObject;
     _Arr_desc = titleDesc.lastObject;
     _descColor = descColor;
+    _done = done;
     
     if (titleDesc.count) {
         _Img_back = JEImg(JR(0,0, self.width,self.height),_Arr_images[0],self);
@@ -113,12 +116,13 @@
 
 #pragma mark -
 
-- (void)dismiss{
+- (void)introducDismiss{
     [UIView animateWithDuration:0.25 animations:^{
         self.alpha = 0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
+    !_done ? :_done();
 }
 
 #pragma mark -
@@ -188,8 +192,9 @@
 - (UIButton *)Btn_finish{
     if (_Btn_finish == nil) {
         CGFloat width = self.width *0.618,height = 40;
-        _Btn_finish = JEBtn(JR((self.width - width)/2, _Page.y - height - 13, width, height),@"立即体验".loc,fontM(16),[UIColor whiteColor],self,@selector(dismiss),_tintColor,height/2,self);
+        _Btn_finish = JEBtn(JR((self.width - width)/2, _Page.y - height - 13, width, height),@"立即体验".loc,fontM(16),[UIColor whiteColor],self,@selector(introducDismiss),_tintColor,height/2,self);
         _Btn_finish.alpha = 0;
+        [_Btn_finish je_shadowRad:height/2 edge:6 clr:UIColor.gray5];
     }
     return _Btn_finish;
 }

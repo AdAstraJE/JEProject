@@ -17,7 +17,7 @@
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection{
     [super traitCollectionDidChange:previousTraitCollection];
-    [self resetEffect];
+    if (@available(iOS 13.0, *)) {[self resetEffect];}
 }
 
 @end

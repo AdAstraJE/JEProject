@@ -21,16 +21,17 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
     self = [super initWithFrame:frame];
     self.tintColor = Clr_blue;
     self.alpha = 0;
-//    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.382) dark:kRGBA(0, 0, 0, 0.618)];
-    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.2) dark:kRGBA(0, 0, 0, 0.618)];
+    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.382) dark:kRGBA(0, 0, 0, 0.5)];
+//    self.backgroundColor = [UIColor Light:kRGBA(0, 0, 0, 0.2) dark:kRGBA(0, 0, 0, 0.618)];
     
     _backView =  JEVe(self.bounds, nil, self).jo.insets(0);//隐藏的点击背景
     CGFloat w = MIN(kSW, kSH)*0.89;
     
-    _Ve_content = JEVe(JR0, [UIColor Light:kRGBA(255, 255, 255, 0.6) dark:kRGBA(62, 62, 62, 0.8)], self);
+    _Ve_content = JEVe(JR((kSW - w)/2, (kSH - height)/2, w, height), [UIColor Light:kRGBA(255, 255, 255, 0.6) dark:kRGBA(255, 255, 255, 1)], self);
     _Ve_content.jo.inCenterX().y((kSH - height)/2).w(w).h(height);
     _Ve_content.rad = 14;
     _maskView = JEEFVe(JR0, UIBlurEffectStyleRegular, _Ve_content).jo.insets(0);
+    _maskView.backgroundColor = [UIColor Light:kRGBA(255, 255, 255, 0.8) dark:kRGBA(0, 0, 0, 0.8)];
     
     [self handelStyleDark];
     
@@ -40,18 +41,20 @@ const static CGFloat kAnimateDuration  = 0.2;///< 动画时间
 - (void)setPopType:(JEPopType)popType{
     _popType = popType;
     if (_popType == JEPopTypeBottom) {
+        _Ve_content.rad = 0;
+        _Ve_content.width = kSW;
         _Ve_content.jo_reset.y(kSH).h(_Ve_content.height + ScreenSafeArea).left(0).right(0);
     }else{
         _Ve_content.jo.y((kSH - _Ve_content.height)/2);
     }
 }
 
-- (void)resetWidth:(CGFloat)widht{
-    _Ve_content.jo.w(widht);
+- (void)resetWidth:(CGFloat)width{
+    _Ve_content.jo.w(width);[_Ve_content updateLayout];
 }
 
 - (void)resetHeight:(CGFloat)height{
-    _Ve_content.jo.h(height);
+    _Ve_content.jo.h(height);[_Ve_content updateLayout];
 }
 
 - (void)addCancelConfirmBtn{

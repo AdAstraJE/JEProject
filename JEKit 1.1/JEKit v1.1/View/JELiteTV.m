@@ -1,6 +1,7 @@
 
 #import "JELiteTV.h"
 #import "JEKit.h"
+#import <UITableView+FDTemplateLayoutCell.h>
 
 @implementation JELiteTV{
     Class _cellClass;
@@ -50,6 +51,17 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_useFDTemplateLayoutCell) {
+        return [tableView fd_heightForCellWithIdentifier:_cellIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell *cell) {
+            cell.fd_enforceFrameLayout = YES;
+            if (self->_cell) {
+                self->_cell(cell,tableView,indexPath,(tableView.Arr[(self->_sections ? indexPath.section : indexPath.row)]));
+            }else{
+                [cell je_loadCell:tableView.Arr[(self->_sections ? indexPath.section : indexPath.row)]];
+            }
+        }];
+    }
+    
     return  _rowH ? _rowH(tableView,indexPath) : tableView.rowHeight;
 }
 
@@ -101,6 +113,10 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     return _editingStyle ? _editingStyle(tableView,indexPath) : UITableViewCellEditingStyleNone;
+}
+
+- (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return _editActions ? _editActions(tableView,indexPath) : nil;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{

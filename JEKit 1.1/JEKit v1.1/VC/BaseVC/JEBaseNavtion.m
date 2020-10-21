@@ -30,7 +30,7 @@
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.fd_viewControllerBasedNavigationBarAppearanceEnabled = NO;
-    self.navigationBar.hidden = self.fd_prefersNavigationBarHidden = (JEShare.customNavView);
+    self.navigationBar.hidden = self.fd_prefersNavigationBarHidden = YES;
 }
 
 

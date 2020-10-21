@@ -5,7 +5,7 @@
 #import "JEBaseVC.h"
 @class JEDebugToolModel;
 
-#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolModel   🔷 显示模型
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷   JEDebugToolModel   🔷 模型
 
 @interface JEDebugToolModel : JEDBModel
 @property (nonatomic,copy) NSString *indexTime;///< 请求时间
@@ -47,16 +47,16 @@
 
 @interface JEDebugTool__ : NSObject
 
-+ (void)DisableTool;
-
 @property (nonatomic,strong) UINavigationController *nav;
 @property (nonatomic,strong) UIButton *Btn_touch;///< open close 悬浮小按钮
 @property (nonatomic,strong) NSDate *beginDate;///< Log开始时间
 
-- (void)closeOpen;///< 开关控制
-    
 + (JEDebugTool__ *)Shared;
 
+/// 不使用Tool
++ (void)DisableTool;
+
+/// 模拟器也开启
 + (void)EnableSimulator;
 
 /// 转换显示或隐藏
@@ -69,6 +69,9 @@
 /// 简单添加log  默认存进数据库 
 + (void)LogSimple:(id)simple;
 + (void)LogSimple:(id)simple toDB:(BOOL)toDB;
+
+/// 开关控制
+- (void)closeOpen;
 
 @end
 

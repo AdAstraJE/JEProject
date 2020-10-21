@@ -9,6 +9,8 @@
 
 @interface JETextField : UITextField
 
+- (instancetype)initWithFrame:(CGRect)frame font:(UIFont *)font clr:(UIColor *)clr placeholder:(NSString *)placeholder;
+
 @property (nonatomic,assign) CGRect moreTouchMargin;///< 给予更多的边界 点击范围 按照UIEdgeInsets 用
 @property (nonatomic,assign) BOOL noTouchInEditing;///< 编辑的时候不允许点击 覆盖个透明的view
 

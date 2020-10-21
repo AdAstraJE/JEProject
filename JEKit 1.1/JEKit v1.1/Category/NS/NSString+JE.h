@@ -18,7 +18,7 @@
 - (NSURL *)url;                 ///< [NSURL URLWithString:(NSString *)CFB
 - (NSString *)filePathName;     ///< [self stringByReplacingOccurrencesOfString:@"/" withString:@":"]
 - (NSURL *)fileUrl;             ///< [NSURL fileURLWithPath:self]
-- (NSString *)date;             ///< 1970 长时间戳对应的NSDate
+- (NSDate *)date;             ///< 1970 长时间戳对应的NSDate
 - (NSString *)HH_MM;            ///< min -> HH:MM
 - (NSString *)escapedXcode;     ///< -> 转义
 - (NSData *)data;               ///< -> data
@@ -29,7 +29,7 @@
 - (NSString *)MD5;              ///< 32位大写MD5加密
 - (NSString *)f2f;              ///< 数字化 保留两位数 Format(@"%.2f",[self floatValue])
 - (NSString *)decimal;          ///< 12345678 -> 12,345,678 NSNumberFormatterDecimalStyle,
-- (UIImage*)je_QRcode;          ///< 二维码图片 可以 再用je_resizeByRate>>放大一下
+- (UIImage*)je_QRcode;          ///< 二维码图片 
 - (NSMutableDictionary*)parameters;///< url参数转字典
 
 - (BOOL)isChinese;              ///< 是否中文

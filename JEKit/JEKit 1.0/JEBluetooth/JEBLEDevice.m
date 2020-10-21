@@ -382,6 +382,7 @@
 #pragma mark ---------------------------- 静态方法 ----------------------------
 /** JEBluetooth 里这个类型的设备 */
 + (instancetype)Device{
+#if DEBUG
 #if TARGET_OS_SIMULATOR
     JEBLEDevice *test = [JEBluetooth Shared].simulatorDevice;
     if (test == nil) {
@@ -393,6 +394,7 @@
         [JEBluetooth Shared].simulatorDevice = test;
     }
     return test;
+#endif
 #endif
     
     __block JEBLEDevice *device = nil;

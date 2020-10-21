@@ -2,6 +2,7 @@
 #import "JEPhotoGroupView.h"
 #import "YYKit.h"
 #import "JEKit.h"
+#import "JEVisualEffectView.h"
 
 #define kPadding 20
 #define kHiColor [UIColor colorWithRGBHex:0x2dd6b8]
@@ -226,7 +227,7 @@
 @property (nonatomic, strong) UIImage *snapshorImageHideFromView;
 
 @property (nonatomic, strong) UIImageView *background;
-@property (nonatomic, strong) UIImageView *blurBackground;
+@property (nonatomic, strong) JEVisualEffectView *blurBackground;
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -282,9 +283,10 @@
     _background.frame = self.bounds;
     _background.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
-    _blurBackground = UIImageView.new;
-    _blurBackground.frame = self.bounds;
-    _blurBackground.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    _blurBackground = UIImageView.new;
+//    _blurBackground.frame = self.bounds;
+//    _blurBackground.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _blurBackground = [[JEVisualEffectView alloc] initWithFrame:self.bounds];
     
     _contentView = UIView.new;
     _contentView.frame = self.bounds;
@@ -369,7 +371,7 @@
     
     _background.image = _snapshorImageHideFromView;
     
-    _blurBackground.image = [_snapshorImageHideFromView imageByBlurDark]; //Same to UIBlurEffectStyleDark
+//    _blurBackground.image = [_snapshorImageHideFromView imageByBlurLight];
     
     self.size = _toContainerView.size;
     self.blurBackground.alpha = 0;

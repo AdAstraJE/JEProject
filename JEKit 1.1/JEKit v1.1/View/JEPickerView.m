@@ -114,10 +114,10 @@ static NSInteger const jkActionBarHeight = 48;///<
     JELab(JR(9, 0, ScreenWidth - 9, _.height),title,@14.5,Tgray1,(NSTextAlignmentCenter),_).jo.left_(left,8).right_(right, 8).top(0).bottom(0);
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    [self.Ve_content je_corner:(UIRectCornerTopLeft | UIRectCornerTopRight) rad:12];
-}
+//- (void)layoutSubviews{
+//    [super layoutSubviews];
+//    [self.Ve_content je_corner:(UIRectCornerTopLeft | UIRectCornerTopRight) rad:12];
+//}
 
 - (void)confirmBtnClick{
     !_cusArrBlock ? : _cusArrBlock([_pickV selectedRowInComponent:0],_Arr_custom[[_pickV selectedRowInComponent:0]]);

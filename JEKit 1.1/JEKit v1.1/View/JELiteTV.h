@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style cellC:(Class)cellClass cellH:(CGFloat)cellH;
 
+@property (nonatomic,assign) BOOL useFDTemplateLayoutCell ;///< 用计算高度框架 cell.fd_enforceFrameLayout = YES ### NO
+
 @property (nonatomic,copy) NSInteger (^sections)(UITableView *tv);///< numberOfSectionsInTableView
 @property (nonatomic,copy) NSInteger (^rows)    (UITableView *tv,NSInteger section);///< numberOfRowsInSection
 @property (nonatomic,copy) CGFloat   (^rowH)    (UITableView *tv,NSIndexPath *idx);///< heightForRowAtIndexPath
@@ -34,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) void   (^select)     (UITableView *tv,NSIndexPath *idx,id obj);///< didSelectRowAtIndexPath
 
 @property (nonatomic,copy) UITableViewCellEditingStyle (^editingStyle)  (UITableView *tv,NSIndexPath *idx);///< editingStyle
+@property (nonatomic,copy) NSArray <UITableViewRowAction *> * (^editActions)  (UITableView *tv,NSIndexPath *idx);///< editActions
+
 @property (nonatomic,copy) void   (^commitEditingStyle)     (UITableView *tv,UITableViewCellEditingStyle editingStyle,NSIndexPath *idx,id obj);///< commitEditingStyle
 @property (nonatomic,copy) void   (^accessoryButtonTap)     (UITableView *tv,NSIndexPath *idx,id obj);///< accessoryButtonTap
 

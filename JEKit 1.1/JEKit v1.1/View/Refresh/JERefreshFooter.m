@@ -25,7 +25,7 @@
     
     [self setTitle:@"• • • • • • •".loc forState:MJRefreshStateIdle];
     [self setTitle:@"" forState:MJRefreshStateRefreshing];
-    [self setTitle:@"——————————   END   ——————————".loc forState:MJRefreshStateNoMoreData];
+    [self setTitle:@"—————————— • ——————————".loc forState:MJRefreshStateNoMoreData];
     self.stateLabel.font = font(12);
     self.stateLabel.textColor = Tgray2;
 }

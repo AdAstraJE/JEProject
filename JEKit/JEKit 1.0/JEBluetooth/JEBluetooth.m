@@ -45,6 +45,12 @@ static JEBluetooth *_instance;
     return _central;
 }
 
+- (void)resetCentral{
+    [_central stopScan];
+    _central = nil;
+    [self central];
+}
+
 /** 搜索 唯一key 重复会覆盖block */
 - (void)scanPeripheral:(BLE_deviceBlock)block blockKey:(NSString *)blockKey{
     [_Dic_scanBlock setValue:block forKey:blockKey];

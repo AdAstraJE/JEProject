@@ -1,6 +1,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JEBaseVC.h"
+#import <WebKit/WebKit.h>
 
 @interface JEWKWebviewVC : JEBaseVC
 
@@ -14,7 +15,7 @@
 @property (nonatomic,copy)  NSString  *HTMLString;
 @property (nonatomic,assign) BOOL handelDarkModel;///< 简单处理黑色模式 ### NO
 @property (nonatomic,assign) BOOL disableShareAction;
-
+@property (nonatomic,strong) WKWebView *webView;///< 
 
 @end
 

@@ -23,6 +23,7 @@
  # pod 'skpsmtpmessage'
  # pod 'Bugly'
  # pod 'Masonry'
+ # pod 'IQKeyboardManager'
  
  end
 
@@ -136,7 +137,6 @@
 @property (nonatomic,strong) UIColor *themeClr;///<  主题颜色 ### nil
 @property (nonatomic,strong) UIColor *VCBgClr;/// VC background Color ### nil
 #pragma mark - "导航栏”
-@property (nonatomic,assign)  BOOL customNavView;///< 自定义导航栏 ###  NO
 @property (nonatomic,strong)  UIColor *navBarClr;///< 导航栏背景颜色 ###  nil
 @property (nonatomic,strong)  UIImage *navBarImage;///< 导航栏背景图片 ### nil
 @property (nonatomic,strong)  UIColor *navBarLineClr;///< 导航栏底部线条颜色 ### UIColor.gray3

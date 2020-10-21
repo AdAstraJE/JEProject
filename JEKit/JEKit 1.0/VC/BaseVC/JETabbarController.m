@@ -68,7 +68,7 @@
 - (void)viewDidLayoutSubviews{
     for (int i = 0; i < _Arr_titles.count; i++) {
         UITabBarItem *_ = [self.tabBar.items objectAtIndex:i];
-        _.title = _Arr_titles[i];
+        _.title = _Arr_titles[i].loc;
         _.image = [_Arr_imgNames[i].firstObject imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         _.selectedImage = [_Arr_imgNames[i].lastObject imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         if (_.title.length == 0) {
