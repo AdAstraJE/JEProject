@@ -14,7 +14,7 @@
     else if (iPhoneX_Screen){ return iPhoneX; }
     else if (iPhoneXR_Screen){ return iPhoneXR;}
     else if (iPhoneXM_Screen){ return iPhoneXMax;}
-    else{ return iPhone6;}
+    else{ return [self SafeAreaTop] ? iPhoneX : iPhone6;}
 }
 
 + (CGFloat)SafeAreaTop{

@@ -6,6 +6,39 @@
 
 static CGFloat const jkDuration = 0.2;///<
 
+#pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷    YYAnimatedImageView   🔷🔷🔷🔷🔷🔷🔷🔷
+@interface YYAnimatedImageView (IOS14)
+
+@end
+
+@implementation YYAnimatedImageView (IOS14)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method method1 = class_getInstanceMethod([self class], @selector(lz_displayLayer:));
+        Method method2 = class_getInstanceMethod([self class], @selector(displayLayer:));
+        method_exchangeImplementations(method1, method2);
+    });
+}
+
+- (void)lz_displayLayer:(CALayer *)layer {
+    Ivar ivar = class_getInstanceVariable(self.class, "_curFrame");
+    UIImage *_curFrame = object_getIvar(self, ivar);
+    if (_curFrame) {
+        layer.contents = (__bridge id)_curFrame.CGImage;
+    }else{
+        if (@available(iOS 14.0, *)) {
+            [super displayLayer:layer];
+        }
+    }
+}
+
+@end
+
+
+
+
 
 #pragma mark -   🔷🔷🔷🔷🔷🔷🔷🔷    JELivePhotoView   🔷🔷🔷🔷🔷🔷🔷🔷
 
@@ -73,10 +106,10 @@ API_AVAILABLE(ios(9.1))
 }
 
 + (instancetype)ShowImgFrom:(UIImageView*)view trueImg:(UIImage*)trueImg {
-    return [JEShowImg ShowImgFrom:view trueImg:trueImg action:YES];
+    return [JEShowImg ShowImgFrom:view trueImg:trueImg action:JEShowImgActionType_share];
 }
 
-+ (instancetype)ShowImgFrom:(UIImageView*)from trueImg:(UIImage*)trueImg action:(BOOL)action{
++ (instancetype)ShowImgFrom:(UIImageView*)from trueImg:(UIImage*)trueImg action:(JEShowImgActionType_)action{
     if (from.image == nil) {return nil;}
     UIImage *img = trueImg;
     if (trueImg == nil && [from isKindOfClass:[UIImageView class]] ) {
@@ -88,11 +121,11 @@ API_AVAILABLE(ios(9.1))
 }
 
 + (instancetype)ShowLivePhoto:(id)livePhoto{
-    JEShowImg *view = [[JEShowImg alloc] initWithFrame:JR(0, 0, kSW, kSH) from:nil trueImg:livePhoto action:NO].addTo(JEApp.window);
+    JEShowImg *view = [[JEShowImg alloc] initWithFrame:JR(0, 0, kSW, kSH) from:nil trueImg:livePhoto action:JEShowImgActionType_none].addTo(JEApp.window);
     return view;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame from:(UIImageView*)from trueImg:(UIImage*)trueImg action:(BOOL)action{
+- (instancetype)initWithFrame:(CGRect)frame from:(UIImageView*)from trueImg:(UIImage*)trueImg action:(JEShowImgActionType_)actionType{
     self = [super initWithFrame:frame];
 
     _Ve_effect = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular]].addTo(self);
@@ -130,10 +163,16 @@ API_AVAILABLE(ios(9.1))
         panGestureRecognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
         [_ImgV addGestureRecognizer:panGestureRecognizer];
         
-        if (action) {
+        if (actionType == JEShowImgActionType_share) {
             UIImage *image = JEBundleImg(@"ic_navAction");
             _Btn_action = JEBtnSys(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,JEShare.navBarItemClr ? : Clr_blue,self,@selector(JEShowImgShareBtnClick:),image,0,self).touchs(15,15,15,15);
         }
+        
+        if (actionType == JEShowImgActionType_delete) {
+            UIImage *image = JEBundleImg(@"ic_delete");
+            _Btn_action = JEBtnSys(JR(kSW - 23 - 16,ScreenStatusBarH + 9,23,26),nil,@0,JEShare.navBarItemClr ? : Clr_blue,self,@selector(JEShowImgDeleteBtnClick),image,0,self).touchs(15,15,15,15);
+        }
+        
     }
     
     CGFloat h = _ImgV.image.size.height/_ImgV.image.size.width*ScreenWidth;
@@ -164,6 +203,13 @@ API_AVAILABLE(ios(9.1))
         activityViewController.popoverPresentationController.sourceView = sender;
     }
     [JEApp.window.rootViewController presentViewController:activityViewController animated:YES completion:nil];
+}
+
+- (void)JEShowImgDeleteBtnClick{
+    [self dismissImageTap];
+    delay(jkDuration, ^{
+        !self->_deleteActionClick ?:self->_deleteActionClick((id)self->_Ve_from);
+    });
 }
 
 - (void)dismissImageTap{

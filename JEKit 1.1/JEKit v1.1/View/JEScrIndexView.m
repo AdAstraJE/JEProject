@@ -98,6 +98,7 @@
     [Arr_title enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL * stop) {
         JEButton *btn = JEBtn(JR(idx*_btnWidth, 0, _btnWidth,_Scr_title.height),title,_titleFont,nil,self,@selector(boardBtnClick:),nil,0,_Scr_title).tag_(idx + 1);
         btn.titleLabel.adjustsFontSizeToFitWidth = YES;
+        btn.titleLabel.numberOfLines = 2;
         [btn setTitleColor:_normalTitleClr forState:UIControlStateNormal];
         [btn setTitleColor:self.tintColor forState:UIControlStateHighlighted];
         [self->_Arr_btns addObject:btn];
@@ -117,6 +118,7 @@
     [Arr_title enumerateObjectsUsingBlock:^(NSString *Title, NSUInteger idx, BOOL * stop) {
         JEButton *btn = JEBtn(JR(idx*self->_btnWidth, 0, _btnWidth,_Scr_title.height),Title,_titleFont,self.tintColor,nil,nil,nil,0,_Ve_hide);
         btn.titleLabel.adjustsFontSizeToFitWidth = YES;
+        btn.titleLabel.numberOfLines = 2;
         [self->_Arr_titleSeeBtns addObject:btn];
     }];
      _Ve_hide.hidden = (_style == JEScrIndexViewStyleScale);
@@ -154,7 +156,7 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     _currentIndex = ((_Scr_scroll_.contentOffset.x / _Scr_scroll_.frame.size.width));
-    [self adjustScrTitleXWithIndex:(_Scr_scroll_.contentOffset.x / _Scr_scroll_.frame.size.width) animated:YES];
+//    [self adjustScrTitleXWithIndex:(_Scr_scroll_.contentOffset.x / _Scr_scroll_.frame.size.width) animated:YES];
     _startContentOffsetX = scrollView.contentOffset.x;
 }
 
@@ -168,6 +170,7 @@
     if (_Arr_btns.count > _currentIndex) {
         [self boardBtnClick:[_Arr_btns objectAtIndex:_currentIndex]];
     }
+    [self adjustScrTitleXWithIndex:(_Scr_scroll_.contentOffset.x / _Scr_scroll_.frame.size.width) animated:YES];
 }
 
 - (void)scrollViewDidScroll:( UIScrollView *)scrollView{

@@ -196,6 +196,10 @@ static NSNumberFormatter *_DS_numFormatter;
     return NO;
 }
 
+- (void)callTel{
+    [[UIApplication sharedApplication] openURL:Format(@"tel:%@",self.delSpace).url options:@{UIApplicationOpenURLOptionsSourceApplicationKey:@YES} completionHandler:nil];
+}
+
 - (NSMutableDictionary *)parameters{
     NSArray *pairs = [self componentsSeparatedByString:@"&"];
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];

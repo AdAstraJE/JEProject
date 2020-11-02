@@ -39,6 +39,8 @@ static NSInteger const jkActionBarHeight = 48;///<
             [_.pickV selectRow:((NSNumber *)current).integerValue inComponent:0 animated:NO];
         }
     }
+    
+    [_ show];
 //    [_.pickV.subviews enumerateObjectsUsingBlock:^( UIView *  obj, NSUInteger idx, BOOL *  stop) {
 //        if (obj.height < 1) { obj.backgroundColor = (kHexColor(0xDDDDDD)); }
 //    }];
@@ -61,12 +63,29 @@ static NSInteger const jkActionBarHeight = 48;///<
     JEPickerView *_ = [[JEPickerView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)].addTo(JEApp.window);
     [_ actionBarWithTitle:title];
     _.dateBlock = date;
-    _.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0 ,jkActionBarHeight, ScreenWidth, jkPickViewHeight)].addTo(_.Ve_content);
-    _.datePicker.datePickerMode = mode;
-    [_.datePicker setDate:(current ? : [NSDate date]) animated:NO];
-    _.datePicker.minimumDate = min;
-    _.datePicker.maximumDate = max;
+    _.datePicker = [[UIDatePicker alloc] initWithFrame:JR(0, 0, 0, 0)].addTo(_.Ve_content);
+    if (@available(iOS 13.4, *)) {
+        _.datePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
+    if (@available(iOS 14.0, *)) {
+        _.datePicker.preferredDatePickerStyle = UIDatePickerStyleInline;
+    }
     
+    _.datePicker.datePickerMode = mode;
+ 
+    if (@available(iOS 14.0, *)) {  
+//        [_.datePicker sizeToFit];
+        _.datePicker.frame = JR((kSW - _.datePicker.width)/2, jkActionBarHeight, _.datePicker.width, _.datePicker.height);
+        _.Ve_content.height = _.datePicker.height + jkActionBarHeight;
+    }else{
+        _.datePicker.frame = CGRectMake(0, jkActionBarHeight, ScreenWidth, jkPickViewHeight);
+    }
+    
+    _.datePicker.minimumDate = min ? : [NSDate dateWithTimeIntervalSince1970:0];
+    _.datePicker.maximumDate = max;
+    [_.datePicker setDate:(current ? : [NSDate date]) animated:NO];
+    
+    [_ show];
 }
 
 /**< 地区选择 */
@@ -82,6 +101,7 @@ static NSInteger const jkActionBarHeight = 48;///<
     JEPickerView_City *_ = [[JEPickerView_City alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) loca:loca both:both currentCity:currentCity].addTo(JEApp.window);
     [_ pickV];
     [_ actionBarWithTitle:nil];
+    [_ show];
 }
 
 #pragma mark - UI
@@ -90,7 +110,7 @@ static NSInteger const jkActionBarHeight = 48;///<
     self = [super initWithFrame:frame contentHieht:jkActionBarHeight + jkPickViewHeight];
     self.popType = JEPopTypeBottom;
     self.tapToDismiss = YES;
-    [self show];
+//    [self show];
     return self;
 }
 
@@ -99,8 +119,7 @@ static NSInteger const jkActionBarHeight = 48;///<
         _pickV = [[UIPickerView alloc]initWithFrame:CGRectMake(0, jkActionBarHeight, ScreenWidth, jkPickViewHeight)].addTo(self.Ve_content);
         _pickV.delegate = self;
         _pickV.dataSource = self;
-        [_pickV layoutIfNeeded];
-        _pickV.frame = CGRectMake(0, jkActionBarHeight, ScreenWidth, jkPickViewHeight);
+
     }return _pickV;
 }
 

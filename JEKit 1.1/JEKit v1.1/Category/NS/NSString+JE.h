@@ -18,7 +18,7 @@
 - (NSURL *)url;                 ///< [NSURL URLWithString:(NSString *)CFB
 - (NSString *)filePathName;     ///< [self stringByReplacingOccurrencesOfString:@"/" withString:@":"]
 - (NSURL *)fileUrl;             ///< [NSURL fileURLWithPath:self]
-- (NSDate *)date;             ///< 1970 长时间戳对应的NSDate
+- (NSDate *)date;               ///< 1970 长时间戳对应的NSDate
 - (NSString *)HH_MM;            ///< min -> HH:MM
 - (NSString *)escapedXcode;     ///< -> 转义
 - (NSData *)data;               ///< -> data
@@ -39,7 +39,8 @@
 - (BOOL)isASCII;                ///< 单个字符 是否ASCII码
 - (BOOL)is_A_Z_0_9;             ///< 单个字符 验证是否字母数字码
 - (BOOL)isNumber;               ///< 单个字符 验证是否是数字
-- (BOOL)isLink;               ///< 是否为链接
+- (BOOL)isLink;                 ///< 是否为链接
+- (void)callTel;                ///< 拨打电话
 
 #pragma mark -
 

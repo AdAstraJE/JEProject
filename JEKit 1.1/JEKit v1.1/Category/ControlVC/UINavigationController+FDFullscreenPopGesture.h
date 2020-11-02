@@ -35,7 +35,7 @@
 /// Adding the implementation file of this category to your target will
 /// automatically patch UINavigationController with this feature.
 @interface UINavigationController (FDFullscreenPopGesture)
-#define QTZAllowedInitialDistanceToLeftEdge (22)
+#define FDAllowedInitialDistanceToLeftEdge (30)
 /// The gesture recognizer that actually handles interactive pop.
 @property (nonatomic, strong, readonly) FDPanGestureRecognizer *fd_fullscreenPopGestureRecognizer;
 

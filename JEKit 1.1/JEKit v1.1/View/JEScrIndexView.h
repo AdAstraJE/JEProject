@@ -33,7 +33,7 @@ typedef UIViewController *(^LazyLoadBlock)(NSInteger index);
 @property(nonatomic,strong) UIColor *normalTitleClr;///<  未选中时的字体颜色
 @property(nonatomic,strong) UIFont *titleFont;///<  标题 字体
 @property(nonatomic,assign) CGFloat marginPer;///< 文字框间距百分比 默认0
-@property (nonatomic,assign) CGFloat btnWidth;///< 按钮宽 默认 60
+@property (nonatomic,assign) CGFloat btnWidth;///< 按钮宽 默认平分
 @property (nonatomic,assign) CGFloat sliderBoardPer;///<  小滑块的百分比长
 
 @property (nonatomic,assign) JEScrIndexViewStyle style;///<  style

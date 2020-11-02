@@ -20,6 +20,7 @@ UIKIT_EXTERN  JEButton * JEBtnSys(CGRect rect,NSString *title,id fnt,UIColor *cl
 @property (nonatomic,copy) IBInspectable NSString *loc;
 
 @property (nonatomic,assign) NSInteger tag2;///< tag .
+@property (nonatomic,copy)   NSString *info;
 @property (nonatomic,assign)  IBInspectable CGRect moreTouchMargin;///< xib用 扩大点击范围 按照UIEdgeInsets .left, .top, .right, .bottom用
 - (JEButton *(^)(CGFloat top,CGFloat left,CGFloat bottom,CGFloat right))touchs;///< 更多点击范围
 

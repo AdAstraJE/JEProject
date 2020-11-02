@@ -219,10 +219,10 @@
             return NO;
         }
         NSInteger which = _divisions;
-        for (int i = 0 ; i<mix.length; i++) {
+        for (int i = 0 ; i< mix.length; i++) {
             if (i == which) {
                 [mix insertString:@" " atIndex:i];
-                which = _divisions*2 + 1;
+                which += (_divisions + 1);
             }
         }
         [textField setText:mix];

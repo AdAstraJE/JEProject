@@ -30,7 +30,7 @@
 
 /// UIScrollView 处理和侧滑返回的冲突问题,  有UIScrollView时没有全屏侧滑返回，但至少有边界的侧滑返回
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
-    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && [otherGestureRecognizer isKindOfClass:[FDPanGestureRecognizer class]] && ([otherGestureRecognizer locationInView:otherGestureRecognizer.view].x < QTZAllowedInitialDistanceToLeftEdge )) {
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && [otherGestureRecognizer isKindOfClass:[FDPanGestureRecognizer class]] && ([otherGestureRecognizer locationInView:otherGestureRecognizer.view].x < FDAllowedInitialDistanceToLeftEdge )) {
         return YES;
     }
     else{
@@ -98,7 +98,7 @@
 - (NSInteger)emptyeInfo:(NSString*)title image:(id)image count:(NSInteger)count{
     if (count != 0) {
         ((UITableView*)self).backgroundView = nil;//有数据了 这个view 置空
-        [(JERefreshFooter*)self.mj_footer setTitle:@"—————————— • ——————————".loc forState:MJRefreshStateNoMoreData];
+        [(JERefreshFooter*)self.mj_footer setTitle:@"—————— • ——————".loc forState:MJRefreshStateNoMoreData];
         return count;
     }
     

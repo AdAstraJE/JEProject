@@ -261,11 +261,11 @@
     tap.delegate = self;
     [self addGestureRecognizer:tap];
     
-    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
-    tap2.delegate = self;
-    tap2.numberOfTapsRequired = 2;
-    [tap requireGestureRecognizerToFail: tap2];
-    [self addGestureRecognizer:tap2];
+//    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
+//    tap2.delegate = self;
+//    tap2.numberOfTapsRequired = 2;
+//    [tap requireGestureRecognizerToFail: tap2];
+//    [self addGestureRecognizer:tap2];
     
     UILongPressGestureRecognizer *press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress)];
     press.delegate = self;
