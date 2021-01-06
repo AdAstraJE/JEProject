@@ -40,6 +40,8 @@ typedef void (^BLE_readNotifyBlock)(CBCharacteristic *crt,NSError *error);
 @property(nonatomic,copy)   NSString *name;///< peripheral.name
 @property(nonatomic,copy)   NSString *UUID;///< peripheral.identifier.UUIDString
 @property(nonatomic,copy)   NSString *className;///< className
+@property(nonatomic,assign) BOOL control;///< 群控时判断 是否选择性控制
+@property(nonatomic,copy)   NSString *nickName;///< 重新定义的名字
 //----------------------------------------------------------------------------------------------------
 @property(nonatomic,copy)   NSString *mac;///< mac地址 大写 : 隔开
 @property(nonatomic,copy)   NSString *version;///< 版本号

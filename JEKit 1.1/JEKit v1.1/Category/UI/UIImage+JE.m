@@ -57,6 +57,25 @@
     return newImage;
 }
 
+- (UIImage * (^)(UIColor *c))je_blendClr{
+    return ^id (UIColor *c){
+        return [self je_blendClr:c];
+    };
+}
+
+- (UIImage *)je_blendClr:(UIColor *)blendColor{
+    UIImage *coloredImage = [self je_clr:blendColor];
+    CIFilter *filter = [CIFilter filterWithName:@"CIColorBlendMode"];
+    [filter setValue:[CIImage imageWithCGImage:self.CGImage] forKey:kCIInputBackgroundImageKey];
+    [filter setValue:[CIImage imageWithCGImage:coloredImage.CGImage] forKey:kCIInputImageKey];
+    CIImage *outputImage = filter.outputImage;
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef imageRef = [context createCGImage:outputImage fromRect:outputImage.extent];
+    UIImage *resultImage = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
+    CGImageRelease(imageRef);
+    return resultImage;
+}
+
 - (UIImage *)imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode{
     UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0f);
     [tintColor setFill];

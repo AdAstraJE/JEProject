@@ -50,9 +50,11 @@
     _didConnect = NO;
     
     _autoReconnect = YES;
+    _control = YES;
     _Arr_recordUUID = nil;///< 子类写需要纪录的特征UUUID
     _timeoutInterval = 5.0;
- 
+    if (_nickName == nil) {_nickName = @"";}
+    
     return self;
 }
 
@@ -87,7 +89,7 @@
     NSMutableDictionary <NSString *,NSDictionary *>*list = [JEBLEDevice HistoryDeviceList];
     NSString *UUID = self.peripheral.identifier.UUIDString ? : _UUID;
     if (UUID == nil) {return;}
-    [list setValue:[self dictionaryWithValuesForKeys:@[@"name",@"UUID",@"mac",@"version",@"autoReconnect",@"className"]] forKey:UUID];
+    [list setValue:[self dictionaryWithValuesForKeys:@[@"name",@"UUID",@"mac",@"version",@"autoReconnect",@"className",@"control",@"nickName"]] forKey:UUID];
     [[NSUserDefaults standardUserDefaults] setObject:list forKey:kDeviceKey];
     
     if (_mac.length) {
@@ -171,7 +173,8 @@
     if (error) {
         !done ? : done(error);
 //        NSAssert(error == nil, error.domain);
-        BLELog(@"%@",error);
+        [JEBLEDevice JE_Debug_AddLog:BLELog__(@"%@",error)];
+//        BLELog(@"%@",error);
         return error;
     }
     
@@ -356,18 +359,19 @@
 
 #pragma mark ---------------------------- 静态方法 ----------------------------
 + (instancetype)Device{
-#if TARGET_OS_SIMULATOR
-    JEBLEDevice *test = [JEBluetooth Shared].simulatorDevice;
-    if (test == nil) {
-        test = [[self alloc] init];
-        test.name = @"SIMULATOR";
-        test.didConnect = NO;
-        test.version = @"1.0";
-        test.mac = @"AA:BB:CC:DD:EE:FF";
-        [JEBluetooth Shared].simulatorDevice = test;
-    }
-    return test;
-#endif
+//#if TARGET_OS_SIMULATOR
+//    JEBLEDevice *test = [JEBluetooth Shared].simulatorDevice;
+//    if (test == nil) {
+//        test = [[self alloc] init];
+//        test.UUID = @"SIMULATOR";
+//        test.name = @"SIMULATOR";
+//        test.didConnect = NO;
+//        test.version = @"1.0";
+//        test.mac = @"AA:BB:CC:DD:EE:FF";
+//        [JEBluetooth Shared].simulatorDevice = test;
+//    }
+//    return test;
+//#endif
     
     __block JEBLEDevice *device = nil;
     [[JEBluetooth Shared].Dic_devices.allValues enumerateObjectsUsingBlock:^(__kindof JEBLEDevice * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -381,11 +385,12 @@
 + (instancetype)NewDevice:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
     __kindof JEBLEDevice *device = [[self alloc] init];
     device.peripheral = peripheral;
-    device.name = peripheral.name;
-    device.UUID = peripheral.identifier.UUIDString;
+    device.name = peripheral.name ?:@"";
+    device.UUID = peripheral.identifier.UUIDString ?:@"";
     device.RSSI = RSSI ? : @(0);
     device.adData = advertisementData;
-    device.mac = [device analysisMac];
+    device.mac = [device analysisMac] ?:@"";
+    device.nickName = @"";
     return device;
 }
 

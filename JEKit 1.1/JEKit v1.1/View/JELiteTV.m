@@ -40,6 +40,10 @@
     _cellIdentifier = identifier;
 }
 
+- (NSMutableArray *)dataSourceArr{
+    return (_customDataSourceArr ? _customDataSourceArr() : self.Arr);
+}
+
 #pragma mark - UITableView Delegate DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -47,17 +51,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _rows ? _rows(tableView,section) : (_sections ? 1 : tableView.Arr.count);
+    return _rows ? _rows(tableView,section) : (_sections ? 1 : self.dataSourceArr.count);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_useFDTemplateLayoutCell) {
+        WSELF
         return [tableView fd_heightForCellWithIdentifier:_cellIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell *cell) {
             cell.fd_enforceFrameLayout = YES;
-            if (self->_cell) {
-                self->_cell(cell,tableView,indexPath,(tableView.Arr[(self->_sections ? indexPath.section : indexPath.row)]));
+            if (wself.cell) {
+                wself.cell(cell,tableView,indexPath,(wself.dataSourceArr[(wself.sections ? indexPath.section : indexPath.row)]));
             }else{
-                [cell je_loadCell:tableView.Arr[(self->_sections ? indexPath.section : indexPath.row)]];
+                [cell je_loadCell:wself.dataSourceArr[(wself.sections ? indexPath.section : indexPath.row)]];
             }
         }];
     }
@@ -95,20 +100,20 @@
     if (_cell) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:_cellIdentifier forIndexPath:indexPath];
         if (_cellClass == UITableViewCell.class && _select == nil) { cell.selectionStyle = UITableViewCellSelectionStyleNone;}
-        _cell(cell,tableView,indexPath,(tableView.Arr[(_sections ? indexPath.section : indexPath.row)]));
+        _cell(cell,tableView,indexPath,(self.dataSourceArr[(_sections ? indexPath.section : indexPath.row)]));
      
         return cell;
     }
     if (_cells) { return _cells(tableView,indexPath);}
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:_cellIdentifier forIndexPath:indexPath];
-    [cell je_loadCell:tableView.Arr[(_sections ? indexPath.section : indexPath.row)]];
+    [cell je_loadCell:self.dataSourceArr[(_sections ? indexPath.section : indexPath.row)]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    !_select ? : _select(tableView,indexPath,tableView.Arr[(_sections ? indexPath.section : indexPath.row)]);
+    !_select ? : _select(tableView,indexPath,self.dataSourceArr[(_sections ? indexPath.section : indexPath.row)]);
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -120,11 +125,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    !_commitEditingStyle ? : _commitEditingStyle(tableView,editingStyle,indexPath,tableView.Arr[(_sections ? indexPath.section : indexPath.row)]);
+    !_commitEditingStyle ? : _commitEditingStyle(tableView,editingStyle,indexPath,self.dataSourceArr[(_sections ? indexPath.section : indexPath.row)]);
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-    !_accessoryButtonTap ? : _accessoryButtonTap(tableView,indexPath,tableView.Arr[(_sections ? indexPath.section : indexPath.row)]);
+    !_accessoryButtonTap ? : _accessoryButtonTap(tableView,indexPath,self.dataSourceArr[(_sections ? indexPath.section : indexPath.row)]);
 }
 
 @end

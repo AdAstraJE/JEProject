@@ -190,7 +190,8 @@
         return error;
     }
     
-    [_Dic_didWrite setValue:done forKey:UUID];
+    if (UUID) {[_Dic_didWrite setValue:done forKey:UUID];}
+    if (crt == nil) { return nil;}
     
     NSData *data = arr._to16._16_to_data;//这里统一转16进制！！！！！！
     @synchronized (self) {

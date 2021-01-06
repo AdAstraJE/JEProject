@@ -350,13 +350,13 @@ static NSString * const jkDebugToolCloseForeverKey = @"jkDebugToolCloseForeverKe
 
 
 - (void)actionHandle:(JEButton *)sender{
-//    NSString *cleanAll = @"💭清空log";
+    NSString *cleanAll = @"💭清空log";
     NSString *shareTxt = @"📱共享log";
     NSString *sendEmail = @"✉️发送log";
     NSString *copy = @"📄复制log";
 //    NSString *die = @"模拟重装APP";
     NSString *die = @"";
-    NSString *cleanAll = @"";
+//    NSString *cleanAll = @"";
 
     NSMutableArray <NSString *> *list = @[shareTxt].mutableCopy;
     if (cleanAll.length && !_historyDate) {[list insertObject:cleanAll atIndex:0];}

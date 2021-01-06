@@ -118,8 +118,7 @@
     return count;
 }
 
-- (NSInteger)emptyeCustomView:(UIView *)view{
-    NSInteger count = self.Arr.count;
+- (NSInteger)emptyeCustomView:(UIView *)view count:(NSInteger)count{
     if (((UITableView*)self).backgroundView != nil) {//有自己定义的view或已经存在
         [(JERefreshFooter*)self.mj_footer setTitle:@"" forState:MJRefreshStateNoMoreData];
         return count;
@@ -130,6 +129,10 @@
         ((UITableView*)self).backgroundView = nil;
     }
     return count;
+}
+
+- (NSInteger)emptyeCustomView:(UIView *)view{
+    return [self emptyeCustomView:view count:self.Arr.count];
 }
 
 /// 自己定义的没有数据时显示的 视图 

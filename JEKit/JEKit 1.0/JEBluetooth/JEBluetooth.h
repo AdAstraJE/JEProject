@@ -11,8 +11,8 @@
 #import "JEBLEDevice.h"
 
 typedef NS_ENUM(NSUInteger, BLEHighLowType) {
-    BLEHighLowTypeHigh,///< 高位 1 = 01 00 00 00  小端
-    BLEHighLowTypeLow,///< 底位  1 = 00 00 00 01  大端
+    BLEHighLowTypeHigh,///< 1 = 00 00 00 01  大端
+    BLEHighLowTypeLow,///<  1 = 01 00 00 00  小端
 };
 
 typedef void (^BLE_centralState)(CBCentralManagerState state);/**< 状态回调 */

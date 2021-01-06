@@ -22,6 +22,7 @@
 - (NSInteger)emptyeInfo:(NSString*)title image:(id)image;
 - (NSInteger)emptyeInfo:(NSString*)title image:(id)image count:(NSInteger)count;
 - (NSInteger)emptyeCustomView:(UIView *)view;
+- (NSInteger)emptyeCustomView:(UIView *)view count:(NSInteger)count;
 
 /// 网络请求失败时显示的
 - (UIView*)networkingFailViewWithTarget:(id)target action:(SEL)action;

@@ -40,7 +40,7 @@
  OS_ACTIVITY_MODE = disable
  
  defaults read -g com.apple.mouse.scaling
- defaults write -g com.apple.mouse.scaling 9
+ defaults write -g com.apple.mouse.scaling 4
  
 */
 

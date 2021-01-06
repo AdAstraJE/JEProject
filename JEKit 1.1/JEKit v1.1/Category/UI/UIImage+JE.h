@@ -8,10 +8,13 @@
 + (UIImage *)je_capture:(UIView *)view size:(CGSize)size update:(BOOL)update;
 /// 纯色图片 size
 + (UIImage *)je_clr:(UIColor *)color size:(CGSize)size;
+/// 纯色图片 size 1x1
++ (UIImage * (^)(UIColor *c))clr;
 
-+ (UIImage * (^)(UIColor *c))clr;///< 纯色图片 1x1
 - (UIImage * (^)(UIColor *c))clr;///< 图片变色
 - (UIImage *)je_clr:(UIColor *)color;
+- (UIImage * (^)(UIColor *c))je_blendClr;///< 图片变色 保持纹理
+- (UIImage *)je_blendClr:(UIColor *)color;
 - (UIImage * (^)(CGFloat a))alpha;///< 图片变alpha
 - (UIImage * (^)(CGRect rect))clip;///< 裁剪
 - (UIImage * (^)(void))templateClr;///< imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)

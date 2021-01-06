@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style cellC:(Class)cellClass cellH:(CGFloat)cellH;
 
 @property (nonatomic,assign) BOOL useFDTemplateLayoutCell ;///< 用计算高度框架 cell.fd_enforceFrameLayout = YES ### NO
+@property (nonatomic,copy) NSMutableArray*     (^customDataSourceArr)   (void);///< 自定义的数据源
 
 @property (nonatomic,copy) NSInteger (^sections)(UITableView *tv);///< numberOfSectionsInTableView
 @property (nonatomic,copy) NSInteger (^rows)    (UITableView *tv,NSInteger section);///< numberOfRowsInSection

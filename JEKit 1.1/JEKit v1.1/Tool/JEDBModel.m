@@ -269,7 +269,7 @@ static NSDateFormatter *staticDateFormatter;
     return nil;
 }
 
-/// 子线程 executeUpdate  (arguments个数不为0时 必须 count = SQLArr.count)
+/// 子线程 executeUpdate  (arguments个数不为0时 必须 arguments.count = SQLArr.count)
 + (void)ExecuteUpdate:(NSArray <NSString *> *)SQLArr arguments:(NSArray <NSArray <id> *> *)arguments done:(JEDBResult)done{
     if (arguments.count != 0 && arguments.count != SQLArr.count) {DBLog(@"⚠️SQL arguments 个数不对应");return;}
     
@@ -290,7 +290,7 @@ static NSDateFormatter *staticDateFormatter;
         
         if (isTransaction) {SQLArr.count == suc ? [db commit] : [db rollback];}//事务结束
     }];
-    DBLog(@"%@",(isTransaction ? Format(@"事务操作：%@条, %@",@(suc),(suc == SQLArr.count ? @"" : @"🔴失败")) : Format(@"%@",SQLArr.firstObject)));
+//    DBLog(@"%@",(isTransaction ? Format(@"事务操作：%@条, %@",@(suc),(suc == SQLArr.count ? @"" : @"🔴失败")) : Format(@"%@",SQLArr.firstObject)));
     
     !done ?: done((SQLArr.count == suc));
 }
@@ -384,7 +384,7 @@ static NSDateFormatter *staticDateFormatter;
         }
         [rs close];
     }];
-    DBLog(@"%@",SQL);
+//    DBLog(@"%@",SQL);
     return result;
 }
 

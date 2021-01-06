@@ -58,7 +58,7 @@
 #pragma mark -   set
 - (void)setIsTelePhone:(BOOL)isTelePhone{
     _isTelePhone = isTelePhone;
-    self.keyboardType = UIKeyboardTypePhonePad;
+    self.keyboardType = UIKeyboardTypeNumberPad;
 }
 
 - (void)setDivisions:(NSUInteger)divisions{

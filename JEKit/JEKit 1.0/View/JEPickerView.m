@@ -81,7 +81,7 @@ static NSInteger const jkActionBarHeight = 48;///<
         _.datePicker.frame = CGRectMake(0, jkActionBarHeight, ScreenWidth, jkPickViewHeight);
     }
     
-    _.datePicker.minimumDate = min ? : [NSDate dateWithTimeIntervalSince1970:0];
+    _.datePicker.minimumDate = min;
     _.datePicker.maximumDate = max;
     [_.datePicker setDate:(current ? : [NSDate date]) animated:NO];
     

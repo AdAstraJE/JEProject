@@ -180,6 +180,14 @@
 	<string>iPhone 11 Pro</string>
 	<key>iPhone12,5</key>
 	<string>iPhone 11 Pro Max</string>
+	<key>iPhone13,1</key>
+	<string>iPhone12Mini</string>
+	<key>iPhone13,2</key>
+	<string>iPhone12</string>
+	<key>iPhone13,3</key>
+	<string>iPhone12Pro</string>
+	<key>iPhone13,4</key>
+	<string>iPhone12ProMax</string>
 	<key>iPhone2,1</key>
 	<string>iPhone 3GS</string>
 	<key>iPhone3,1</key>

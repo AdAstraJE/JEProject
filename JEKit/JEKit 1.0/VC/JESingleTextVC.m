@@ -13,7 +13,7 @@
 @property (nonatomic,copy) NSString *VcTitle;
 @property (nonatomic,copy) NSString *DefaultText;
 @property (nonatomic,copy) NSString *PlaceText;
-@property (nonatomic,assign) NSUInteger limit;
+@property (nonatomic,assign) NSInteger limit;
 @property (nonatomic,assign) NSUInteger VHeight;
 @property (nonatomic,assign) BOOL UseTextField;
 @property (nonatomic,copy)   NSString *UseTableSex;/**< tableview 选性别 */
@@ -31,7 +31,7 @@
 }
 
 /** Push一个编辑的TextView */
-+(JESingleTextVC *)Title:(NSString*)title text:(NSString*)text placeHolder:(NSString*)place limit:(NSUInteger)limit textHeight:(NSUInteger)textH call:(ResultStringBlock)call{
++(JESingleTextVC *)Title:(NSString*)title text:(NSString*)text placeHolder:(NSString*)place limit:(NSInteger)limit textHeight:(NSUInteger)textH call:(ResultStringBlock)call{
     JESingleTextVC *TextVc =  [[JESingleTextVC alloc]init];
     TextVc.VcTitle = title;
     TextVc.DefaultText = [text copy];
@@ -44,7 +44,7 @@
 }
 
 /** Push一个编辑的 TextField */
-+(JESingleTextVC *)Title:(NSString*)title TfText:(NSString*)text placeHolder:(NSString*)place limit:(NSUInteger)limit call:(ResultStringBlock)call{
++(JESingleTextVC *)Title:(NSString*)title TfText:(NSString*)text placeHolder:(NSString*)place limit:(NSInteger)limit call:(ResultStringBlock)call{
     JESingleTextVC *TextVc = [JESingleTextVC Title:title text:text placeHolder:place limit:limit textHeight:0 call:call];
     TextVc.UseTextField = YES;
     return TextVc;
@@ -93,7 +93,11 @@
         _.returnKeyType = UIReturnKeyDone;
         _.delegate = self;
         _.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _.JEMaxTextLength = _limit;
+        if (_limit < 0) {
+            _.JEMaxCharactersLength = abs((int)_limit);
+        }else{
+            _.JEMaxTextLength = _limit;
+        }
         _.placeholder = _PlaceText;
         _.clearButtonMode = UITextFieldViewModeWhileEditing;
         [view addSubview:_Tf_ =  _];

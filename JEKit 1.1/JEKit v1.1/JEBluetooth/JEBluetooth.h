@@ -4,9 +4,9 @@
 #import "JEBLEDevice.h"
 
 typedef NS_ENUM(NSUInteger, BLEHighLowType) {
-    /// 高位 1 = 01 00 00 00
+    /// 1 = 00 00 00 01  大端
     BLEHighLowTypeHigh,
-    /// 底位  1 = 00 00 00 01
+    /// 1 = 01 00 00 00  小端
     BLEHighLowTypeLow,
 };
 

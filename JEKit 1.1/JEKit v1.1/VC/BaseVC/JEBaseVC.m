@@ -61,7 +61,7 @@ static CGFloat const jkNavItemTitleMargin = 16.0f;///<
 
 #pragma mark - 默认navBar
 - (void)createNavBar{
-    CGFloat height = (!self.navigationController ? jkPresentingNavH : ScreenNavBarH);
+    CGFloat height = (self.presentingViewController ? jkPresentingNavH : ScreenNavBarH);
     if (self.modalPresentationStyle == UIModalPresentationFullScreen) {height = ScreenNavBarH;}
 
     _navBar = JEVe(JR0,JEShare.navBarClr, self.view).jo.lrt0_h(height);
@@ -74,7 +74,8 @@ static CGFloat const jkNavItemTitleMargin = 16.0f;///<
         _navBarline = JEVe(JR0, JEShare.navBarLineClr,_navBar).jo.lrb0_h(0.33);
     }
     
-    CGFloat contentH = (!self.navigationController && self.modalPresentationStyle == UIModalPresentationPageSheet) ? height : kNavBarH44;
+//    CGFloat contentH = (!self.navigationController && self.modalPresentationStyle == UIModalPresentationPageSheet) ? height : kNavBarH44;
+    CGFloat contentH = self.presentingViewController ? height : kNavBarH44;
     _navBarContent = JEVe(JR0, nil,_navBar).jo.lrb0_h(contentH);
     _navTitleLable = JELab(JR0,self.title,fontS(17.0),JEShare.navTitleClr,(1),_navBarContent).adjust().jo.lr(70).tb(0).me;
 
@@ -95,7 +96,7 @@ static CGFloat const jkNavItemTitleMargin = 16.0f;///<
     if (_navBackButton == nil) {
         _navBackButton = [self leftNavBtn:item target:self act:@selector(navBackButtonClick)];
     }else{
-        if ([item isKindOfClass:NSString.class]) {[_navBackButton setTitle:item forState:(UIControlStateNormal)];}
+        if ([item isKindOfClass:NSString.class]) {[_navBackButton setImage:nil forState:(UIControlStateNormal)];[_navBackButton setTitle:item forState:(UIControlStateNormal)];}
         if ([item isKindOfClass:UIImage.class]) {[_navBackButton setImage:item forState:(UIControlStateNormal)];}
     }
 }
