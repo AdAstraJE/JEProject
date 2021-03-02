@@ -26,6 +26,14 @@ static JEBluetooth *_instance;
     return _instance;
 }
 
+- (BOOL)isSimulator {
+#if TARGET_OS_SIMULATOR
+    return YES;
+#else
+    return NO;
+#endif
+}
+
 - (void)setupBluetooth{
     _reconnectHistoryDevice = NO;
     _highLowType = BLEHighLowTypeHigh;
@@ -73,6 +81,10 @@ static JEBluetooth *_instance;
     }
     
     [self deviceChangeToConnectState:NO device:device];
+    
+#if TARGET_OS_SIMULATOR
+    [device didDisconnectWithError:nil];
+#endif
 }
 
 /** 更改当前设备连接状态 */
@@ -80,10 +92,15 @@ static JEBluetooth *_instance;
     if (device == nil) { return;}
     
     device.didConnect = (device.peripheral.state == CBPeripheralStateConnected);
-    for (BLE_deviceBlock obj in _Dic_deviceChangeBlock.allValues) { ! obj ? : obj(device);}
-    if (!connect && device.UUID) {
-        [_Dic_devices removeObjectForKey:device.UUID];
-    }
+#if TARGET_OS_SIMULATOR
+    if (connect) {device.didConnect = YES;}
+#endif
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (BLE_deviceBlock obj in self->_Dic_deviceChangeBlock.allValues) { ! obj ? : obj(device);}
+    });
+    
+//    if (!connect && device.UUID) {[_Dic_devices removeObjectForKey:device.UUID];}
 }
 
 - (void)centralState:(BLE_centralState)block{
@@ -102,7 +119,7 @@ static JEBluetooth *_instance;
 }
 
 - (void)willConnectHistoryPeripheral{
-    if (self.central.state == CBCentralManagerStatePoweredOn && _reconnectHistoryDevice) {
+    if (self.isSimulator || (self.central.state == CBCentralManagerStatePoweredOn && _reconnectHistoryDevice)) {
         [[JEBLEDevice HistoryDevices] enumerateObjectsUsingBlock:^(__kindof JEBLEDevice * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             //            BLELog(@"autoReconnect : %@",@(obj.autoReconnect));
             BOOL canConnect = YES;
@@ -157,7 +174,20 @@ static JEBluetooth *_instance;
 
 #pragma mark 发现设备
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
-//    BLELog(@"%@      mac： %@      RSSI %@",peripheral.name,advertisementData,RSSI);
+    BLELog(@"%@      mac： %@      RSSI %@",peripheral.name,advertisementData,RSSI);
+    
+    NSMutableString *test = [NSMutableString string];
+    NSArray *arr = advertisementData[@"kCBAdvDataServiceUUIDs"];
+    [test appendFormat:@"\n didDiscoverPeripheral✅✅✅%@\n%@\n%@\n",peripheral.name,advertisementData,NSStringFromClass(arr.class)];
+
+    if ([arr isKindOfClass:NSArray.class]) {
+        for (CBUUID *obj in arr) {
+            [test appendFormat:@" data:%@ \n UUIDString:%@\n",obj.data,obj.UUIDString];
+        }
+    }
+
+    [JEBLEDevice JE_Debug_AddLog:test];
+    
     Class class = _deviceClass;
     if (_handleDeviceClassBlock) { class = _handleDeviceClassBlock(peripheral);}
     
@@ -175,6 +205,12 @@ static JEBluetooth *_instance;
 
 #pragma mark 持有&尝试连接
 - (void)connectDevice:(JEBLEDevice *)device{
+#if TARGET_OS_SIMULATOR
+    [_Dic_devices setValue:device forKey:(device.UUID? device.UUID : device.mac)];//持有
+    [device saveDevice];
+    [self deviceChangeToConnectState:YES device:device];
+#endif
+    
     if (_disableConnect) {return;}
     
     [JEBLEDevice JE_Debug_AddLog:BLELog__(@"持有&尝试连接设备 %@",[self debug:device.peripheral device:device])];
@@ -321,7 +357,8 @@ static JEBluetooth *_instance;
     if (crt.value == nil) { return;}
     __kindof JEBLEDevice *device = _Dic_devices[peripheral.identifier.UUIDString];
 
-    NSString *debug = BLELog__(@"%@ %@, %@",(crt.isNotifying ? @"🔔收" : @"💬收"),crt.value,@((long long)[[NSDate date] timeIntervalSince1970]));
+    NSString *debug = BLELog__(@"%@ %@, %@",(crt.isNotifying ? @"🔔" : @"🔔"),crt.value,@((long long)[[NSDate date] timeIntervalSince1970]));
+//    NSString *debug = BLELog__(@"%@ %@, %@",(crt.isNotifying ? @"🔔收" : @"💬收"),crt.value,@((long long)[[NSDate date] timeIntervalSince1970]));
     [device receiveData:peripheral crt:crt notifiy:notifiy debug:debug];
 }
 

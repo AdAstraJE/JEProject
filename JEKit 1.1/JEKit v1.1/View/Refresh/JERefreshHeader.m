@@ -2,10 +2,9 @@
 #import "JERefreshHeader.h"
 #import "JEKit.h"
 
-@interface JERefreshHeader()
-{
+@interface JERefreshHeader(){
     __unsafe_unretained UIImageView *_arrowView;
-    CAShapeLayer *shapeLayer;
+    CAShapeLayer *_shapeLayer;
 }
 @property (weak, nonatomic, readonly) UIImageView *arrowView;
 
@@ -27,7 +26,11 @@
 #pragma mark - 懒加载子控件
 - (UIImageView *)arrowView{
     if (!_arrowView) {
-        shapeLayer = [CAShapeLayer layer];
+        _shapeLayer = [CAShapeLayer layer];
+        _shapeLayer.strokeColor = _color ? _color.CGColor : Tgray2.CGColor;
+        _shapeLayer.fillColor = [[UIColor clearColor] CGColor];
+        _shapeLayer.lineWidth = 1.5;
+        
         UIImage *image = JEBundleImg(@"ic_refreshArrow").clr(Tgray2);
         UIImageView *arrowView = [[UIImageView alloc] initWithImage:image];
         [self addSubview:_arrowView = arrowView];
@@ -83,7 +86,7 @@
 - (void)scrollViewContentOffsetDidChange:(NSDictionary *)change{
     [super scrollViewContentOffsetDidChange:change];
     if (self.state == MJRefreshStateRefreshing) {
-        [shapeLayer removeFromSuperlayer];
+        [_shapeLayer removeFromSuperlayer];
         return;
     }
     
@@ -116,15 +119,9 @@
     }
     CGFloat radius = _arrowView.mj_w*0.8;
 
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    path.lineCapStyle = kCGLineCapRound;
-    path.lineWidth = 1;
-    [path addArcWithCenter:_arrowView.center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
-    shapeLayer.path = path.CGPath;
-    shapeLayer.strokeColor = _color ? _color.CGColor : Tgray2.CGColor;
-    shapeLayer.fillColor = [[UIColor clearColor] CGColor];
-    [shapeLayer removeFromSuperlayer];
-    [self.layer addSublayer:shapeLayer];
+    _shapeLayer.path = [UIBezierPath bezierPathWithArcCenter:_arrowView.center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES].CGPath;
+    [_shapeLayer removeFromSuperlayer];
+    [self.layer addSublayer:_shapeLayer];
     
 }
 
@@ -163,7 +160,7 @@
         self.loadingView.alpha = 1.0; // 防止refreshing -> idle的动画完毕动作没有被执行
         [self.loadingView startAnimating];
         self.arrowView.hidden = YES;
-        [shapeLayer removeFromSuperlayer];
+        [_shapeLayer removeFromSuperlayer];
     }
 }
 

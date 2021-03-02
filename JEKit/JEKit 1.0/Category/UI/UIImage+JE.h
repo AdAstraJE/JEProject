@@ -14,6 +14,7 @@
 /** 截屏吧 截部分视图也行 */
 + (UIImage *)je_captureWithView:(UIView *)view;
 + (UIImage *)je_captureWithView:(UIView *)view size:(CGSize)size;
++ (UIImage *)je_capture:(UIView *)view size:(CGSize)size update:(BOOL)update;
 + (UIImage *)ImageInRect:(CGRect)rect image:(UIImage *)image;
 
 /** 纯色图片 */

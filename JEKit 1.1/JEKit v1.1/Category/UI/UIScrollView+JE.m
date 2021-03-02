@@ -7,10 +7,10 @@
 
 @implementation UIScrollView (JE)
 
-- (CGFloat)contentInsetTop{return self.contentInset.top;}
-- (CGFloat)contentInsetLeft{return self.contentInset.left;}
+- (CGFloat)contentInsetTop   {return self.contentInset.top;}
+- (CGFloat)contentInsetLeft  {return self.contentInset.left;}
 - (CGFloat)contentInsetBottom{return self.contentInset.bottom;}
-- (CGFloat)contentInsetRight{return self.contentInset.right;}
+- (CGFloat)contentInsetRight {return self.contentInset.right;}
 
 - (void)setContentInsetTop:(CGFloat)contentInsetTop{
     self.contentInset = UIEdgeInsetsMake(contentInsetTop, self.contentInset.left, self.contentInset.bottom, self.contentInset.right);

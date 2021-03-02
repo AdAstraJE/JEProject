@@ -83,7 +83,10 @@ static JEBluetooth *_instance;
 #if TARGET_OS_SIMULATOR
     if (connect) {device.didConnect = YES;}
 #endif
-    for (BLE_deviceBlock obj in _Dic_deviceChangeBlock.allValues) { ! obj ? : obj(device);}
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (BLE_deviceBlock obj in self->_Dic_deviceChangeBlock.allValues) { ! obj ? : obj(device);}
+    });
 }
 
 - (void)centralState:(BLE_centralState)block{

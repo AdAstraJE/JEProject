@@ -168,8 +168,10 @@
 }
 
 /** 根据特征UUID --- 写入 */
-- (NSError *)write:(NSArray <NSObject *> *)arr crt:(NSString *)UUID done:(BLE_didWriteValueBlock)done{
+- (NSError *)write:(NSMutableArray <NSObject *> *)arr crt:(NSString *)UUID done:(BLE_didWriteValueBlock)done{
     if ([self isSimulator]) {
+        NSData *data = arr._to16._16_to_data;
+        BLELog(@"%@",data);
 //        return nil;
     }
     NSError *error = [self checkCharacts:UUID];
@@ -203,7 +205,8 @@
 //    if (debugInfo.length == 0) { debugInfo = Format(@"%@_%@",(UUID.length > 5 ? @"-" : UUID),_Dic_debug[UUID]);}
     if (debugInfo.length == 0) { debugInfo = Format(@"%@",_Dic_debug[UUID] ? : UUID);}
     NSString *duilie = (_Arr_cmd.count == 0 ? @"" : Format(@"队列【%@】",@(_Arr_cmd.count)));
-    [JEBLEDevice JE_Debug_AddLog:BLELog__(@"🔯写 %@, %@, %@ %@ %@",data,@((long long)[[NSDate date] timeIntervalSince1970]),debugInfo,duilie,error ? : @"")];
+//    [JEBLEDevice JE_Debug_AddLog:BLELog__(@"🔯写 %@, %@, %@ %@ %@",data,@((long long)[[NSDate date] timeIntervalSince1970]),debugInfo,duilie,error ? : @"")];
+    [JEBLEDevice JE_Debug_AddLog:BLELog__(@"🔯%@, %@, %@ %@ %@",data,@((long long)[[NSDate date] timeIntervalSince1970]),debugInfo,duilie,error ? : @"")];
 #endif
 
     return nil;
@@ -383,20 +386,20 @@
 #pragma mark ---------------------------- 静态方法 ----------------------------
 /** JEBluetooth 里这个类型的设备 */
 + (instancetype)Device{
-#if DEBUG
-#if TARGET_OS_SIMULATOR
-    JEBLEDevice *test = [JEBluetooth Shared].simulatorDevice;
-    if (test == nil) {
-        test = [[self alloc] init];
-        test.name = @"SIMULATOR";
-        test.didConnect = NO;
-        test.version = @"1.0";
-        test.mac = @"AA:BB:CC:DD:EE:FF";
-        [JEBluetooth Shared].simulatorDevice = test;
-    }
-    return test;
-#endif
-#endif
+//#if DEBUG
+//#if TARGET_OS_SIMULATOR
+//    JEBLEDevice *test = [JEBluetooth Shared].simulatorDevice;
+//    if (test == nil) {
+//        test = [[self alloc] init];
+//        test.name = @"SIMULATOR";
+//        test.didConnect = NO;
+//        test.version = @"1.0";
+//        test.mac = @"AA:BB:CC:DD:EE:FF";
+//        [JEBluetooth Shared].simulatorDevice = test;
+//    }
+//    return test;
+//#endif
+//#endif
     
     __block JEBLEDevice *device = nil;
     [[JEBluetooth Shared].Dic_devices.allValues enumerateObjectsUsingBlock:^(__kindof JEBLEDevice * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

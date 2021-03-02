@@ -25,6 +25,7 @@ static NSString * const kColumn_Date =    @"date";///< 父类 NSDate 字段名
 + (NSString *)TableName { return NSStringFromClass(self.class);}
 + (NSString *)PrimaryKey{ return @"id";}
 + (NSArray <Class> *)PropertysFromSuper{  return nil;}
++ (NSArray <NSString *> *)IgnorePropertys{  return nil;}
 
 #pragma mark ------------------------------------------runTime基本建表等-----------------------------------------------
 
@@ -36,9 +37,12 @@ static NSString * const kColumn_Date =    @"date";///< 父类 NSDate 字段名
     
     unsigned int count;
     objc_property_t *propertys = class_copyPropertyList([super class], &count);
+    NSArray <NSString *> *ignores = [self IgnorePropertys];
     for (int i = 0; i < count; i++){
         objc_property_t property = propertys[i];
         NSString *name = [NSString stringWithUTF8String:property_getName(property)];
+        if ([ignores containsObject:name]) {continue;}
+        
         NSString *type = [NSString stringWithUTF8String:property_copyAttributeValue(property,"T")];
         [propertysDic setValue:type forKey:name];
     }

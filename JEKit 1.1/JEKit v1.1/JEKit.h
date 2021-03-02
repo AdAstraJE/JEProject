@@ -7,7 +7,6 @@
 //
 
 /*
- source 'https://github.com/CocoaPods/Specs.git'
  platform :ios, "10.0"
  inhibit_all_warnings!
  
@@ -15,7 +14,7 @@
  
  pod 'YYKit'
  pod 'FMDB'
- pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking'
+ pod 'AFNetworking'
  pod 'MBProgressHUD'
  pod 'UITableView+FDTemplateLayoutCell'
  pod 'MJRefresh'
@@ -27,22 +26,25 @@
  
  end
 
-
- git config --global http.proxy socks5://127.0.0.1:1080
- git config --global http.https://github.com.proxy socks5://127.0.0.1:1080
- git config --global --unset http.proxy
- git config --global --unset http.https://github.com.proxy
+ post_install do |installer|
+     installer.pods_project.targets.each do |target|
+         target.build_configurations.each do |config|
+             config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+         end
+     end
+ end
  
+ */
+
+
+/*
  #if TARGET_OS_SIMULATOR
  [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection.bundle"] load];
  #endif
  
  OS_ACTIVITY_MODE = disable
  
- defaults read -g com.apple.mouse.scaling
- defaults write -g com.apple.mouse.scaling 4
- 
-*/
+ */
 
 
 #import <Foundation/Foundation.h>

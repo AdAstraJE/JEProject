@@ -109,7 +109,7 @@
 }
 
 /// 属性集合 
-+ (NSArray <NSString *> *)je_ClassPropertyList {
++ (NSArray <NSString *> *)je_classPropertyList {
     NSMutableArray *allProperties = [[NSMutableArray alloc] init];
     unsigned int outCount;
     objc_property_t *props = class_copyPropertyList(self, &outCount);

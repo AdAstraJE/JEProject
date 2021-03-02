@@ -1,5 +1,4 @@
 
-source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, "10.0"
 inhibit_all_warnings!
 
@@ -7,9 +6,18 @@ target 'JEKit 1.1' do
 
 pod 'YYKit'
 pod 'FMDB'
- pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking'
+pod 'AFNetworking'
 pod 'MBProgressHUD'
 pod 'UITableView+FDTemplateLayoutCell'
 pod 'MJRefresh'
 
+end
+
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+        end
+    end
 end

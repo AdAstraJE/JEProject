@@ -10,8 +10,8 @@
 - (NSString *)str:(NSString *)key;                  ///< dictionary时 获得的字符串 至少返回 @""
 - (NSString *)json;                                 ///< 转为 jsonString
 - (NSString *)json_;                                ///< 转为 jsonString 压缩
-- (NSDictionary <NSString *,id> *)je_propertyDictionary;///< 属性值和列表
-- (void)je_propertyList_methodList_ivarList;        ///< 各种属性
-+ (NSArray <NSString *> *)je_ClassPropertyList;     ///< 属性集合
+- (NSDictionary <NSString *,id> *)je_propertyDictionary; ///< 属性值和列表
+- (void)je_propertyList_methodList_ivarList;             ///< 各种属性
++ (NSArray <NSString *> *)je_classPropertyList;          ///< 属性集合
 
 @end

@@ -12,8 +12,10 @@
 #define Format(...)    ([NSString stringWithFormat:__VA_ARGS__])
 
 #ifdef DEBUG
-#define BLELog(fmt, ...)     fprintf(stderr,"%s\n",[[NSString stringWithFormat:@"🔹 " fmt, ##__VA_ARGS__] UTF8String]);
-#define BLELog__(fmt, ...) (({NSString *_ = [NSString stringWithFormat:@"🔹 " fmt, ##__VA_ARGS__];fprintf(stderr,"%s\n",[_ UTF8String]); _;}))
+//#define BLELog(fmt, ...)     fprintf(stderr,"%s\n",[[NSString stringWithFormat:@"🔹 " fmt, ##__VA_ARGS__] UTF8String]);
+//#define BLELog__(fmt, ...) (({NSString *_ = [NSString stringWithFormat:@"🔹 " fmt, ##__VA_ARGS__];fprintf(stderr,"%s\n",[_ UTF8String]); _;}))
+#define BLELog(fmt, ...)     fprintf(stderr,"%s\n",[[NSString stringWithFormat:@"" fmt, ##__VA_ARGS__] UTF8String]);
+#define BLELog__(fmt, ...) (({NSString *_ = [NSString stringWithFormat:@"" fmt, ##__VA_ARGS__];fprintf(stderr,"%s\n",[_ UTF8String]); _;}))
 #else
 #define BLELog(...)
 #define BLELog__(fmt, ...)   (@"")

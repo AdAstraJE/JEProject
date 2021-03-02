@@ -26,12 +26,20 @@
 }
 
 + (UIImage *)je_captureWithView:(UIView *)view size:(CGSize)size{
+    return [self je_capture:view size:size update:NO];
+}
+
++ (UIImage *)je_capture:(UIView *)view size:(CGSize)size update:(BOOL)update{
     UIGraphicsBeginImageContextWithOptions(size, view.opaque, [UIScreen mainScreen].scale);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    if (update) {
+        [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
+    }
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return screenshot;
 }
+
 
 + (UIImage *)ImageInRect:(CGRect)rect image:(UIImage *)image{
     CGImageRef sourceImageRef = [image CGImage];

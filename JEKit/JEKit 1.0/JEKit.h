@@ -146,7 +146,7 @@
 @property (nonatomic,strong) UIColor *themeColor;///<  某些JE控件label button 文字颜色 ### nil
 @property (nonatomic,strong) UIColor *VCBackgroundColor;///< VC backgroundColor ### (kRGB(244, 245, 246))
 @property (nonatomic,strong) UIColor *tableBackgroundColor;///< tableView backgroundColor ### nil
-@property (nonatomic,strong) UIColor *tableSeparatorColor;///< tableView分割线颜色 ### nil
+@property (nonatomic,strong) UIColor *tableSeparatorColor;///< tableView分割线颜色 ### 0xEFEFEF
 @property (nonatomic,strong) JESTCUIStyle *stc;///< 静态 tableView 样式
 //---------------------------------------------------------------------------------------------------------------------------------
 

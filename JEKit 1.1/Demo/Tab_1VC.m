@@ -57,8 +57,9 @@ JEBtn(JR(0,ScreenNavBarH,50,44),@"test",@16,Clr_white,self,@selector(testBtnClic
     JEStvIt *DataBase = JEStvIt_(nil,@"DataBase", @"DataBase", 1, ^(JEStvIt *item) {
         [DataBaseTestVC ShowVC];
     }).to(arr);
-    JEStvIt_(nil,@"pre", nil, 1, ^(JEStvIt *item) {
-        [JEApp.window.rootViewController presentViewController:tempVC.VC animated:YES completion:nil];
+    JEStvIt_(nil,@"show", nil, 1, ^(JEStvIt *item) {
+        [tempVC ShowVC];
+//        [JEApp.window.rootViewController presentViewController:tempVC.VC animated:YES completion:nil];
     }).to(arr);
     JEStvIt_(nil,@"pre full", nil, 1, ^(JEStvIt *item) {
         tempVC *vc = tempVC.VC;

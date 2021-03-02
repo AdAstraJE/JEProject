@@ -17,7 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 //    [JEKit Shared];
-    JEShare.customNavView = YES;
+//    JEShare.customNavView = YES;
     
 //    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
 //    [UIDevice currentDevice]

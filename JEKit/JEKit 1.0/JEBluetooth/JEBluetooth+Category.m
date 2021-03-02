@@ -87,7 +87,8 @@
 
 - (NSData *)_16_to_data{
     NSString *hex = [[self uppercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if ([hex hasPrefix:@"0X"]) {hex = [hex substringFromIndex:2]; }
+    hex = [hex stringByReplacingOccurrencesOfString:@"0X" withString:@""];
+//    if ([hex hasPrefix:@"0X"]) {hex = [hex substringFromIndex:2]; }
     if ([hex length]%2 != 0) {
         NSAssert(nil, @"");
         return nil;

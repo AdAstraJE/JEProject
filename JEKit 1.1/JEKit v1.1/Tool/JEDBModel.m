@@ -64,12 +64,13 @@ static NSDateFormatter *staticDateFormatter;
     unsigned int count;
     objc_property_t *propertys = class_copyPropertyList([super class], &count);
     NSArray <NSString *> *ignores = [self IgnorePropertys];
+    NSString *name,*type;
     for (int i = 0; i < count; i++){
         objc_property_t property = propertys[i];
-        NSString *name = [NSString stringWithUTF8String:property_getName(property)];
+        name = [NSString stringWithUTF8String:property_getName(property)];
         if ([ignores containsObject:name]) {continue;}
         
-        NSString *type = [NSString stringWithUTF8String:property_copyAttributeValue(property,"T")];
+        type = [NSString stringWithUTF8String:property_copyAttributeValue(property,"T")];
         if (![type isEqualToString:@"@?"]) {//property block 
             [propertysDic setValue:type forKey:name];
         }

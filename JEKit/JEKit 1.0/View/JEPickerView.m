@@ -67,16 +67,16 @@ static NSInteger const jkActionBarHeight = 48;///<
     if (@available(iOS 13.4, *)) {
         _.datePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
     }
-    if (@available(iOS 14.0, *)) {
-        _.datePicker.preferredDatePickerStyle = UIDatePickerStyleInline;
-    }
+//    if (@available(iOS 14.0, *)) {
+//        _.datePicker.preferredDatePickerStyle = UIDatePickerStyleInline;
+//    }
     
     _.datePicker.datePickerMode = mode;
  
     if (@available(iOS 14.0, *)) {  
 //        [_.datePicker sizeToFit];
         _.datePicker.frame = JR((kSW - _.datePicker.width)/2, jkActionBarHeight, _.datePicker.width, _.datePicker.height);
-        _.Ve_content.height = _.datePicker.height + jkActionBarHeight;
+        _.Ve_content.height = _.datePicker.height + jkActionBarHeight + ScreenSafeArea;
     }else{
         _.datePicker.frame = CGRectMake(0, jkActionBarHeight, ScreenWidth, jkPickViewHeight);
     }

@@ -36,7 +36,7 @@
 
 - (UILabel *)La_detail{
     if (_La_detail == nil) {
-        _La_detail = [UILabel Frame:CGRectZero text:nil font:font(JEShare.stc.titleFont.pointSize - 4) color:JEShare.stc.descColor].addTo(self.contentView); }
+        _La_detail = [UILabel Frame:CGRectZero text:nil font:font(JEShare.stc.titleFont.pointSize - 3) color:JEShare.stc.descColor].addTo(self.contentView); }
     return _La_detail;
 }
 

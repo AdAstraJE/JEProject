@@ -74,7 +74,7 @@ typedef void (^BLE_readNotifyBlock)(CBCharacteristic *crt,NSError *error);///< �
 - (void)stopNotify:(NSString *)UUID;
 
 /** 根据特征UUID --- 直接写入 */
-- (NSError *)write:(NSArray <NSObject *> *)arr crt:(NSString *)UUID done:(BLE_didWriteValueBlock)done;
+- (NSError *)write:(NSMutableArray <NSObject *> *)arr crt:(NSString *)UUID done:(BLE_didWriteValueBlock)done;
 
 
 
@@ -95,6 +95,7 @@ typedef void (^BLE_readNotifyBlock)(CBCharacteristic *crt,NSError *error);///< �
 /** 按照命令删除指令 传nil为全部删除！ */
 - (void)deleteCmd:(BDH_10 *)cmd;
 
+- (void)cmdTimeout;
 
 #pragma mark ---------------------------- 被动接收 ----------------------------
 

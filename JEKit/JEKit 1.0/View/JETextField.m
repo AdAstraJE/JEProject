@@ -13,6 +13,11 @@
 
 - (instancetype)initWithFrame:(CGRect)frame font:(UIFont *)font clr:(UIColor *)clr placeholder:(NSString *)placeholder{
     self = [super initWithFrame:frame];
+    if (self) {
+        self.returnKeyType = UIReturnKeyDone;
+        self.delegate = (id<UITextFieldDelegate>)self;//   > iOS 8.0
+        _JENumber_dotLimit = 2;
+    }
     self.font = font;
     self.textColor = clr;
     self.placeholder = placeholder;

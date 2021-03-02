@@ -72,7 +72,7 @@
 - (NSInteger)emptyeInfo:(NSString*)title image:(id)image count:(NSInteger)count{
     if (count != 0) {
         ((UITableView*)self).backgroundView = nil;//有数据了 这个view 滞空
-        [(JERefreshFooter*)self.mj_footer setTitle:@"—————————— • ——————————" forState:MJRefreshStateNoMoreData];
+        [(JERefreshFooter*)self.mj_footer setTitle:@"" forState:MJRefreshStateNoMoreData];
         return count;
     }
     

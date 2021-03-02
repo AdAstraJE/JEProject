@@ -629,6 +629,8 @@ static JEDebugTool__* _sharedManager;
         [vc.Tv_list reloadData];
         [vc.Tv_list scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(vc.Tv_list.Arr.count - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }
+    [JEApp.window bringSubviewToFront:self.nav.view];
+    [JEApp.window bringSubviewToFront:self.Btn_touch];
 }
 
 @end
